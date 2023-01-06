@@ -1,0 +1,36 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "socket library ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fou3ed/library.git"
+  },
+  "author": "Foued",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fou3ed/library/issues"
+  },
+  "homepage": "https://github.com/Fou3ed/library#readme",
+  "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "http": "^0.0.1-security",
+    "joi": "^17.7.0",
+    "mongoose": "^6.8.2",
+    "nodemon": "^2.0.20",
+    "process": "^0.11.10",
+    "socket.io": "^4.5.4",
+    "validator": "^13.7.0"
+  }
+}
