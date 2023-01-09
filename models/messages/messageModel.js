@@ -26,7 +26,7 @@ const messageSchema = new Schema({
     readBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
-        required: true,
+        required: false,
         description: 'Read-only.List of the user Ids who have already read and received this message.Does not include the sender.Example:["123456","654321"]'
     },
     is_removed: {

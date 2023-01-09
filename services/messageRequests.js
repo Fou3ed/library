@@ -4,6 +4,7 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
+import { cpuUsage } from 'process';
 
 const logger = debug('namespace')
 /**
@@ -67,18 +68,17 @@ export const getMessage = async (req, res) => {
  */
 export const postMessage = async (req, res) => {
     try {
-        const result = await message.create(req.body);
+        const result = await message.create(req);
         if (result) {
-            res.status(201).json({
-                message: "success",
-                date: result
-            })
+          return result
+
         } else {
             res.status(400).json({
                 "error": 'failed to create new message'
             })
         }
     } catch (err) {
+        
         res.status(400).json({
             'error': 'some error occurred.try again'
         })
@@ -295,18 +295,13 @@ export const GetUnreadMessages = async (req, res) => {
  * @method delete
  */
 export const deleteMessage = async (req, res) => {
-    const id = req.params.id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such message to delete (wrong id) '
-        })
-    } else {
+    const id = req.id
+    console.log(req.id)
+ 
         try {
             const result = await message.findByIdAndDelete(id)
             if (result) {
-                res.status(202).json({
-                    message: "success",
-                })
+             console.log("deleted")
             } else {
                 res.status(400).send({
                     'error': 'there is no such message'
@@ -318,4 +313,3 @@ export const deleteMessage = async (req, res) => {
             })
         }
     }
-}

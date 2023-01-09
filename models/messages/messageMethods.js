@@ -1,5 +1,5 @@
 import {
-    GetMessages
+    GetMessages,postMessage,deleteMessage
 } from "../../services/messageRequests.js"
 
 
@@ -30,14 +30,8 @@ class messageActions {
      * createMessage : create message.
      */
     async addMsg(data) {
-        const response = await fetch(`http://127.0.0.1:3000/message`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        const resData = await response.json()
+        const response = await postMessage(data)
+        const resData = await response
         return resData
     }
     /**
@@ -58,13 +52,9 @@ class messageActions {
      * deleteMessage : delete message.
      */
     async deleteMsg(id) {
-        const response = await fetch(`http://127.0.0.1:3000/message/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json'
-            },
-        })
-        const resData = await response.json()
+        console.log("haw lenna",id)
+        const response = await deleteMessage(id)
+        const resData = await response
         return resData
     }
     /**

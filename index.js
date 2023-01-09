@@ -2,8 +2,7 @@
 import {dotenv,express,cookieParser,helmet,createServer,process,Server,instrument} from './dependencies.js'
 dotenv.config();
 import dbServer from "./DB.js";
-import ioEvents from './models/conversations/conversationEvents.js'
-import { Socket } from 'socket.io';
+import ioEvents from './models/messages/messageEvents.js'
 // import actions from './models/messages/messageMethods.js';
 /**
  * => Calls the express function "express()" and puts new Express application inside the app variable (to start a new Express application).
@@ -68,7 +67,7 @@ dbServer();
 /**
  *  SOCKET Initialization with EXPRESS and Settling CORS options 
  */
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   cors: {
     origin: ["http://localhost:8080", "https://admin.socket.io"],
     credentials: true,

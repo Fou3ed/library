@@ -1,3 +1,4 @@
+ import  {getConversation} from '../../services/conversationsRequests.js'
  class conversationActions {
 
 
@@ -13,7 +14,8 @@
       *  getConversation : get conversation data
       */
      async getCnv(id) {
-         const response = await fetch(`http://127.0.0.1:3000/conversations/${id}`)
+        console.log("a",id)
+         const response = await getConversation(id)
          const resData = await response.json();
          return resData;
      }

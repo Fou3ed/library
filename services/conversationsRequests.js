@@ -1,4 +1,4 @@
-import conversation from '../models/conversationModel.js'
+import conversation from '../models/conversations/conversationModel.js'
 import {
     debug,
     Joi,
@@ -41,6 +41,7 @@ export const getConversations = async (req, res) => {
  * @method Get
  */
 export const getConversation = async (req, res) => {
+    console.log(req.id)
     const id = req.params.id
     if (!validator.isMongoId(id)) {
         res.status(400).send({
