@@ -11,6 +11,10 @@ const Schema = mongoose.Schema
  * members are users (user_id)
  */
 const membersSchema = new Schema({
+    id:{
+        type:UUID(),
+        required:true
+    },
     conversation_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'conversation',

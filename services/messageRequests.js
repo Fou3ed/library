@@ -160,7 +160,8 @@ export const putMessage = async (req, res) => {
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
-    const id = data.params.id
+   
+    const id = data
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
@@ -174,11 +175,7 @@ export const MarkMessageAsRead = async (data, res) => {
                     }
                 })
             if (result) {
-                console.log("message been read")
-                res.status(202).json({
-                    message: "success",
-                    data: result
-                })
+               return result
             } else {
                 res.status(400).send({
                     'error': 'wrong values'

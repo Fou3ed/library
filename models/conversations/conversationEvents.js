@@ -1,47 +1,69 @@
 //import conversation from './conversationModel.js'
 import conversationActions from './conversationMethods.js';
-import { io } from '../../index.js';
+import {
+    io
+} from '../../index.js';
 const foued = new conversationActions
-const ioEvents = function() {
+const ioConversationEvents = function () {
+
+
 
     //room namespace
-    io.on('connection', function(socket) {
+    io.on('connection', function (socket) {
         // Create a new room
+        // onConversationStart : Fired when the conversation created.
 
-        socket.on('newRoom', function(client) {
-            socket.join('newRoom')
+        socket.on('onConversationStart', (client) => {
+            socket.join(client)
             console.log('====================================');
             console.log(client);
-            console.log("socket id:",socket.id)
-            console.log("client id : ",socket.client.id)
-            console.log(socket)
+            console.log("socket id:", socket.id)
+            console.log("client id : ", socket.client.id)
             console.log('====================================');
-            // console.log("a",client)
-            //     foued.getCnv(client.id)
-            // conversation.findOne({ 'title': new RegExp('^' + title + '$', 'i') }, function(err, room) {
-            //     if (err) throw err;
-            //     if (room) {
-            //         socket.emit('updateConversationList', { error: 'conversation title already exists.' });
-            //     } else {
-            //         conversation.create({
-            //             title: title
-            //         }, function(err, newRoom) {
-            //             if (err) throw err;
-            //             socket.emit('updateConversationList', newRoom);
-            //             socket.broadcast.emit('updateConversationList', newRoom);
-            //         });
-            //     }
-            // });
+            /**
+             * find if the room already exist in data base 
+             * else create new one 
+             */
+            //  foued.addCnv(client)
         });
-        // socket.emit('join', { username, room }, error => {
-        //     if (error) {
-        //         setError(error);
-        //     }
-        //     console.log('====================================');
-        //     console.log("emit join");
-        //     console.log('====================================');
-        // });
 
+        // onConversationEnd : Fired when the conversation ended.
+        socket.on('onConversationEnd', () => {
+            console.log('====================================');
+            console.log("socket rooms : ", socket.rooms);
+            console.log('====================================');
+
+        });
+
+        // onConversationUpdated : Fired when the conversation data updated.
+        socket.on('onConversationUpdated', (id,data) => {
+            console.log('====================================');
+            console.log("socket rooms : ", socket.rooms);
+            console.log('====================================');
+            foued.putCnv(id,data)
+        });
+
+        // onConversationDeleted : Fired when the conversation deleted.
+
+        socket.on('onConversationDeleted', (data) => {
+            console.log('====================================');
+            console.log("socket rooms : ", socket.rooms);
+            console.log('====================================');
+            foued.deleteCnv(data)
+        });
+
+        // onConversationEndRequest : Fired when the user ends the chat.
+        socket.on('onConversationEndRequest', () => {
+            console.log('====================================');
+            console.log("socket rooms : ", socket.rooms);
+            console.log('====================================');
+        });
+        
+
+
+
+
+        
         // socket.on("private message", ({
         //     content,
         //     to
@@ -74,15 +96,11 @@ const ioEvents = function() {
         //     )
         //   });
 
-        socket.on("private message", function (data) {
-           // console.log(data)
-            io.to(data.roomId).emit('send-pMsg', data);
-        
-        });
-    
-        
+
+
+
     });
 }
 
 
-export default ioEvents
+export default ioConversationEvents

@@ -1,3 +1,11 @@
+import {
+    GetMembers,
+    deleteMember,
+    getMember,
+    postMember,
+    putMember
+} from "../../services/convMembersRequests";
+
 class convMembersAction {
 
 
@@ -5,7 +13,7 @@ class convMembersAction {
      * getMembers : get members of conversation.
      */
     async getMembers() {
-        const response = await fetch("http://127.0.0.1:3000/members");
+        const response = await GetMembers;
         const resData = await response.json();
         return resData;
     }
@@ -13,7 +21,7 @@ class convMembersAction {
      * getMember : get member data.
      */
     async getMember(id) {
-        const response = await fetch(`http://127.0.0.1:3000/members/${id}`)
+        const response = await getMember(id)
         const resData = await response.json();
         return resData;
     }
@@ -22,13 +30,7 @@ class convMembersAction {
      */
 
     async addMember(data) {
-        const response = await fetch(`http://127.0.0.1:3000/members`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+        const response = await postMember(data)
         const resData = await response.json()
         return resData
     }
@@ -36,13 +38,7 @@ class convMembersAction {
      * updateMember : update member data.
      */
     async putMember(id, data) {
-        const response = await fetch(`http://127.0.0.1:3000/conversations/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
+        const response = await putMember(id, data)
         const resData = await response.json()
         return resData
     }
@@ -50,12 +46,7 @@ class convMembersAction {
      * deleteMembers : delete members from conversation.
      */
     async deleteMember(id) {
-        const response = await fetch(`http://127.0.0.1:3000/conversations/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json'
-            },
-        })
+        const response = await deleteMember(id)
         const resData = await response.json()
         return resData
     }

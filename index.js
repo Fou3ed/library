@@ -2,7 +2,9 @@
 import {dotenv,express,cookieParser,helmet,createServer,process,Server,instrument} from './dependencies.js'
 dotenv.config();
 import dbServer from "./DB.js";
-import ioEvents from './models/messages/messageEvents.js'
+import ioConversationEvents from './models/conversations/conversationEvents.js';
+import ioMessageEvents from './models/messages/messageEvents.js';
+import ioUserEvents from './models/chatEvents.js/userActionEvents.js';
 // import actions from './models/messages/messageMethods.js';
 /**
  * => Calls the express function "express()" and puts new Express application inside the app variable (to start a new Express application).
@@ -76,20 +78,16 @@ export const io = new Server(httpServer, {
 }
 
 );
-ioEvents(io);
- 
-
+ioConversationEvents()
+ioMessageEvents()
+ioUserEvents()
 /* It's a monitoring tool for socket.io. */
 instrument(io, {
   auth: false,
   mode: "development",
 });
 
-/**
- * create instance and call the action 
- */
-//  const foued = new actions
-//  foued.getMsgs()
+
 
 
 /* It's listening to the port number that is stored in the .env file. */
