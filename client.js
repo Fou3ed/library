@@ -1,30 +1,54 @@
 //client.js
+// import {
+//     randomUUID
+// } from 'crypto';
 import * as io from 'socket.io-client'
-var socket = io.connect('http://localhost:3000', {
+
+let socket = io.connect('http://localhost:3000', {
     reconnect: true
 });
+
 
 /* Listening to all events. */
 socket.onAny((event, ...args) => {
     console.log(event, args);
 });
 
+/**
+ *                            connection Events
+ */
 
 /**
- * Add a connect listener
+ * on connect
  */
-export const connect = () => {
-    socket.on('connect', function () {
-        console.log('Connected! socket id : ', socket.id)
+export const connect= () => {
+    socket.emit('onConnect')
 
-    });
 }
+
 connect()
+
+/**
+ * on disconnect
+ */
+export const disconnect= () => {
+    socket.emit('onDisconnect')
+}
+
+/**
+ * on reconnect
+ */
+export const reconnect=()=>{
+    socket.emit('onReconnect')
+}
+
+
 
 
 /**
  *                                        Conversation Events
  */
+
 /**
  * 
  * @param {*roomId} data 
@@ -37,10 +61,15 @@ export const createConversation = (data) => {
         console.log('====================================');
         console.log("conversation created");
         console.log('====================================');
-
     })
-
+    socket.on('onConversationStart',()=> {
+        console.log("okay okay")
+    })
 }
+// let client={
+//     client:"foued"
+// }
+// createConversation(client)
 
 export const onConversationEnd = (data) => {
     socket.emit('onConversationEnd', data, error => {
@@ -50,6 +79,9 @@ export const onConversationEnd = (data) => {
         console.log('====================================');
         console.log("conversation End ");
         console.log('====================================');
+        socket.on("onConversationEnd",()=>{
+            
+        })
 
     })
 }
@@ -63,6 +95,9 @@ export const onConversationUpdated = (data) => {
         console.log('====================================');
         console.log("conversation updated ");
         console.log('====================================');
+        socket.on("onConversationUpdated",()=>{
+
+        })
 
     })
 }
@@ -74,7 +109,9 @@ export const onConversationDeleted = (data) => {
         console.log('====================================');
         console.log("conversation Deleted ");
         console.log('====================================');
-
+        socket.on("onConversationDeleted",()=>{
+            
+        })
     })
 }
 
@@ -86,13 +123,17 @@ export const onConversationEndRequest = (data) => {
         console.log('====================================');
         console.log("conversation End request ");
         console.log('====================================');
+        socket.on("onConversationEndRequest",()=>{
+            
+        })
 
     })
 }
 /**
- *  room id : "1" 
+ *  room id : randomUUID 
  */
-// createConversation("1")
+// let data =randomUUID()
+//  createConversation(data)
 // onConversationUpdated()
 // onConversationEnd()
 // onConversationDeleted()
@@ -112,6 +153,9 @@ export const onConversationMemberRequest = (data) => {
         console.log('====================================');
         console.log(" Member request to join conversation ");
         console.log('====================================');
+        socket.on("onConversationMemberRequest",()=>{
+            
+        })
 
     })
 }
@@ -123,6 +167,9 @@ export const onConversationMemberJoined = (data) => {
         console.log('====================================');
         console.log("Member joined the conversation");
         console.log('====================================');
+        socket.on("onConversationMemberRequest",()=>{
+            
+        })
 
     })
 }
@@ -200,8 +247,6 @@ export const onConversationTransferReject = (data) => {
  * 
  *                                    Message Events               
  */
-
-
 export const onMessageDelivered = (data) => {
     socket.emit('onMessageDelivered', data, error => {
         if (error) {
@@ -210,8 +255,32 @@ export const onMessageDelivered = (data) => {
         console.log('====================================');
         console.log("message Delivered ");
         console.log('====================================');
+        socket.on('onMessageDelivered',(data)=>{
+            console.log("foued",data)
+        })
+        
     })
 }
+
+// let data = {
+//         "type": "MESG",
+//         "conversation_id": "63907b74266e3b8358516cd1",
+//         "user": "6390b306dfb49a27e7e3c0bb",
+//         "mentioned_users": "6390b4d54a1ba0044836d613",
+//         "readBy": "6390b4d54a1ba0044836d613",
+//         "is_removed": false,
+//         "message": "nzid f id v2",
+//         "data": "additional message information ",
+//         "attachments": {
+//           "key": "value"
+//         },
+//         "parent_message_id": "6390bbb76b96e925c5eb1858",
+//         "parent_message_info": "6390bbb76b96e925c5eb1858",
+//         "location": "",
+//         "origin": "web",
+//         "read": null
+//       }
+// onMessageDelivered(data)
 
 export const onMessageReceived = (data) => {
     socket.emit('onMessageReceived', data, error => {
@@ -223,6 +292,7 @@ export const onMessageReceived = (data) => {
         console.log('====================================');
     })
 }
+
 export const onMessageUpdated = (data) => {
     socket.emit('onMessageUpdated', data, error => {
         if (error) {
@@ -233,6 +303,7 @@ export const onMessageUpdated = (data) => {
         console.log('====================================');
     })
 }
+
 export const onMessageDeleted = (data) => {
     socket.emit('onMessageDeleted', data, error => {
         if (error) {
@@ -253,7 +324,7 @@ export const onUserLogin = (data) => {
             setError(error)
         }
         console.log('====================================');
-        console.log("user login successfully  ");
+        console.log("user login successfully ");
         console.log('====================================');
     })
 }
@@ -289,8 +360,6 @@ export const onUserDeleted = (data) => {
         console.log('====================================');
     })
 }
-
-
 
 /**
  *                                 USER ACTION EVENTS 

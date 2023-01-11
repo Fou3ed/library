@@ -1,7 +1,13 @@
+import { randomUUID } from 'crypto';
 import {mongoose} from '../../dependencies.js';
 const Schema = mongoose.Schema
 
 const messageSchema = new Schema({
+    uuid:{
+        type: String,
+        required:true,
+        default: randomUUID()
+    },
     type: {
         type: String,
         required: true,

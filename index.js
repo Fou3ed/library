@@ -5,6 +5,8 @@ import dbServer from "./DB.js";
 import ioConversationEvents from './models/conversations/conversationEvents.js';
 import ioMessageEvents from './models/messages/messageEvents.js';
 import ioUserEvents from './models/chatEvents.js/userActionEvents.js';
+import logger from './config/newLogger.js';
+import ioConnEvents from './models/connection/connectionEvents.js';
 // import actions from './models/messages/messageMethods.js';
 /**
  * => Calls the express function "express()" and puts new Express application inside the app variable (to start a new Express application).
@@ -78,9 +80,11 @@ export const io = new Server(httpServer, {
 }
 
 );
+ioConnEvents()
 ioConversationEvents()
 ioMessageEvents()
 ioUserEvents()
+
 /* It's a monitoring tool for socket.io. */
 instrument(io, {
   auth: false,
@@ -91,5 +95,8 @@ instrument(io, {
 
 
 /* It's listening to the port number that is stored in the .env file. */
-httpServer.listen(process.env.PORT)
-console.log(process.env.PORT)
+httpServer.listen(process.env.PORT,()=>{
+  logger.error(`server up and running on port : ${process.env.PORT}`)
+  logger.info('tawa')
+});
+console.log(process.env.PORT) 

@@ -17,6 +17,7 @@ const ioUserEvents = function () {
             console.log("message read");
             console.log('====================================');
             foued.readMsg(data)
+
         });
 
         // onMessagePinned : Fired when the user pin a message.
@@ -25,7 +26,7 @@ const ioUserEvents = function () {
             io.to(data.roomId).emit('onMessagePinned', data);
             console.log('====================================');
             console.log("message pinned");
-            console.log('===================================='); 
+            console.log('====================================');
         });
         // onMessageUnpinned : Fired when the user unpin a message.
         socket.on('onMessageUnpinned', function (data) {
@@ -78,7 +79,6 @@ const ioUserEvents = function () {
             console.log(" on typing stopped ");
             console.log('====================================');
         });
-
 
     })
 

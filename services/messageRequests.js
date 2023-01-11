@@ -73,12 +73,13 @@ export const postMessage = async (req, res) => {
           return result
 
         } else {
+
             res.status(400).json({
                 "error": 'failed to create new message'
             })
         }
     } catch (err) {
-        
+            console.log(err)
         res.status(400).json({
             'error': 'some error occurred.try again'
         })
