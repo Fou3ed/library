@@ -62,15 +62,14 @@ export const createConversation = (data) => {
         console.log("conversation created");
         console.log('====================================');
     })
-    socket.on('onConversationStart',()=> {
+    socket.on('onConversationStart',(data)=> {
         console.log("okay okay")
     })
 }
 // let client={
-//     client:"foued"
+//     id:"1"
 // }
 // createConversation(client)
-
 export const onConversationEnd = (data) => {
     socket.emit('onConversationEnd', data, error => {
         if (error) {
@@ -82,7 +81,6 @@ export const onConversationEnd = (data) => {
         socket.on("onConversationEnd",()=>{
             
         })
-
     })
 }
 
@@ -123,10 +121,11 @@ export const onConversationEndRequest = (data) => {
         console.log('====================================');
         console.log("conversation End request ");
         console.log('====================================');
-        socket.on("onConversationEndRequest",()=>{
-            
-        })
+   
 
+    })
+    socket.on("onConversationEndRequest",()=>{
+            
     })
 }
 /**
@@ -255,14 +254,21 @@ export const onMessageDelivered = (data) => {
         console.log('====================================');
         console.log("message Delivered ");
         console.log('====================================');
-        socket.on('onMessageDelivered',(data)=>{
-            console.log("foued",data)
-        })
-        
+    })
+            
+    socket.on('onMessageDelivered',(data,error)=>{
+        if(error){
+            setError(error)
+        }
+        console.log("foued",data)
     })
 }
 
 // let data = {
+
+
+//         "roomId":"1",
+
 //         "type": "MESG",
 //         "conversation_id": "63907b74266e3b8358516cd1",
 //         "user": "6390b306dfb49a27e7e3c0bb",
@@ -280,6 +286,7 @@ export const onMessageDelivered = (data) => {
 //         "origin": "web",
 //         "read": null
 //       }
+
 // onMessageDelivered(data)
 
 export const onMessageReceived = (data) => {

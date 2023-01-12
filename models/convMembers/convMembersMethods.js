@@ -4,7 +4,7 @@ import {
     getMember,
     postMember,
     putMember
-} from "../../services/convMembersRequests";
+} from "../../services/convMembersRequests.js";
 
 class convMembersAction {
 

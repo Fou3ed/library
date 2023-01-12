@@ -10,7 +10,7 @@ const notificationSchema = new Schema({
     notification_channel_name: {
         type: String,
         required: true,
-        description: 'Notification channel name.Possible values are : apns,apns_voip,gcm, and email'
+        description:'Notification channel name.Possible values are : apns,apns_voip,gcm, and email'
     },
     event_type: {
         type: String,
@@ -35,7 +35,7 @@ const notificationSchema = new Schema({
     occurred_count: {
         type: Number,
         required: false,
-        description: 'A number of times the event was sent '
+        description: 'A number of times the event was sent'
     },
     created_at: {
         type: Date,

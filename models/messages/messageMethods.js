@@ -39,8 +39,7 @@ class messageActions {
      */
     async addMsg(data) {
         const response = await postMessage(data)
-        const resData = await response
-        return resData
+        return response
     }
     /**
      * updatedMessage : update message data.

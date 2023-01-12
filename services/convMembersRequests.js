@@ -34,6 +34,7 @@ export const GetMembers = async (req, res) => {
         })
     }
 }
+
 /**
  * getConversation : getMember : get member data
  * @route /conversation/:id

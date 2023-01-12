@@ -7,6 +7,7 @@ const messageSchema = new Schema({
         type: String,
         required:true,
         default: randomUUID()
+        
     },
     type: {
         type: String,

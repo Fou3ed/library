@@ -17,6 +17,7 @@
          const resData = await response.json();
          return resData;
      }
+     
      /**
       * getUserName: get user by name 
       */

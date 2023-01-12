@@ -50,7 +50,6 @@ export const postApps = async (req, res) => {
         app_name: Joi.string().required().min(4).max(256),
         api_token: Joi.string().required(),
         plan: Joi.string().required().min(4).max(256),
-
     })
     const {
         error

@@ -17,8 +17,8 @@ const ioUserEvents = function () {
             console.log("message read");
             console.log('====================================');
             foued.readMsg(data)
-
-        });
+        }
+        );
 
         // onMessagePinned : Fired when the user pin a message.
 

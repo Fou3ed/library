@@ -22,13 +22,9 @@ const ioConversationEvents = function () {
              * find if the room already exist in data base 
              * else create new one 
              */
-            //  foued.addCnv(client)
-            socket.emit('onConversationStart',(client)=>{
-                    console.log("tada")
-            })
+            //  foued.addCnv(client)                                                                                                            
+            socket.emit('onConversationStart',client)
         });
-
-
 
 
         // onConversationEnd : Fired when the conversation ended.
@@ -36,9 +32,7 @@ const ioConversationEvents = function () {
             console.log('====================================');
             console.log("socket rooms : ", socket.rooms);
             console.log('====================================');
-            socket.emit("onConversationEnd",data =>{
-
-            })
+            socket.emit("onConversationEnd",data)
         });
 
         // onConversationUpdated : Fired when the conversation data updated.
@@ -47,9 +41,7 @@ const ioConversationEvents = function () {
             console.log("socket rooms : ", socket.rooms);
             console.log('====================================');
             foued.putCnv(id,data)
-            socket.emit("onConversationUpdated",data =>{
-                
-            })
+            socket.emit("onConversationUpdated",data )
         });
 
         // onConversationDeleted : Fired when the conversation deleted.
@@ -59,19 +51,15 @@ const ioConversationEvents = function () {
             console.log("socket rooms : ", socket.rooms);
             console.log('====================================');
             foued.deleteCnv(data)
-            socket.emit("onConversationDeleted",data =>{
-                
-            })
+            socket.emit("onConversationDeleted",data)
         });
 
         // onConversationEndRequest : Fired when the user ends the chat.
-        socket.on('onConversationEndRequest', () => {
+        socket.on('onConversationEndRequest', (data) => {
             console.log('====================================');
             console.log("socket rooms : ", socket.rooms);
             console.log('====================================');
-            socket.emit("onConversationRequest",data =>{
-                
-            })
+            socket.emit("onConversationRequest",data )
         });
     
         // socket.on("private message", ({
