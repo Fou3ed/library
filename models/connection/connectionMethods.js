@@ -15,8 +15,7 @@ class connectionActions {
      */
     async getConnection() {
         const response = await getConnection();
-        const resData = await response;
-        return resData;
+        return response;
     }
 
 }

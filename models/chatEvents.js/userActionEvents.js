@@ -6,9 +6,6 @@ const foued = new messageActions
 const ioUserEvents = function () {
 
     io.on('connection', function (socket) {
-
-
-
         // onMessageRead : Fired when the user read a message.
 
         socket.on('onMessageRead', (data) => {
@@ -19,7 +16,7 @@ const ioUserEvents = function () {
             foued.readMsg(data)
         }
         );
-
+    
         // onMessagePinned : Fired when the user pin a message.
 
         socket.on('onMessagePinned', function (data) {

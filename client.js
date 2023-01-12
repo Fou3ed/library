@@ -41,10 +41,6 @@ export const disconnect= () => {
 export const reconnect=()=>{
     socket.emit('onReconnect')
 }
-
-
-
-
 /**
  *                                        Conversation Events
  */

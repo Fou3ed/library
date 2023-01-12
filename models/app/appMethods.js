@@ -49,4 +49,5 @@ class appActions {
         return resData
     }
 }
+
 export default appActions

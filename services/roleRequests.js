@@ -67,7 +67,7 @@ export const getRole = async (req, res) => {
  * @method post
  * @body  name,role_type,permissions
  */
-export const postUser = async (req, res) => {
+export const postRole = async (req, res) => {
     const data = {
         name: req.body.name,
         role_type: req.body.role_type,
