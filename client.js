@@ -18,6 +18,7 @@ socket.onAny((event, ...args) => {
  *                            connection Events
  */
 
+
 /**
  * on connect
  */
@@ -26,7 +27,7 @@ export const connect= () => {
 
 }
 
-connect()
+ connect()
 
 /**
  * on disconnect
@@ -35,6 +36,7 @@ export const disconnect= () => {
     socket.emit('onDisconnect')
 }
 
+disconnect()
 /**
  * on reconnect
  */
@@ -59,13 +61,13 @@ export const createConversation = (data) => {
         console.log('====================================');
     })
     socket.on('onConversationStart',(data)=> {
-        console.log("okay okay")
+        console.log("okay okay",data)
     })
 }
-// let client={
-//     id:"1"
-// }
-// createConversation(client)
+
+
+// createConversation("1")
+
 export const onConversationEnd = (data) => {
     socket.emit('onConversationEnd', data, error => {
         if (error) {
@@ -191,6 +193,7 @@ export const onConversationMemberBanned = (data) => {
         console.log('====================================');
 
     })
+
 }
 
 export const onConversationMemberUnbanned = (data) => {

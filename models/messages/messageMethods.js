@@ -46,7 +46,7 @@ class messageActions {
      */
     async putMsg(id, data) {
         const response = await putMessage(id, data)
-        const resData = await response.json()
+        const resData = await response
         return resData
     }
     /**
@@ -71,7 +71,7 @@ class messageActions {
      */
     async deliverMsg(id) {
         const response = markMessageAsDelivered(id)
-        const resData = await response.json()
+        const resData = await response
         return resData
     }
 
@@ -80,7 +80,7 @@ class messageActions {
      */
     async getUnReadMsg() {
         const response = await GetUnreadMessages();
-        const resData = await response.json();
+        const resData = await response
         return resData;
     }
 
@@ -89,7 +89,7 @@ class messageActions {
      */
     async getUnReadMsgCount() {
         const response = await GetUnreadMessagesCount();
-        const resData = await response.json();
+        const resData = await response
         return resData;
     }
 }

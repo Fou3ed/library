@@ -19,26 +19,22 @@ const ioConnEvents = function () {
 
         /**
          * onDisconnect : User disconnect from websocket
-         * 
          */
         socket.on('onDisconnect', async (data) => {
             console.log("user disconnected",socket.id)
             socket.leave(socket.id)
             socket.emit('onDisconnect : ',socket.id)
-        }
-        
-        
-        )
+        })
 
         /**
          * onReconnect : User reconnect to websocket
          */
         socket.on('onReconnect', async (data) => {
             console.log("user reconnect")
-            socket.emit('onReconnect')
+            socket.emit('onReconnect',data)
         })
-    
     })
+
 }
 export default ioConnEvents
 

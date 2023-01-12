@@ -69,11 +69,6 @@ const ioConversationMembersEvents = function () {
         console.log("conversation transfer Reject");
         console.log('====================================');
     });
-
-
-
-
-
 }
 
 export default ioConversationMembersEvents

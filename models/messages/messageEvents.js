@@ -10,6 +10,7 @@ const ioMessageEvents = function () {
 
     // onMessageDelivered : Fired when the message is sent.
 
+
     socket.on('onMessageDelivered', (data) => {
       io.to(data.roomId).emit('onMessageDelivered', data);
       console.log(socket.client.id)
@@ -24,6 +25,7 @@ const ioMessageEvents = function () {
             uuid: res.uuid
           }, )
         )
+        
     });
 
     // onMessageReceived : Fired when the message is received.
@@ -44,6 +46,7 @@ const ioMessageEvents = function () {
       foued.putMsg(data)
     });
 
+
     // onMessageDeleted : Fired when the message deleted
 
     socket.on('onMessageDeleted', (data) => {
@@ -53,9 +56,6 @@ const ioMessageEvents = function () {
       console.log('====================================');
       foued.deleteMsg()
     });
-
-
-
     // socket.on('add-pUser', function (data) {
     //   socket.join(data.roomId);
     // console.log(data,socket.rooms)
