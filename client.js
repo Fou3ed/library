@@ -36,7 +36,6 @@ export const disconnect= () => {
     socket.emit('onDisconnect')
 }
 
-disconnect()
 /**
  * on reconnect
  */
@@ -77,7 +76,6 @@ export const onConversationEnd = (data) => {
         console.log("conversation End ");
         console.log('====================================');
         socket.on("onConversationEnd",()=>{
-            
         })
     })
 }
