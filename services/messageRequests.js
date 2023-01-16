@@ -4,7 +4,6 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
-import { cpuUsage } from 'process';
 
 const logger = debug('namespace')
 /**

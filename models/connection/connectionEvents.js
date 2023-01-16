@@ -16,7 +16,7 @@ const ioConnEvents = function () {
             socket.join(socket.id)
             socket.emit("connected in socket id : ",socket.id)
         })
-
+        
         /**
          * onDisconnect : User disconnect from websocket
          */

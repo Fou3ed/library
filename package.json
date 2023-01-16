@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -38,5 +38,8 @@
     "validator": "^13.7.0",
     "winston": "^3.8.2",
     "winston-mongodb": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1"
   }
 }
