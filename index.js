@@ -16,7 +16,6 @@ import ioUserEvents from './models/chatEvents.js/userActionEvents.js';
 import logger from './config/newLogger.js';
 import ioConnEvents from './models/connection/connectionEvents.js';
 import dbServer from "./DB.js";
-
 const app = express();
 const httpServer = createServer(app);
 
@@ -99,6 +98,7 @@ dbServer();
 
 /* It's listening to the port number that is stored in the .env file. */
 httpServer.listen(process.env.PORT,()=>{
+  console.log(`server up and running on port : ${process.env.PORT}`)
   logger.error(`server up and running on port : ${process.env.PORT}`)
   logger.info('tawa')
 });
