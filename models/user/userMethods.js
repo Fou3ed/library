@@ -89,6 +89,7 @@
       * registerUser : log in a user.
       */
      async logIn(id) {
+        console.log("login")
          const response = await fetch(`http://127.0.0.1:3000/users/login`)
          const resData = await response.json();
          return resData;

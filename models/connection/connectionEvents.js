@@ -1,22 +1,31 @@
 import {
     io
 } from '../../index.js'
+import check from '../../utils/auth.js'
 const ioConnEvents = function () {
-   /* A middleware that is executed before the connection event. */
-    // io.use ((socket,next)=>{
-            
-    // })
 
-    io.on('connection', async (socket) => {
+
+     io.on('connection', async (socket,data) => {
+
+     
         /**
          * onConnect : User connect to websocket
          */
-        socket.on('onConnect', async (data) => {
+
+        socket.on('onConnect',(data)  => {
+            console.log(check(data))
+            if (check(data)){
+            console.log(data)
             console.log("user just connected!!", socket.id)
             socket.join(socket.id)
             socket.emit("connected in socket id : ",socket.id)
+            }
+            else{
+                console.log("h")
+            }
+            
         })
-        
+       
         /**
          * onDisconnect : User disconnect from websocket
          */
@@ -25,7 +34,7 @@ const ioConnEvents = function () {
             socket.leave(socket.id)
             socket.emit('onDisconnect : ',socket.id)
         })
-
+    
         /**
          * onReconnect : User reconnect to websocket
          */
@@ -33,8 +42,7 @@ const ioConnEvents = function () {
             console.log("user reconnect")
             socket.emit('onReconnect',data)
         })
-    })
-
-}
+    } 
+    )}
 export default ioConnEvents
 

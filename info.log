@@ -1962,3 +1962,693 @@
 {"level":"info","message":"tawa","timestamp":"2023-01-19T16:26:39.463Z"}
 {"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-19T16:30:20.360Z"}
 {"level":"info","message":"tawa","timestamp":"2023-01-19T16:30:20.361Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:24:04.945Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:24:04.946Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:38:04.838Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:38:04.838Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:57:30.207Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:57:30.208Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:11.496Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:11.497Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:19.866Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:19.867Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:33.174Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:33.174Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:36.397Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:36.398Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:52.932Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:52.933Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:58:58.743Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:58:58.745Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:59:03.334Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:59:03.335Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T09:59:22.556Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T09:59:22.557Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:00:40.600Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:00:40.601Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:00:54.059Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:00:54.060Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:01:32.813Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:01:32.816Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:01:47.936Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:01:47.937Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:01:54.246Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:01:54.248Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:02:00.404Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:02:00.405Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:02:10.134Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:02:10.136Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:02:21.658Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:02:21.659Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:03:39.627Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:03:39.628Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:03:48.804Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:03:48.805Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:04:58.010Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:04:58.011Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:05:06.001Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:05:06.002Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:13:20.923Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:13:20.924Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:13:30.081Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:13:30.083Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:22:51.178Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:22:51.179Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T10:58:35.654Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T10:58:35.658Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:02:41.152Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:02:41.154Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:03:48.382Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:03:48.383Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:08:45.582Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:08:45.583Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:09:17.168Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:09:17.169Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:09:30.100Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:09:30.101Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:09:59.117Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:09:59.118Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:10:00.258Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:10:00.259Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:10:06.197Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:10:06.197Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:10:09.293Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:10:09.293Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:10:13.241Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:10:13.242Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:12:13.335Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:12:13.336Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:13:50.716Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:13:50.717Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:06.950Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:06.951Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:09.438Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:09.439Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:11.669Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:11.670Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:17.681Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:17.682Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:21.801Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:21.802Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:40.826Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:40.827Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:51.523Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:51.524Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:54.339Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:54.340Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:14:56.689Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:14:56.690Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:15:28.498Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:15:28.499Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:15:30.516Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:15:30.517Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:15:39.788Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:15:39.789Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:18:29.654Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:18:29.655Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:19:46.632Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:19:46.633Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:19:54.157Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:19:54.158Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:19:56.262Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:19:56.263Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:20:05.018Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:20:05.018Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:20:06.857Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:20:06.858Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:20:10.119Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:20:10.120Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:20:58.467Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:20:58.468Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:24:52.694Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:24:52.695Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T11:25:48.661Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T11:25:48.662Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:39:23.971Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:39:23.972Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:39:30.953Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:39:30.954Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:39:37.623Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:39:37.624Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:44:17.402Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:44:17.403Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:06.724Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:06.725Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:13.976Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:13.977Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:28.417Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:28.418Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:31.041Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:31.041Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:36.698Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:36.699Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:46:50.580Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:46:50.581Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:04.057Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:04.058Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:06.487Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:06.488Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:09.450Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:09.451Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:14.079Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:14.080Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:46.919Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:46.920Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:54.630Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:54.631Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:47:58.622Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:47:58.623Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:51:07.382Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:51:07.383Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:51:29.624Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:51:29.625Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:51:50.113Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:51:50.113Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:52:32.900Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:52:32.900Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:52:38.903Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:52:38.903Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T12:52:47.648Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T12:52:47.649Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:03.003Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:03.004Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:13.630Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:13.631Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:14.726Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:14.727Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:32.188Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:32.189Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:38.891Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:38.891Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:41.681Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:41.681Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:46.160Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:46.161Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:48.101Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:48.101Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:56.519Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:56.520Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:21:59.796Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:21:59.797Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:01.420Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:01.420Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:03.779Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:03.780Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:07.523Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:07.524Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:12.258Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:12.259Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:15.690Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:15.691Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:20.045Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:20.046Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:22.213Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:22.214Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:33.864Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:33.865Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:34.993Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:34.994Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:36.373Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:36.374Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:41.490Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:41.491Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:22:44.456Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:22:44.457Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:04.402Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:04.403Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:05.713Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:05.713Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:08.174Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:08.175Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:12.577Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:12.579Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:13.435Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:13.436Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:16.132Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:16.133Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:21.560Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:21.561Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:27.601Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:27.601Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:35.799Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:35.800Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:23:40.113Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:23:40.113Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:26:57.710Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:26:57.711Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:00.517Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:00.518Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:09.253Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:09.254Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:11.049Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:11.050Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:19.782Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:19.782Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:21.039Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:21.040Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:22.361Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:22.362Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:23.965Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:23.966Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:26.159Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:26.160Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:28.283Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:28.284Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:27:36.933Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:27:36.933Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:29:13.565Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:29:13.566Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:29:46.598Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:29:46.599Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:29:56.191Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:29:56.191Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:29:59.755Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:29:59.756Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:30:14.692Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:30:14.693Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:30:25.401Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:30:25.402Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:30:32.332Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:30:32.333Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:30:42.618Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:30:42.619Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:30:43.733Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:30:43.734Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:31:15.243Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:31:15.243Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:31:21.337Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:31:21.338Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:31:50.333Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:31:50.333Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:31:55.721Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:31:55.722Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:02.427Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:02.428Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:04.300Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:04.301Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:14.324Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:14.325Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:16.097Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:16.098Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:21.877Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:21.878Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:32:52.673Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:32:52.674Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:00.579Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:00.580Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:07.866Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:07.867Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:13.527Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:13.528Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:19.409Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:19.410Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:22.028Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:22.029Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:26.189Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:26.190Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:27.372Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:27.373Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:31.015Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:31.015Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:33:44.851Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:33:44.852Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:34:00.394Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:34:00.395Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:34:01.570Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:34:01.570Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:35:42.147Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:35:42.148Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:43:11.357Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:43:11.358Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:43:13.567Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:43:13.568Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:43:16.549Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:43:16.551Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:43:40.153Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:43:40.153Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:43:59.419Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:43:59.420Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:44:14.618Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:44:14.619Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:44:16.352Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:44:16.353Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:44:27.523Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:44:27.525Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:45:55.632Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:45:55.633Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:47:27.635Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:47:27.636Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:47:42.202Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:47:42.203Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:47:46.387Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:47:46.388Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:47:53.252Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:47:53.253Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:48:20.125Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:48:20.126Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:48:36.766Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:48:36.768Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:48:37.896Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:48:37.898Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:48:56.950Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:48:56.952Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:01.055Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:01.056Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:06.302Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:06.304Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:10.742Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:10.743Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:19.216Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:19.217Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:47.336Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:47.337Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:49:48.850Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:49:48.851Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:50:32.556Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:50:32.557Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:50:33.964Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:50:33.966Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:50:36.989Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:50:36.990Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:50:47.923Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:50:47.924Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:00.717Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:00.718Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:11.060Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:11.061Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:14.180Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:14.181Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:17.763Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:17.764Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:20.824Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:20.825Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T13:51:45.465Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T13:51:45.467Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:02:17.089Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:02:17.090Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:02:18.637Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:02:18.638Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:02:30.915Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:02:30.917Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:03:04.754Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:03:04.754Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:03:12.829Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:03:12.830Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:14:29.839Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:14:29.840Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:14:31.163Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:14:31.163Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:20:55.828Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:20:55.830Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:29:21.186Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:29:21.187Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:09.617Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:09.618Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:33.819Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:33.820Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:37.529Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:37.530Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:40.242Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:40.243Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:47.603Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:47.604Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:34:56.543Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:34:56.544Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:00.018Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:00.019Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:03.109Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:03.110Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:12.688Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:12.689Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:16.023Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:16.023Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:19.905Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:19.906Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:25.912Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:25.913Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:28.648Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:28.649Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:35:46.173Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:35:46.174Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:02.865Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:02.866Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:08.219Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:08.220Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:19.611Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:19.611Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:25.347Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:25.348Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:28.247Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:28.248Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:39.543Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:39.544Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:40.992Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:40.993Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:44.800Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:44.801Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:36:53.799Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:36:53.804Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:15.206Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:15.207Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:18.062Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:18.063Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:22.232Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:22.232Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:52.779Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:52.780Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:56.864Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:56.865Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:37:59.290Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:37:59.291Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:00.560Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:00.561Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:06.811Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:06.812Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:14.059Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:14.059Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:21.127Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:21.128Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:25.362Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:25.363Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:38:51.761Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:38:51.762Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:43:06.615Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:43:06.616Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:43:36.805Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:43:36.807Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:43:38.285Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:43:38.286Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:43:54.695Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:43:54.696Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:44:02.226Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:44:02.226Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:44:11.707Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:44:11.707Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:44:16.513Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:44:16.513Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:44:20.909Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:44:20.910Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:45:48.657Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:45:48.658Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:46:17.197Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:46:17.198Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:46:22.197Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:46:22.197Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:46:29.859Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:46:29.860Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:46:32.183Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:46:32.184Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:46:34.621Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:46:34.622Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:47:12.733Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:47:12.734Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:48:29.975Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:48:29.976Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:48:36.338Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:48:36.339Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:08.183Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:08.184Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:10.925Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:10.926Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:19.350Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:19.351Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:27.776Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:27.777Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:36.329Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:36.330Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:38.284Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:38.285Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:42.110Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:42.111Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:49:51.935Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:49:51.936Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:50:13.839Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:50:13.840Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:51:32.462Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:51:32.463Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:51:52.952Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:51:52.954Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:51:59.599Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:51:59.599Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:52:05.669Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:52:05.671Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:52:09.367Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:52:09.368Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T14:52:11.286Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T14:52:11.288Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:08:51.767Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:08:51.768Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:08:56.684Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:08:56.686Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:09:13.859Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:09:13.860Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:09:21.423Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:09:21.423Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:09:23.120Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:09:23.122Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:09:27.634Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:09:27.635Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:09:29.983Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:09:29.984Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:19:39.735Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:19:39.738Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:19:42.985Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:19:42.986Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:19:47.931Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:19:47.933Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:19:50.853Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:19:50.854Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:01.758Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:01.759Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:05.695Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:05.696Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:24.711Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:24.711Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:38.056Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:38.057Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:48.971Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:48.972Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:20:57.040Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:20:57.041Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:21:10.553Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:21:10.554Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:21:11.593Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:21:11.594Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:21:36.876Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:21:36.877Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:21:40.910Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:21:40.911Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:02.275Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:02.276Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:06.656Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:06.657Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:13.968Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:13.970Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:15.380Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:15.380Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:30.286Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:30.287Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:31.771Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:31.772Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:22:33.974Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:22:33.975Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:32:16.338Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:32:16.339Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:32:19.191Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:32:19.192Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:32:22.337Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:32:22.337Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:32:25.515Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:32:25.516Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:23.791Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:23.792Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:25.420Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:25.421Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:32.738Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:32.739Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:34.138Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:34.140Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:35.999Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:36.001Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:37.840Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:37.840Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:43.979Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:43.980Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:50.219Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:50.220Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:33:55.504Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:33:55.505Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:34:24.034Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:34:24.035Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:35:36.835Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:35:36.836Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:35:40.811Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:35:40.812Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:35:49.486Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:35:49.487Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:36:04.103Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:36:04.104Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:36:17.368Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:36:17.369Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:36:20.061Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:36:20.062Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:36:23.224Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:36:23.225Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:36:51.628Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:36:51.629Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:43:29.436Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:43:29.437Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:43:30.509Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:43:30.510Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:43:34.216Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:43:34.218Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:43:48.907Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:43:48.908Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:43:56.766Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:43:56.768Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:44:10.535Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:44:10.536Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:44:17.254Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:44:17.255Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:44:22.778Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:44:22.779Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:44:53.787Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:44:53.787Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:07.757Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:07.758Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:10.339Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:10.340Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:26.059Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:26.060Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:35.951Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:35.953Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:42.125Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:42.127Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:45:53.600Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:45:53.600Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:49:39.197Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:49:39.197Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:49:59.158Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:49:59.159Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:50:04.229Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:50:04.230Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:50:17.798Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:50:17.799Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:50:31.630Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:50:31.631Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:50:38.222Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:50:38.223Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:50:51.394Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:50:51.395Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:51:01.155Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:51:01.157Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T15:51:06.056Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T15:51:06.057Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T16:00:38.852Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T16:00:38.853Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T16:00:48.799Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T16:00:48.800Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T16:00:51.080Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T16:00:51.081Z"}
+{"level":"error","message":"server up and running on port : 3000","timestamp":"2023-01-20T16:00:52.604Z"}
+{"level":"info","message":"tawa","timestamp":"2023-01-20T16:00:52.605Z"}

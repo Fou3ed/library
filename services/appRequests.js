@@ -1,4 +1,4 @@
-import app from '../models/appModel.js'
+import app from '../models/app/appModel.js'
 import {
     debug,
     Joi,
@@ -87,26 +87,19 @@ export const postApps = async (req, res) => {
  * 
  */
 export const getAppById = async (req, res) => {
-    const id = req.params.id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such app(wrong id) '
-        })
-    } else {
         try {
-            const result = await app.findById(id)
-            res.status(200).json({
-                message: "success",
-                data: result
-            })
+            const result = await app.findById(req.app_id)
+            if (result){
+                return result
+            }else {
+                console.log("hh")
+            }
         } catch (err) {
             logger(err)
-            res.status(400).send({
-                'error': 'some error occurred . try again'
-            })
+           
         }
     }
-}
+
 /**
  * UPDATE APP BY ID
  * @route /app/:id/

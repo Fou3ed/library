@@ -3,7 +3,7 @@ import {
     io
 } from '../../index.js'
 const foued = new messageActions
-const ioUserEvents = function () {
+const ioChatEvents = function () {
 
     io.on('connection', function (socket) {
         // onMessageRead : Fired when the user read a message.
@@ -81,4 +81,4 @@ const ioUserEvents = function () {
 
 }
 
-export default ioUserEvents
+export default ioChatEvents

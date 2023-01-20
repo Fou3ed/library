@@ -9,13 +9,11 @@ const ioMessageEvents = function () {
 
 
     // onMessageDelivered : Fired when the message is sent.
-
-
-    socket.on('onMessageDelivered', (data) => {
-      io.to(data.roomId).emit('onMessageDelivered', data);
+    socket.on('onMessageCreated', (data) => {
+      io.to(data.roomId).emit('onMessageCreated', data);
       console.log(socket.client.id)
       console.log('====================================');
-      console.log("Message delivered");
+      console.log("Message created");
       console.log('====================================');
       foued.addMsg(data)
         .then((res) =>
@@ -25,8 +23,25 @@ const ioMessageEvents = function () {
             uuid: res.uuid
           }, )
         )
-        
     });
+
+
+    // socket.on('onMessageDelivered', (data) => {
+    //   io.to(data.roomId).emit('onMessageDelivered', data);
+    //   console.log(socket.client.id)
+    //   console.log('====================================');
+    //   console.log("Message delivered");
+    //   console.log('====================================');
+    //   foued.addMsg(data)
+    //     .then((res) =>
+    //       socket.to(data.roomId).to(socket.client.id).emit("onMessageDelivered", {
+    //         ...res.message,
+    //         id: res._id,
+    //         uuid: res.uuid
+    //       }, )
+    //     )
+        
+    // });
 
     // onMessageReceived : Fired when the message is received.
     socket.on('onMessageReceived', (data) => {
@@ -56,22 +71,7 @@ const ioMessageEvents = function () {
       console.log('====================================');
       foued.deleteMsg()
     });
-    // socket.on('add-pUser', function (data) {
-    //   socket.join(data.roomId);
-    // console.log(data,socket.rooms)
-    // });
 
-    // socket.on('send-pMsg', function (data) {
-    //   io.to(data.roomId).emit('send-pMsg', data);
-    //   nverifi est ce que l msg wsol wala error wala ay hkaya 
-
-    //   foued.addMsg(data)
-    // });
-
-    // socket.on('deleted-pMsg', function (data) {
-    //   io.to(data.roomId).emit('delete-pMsg', data);
-    //   //foued.deleteMsg(data.id)
-    // });
   })
 
 }
