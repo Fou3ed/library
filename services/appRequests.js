@@ -88,15 +88,15 @@ export const postApps = async (req, res) => {
  */
 export const getAppById = async (req, res) => {
         try {
-            const result = await app.findById(req.app_id)
-            if (result){
-                return result
+            const res = await app.findById(req)
+            if (res){
+                return res
             }else {
-                console.log("hh")
+                return false 
             }
         } catch (err) {
             logger(err)
-           
+
         }
     }
 

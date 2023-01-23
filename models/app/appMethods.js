@@ -21,9 +21,9 @@ class appActions {
      * getApp by id 
      */
     async getAppById(id) {
+      
         const response = await getAppById(id)
-        const resData = await response
-        return resData;
+         return response;
     }
     /**
      * Add app
