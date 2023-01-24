@@ -2,27 +2,46 @@ import messageActions from './messageMethods.js'
 import {
   io
 } from '../../index.js'
-const foued = new messageActions
+import logs from '../logs/logsMethods.js'
+const log= new logs()
+const foued = new messageActions()
 const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
 
 
     // onMessageDelivered : Fired when the message is sent.
-    socket.on('onMessageCreated', (data) => {
-      io.to(data.roomId).emit('onMessageCreated', data);
-      console.log(socket.client.id)
-      console.log('====================================');
-      console.log("Message created");
-      console.log('====================================');
-      foued.addMsg(data)
-        .then((res) =>
-          socket.to(data.roomId).to(socket.client.id).emit("onMessageDelivered", {
-            ...res.message,
-            id: res._id,
-            uuid: res.uuid
-          }, )
-        )
+    socket.on('onMessageCreated', (data,error) => {
+      if (!error) {
+        io.to(data.roomId).emit('onMessageCreated', data);
+        console.log(socket.client.id)
+        console.log('====================================');
+        console.log("Message created");
+        console.log('====================================');
+        foued.addMsg(data)
+          .then((res) =>
+            socket.to(data.roomId).to(socket.client.id).emit("onMessageDelivered", {
+              ...res.message,
+              id: res._id,
+              uuid: res.uuid
+            }, )
+          )
+      }else {
+
+        let data = {
+          "app_id": "63ce8575037d76527a59a655",
+          "user_id": "6390b2efdfb49a27e7e3c0b9",
+          "socket_id":socket.id,
+          "action": " error while sending message connection",
+          "element": "1",
+          "element_id": "1",
+          "ip_address": "192.168.1.1"
+      }
+        log.addLog(data)
+        setError(error)
+
+      }
+  
     });
 
 

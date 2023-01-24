@@ -4,6 +4,7 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
+import loggers from '../config/newLogger.js';
 
 const logger = debug('namespace')
 
@@ -100,6 +101,16 @@ export const postConversation = async (req, res) => {
         try {
             const result = await conversation.create(req.body);
             if (result) {
+                        // let data = {
+                    //     "app_id": "63ce8575037d76527a59a655",
+                    //     "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    //     "socket_id":socket.id,
+                    //     "action": "Create Conversation ",
+                    //     "element": element,
+                    //     "element_id": "1",
+                    //     "ip_address": "192.168.1.1"
+                    // }
+                    //log.addLog(data)
                 res.status(201).json({
                     message: "success",
                     date: result
@@ -114,6 +125,9 @@ export const postConversation = async (req, res) => {
                 'error': 'some error occurred.try again'
             })
             logger(err)
+            loggers.info(err)
+
+
         }
     }
 }
