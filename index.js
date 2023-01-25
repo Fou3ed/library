@@ -91,6 +91,5 @@ dbServer();
 /* It's listening to the port number that is stored in the .env file. */
 httpServer.listen(process.env.PORT, () => {
   console.log(`server up and running on port : ${process.env.PORT}`)
-  logger.error(`server up and running on port : ${process.env.PORT}`)
-  logger.info('tawa')
+  logger.info('server is running smoothly')
 });

@@ -13,7 +13,6 @@ const connectionSchema = new Schema({
     id:{
         type:randomUUID,
         required:true,
-
     },
     api_token: {
         type: String,

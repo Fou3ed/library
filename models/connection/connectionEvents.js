@@ -4,38 +4,40 @@ import {
 import check from '../../utils/auth.js'
 import logs from '../logs/logsMethods.js'
 const foued = new logs()
-import fs from 'fs'
 import logger from '../../config/newLogger.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioConnEvents = function () {
 
 
-    io.on('connection', async (socket, data) => {
+    io.on('connection', async (socket) => {
         /**
          * onConnect : User connect to websocket
-         */
-        socket.on('onConnect', async (data) => {
+         */  
+        socket.on('onConnect', async (data,newData) => {
+            socket.emit('onConversationStarted')
+
             try{
                 check(data.app_id).then((res) => {
                     if (res) {
                         console.log("user just connected!!", socket.id)
                         socket.join(socket.id)
-                        socket.emit("connected in socket id : ", socket.id)
+                
                     } else {
                         socket.leave(socket.id)
                         console.log("not allowed")
                     }
                 })
-                logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                
+                logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+
             }catch(err){
-                    logger(err)
-                    fs.appendFile('logfile.txt', `Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `, (err) => {
-                        if (err) throw err;
-                    });
+             logger(err)
+                logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
             }
+
         })
+    
 
         /**
          * onDisconnect : User disconnect from websocket

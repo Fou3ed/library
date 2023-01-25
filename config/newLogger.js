@@ -3,11 +3,12 @@ import {
     transports,
     format
 } from "winston";
+import  DailyRotateFile from "winston-daily-rotate-file";
 import  'winston-mongodb';
 const logger = createLogger({
     transports: [
         new transports.File({
-            filename: 'info.log',
+            filename: './dailyLogs/info.log',
             level: 'info',
             format: format.combine(format.timestamp(), format.json())
         }),
@@ -19,8 +20,16 @@ const logger = createLogger({
             },
             collection: 'messaging',
             format: format.combine(format.timestamp(), format.json())
-        })
-    ]
+        }),
+        new DailyRotateFile({
+            filename: './dailyLogs/info.log',
+            datePattern: 'YYYY-MM-DD',
+            zippedArchive: true,
+            maxSize: '20m',
+            maxFiles: '14d'
+          })
+        ]
+
 })
 
 export default logger 

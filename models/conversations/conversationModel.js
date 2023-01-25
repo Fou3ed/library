@@ -27,7 +27,7 @@ import {mongoose} from '../../dependencies.js';
     },
     members_count: {
         type: Number,
-        required: true,
+        required: false,
         description: 'the current number of participants in the channel'
     },
     max_length_message: {
@@ -49,7 +49,7 @@ import {mongoose} from '../../dependencies.js';
     owner_id: {
         type:Number,
         ref:'user',
-        required: true,
+        required: false,
         description: 'ID of conversation s owner (user)'
     },
     last_message: {
@@ -64,7 +64,7 @@ import {mongoose} from '../../dependencies.js';
     },
     permission: {
         type: Object,
-        required: true,
+        required: false,
         description: 'Permissions of this conversation'
     },
     metadata: {

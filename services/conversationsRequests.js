@@ -73,13 +73,13 @@ export const getConversation = async (req, res) => {
  */
 export const postConversation = async (req, res) => {
     const data = {
-        name: req.body.name,
-        channel_url: req.body.channel_url,
-        conversation_type: req.body.conversation_type,
-        members_count: req.body.members_count,
-        max_length_message: req.body.max_length_message,
-        operators: req.body.operators,
-        permission: req.body.permission
+        name: req.name,
+        channel_url: req.channel_url,
+        conversation_type: req.conversation_type,
+        members_count: req.members_count,
+        max_length_message: req.max_length_message,
+        operators: req.operators,
+        permission: req.permission
     }
     const check = Joi.object({
         name: Joi.string().required().min(4).max(48),
@@ -88,18 +88,17 @@ export const postConversation = async (req, res) => {
         members_count: Joi.number().required().min(1).max(24),
         max_length_message: Joi.number().required().min(4).max(512),
         operators: Joi.array().required(),
-        permission: Joi.object().required()
+        permission: Joi.object()
     })
     const {
         error
     } = check.validate(data)
     if (error) {
-        res.status(400).send({
-            'error': error.details[0].message
-        })
+       console.log(error)
+       
     } else {
         try {
-            const result = await conversation.create(req.body);
+            const result = await conversation.create(req);
             if (result) {
                         // let data = {
                     //     "app_id": "63ce8575037d76527a59a655",
@@ -111,14 +110,10 @@ export const postConversation = async (req, res) => {
                     //     "ip_address": "192.168.1.1"
                     // }
                     //log.addLog(data)
-                res.status(201).json({
-                    message: "success",
-                    date: result
-                })
+                    console.log("conversation added")
+               return result
             } else {
-                res.status(400).json({
-                    "error": 'failed to create new conversation'
-                })
+              console.log("can't add new conversation")
             }
         } catch (err) {
             res.status(400).json({
@@ -144,9 +139,9 @@ export const putConversation = async (req, res) => {
         })
     } else {
         const data = {
-            name: req.body.name,
-            channel_url: req.body.channel_url,
-            conversation_type: req.body.conversation_type,
+            name: req.name,
+            channel_url: req.channel_url,
+            conversation_type: req.conversation_type,
             members_count: req.body.members_count,
             max_length_message: req.body.max_length_message,
             operators: req.body.operators,
@@ -167,9 +162,8 @@ export const putConversation = async (req, res) => {
             error
         } = check.validate(data)
         if (error) {
-            res.status(400).send({
-                'error': error.details[0].message
-            })
+            console.log("lenna",error)
+           
         } else {
             try {
                 const result = await conversation.findByIdAndUpdate(
@@ -177,14 +171,10 @@ export const putConversation = async (req, res) => {
                         $set: req.body
                     })
                 if (result) {
-                    res.status(202).json({
-                        message: "success",
-                        data: result
-                    })
+                   return result
                 } else {
-                    res.status(400).send({
-                        'error': 'wrong values'
-                    })
+                    console.log("wrong values",error)
+                
                 }
 
             } catch (err) {
