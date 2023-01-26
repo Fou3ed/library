@@ -1,6 +1,8 @@
-import connection from './connectionModel.js'
+import connection from '../models/connection/connectionModel.js'
 import debug from "debug"
 const logger = debug('namespace')
+import logDb from '../models/logs/logsMethods.js'
+const log = new logDb()
 /**
  *  Get all connections 
  * @route /connection
@@ -29,6 +31,31 @@ export const getConnection = async (req, res) => {
         })
     }
 }
+export const postConnection = async (req,socket_id, res) => {
+    try {
+        const result = await connection.create(req)
+        if (result) {
+            console.log("added to connection data base")
+            const logDB = {
+                app_id:req.app_id,
+                user_id:req.user_id,
+                socket_id:socket_id,
+                action: "add connection",
+                element: "1",
+                element_id: "1",
+                ip_address: "192.168.1.1"
+            }
 
+            log.addLog(logDB)
+            return result
+        } else {
+            console.log("failed to add connection")
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+
+    }
+}
 
 export default getConnection

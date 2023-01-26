@@ -10,10 +10,7 @@ const connectionSchema = new Schema({
         description: "the ID of the application",
         ref: 'app_id',
     },
-    id:{
-        type:randomUUID,
-        required:true,
-    },
+
     api_token: {
         type: String,
         required: true,

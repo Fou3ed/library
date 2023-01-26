@@ -73,13 +73,13 @@ export const getConversation = async (req, res) => {
  */
 export const postConversation = async (req, res) => {
     const data = {
-        name: req.name,
-        channel_url: req.channel_url,
-        conversation_type: req.conversation_type,
-        members_count: req.members_count,
-        max_length_message: req.max_length_message,
-        operators: req.operators,
-        permission: req.permission
+        name: req.metaData.name,
+        channel_url: req.metaData.channel_url,
+        conversation_type: req.metaData.conversation_type,
+        members_count: req.metaData.members_count,
+        max_length_message: req.metaData.max_length_message,
+        operators: req.metaData.operators,
+        permission: req.metaData.permission
     }
     const check = Joi.object({
         name: Joi.string().required().min(4).max(48),
@@ -94,32 +94,30 @@ export const postConversation = async (req, res) => {
         error
     } = check.validate(data)
     if (error) {
-       console.log(error)
-       
+        console.log(error)
+
     } else {
         try {
-            const result = await conversation.create(req);
+            const result = await conversation.create(req.metaData);
+            console.log(req)
             if (result) {
-                        // let data = {
-                    //     "app_id": "63ce8575037d76527a59a655",
-                    //     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    //     "socket_id":socket.id,
-                    //     "action": "Create Conversation ",
-                    //     "element": element,
-                    //     "element_id": "1",
-                    //     "ip_address": "192.168.1.1"
-                    // }
-                    //log.addLog(data)
-                    console.log("conversation added")
-               return result
+                // let data = {
+                //     "app_id": "63ce8575037d76527a59a655",
+                //     "user_id": "6390b2efdfb49a27e7e3c0b9",
+                //     "socket_id":socket.id,
+                //     "action": "Create Conversation ",
+                //     "element": element,
+                //     "element_id": "1",
+                //     "ip_address": "192.168.1.1"
+                // }
+                // log.addLog(data)
+                console.log("conversation added")
+                return result
             } else {
-              console.log("can't add new conversation")
+                console.log("can't add new conversation")
             }
         } catch (err) {
-            res.status(400).json({
-                'error': 'some error occurred.try again'
-            })
-            logger(err)
+            console.log(err)
             loggers.info(err)
 
 
@@ -131,62 +129,44 @@ export const postConversation = async (req, res) => {
  * @route /conversation/:id
  * @method put
  */
-export const putConversation = async (req, res) => {
-    const id = req.params.id
+export const putConversation = async (id, req, res) => {
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such conversation (wrong id)'
         })
     } else {
-        const data = {
-            name: req.name,
-            channel_url: req.channel_url,
-            conversation_type: req.conversation_type,
-            members_count: req.body.members_count,
-            max_length_message: req.body.max_length_message,
-            operators: req.body.operators,
-            permission: req.body.permission
-
-        }
-        const check = Joi.object({
-            name: Joi.string().required().min(4).max(48),
-            channel_url: Joi.string().required(),
-            conversation_type: Joi.string().required(),
-            members_count: Joi.number().required().min(1).max(24),
-            max_length_message: Joi.number().required().min(4).max(512),
-            operators: Joi.array().required(),
-            permission: Joi.object().required()
-
-        })
-        const {
-            error
-        } = check.validate(data)
-        if (error) {
-            console.log("lenna",error)
-           
-        } else {
-            try {
-                const result = await conversation.findByIdAndUpdate(
-                    id, {
-                        $set: req.body
-                    })
-                if (result) {
-                   return result
-                } else {
-                    console.log("wrong values",error)
-                
-                }
-
-            } catch (err) {
-                res.status(400).send({
-                    'error': 'some error occurred. Try again (verify your params values ) '
+        try {
+            const result = await conversation.findByIdAndUpdate(
+                id, {
+                    $set: req.metaData.fields
                 })
-                logger(err)
+            if (result) {
+                console.log("conversation updated successfully")
+                       // let data = {
+                //     "app_id": "63ce8575037d76527a59a655",
+                //     "user_id": "6390b2efdfb49a27e7e3c0b9",
+                //     "socket_id":socket.id,
+                //     "action": "Create Conversation ",
+                //     "element": element,
+                //     "element_id": "1",
+                //     "ip_address": "192.168.1.1"
+                // }
+                // log.addLog(data)
+                return result
+            } else {
+                console.log("wrong values", error)
+
             }
+
+        } catch (err) {
+
+            console.log(err) 
+            logger.error(err)
         }
     }
-
 }
+
+
 /**
  * deleteConversation : delete conversation
  * @route /conversation/:id

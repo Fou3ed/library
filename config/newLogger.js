@@ -21,6 +21,7 @@ const logger = createLogger({
             collection: 'messaging',
             format: format.combine(format.timestamp(), format.json())
         }),
+        
         new DailyRotateFile({
             filename: './dailyLogs/info.log',
             datePattern: 'YYYY-MM-DD',

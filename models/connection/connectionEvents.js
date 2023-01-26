@@ -2,58 +2,75 @@ import {
     io
 } from '../../index.js'
 import check from '../../utils/auth.js'
-import logs from '../logs/logsMethods.js'
-const foued = new logs()
 import logger from '../../config/newLogger.js'
+import * as info from '../../data.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
+import methods from './connectionMethods.js'
+const db = new methods()
 const ioConnEvents = function () {
 
 
     io.on('connection', async (socket) => {
         /**
          * onConnect : User connect to websocket
-         */  
-        socket.on('onConnect', async (data,newData) => {
-            socket.emit('onConversationStarted')
-
-            try{
+         */
+        socket.on('onConnect', async (data) => {
+            try {
                 check(data.app_id).then((res) => {
                     if (res) {
                         console.log("user just connected!!", socket.id)
                         socket.join(socket.id)
-                
+                        logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                        db.postConnection(data.metaData, socket.id).then((newData) => {
+                            socket.emit('onConnected', info.onConnected, newData)
+                        })
                     } else {
+                        logger.info(`Event:  Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}"   \n `)
                         socket.leave(socket.id)
                         console.log("not allowed")
                     }
                 })
-               
-                logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
-            }catch(err){
-             logger(err)
+
+            } catch (err) {
+                logger(err)
                 logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
             }
-
         })
-    
+
 
         /**
          * onDisconnect : User disconnect from websocket
          */
         socket.on('onDisconnect', async (data) => {
-            console.log("user disconnected", socket.id)
-            socket.leave(socket.id)
-            socket.emit('onDisconnect : ', socket.id)
-        })
+            try {
+                console.log("user disconnected", socket.id)
 
+                logger.info(`Event: Disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                socket.emit('onDisconnected : ', info.onDisconnected)
+
+                socket.leave(socket.id)
+
+            } catch (err) {
+                console.log(err)
+                logger.error(`Event: disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
+            }
+        })
         /**
          * onReconnect : User reconnect to websocket
          */
         socket.on('onReconnect', async (data) => {
-            console.log("user reconnect")
-            socket.emit('onReconnect', data)
+            try {
+                console.log("user reconnect")
+                socket.emit('onReconnect', data)
+                logger.info(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+
+            } catch (err) {
+                logger(err)
+                logger.error(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
+            }
+
         })
     })
 }

@@ -1,11 +1,13 @@
 //import conversation from './conversationModel.js'
 import conversationActions from './conversationMethods.js';
+import { randomUUID } from 'crypto';
 import {
     io
 } from '../../index.js';
-import cnvrData from '../../data.js'
 const foued = new conversationActions
 import logger from '../../config/newLogger.js'
+import * as info from '../../data.js'
+
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioConversationEvents = function () {
@@ -14,35 +16,39 @@ const ioConversationEvents = function () {
     io.on('connection', function (socket) {
         // Create a new room
         // onConversationStart : Fired when the conversation created.
-
-        socket.on('onConversationStart', (client) => {
+        socket.on('onConversationStart', (data) => {
             try{
-                if (client.metaData.name ==""){
+                if (data.metaData.name ==""){
                     console.log("conversation must obtain a name ")
                 }else {
-                    socket.join(client.room_id)
+                    socket.join(randomUUID())
                     console.log('====================================');
                     console.log("conversation created")
                     console.log("socket id:", socket.id)
                     console.log("client id : ", socket.client.id)
+                    console.log("room id : ", socket.rooms)
                     console.log('====================================');
-                    logger.info(`Event: onConversationStart ,data: ${JSON.stringify(client)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                    foued.addCnv(data).then((res)=>{
+                    socket.emit('onConversationStarted',info.onConversationCreated,res)
+
+                    })                                                                                                            
+                    logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
                 }
     
             }catch(err){
-                logger.error(`Event: onConnect ,data: ${JSON.stringify(client)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+                logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
             }
            
             /**
              * find if the room already exist in data base 
              * else create new one 
              */
-            foued.addCnv(client.metaData)                                                                                                            
-            socket.emit('onConversationStarted',cnvrData,cnvrData.uuid="okayya",cnvrData.app="02615")
+          
         });
         // onConversationEnd : Fired when the conversation ended.
         socket.on('onConversationEnd', (data) => {
+            console.log(data)
             console.log('====================================');
             console.log("socket rooms : ", socket.rooms);
             console.log('====================================');
@@ -51,13 +57,22 @@ const ioConversationEvents = function () {
         
 
         // onConversationUpdated : Fired when the conversation data updated.
-        socket.on('onConversationUpdated', (id,data) => {
+        socket.on('onConversationUpdated', (data) => {
+            try{
+                console.log('====================================');
+                console.log("socket rooms : ", socket.rooms);
+                console.log('====================================');
+                logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
-            console.log('====================================');
-            console.log("socket rooms : ", socket.rooms);
-            console.log('====================================');
-            foued.putCnv(id,data)
-            socket.emit("onConversationUpdated",data )
+                foued.putCnv(data.metaData.conversation,data).then((res)=>{
+                    socket.emit("onConversationUpdated",data,res )
+
+                })
+            }catch(err){
+
+                logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+            }
+   
         });
 
         // onConversationDeleted : Fired when the conversation deleted.

@@ -41,6 +41,11 @@ import {mongoose} from '../../dependencies.js';
         default: Date.now,
         description: "the time when the credentials were registered"
     },
+    updated_at:{
+        type:Date,
+        required:false,
+        default:Date.now
+    },
     operators: {
         type: Array,
         required: true,
