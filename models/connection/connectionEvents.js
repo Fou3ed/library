@@ -49,8 +49,7 @@ const ioConnEvents = function () {
 
                 logger.info(`Event: Disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                 socket.emit('onDisconnected : ', info.onDisconnected)
-
-                socket.leave(socket.id)
+                socket.disconnect(socket.id)
 
             } catch (err) {
                 console.log(err)
@@ -65,7 +64,6 @@ const ioConnEvents = function () {
                 console.log("user reconnect")
                 socket.emit('onReconnect', data)
                 logger.info(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
             } catch (err) {
                 logger(err)
                 logger.error(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)

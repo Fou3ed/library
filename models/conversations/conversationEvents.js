@@ -48,11 +48,16 @@ const ioConversationEvents = function () {
         });
         // onConversationEnd : Fired when the conversation ended.
         socket.on('onConversationEnd', (data) => {
-            console.log(data)
-            console.log('====================================');
-            console.log("socket rooms : ", socket.rooms);
-            console.log('====================================');
-            socket.emit("onConversationEnd",data)
+            try{
+                console.log('====================================');
+                console.log("socket rooms : ", socket.rooms);
+                console.log('====================================');
+                logger.info(`Event: onConversationEnd ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                socket.emit("onConversationEnd",data)
+            }catch(err){
+                logger.error(`Event: onConversationEnd ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+
+            }
         });
         
 
@@ -78,56 +83,33 @@ const ioConversationEvents = function () {
         // onConversationDeleted : Fired when the conversation deleted.
 
         socket.on('onConversationDeleted', (data) => {
-            console.log('====================================');
-            console.log("socket rooms : ", socket.rooms);
-            console.log('====================================');
-            foued.deleteCnv(data)
-            socket.emit("onConversationDeleted",data)
+            try{
+                console.log('====================================');
+                console.log("conversation deleted : ", socket.rooms);
+                console.log('====================================');
+                logger.info(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                foued.deleteCnv(data.metaData).then((res)=>{
+                    socket.emit("onConversationDeleted",res)
+                })
+            }catch(err){
+                logger.error(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+            }
         });
 
         // onConversationEndRequest : Fired when the user ends the chat.
         socket.on('onConversationEndRequest', (data) => {
-            console.log('====================================');
-            console.log("socket rooms : ", socket.rooms);
-            console.log('====================================');
-            socket.emit("onConversationRequest",data )
+            try{
+                console.log('====================================');
+                console.log("socket rooms : ", socket.rooms);
+                console.log('====================================');
+                socket.emit("onConversationRequest",data )
+                logger.info(`Event: onConversationEndRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+
+            }catch(err){
+                logger.error(`Event: onConversationEndRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+            }
+        
         });
-    
-        // socket.on("private message", ({
-        //     content,
-        //     to
-        //   }) => {
-        //     const message = {
-        //       content,
-        //       from: socket.userID,
-        //       to,
-        //     };
-        //     let data = {
-        //       "type": "MESG",
-        //       "conversation_id": "63907b74266e3b8358516cd1",
-        //       "user": "6390b306dfb49a27e7e3c0bb",
-        //       "mentioned_users": "6390b4d54a1ba0044836d613",
-        //       "readBy": "6390b4d54a1ba0044836d613",
-        //       "is_removed": false,
-        //       "message": message.content,
-        //       "data": "additional message information ",
-        //       "attachments": {
-        //         "key": "value"
-        //       },
-        //       "parent_message_id": "6390bbb76b96e925c5eb1858",
-        //       "parent_message_info": "6390bbb76b96e925c5eb1858",
-        //       "location": "",
-        //       "origin": "web",
-        //       "read": null
-        //     }
-        //    //foued.addMsg(data)
-        //     .then ((res)=>socket.to(to).to(socket.userID).emit("private message", {...message,id:res.date._id})
-        //     )
-        //   });
-
-
-
-
     });
 }
 

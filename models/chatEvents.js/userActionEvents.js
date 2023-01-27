@@ -2,6 +2,7 @@ import messageActions from '../messages/messageMethods.js'
 import {
     io
 } from '../../index.js'
+import logger from '../../config/newLogger.js'
 const foued = new messageActions
 const ioChatEvents = function () {
 
@@ -9,11 +10,16 @@ const ioChatEvents = function () {
         // onMessageRead : Fired when the user read a message.
 
         socket.on('onMessageRead', (data) => {
-            io.to(data.roomId).emit('read-msg', data);
-            console.log('====================================');
-            console.log("message read");
-            console.log('====================================');
-            foued.readMsg(data)
+            try{
+                io.to(data.roomId).emit('read-msg', data);
+                console.log('====================================');
+                console.log("message read");
+                console.log('====================================');
+                foued.readMsg(data)
+            }catch(err){
+                logger.error(err)
+            }
+   
         }
         );
     
@@ -32,7 +38,6 @@ const ioChatEvents = function () {
             console.log("message unpinned");
             console.log('====================================');
         });
-
         // onMessageReacted : Fired when the user add a reaction to message.
         socket.on('onMessageReacted', function (data) {
             io.to(data.roomId).emit('onMessageReacted', data);
@@ -64,13 +69,19 @@ const ioChatEvents = function () {
 
         // onTypingStarted : Fired when the user start typing.
         socket.on('onTypingStarted', function (data) {
-            io.to(data.roomId).emit('onTypingStarted', data);
-            console.log('====================================');
-            console.log(" on typing started ");
-            console.log('====================================');
+            try{
+                io.to(data.metaData.conversation).emit('onTypingStarted', data);
+                console.log('====================================');
+                console.log(" on typing started ");
+                console.log('====================================');
+            }catch(err){
+                logger.error(err)
+            }
+      
         });
         // onTypingStopped : Fired when the user stop typing.
         socket.on('onTypingStopped', function (data) {
+            console.log(data)
             io.to(data.roomId).emit('onTypingStopped', data);
             console.log('====================================');
             console.log(" on typing stopped ");

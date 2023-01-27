@@ -99,7 +99,6 @@ export const postConversation = async (req, res) => {
     } else {
         try {
             const result = await conversation.create(req.metaData);
-            console.log(req)
             if (result) {
                 // let data = {
                 //     "app_id": "63ce8575037d76527a59a655",
@@ -118,7 +117,7 @@ export const postConversation = async (req, res) => {
             }
         } catch (err) {
             console.log(err)
-            loggers.info(err)
+            loggers.error(err)
 
 
         }
@@ -142,7 +141,7 @@ export const putConversation = async (id, req, res) => {
                 })
             if (result) {
                 console.log("conversation updated successfully")
-                       // let data = {
+                // let data = {
                 //     "app_id": "63ce8575037d76527a59a655",
                 //     "user_id": "6390b2efdfb49a27e7e3c0b9",
                 //     "socket_id":socket.id,
@@ -160,7 +159,7 @@ export const putConversation = async (id, req, res) => {
 
         } catch (err) {
 
-            console.log(err) 
+            console.log(err)
             logger.error(err)
         }
     }
@@ -173,27 +172,16 @@ export const putConversation = async (id, req, res) => {
  * @method delete
  */
 export const deleteConversation = async (req, res) => {
-    const id = req.params.id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such conversation(wrong id) '
-        })
-    } else {
-        try {
-            const result = await conversation.findByIdAndDelete(id)
-            if (result) {
-                res.status(202).json({
-                    message: "success",
-                })
-            } else {
-                res.status(400).send({
-                    'error': 'there is no such conversation'
-                })
-            }
-        } catch (err) {
-            res.status(400).send({
-                'error': 'some error occurred. Try again '
-            })
+    try {
+        const result = await conversation.findByIdAndDelete(req)
+        if (result) {
+            console.log("conversation deleted successfully")
+            return result
+        } else {
+            console.log("couldn't delete conversation")
         }
+    } catch (err) {
+        loggers.error(err)
+
     }
 }

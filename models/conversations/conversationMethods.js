@@ -40,7 +40,7 @@
       * deleteConversation : delete conversation.
       */
      async deleteCnv(id) {
-         const response = await deleteConversation(id)
+         const response = await deleteConversation(id.conversation)
          return response
      }
  }
