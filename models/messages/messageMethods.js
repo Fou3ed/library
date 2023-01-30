@@ -62,8 +62,7 @@ class messageActions {
      */
     async readMsg(id) {
         const response = await MarkMessageAsRead(id)
-        const resData = await response
-        return resData
+        return response
     }
 
     /**

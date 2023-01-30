@@ -194,7 +194,7 @@ export const onConversationUpdated = {
     },
     "is_public": "true",
 }
-export const onCoversationDeleted = {
+export const onConversationDeleted = {
     "uuid": "",
     "app": "ID",
     "event_type": "conversation.delete",

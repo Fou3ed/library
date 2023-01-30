@@ -190,3 +190,4 @@
 {"level":"info","message":"Event: onConversationDeleted ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6390b2efdfb49a27e7e3c0b9\",\"action\":\"conversation.delete\",\"metaData\":{\"conversation\":\"63d39f8c1da497496e1700ce\"}} , socket_id : 6j5bjrKrv6LqbQUwAAAD ,token :\"taw nzidouha , date: 27/01/2023 16:17:11\"   \n "}
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}

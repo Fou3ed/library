@@ -128,7 +128,7 @@ export const postConversation = async (req, res) => {
  * @route /conversation/:id
  * @method put
  */
-export const putConversation = async (id, req, res) => {
+export const putConversation = async (id, req, res,error) => {
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such conversation (wrong id)'
@@ -153,7 +153,7 @@ export const putConversation = async (id, req, res) => {
                 // log.addLog(data)
                 return result
             } else {
-                console.log("wrong values", error)
+                console.log("wrong values")
 
             }
 

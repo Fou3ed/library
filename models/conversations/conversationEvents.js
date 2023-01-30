@@ -28,22 +28,21 @@ const ioConversationEvents = function () {
                     console.log("client id : ", socket.client.id)
                     console.log("room id : ", socket.rooms)
                     console.log('====================================');
+                     /**
+                         * find if the room already exist in data base 
+                        * else create new one 
+                        */
                     foued.addCnv(data).then((res)=>{
                     socket.emit('onConversationStarted',info.onConversationCreated,res)
-
                     })                                                                                                            
                     logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
                 }
-    
             }catch(err){
-                logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+                    logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
             }
            
-            /**
-             * find if the room already exist in data base 
-             * else create new one 
-             */
+           
           
         });
         // onConversationEnd : Fired when the conversation ended.
@@ -96,20 +95,7 @@ const ioConversationEvents = function () {
             }
         });
 
-        // onConversationEndRequest : Fired when the user ends the chat.
-        socket.on('onConversationEndRequest', (data) => {
-            try{
-                console.log('====================================');
-                console.log("socket rooms : ", socket.rooms);
-                console.log('====================================');
-                socket.emit("onConversationRequest",data )
-                logger.info(`Event: onConversationEndRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
-            }catch(err){
-                logger.error(`Event: onConversationEndRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-            }
-        
-        });
+      
     });
 }
 

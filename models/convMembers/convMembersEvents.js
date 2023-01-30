@@ -3,6 +3,8 @@ import {
     io
 } from '../../index.js';
 import logger from '../../config/newLogger.js'
+import * as info from '../../data.js'
+
 const foued = new conversationActions
 
 const ioConversationMembersEvents = function () {
@@ -16,7 +18,6 @@ const ioConversationMembersEvents = function () {
             console.log("conversation member request");
             console.log('====================================');
             logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
         }catch(err){
             logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
 
@@ -26,10 +27,13 @@ const ioConversationMembersEvents = function () {
     // onConversationMemberJoined : Fired when the member join a conversation.
     socket.on('onConversationMemberJoined', (data) => {
         try{
-            io.to(data.roomId).emit('onConversationMemberJoined', data);
+            io.to(data.metaData.conversation).emit('onConversationMemberJoined', data);
             console.log('====================================');
             console.log("conversation member joined");
             console.log('====================================');
+            foued.addMember(data).then((res)=>{
+                socket.emit('onConversationMemberJoined',info.onConversationMemberJoined,res)
+            })
             logger.info(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
         }catch(err){
@@ -41,12 +45,12 @@ const ioConversationMembersEvents = function () {
     // onConversationMemberLeft : Fired when the member left a conversation.
     socket.on('onConversationMemberLeft', (data) => {
         try{
-            io.to(data.roomId).emit('onConversationMemberLeft', data);
+            io.to(data.metaData.conversation).emit('onConversationMemberLeft', data);
             console.log('====================================');
             console.log("conversation member left ");
             console.log('====================================');
             logger.info(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
+            //foued.updateConvMember()
         }catch(err){
             logger.error(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
         }
@@ -61,7 +65,7 @@ const ioConversationMembersEvents = function () {
             console.log("conversation member left");
             console.log('====================================');
             logger.info(`Event: onConversationMemberBanned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
+            
         }catch(err){
             logger.error(`Event: onConversationMemberBanned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
         }
@@ -120,7 +124,6 @@ const ioConversationMembersEvents = function () {
     socket.on('onConversationTransferReject', (data) => {
         try{
             io.to(data.roomId).emit('onConversationTransferReject', data);
-
             console.log('====================================');
             console.log("conversation transfer Reject");
             console.log('====================================');

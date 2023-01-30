@@ -143,7 +143,6 @@ export const putMessage = async (req, res) => {
                         'error': 'wrong values'
                     })
                 }
-
             } catch (err) {
                 res.status(400).send({
                     'error': 'some error occurred. Try again (verify your params values ) '
@@ -160,8 +159,6 @@ export const putMessage = async (req, res) => {
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
-   
-    const id = data
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
@@ -177,9 +174,7 @@ export const MarkMessageAsRead = async (data, res) => {
             if (result) {
                return result
             } else {
-                res.status(400).send({
-                    'error': 'wrong values'
-                })
+                console.log("error")
             }
 
         } catch (err) {

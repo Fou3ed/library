@@ -99,7 +99,13 @@ const messageSchema = new Schema({
         required: false,
         description: 'Mark message when it s delivered '
 
-    }
+    },
+    pinned:{
+        type:Number,
+        default:"0",
+        description:"0 = unPinned , 1 Pinned "
+    },
+
 })
 
 export default mongoose.model("message", messageSchema)

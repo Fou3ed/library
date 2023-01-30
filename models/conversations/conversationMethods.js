@@ -12,7 +12,7 @@
       * get all conversations 
       *  */
      async getCnvs() {
-         const response = await getConversations()
+         const response = await fetch("http://127.0.0.1:3000/conversations")
          return response;
      }
      /**

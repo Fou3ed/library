@@ -15,8 +15,10 @@ const ioConnEvents = function () {
         /**
          * onConnect : User connect to websocket
          */
-        socket.on('onConnect', async (data) => {
-            try {
+    
+
+        socket.on('onConnect', async (data) => {     
+            try {    
                 check(data.app_id).then((res) => {
                     if (res) {
                         console.log("user just connected!!", socket.id)
@@ -31,10 +33,7 @@ const ioConnEvents = function () {
                         console.log("not allowed")
                     }
                 })
-
-
             } catch (err) {
-                logger(err)
                 logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
             }
         })
@@ -65,7 +64,6 @@ const ioConnEvents = function () {
                 socket.emit('onReconnect', data)
                 logger.info(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             } catch (err) {
-                logger(err)
                 logger.error(`Event: reconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
             }
 

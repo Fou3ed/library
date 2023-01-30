@@ -13,7 +13,7 @@ class convMembersAction {
      * getMembers : get members of conversation.
      */
     async getMembers() {
-        const response = await GetMembers;
+        const response = await fetch("http://127.0.0.1:3000/convMembers");
         const resData = await response.json();
         return resData;
     }

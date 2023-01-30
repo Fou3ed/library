@@ -2,9 +2,10 @@ import messageActions from './messageMethods.js'
 import {
   io
 } from '../../index.js'
-import logs from '../logs/logsMethods.js'
-const log = new logs()
 const foued = new messageActions()
+import logger from '../../config/newLogger.js'
+const currentDate = new Date();
+const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
@@ -37,6 +38,7 @@ const ioMessageEvents = function () {
         // }
         //   log.addLog(data)
       } catch (err) {
+        logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
 
       }
 
@@ -68,7 +70,7 @@ const ioMessageEvents = function () {
     // onMessageReceived : Fired when the message is received.
     socket.on('onMessageReceived', (data) => {
       try{
-        io.to(data.roomId).emit('onMessageReceived', data);
+        io.to(data.metaData.message).emit('onMessageReceived', data);
         console.log('====================================');
         console.log("Message received");
         console.log('====================================');
@@ -85,7 +87,7 @@ const ioMessageEvents = function () {
 
     socket.on('onMessageUpdated', (data) => {
       try{
-        io.to(data.roomId).emit('onMessageUpdated', data);
+        io.to(data.metaData.message).emit('onMessageUpdated', data);
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
@@ -105,7 +107,7 @@ const ioMessageEvents = function () {
 
     socket.on('onMessageDeleted', (data) => {
       try{
-        io.to(data.roomId).emit('onMessageDeleted', data);
+        io.to(data.metaData.message).emit('onMessageDeleted', data);
         console.log('====================================');
         console.log("Message deleted");
         console.log('====================================');
