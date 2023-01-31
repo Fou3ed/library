@@ -4,7 +4,9 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
-
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
+const element =8
 const logger = debug('namespace')
 
 
@@ -90,6 +92,16 @@ export const postRole = async (req, res) => {
         try {
             const result = await role.create(req.body);
             if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Create new role  ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 res.status(201).json({
                     message: "success",
                     date: result
@@ -145,6 +157,16 @@ export const putRole = async (req, res) => {
                         $set: req.body
                     })
                 if (result) {
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "update role",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                     res.status(202).json({
                         message: "success",
                         data: result
@@ -183,6 +205,16 @@ export const deleteRole = async (req, res) => {
                 res.status(202).json({
                     message: "success",
                 })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Delete role",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
             } else {
                 res.status(400).send({
                     'error': 'there is no such role'

@@ -4,7 +4,9 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
-
+const element=4
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
 const logger = debug('namespace')
 
 
@@ -89,6 +91,16 @@ export const postMember = async (req, res) => {
         try {
             const result = await conversationMember.create(req.body);
             if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Add member",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 res.status(201).json({
                     message: "success",
                     date: result
@@ -140,11 +152,22 @@ export const putMember = async (req, res) => {
                         $set: req.body,
                         updated_at: Date.now()
                     })
+
                 if (result) {
                     res.status(202).json({
                         message: "success",
                         data: result
                     })
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "Update Member ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                 } else {
                     res.status(400).send({
                         'error': 'wrong values'
@@ -177,7 +200,18 @@ export const deleteMember = async (req, res) => {
             if (result) {
                 res.status(202).json({
                     message: "success",
+                    
                 })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "delete Member ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
             } else {
                 res.status(400).send({
                     'error': 'there is no such conversation'

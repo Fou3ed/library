@@ -3,6 +3,9 @@ import debug from "debug"
 const logger = debug('namespace')
 import logDb from '../models/logs/logsMethods.js'
 const log = new logDb()
+
+
+const element=2
 /**
  *  Get all connections 
  * @route /connection

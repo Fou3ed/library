@@ -3,7 +3,9 @@ import {
     io
 } from '../../index.js'
 import logger from '../../config/newLogger.js'
+import reactActions from '../reactions/reactionMethods.js'
 const foued = new messageActions
+const react = new reactActions
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioChatEvents = function () {
@@ -32,7 +34,7 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message pinned");
                 console.log('====================================');
-                //foued.pinMsg(data)
+                foued.pinMsg(data)
                 logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             }catch(err){
@@ -50,7 +52,7 @@ const ioChatEvents = function () {
                 console.log("message unpinned");
                 console.log('====================================');
                 logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :" taw nzidouha , date: ${fullDate}"   \n `)
-                //foued.unPinMsg()
+                foued.unPinMsg(data)
             }catch(err){
                 logger.error(`Event: onMessageUnpinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
                 
@@ -65,7 +67,7 @@ const ioChatEvents = function () {
                 console.log("message reacted");
                 console.log('====================================');
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                //foued.reactMsg(data)
+                react.postReact(data)
             }catch(err){
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
@@ -78,7 +80,7 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message unReacted");
                 console.log('====================================');
-                //foued.unReactMsg(data)
+                react.unReactMsg(data)
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }catch(err){
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
@@ -144,6 +146,12 @@ const ioChatEvents = function () {
         });
 
     })
+
+
+
+
+
+
 
 }
 

@@ -7,7 +7,9 @@ import {
     GetUnreadMessagesCount,
     getMessage,
     markMessageAsDelivered,
-    putMessage
+    putMessage,
+    MarkMessageAsPinned,
+    MarkMessageAsUnPinned
 } from "../../services/messageRequests.js"
 
 
@@ -23,7 +25,7 @@ class messageActions {
      */
     async getMsgs() {
         const response = await GetMessages();
-        const resData = await response;
+        const resData = await response.json();
         return resData;
     }
     /**
@@ -31,7 +33,7 @@ class messageActions {
      */
     async getMsg(id) {
         const response = await getMessage(id)
-        const resData = await response
+        const resData = await response.json()
         return resData;
     }
     /**
@@ -46,16 +48,15 @@ class messageActions {
      */
     async putMsg(id, data) {
         const response = await putMessage(id, data)
-        const resData = await response
-        return resData
+     
+        return response
     }
     /**
      * deleteMessage : delete message.
      */
     async deleteMsg(id) {
         const response = await deleteMessage(id)
-        const resData = await response
-        return resData
+        return response
     }
     /**
      * markMessageAsRead : mark a message as read.
@@ -64,7 +65,20 @@ class messageActions {
         const response = await MarkMessageAsRead(id)
         return response
     }
-
+    /**
+     * MarkMsg as Pinned 
+     */
+    async pinMsg(id){
+        const response=await MarkMessageAsPinned(id)
+        return response
+    }
+      /**
+     * MarkMsg as unPinned 
+     */
+      async unPinMsg(id){
+        const response=await MarkMessageAsUnPinned(id)
+        return response
+    }
     /**
      * markMessageAsDelivered : mark a message as delivered.
      */

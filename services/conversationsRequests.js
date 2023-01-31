@@ -5,7 +5,9 @@ import {
     validator
 } from '../dependencies.js'
 import loggers from '../config/newLogger.js';
-
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
+const  element=3
 const logger = debug('namespace')
 
 
@@ -100,16 +102,16 @@ export const postConversation = async (req, res) => {
         try {
             const result = await conversation.create(req.metaData);
             if (result) {
-                // let data = {
-                //     "app_id": "63ce8575037d76527a59a655",
-                //     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                //     "socket_id":socket.id,
-                //     "action": "Create Conversation ",
-                //     "element": element,
-                //     "element_id": "1",
-                //     "ip_address": "192.168.1.1"
-                // }
-                // log.addLog(data)
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Create conversation",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 console.log("conversation added")
                 return result
             } else {
@@ -141,16 +143,16 @@ export const putConversation = async (id, req, res,error) => {
                 })
             if (result) {
                 console.log("conversation updated successfully")
-                // let data = {
-                //     "app_id": "63ce8575037d76527a59a655",
-                //     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                //     "socket_id":socket.id,
-                //     "action": "Create Conversation ",
-                //     "element": element,
-                //     "element_id": "1",
-                //     "ip_address": "192.168.1.1"
-                // }
-                // log.addLog(data)
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Update conversation ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 return result
             } else {
                 console.log("wrong values")
@@ -176,6 +178,16 @@ export const deleteConversation = async (req, res) => {
         const result = await conversation.findByIdAndDelete(req)
         if (result) {
             console.log("conversation deleted successfully")
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id":"req.body.socket_id",
+                "action": "Delete conversation ",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            }
+            log.addLog(dataLog)
             return result
         } else {
             console.log("couldn't delete conversation")

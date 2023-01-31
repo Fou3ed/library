@@ -70,16 +70,16 @@
             try {
                 const result = await app.create(req.body);
                 if (result) {
-                    // let data = {
-                    //     "app_id": "63ce8575037d76527a59a655",
-                    //     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    //     "socket_id":socket.id,
-                    //     "action": "Create application ",
-                    //     "element": element,
-                    //     "element_id": "1",
-                    //     "ip_address": "192.168.1.1"
-                    // }
-                    //log.addLog(data)
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "Create application ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                     res.status(201).json({
                         message: "success",
                         data: result
@@ -161,6 +161,16 @@
                             $set: req.body
                         })
                     if (result) {
+                        let dataLog = {
+                            "app_id": "63ce8575037d76527a59a655",
+                            "user_id": "6390b2efdfb49a27e7e3c0b9",
+                            "socket_id":"req.body.socket_id",
+                            "action": "Create application ",
+                            "element": element,
+                            "element_id": "1",
+                            "ip_address": "192.168.1.1"
+                        }
+                        log.addLog(dataLog)
                         res.status(202).json({
                             message: "success",
                             data: result
@@ -200,6 +210,16 @@
                     res.status(202).json({
                         message: "success",
                     })
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "Create application ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                 } else {
                     res.status(400).send({
                         'error': 'there is no such app'

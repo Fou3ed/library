@@ -4,7 +4,9 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
-
+const element=5
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
 const logger = debug('namespace')
 
 
@@ -96,6 +98,16 @@ export const postMedia = async (req, res) => {
                     message: "success",
                     date: result
                 })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Add Media",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
             } else {
                 res.status(400).json({
                     "error": 'failed to create new media'
@@ -132,7 +144,6 @@ export const putMedia = async (req, res) => {
             name: Joi.string().required(),
             size: Joi.number().required(),
             public: Joi.boolean()
-
         })
         const {
             error
@@ -152,6 +163,16 @@ export const putMedia = async (req, res) => {
                         message: "success",
                         data: result
                     })
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "update media",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                 } else {
                     res.status(400).send({
                         'error': 'wrong values'
@@ -186,11 +207,22 @@ export const deleteMedia = async (req, res) => {
                 res.status(202).json({
                     message: "success",
                 })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Delete media ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
             } else {
                 res.status(400).send({
                     'error': 'there is no such media'
                 })
             }
+
         } catch (err) {
             res.status(400).send({
                 'error': 'some error occurred. Try again '

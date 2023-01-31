@@ -4,7 +4,9 @@ import {
     Joi,
     validator
 } from '../dependencies.js'
-
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
+const element=6
 const logger = debug('namespace')
 /**
  *  GetMessages :get get messages
@@ -67,21 +69,26 @@ export const getMessage = async (req, res) => {
  */
 export const postMessage = async (req, res) => {
     try {
-        const result = await message.create(req);
+        const result = await message.create(req.metaData);
         if (result) {
+            console.log("message created in db")
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id":"req.body.socket_id",
+                "action": "Create message ",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            }
+            log.addLog(dataLog)
           return result
 
         } else {
-
-            res.status(400).json({
-                "error": 'failed to create new message'
-            })
+           console.log("error adding msg")
         }
     } catch (err) {
             console.log(err)
-        res.status(400).json({
-            'error': 'some error occurred.try again'
-        })
         logger(err)
     }
 }
@@ -92,73 +99,52 @@ export const postMessage = async (req, res) => {
  * @method put
  */
 export const putMessage = async (req, res) => {
-    const id = req.params.id
+
+    const id = req.metaData.message
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
         })
-    } else {
-        const data = {
-            type: req.body.type,
-            conversation_id: req.body.conversation_id,
-            user: req.body.user,
-            mentioned_users: req.body.mentioned_users,
-            readBy: req.body.readBy,
-            message: req.body.message,
-            origin: req.body.origin,
-        }
-        const check = Joi.object({
-            type: Joi.string().required(),
-            conversation_id: Joi.string().required(),
-            user: Joi.string().required(),
-            mentioned_users: Joi.string().required(),
-            readBy: Joi.string().required(),
-            message: Joi.string().required().min(1).max(256),
-            origin: Joi.string().required()
-
-        })
-        const {
-            error
-        } = check.validate(data)
-        if (error) {
-            res.status(400).send({
-                'error': error.details[0].message
-            })
-        } else {
+    } {
             try {
                 const result = await message.findByIdAndUpdate(
                     id, {
                         $set: {
-                            ...req.body,
+                            ...req.metaData,
                             updated_at: Date.now()
                         }
                     })
                 if (result) {
-                    res.status(202).json({
-                        message: "success",
-                        data: result
-                    })
+                    console.log("message updated")
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "update message  ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
+                  return result
                 } else {
-                    res.status(400).send({
-                        'error': 'wrong values'
-                    })
+                   console.log("error updating message")
                 }
             } catch (err) {
-                res.status(400).send({
-                    'error': 'some error occurred. Try again (verify your params values ) '
-                })
+    
                 logger(err)
             }
         }
     }
 
-}
+
 /**
  * MarkMessageAsRead : mark a message as read
  * @route /message/read/:id
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
+    const id=(data.metaData.message)
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
@@ -172,19 +158,104 @@ export const MarkMessageAsRead = async (data, res) => {
                     }
                 })
             if (result) {
+       
                return result
             } else {
                 console.log("error")
             }
 
         } catch (err) {
-            res.status(400).send({
-                'error': 'some error occurred. Try again (verify your params values ) '
-            })
             logger(err)
         }
     }
 }
+
+/**
+ * MarkMessageAsPinned : mark a message as pinned
+ * @route /message/pin/:id
+ * @method put
+ */
+export const MarkMessageAsPinned = async (data, res) => {
+    const id = data.metaData.message
+    if (!validator.isMongoId(id)) {
+        res.status(400).send({
+            'error': 'there is no such member (wrong id)'
+        })
+    } else {
+        try {
+            const result = await message.findByIdAndUpdate(
+                id, {
+                    $set: {
+                        pinned: 1
+                    }
+                })
+            if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Mark message as pinned ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+               return result
+            } else {
+                console.log("error")
+            }
+
+        } catch (err) {
+            
+            logger(err)
+        }
+    }
+}
+
+
+
+/**
+ * MarkMessageAsUnPinned : mark a message as pinned
+ * @route /message/pin/:id
+ * @method put
+ */
+export const MarkMessageAsUnPinned = async (data, res) => {
+    const id = data.metaData.message
+    if (!validator.isMongoId(id)) {
+        res.status(400).send({
+            'error': 'there is no such member (wrong id)'
+        })
+    } else {
+        try {
+            const result = await message.findByIdAndUpdate(
+                id, {
+                    $set: {
+                        pinned: 0
+                    }
+                })
+            if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Mark message as unPinned",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+               return result
+            } else {
+                console.log("error")
+            }
+
+        } catch (err) {
+            
+            logger(err)
+        }
+    }
+}
+
 
 /**
  *  GetUnreadMessagesCount :get unread messages count 
@@ -235,10 +306,18 @@ export const markMessageAsDelivered = async (req, res) => {
                     }
                 })
             if (result) {
-                res.status(202).json({
-                    message: "success",
-                    data: result
-                })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "mark message as delivered",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+               return result 
+
             } else {
                 res.status(400).send({
                     'error': 'wrong values'
@@ -287,17 +366,24 @@ export const GetUnreadMessages = async (req, res) => {
  * @method delete
  */
 export const deleteMessage = async (req, res) => {
-    const id = req.id
-    console.log(req.id)
- 
         try {
-            const result = await message.findByIdAndDelete(id)
+            const result = await message.findByIdAndDelete(req.metaData.message)
             if (result) {
              console.log("deleted")
+
+             let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id":"req.body.socket_id",
+                "action": "delete message  ",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            }
+            log.addLog(dataLog)
+             return result 
             } else {
-                res.status(400).send({
-                    'error': 'there is no such message'
-                })
+               console.log("deleting message went wrong ")
             }
         } catch (err) {
             res.status(400).send({

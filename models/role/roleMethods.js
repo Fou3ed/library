@@ -8,7 +8,7 @@ import {
          */
         async  getRoles() {
             const response = await getRoles;
-            const resData = await response;
+            const resData = await response.json();
             return resData;
         }
         /**
@@ -16,7 +16,7 @@ import {
          */
         async getRole(id) {
             const response = await getRole(id)
-            const resData = await response;
+            const resData = await response.json();
             return resData;
         }
         /**
@@ -24,24 +24,21 @@ import {
          */
         async postRole(data) {
             const response = await postRole(data)
-            const resData = await response
-            return resData
+            return response 
         }
         /**
          * updateMember : update member data.
          */
         async putRole(id, data) {
             const response = await putRole(id, data)
-            const resData = await response
-            return resData
+            return response 
         }
         /**
          * deleteMembers : delete members from conversation.
          */
         async deleteRole(id) {
             const response = await deleteRole(id)
-            const resData = await response
-            return resData
+            return response
         }
     }
     

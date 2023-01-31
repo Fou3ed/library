@@ -35,16 +35,13 @@ const ioConversationEvents = function () {
                     foued.addCnv(data).then((res)=>{
                     socket.emit('onConversationStarted',info.onConversationCreated,res)
                     })                                                                                                            
-                    logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
+                    logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
                 }
             }catch(err){
-                    logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+                    logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `)
             }
-           
-           
-          
         });
+
         // onConversationEnd : Fired when the conversation ended.
         socket.on('onConversationEnd', (data) => {
             try{
@@ -55,11 +52,8 @@ const ioConversationEvents = function () {
                 socket.emit("onConversationEnd",data)
             }catch(err){
                 logger.error(`Event: onConversationEnd ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-
             }
         });
-        
-
         // onConversationUpdated : Fired when the conversation data updated.
         socket.on('onConversationUpdated', (data) => {
             try{
@@ -67,16 +61,12 @@ const ioConversationEvents = function () {
                 console.log("socket rooms : ", socket.rooms);
                 console.log('====================================');
                 logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
                 foued.putCnv(data.metaData.conversation,data).then((res)=>{
                     socket.emit("onConversationUpdated",data,res )
-
                 })
             }catch(err){
-
                 logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
-   
         });
 
         // onConversationDeleted : Fired when the conversation deleted.
@@ -94,8 +84,6 @@ const ioConversationEvents = function () {
                 logger.error(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
         });
-
-      
     });
 }
 

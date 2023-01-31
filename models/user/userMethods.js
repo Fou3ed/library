@@ -1,3 +1,18 @@
+ import {
+     banUser,
+     deleteUser,
+     getUser,
+     getUserName,
+     getUserStatus,
+     getUsers,
+     getUsersOnline,
+     postUser,
+     putUser,
+     registerUser,
+     unBanUser,
+
+ } from '../../services/userRequests.js'
+
  class userActions {
 
 
@@ -5,7 +20,7 @@
       * getUsers : get users data.
       */
      async getUsers() {
-         const response = await fetch("http://127.0.0.1:3000/users");
+         const response = await getUsers();
          const resData = await response.json();
          return resData;
      }
@@ -13,17 +28,16 @@
       * getUser : get user data.
       */
      async getUser(id) {
-         const response = await fetch("http://127.0.0.1:3000/apps")
+         const response = await getUser(id)
          const resData = await response.json();
          return resData;
      }
-     
+
      /**
       * getUserName: get user by name 
       */
      async getUserName(name) {
-         console.log("nickname:", name)
-         const response = await fetch(`http://127.0.0.1:3000/users/userName/query?nickname=${name}`)
+         const response = await getUserName(name)
          const resData = await response.json()
          return resData
      }
@@ -32,13 +46,7 @@
       * createUser : create user.
       */
      async addUser(data) {
-         const response = await fetch(`http://127.0.0.1:3000/users`, {
-             method: 'POST',
-             headers: {
-                 'Content-type': 'application/json'
-             },
-             body: JSON.stringify(data)
-         })
+         const response = await postUser(data)
          const resData = await response.json()
          return resData
      }
@@ -46,13 +54,7 @@
       * updateUser : update user data.
       */
      async putUser(id, data) {
-         const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
-             method: 'PUT',
-             headers: {
-                 'Content-type': 'application/json'
-             },
-             body: JSON.stringify(data)
-         })
+         const response = await putUser(id, data)
          const resData = await response.json()
          return resData
      }
@@ -60,12 +62,7 @@
       * deletedUser : delete user.
       */
      async deleteUser(id) {
-         const response = await fetch(`http://127.0.0.1:3000/users/${id}`, {
-             method: 'DELETE',
-             headers: {
-                 'Content-type': 'application/json'
-             },
-         })
+         const response = await deleteUser(id)
          const resData = await response.json()
          return resData
      }
@@ -73,7 +70,7 @@
       * getUserStatus : get user status.
       */
      async getUserStatus(id) {
-         const response = await fetch(`http://127.0.0.1:3000/users/status/${id}`)
+         const response = await getUserStatus(id)
          const resData = await response.json();
          return resData;
      }
@@ -81,7 +78,7 @@
       * getUsersOnline : get online users.
       */
      async getUsersOnline(id) {
-         const response = await fetch(`http://127.0.0.1:3000/users/online/${id}`)
+         const response = await getUsersOnline(id)
          const resData = await response.json();
          return resData;
      }
@@ -89,8 +86,8 @@
       * registerUser : log in a user.
       */
      async logIn(id) {
-        console.log("login")
-         const response = await fetch(`http://127.0.0.1:3000/users/login`)
+         console.log("login")
+         const response = await registerUser(id)
          const resData = await response.json();
          return resData;
      }
@@ -106,30 +103,20 @@
       * banUser : ban a user.
       */
      async banUser(id, data) {
-         const response = await fetch(`http://127.0.0.1:3000/users/ban/${id}`, {
-             method: 'PUT',
-             headers: {
-                 'Content-type': 'application/json'
-             },
-             body: JSON.stringify(data)
-         })
+         const response = await banUser(id, data)
          const resData = await response.json()
          return resData
      }
      /**
-      * unbanUser
+      * unBanUser
       */
-     async unbanUser(id, data) {
-         const response = await fetch(`http://127.0.0.1:3000/users/unban/${id}`, {
-             method: 'PUT',
-             headers: {
-                 'Content-type': 'application/json'
-             },
-             body: JSON.stringify(data)
-         })
+     async unBanUser(id, data) {
+         const response = await unBanUser(id, data)
          const resData = await response.json()
          return resData
      }
+
+
 
  }
  export default userActions

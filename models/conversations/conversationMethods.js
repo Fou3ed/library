@@ -12,7 +12,8 @@
       * get all conversations 
       *  */
      async getCnvs() {
-         const response = await fetch("http://127.0.0.1:3000/conversations")
+         const response = await getConversations();
+         const resData=await response.json()
          return response;
      }
      /**
@@ -20,7 +21,8 @@
       */
      async getCnv(id) {
          const response = await getConversation(id)
-         return response;
+         const resData=await response.json()
+         return resData;
      }
      /**
       * createConversation : create conversation.

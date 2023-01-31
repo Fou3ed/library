@@ -1,10 +1,13 @@
-import user from '../models/userModel.js'
+import user from '../models/user/userModel.js'
 import {
     debug,
     Joi,
     validator
 } from '../dependencies.js'
 
+import logs from '../models/logs/logsMethods.js'
+const log = new logs()
+const element = 9
 const logger = debug('namespace')
 
 
@@ -131,6 +134,16 @@ export const postUser = async (req, res) => {
 
             const result = await user.create(req.body);
             if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Create user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 res.status(201).json({
                     message: "success",
                     date: result
@@ -202,6 +215,16 @@ export const putUser = async (req, res) => {
                         $set: req.body
                     })
                 if (result) {
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "update user",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                     res.status(202).json({
                         message: "success",
                         data: result
@@ -308,6 +331,17 @@ export const registerUser = async (req, res) => {
                         message: "success",
                         data: result
                     })
+
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "register user ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
                 } else {
                     res.status(400).send({
                         'error': 'wrong values'
@@ -345,6 +379,16 @@ export const banUser = async (req, res) => {
                     }
                 })
             if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "ban user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 res.status(202).json({
                     message: "success",
                     data: result
@@ -369,7 +413,7 @@ export const banUser = async (req, res) => {
  * @route /user/unban/:id
  * @method put
  */
-export const unbanUser = async (req, res) => {
+export const unBanUser = async (req, res) => {
     const id = req.params.id
     if (!validator.isMongoId(id)) {
         res.status(400).send({
@@ -384,6 +428,16 @@ export const unbanUser = async (req, res) => {
                     }
                 })
             if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "unBan user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
                 res.status(202).json({
                     message: "success",
                     data: result
@@ -422,6 +476,16 @@ export const deleteUser = async (req, res) => {
                 res.status(202).json({
                     message: "success",
                 })
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Delete user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
             } else {
                 res.status(400).send({
                     'error': 'there is no such user'
