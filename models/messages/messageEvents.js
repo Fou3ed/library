@@ -9,8 +9,6 @@ const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
-
-
     // onMessageDelivered : Fired when the message is sent.
     socket.on('onMessageCreated', (data, error) => {
       try {
@@ -21,8 +19,8 @@ const ioMessageEvents = function () {
         console.log('====================================');
         foued.addMsg(data)
           .then((res) =>
-            socket.to(data.metaData.conversation_id).to(socket.client.id).emit("onMessageDelivered", {
-              ...res.message,
+            socket.broadcast.emit("onMessageDelivered", {
+              content:res.message,
               id: res._id,
               uuid: res.uuid
             }, )
@@ -30,9 +28,7 @@ const ioMessageEvents = function () {
       } catch (err) {
         logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
-
     });
-
 
     // socket.on('onMessageDelivered', (data) => {
     //   try {
@@ -52,8 +48,6 @@ const ioMessageEvents = function () {
     //   } catch (err) {
 
     //   }
-
-
     // });
 
     // onMessageReceived : Fired when the message is received.
@@ -75,13 +69,14 @@ const ioMessageEvents = function () {
     // onMessageUpdated : Fired when the message data updated.
 
     socket.on('onMessageUpdated', (data) => {
+      console.log(data.metaData.message)
       try{
         io.to(data.metaData.message).emit('onMessageUpdated', data);
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
 
-        foued.putMsg(data)
+        foued.putMsg(data.metaData.message)
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
       }catch(err){

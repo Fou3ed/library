@@ -99,16 +99,14 @@ export const postMessage = async (req, res) => {
  * @method put
  */
 export const putMessage = async (req, res) => {
-
-    const id = req.metaData.message
-    if (!validator.isMongoId(id)) {
+    if (!validator.isMongoId(req)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
         })
     } {
             try {
                 const result = await message.findByIdAndUpdate(
-                    id, {
+                    req, {
                         $set: {
                             ...req.metaData,
                             updated_at: Date.now()

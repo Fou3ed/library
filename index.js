@@ -44,8 +44,6 @@ instrument(io, {
   mode: "development",
 });
 
-
-
 /**
  * The app.use() function adds a new middleware to the app.
  *  Essentially, whenever a request hits your backend, Express will execute the functions you passed to app.use() in order.
