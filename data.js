@@ -8,6 +8,7 @@ import { randomUUID } from "crypto"
  */
 
 export const onConnected = {
+    "socket_id":String,
     "uuid": randomUUID(),
     "app_id": String,
     "event_type": "connection.start",
@@ -113,6 +114,7 @@ export const onServerError = {
 
 
 export const onConversationCreated = {
+    "room":String,
     "uuid": "",
     "app": "ID",
     "event_type": "conversation.create",

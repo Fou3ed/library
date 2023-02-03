@@ -10,21 +10,24 @@ const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
     // onMessageDelivered : Fired when the message is sent.
-    socket.on('onMessageCreated', (data, error) => {
+    socket.on('onMessageCreated', (data,to, error) => {
       try {
-        io.to(data.metaData.conversation_id).emit('onMessageDelivered', data);
+        io.to(to).emit('onMessageDelivered',{
+          content:data.metaData.message,
+          from:socket.id
+        } );
         console.log(socket.client.id)
         console.log('====================================');
         console.log("Message created");
         console.log('====================================');
-        foued.addMsg(data)
-          .then((res) =>
-            socket.broadcast.emit("onMessageDelivered", {
-              content:res.message,
-              id: res._id,
-              uuid: res.uuid
-            }, )
-          )
+        // foued.addMsg(data)
+        //   .then((res) =>
+        //     socket.broadcast.emit("onMessageDelivered", {
+        //       content:res.message,
+        //       id: res._id,
+        //       uuid: res.uuid
+        //     }, )
+        //   )
       } catch (err) {
         logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }

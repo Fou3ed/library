@@ -20,17 +20,19 @@ const ioConnEvents = function () {
             try {    
                 check(data.app_id).then((res) => {
                     if (res) {
+                        info.onConnected.socket_id=socket.id
                         console.log("user just connected!!", socket.id)
                         socket.join(socket.id)
                         logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                       
                         db.postConnection(data.metaData, socket.id).then((newData) => {
-                            socket.emit('onConnected', info.onConnected, newData,socket.id)
+                            socket.emit('onConnected', info.onConnected, newData)
                         })
                     } else {
-                        logger.info(`Event:  Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}"   \n `)
+                        logger.info(`Event: Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}"   \n `)
                         socket.leave(socket.id)
                         console.log("not allowed")
-                    }
+                    }   
                 })
             } catch (err) {
                 logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
