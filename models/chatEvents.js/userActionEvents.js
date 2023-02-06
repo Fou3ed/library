@@ -19,7 +19,11 @@ const ioChatEvents = function () {
                 console.log("message read");
                 console.log('====================================');
                 logger.info(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                foued.readMsg(data)
+                foued.readMsg(data).then((res) => 
+                socket.emit("onMessageRead", {
+                  res:res,
+                },)
+              )
             }catch(err){
                 logger.error(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
             }
@@ -34,7 +38,11 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message pinned");
                 console.log('====================================');
-                foued.pinMsg(data)
+                foued.pinMsg(data).then((res) => 
+                socket.emit("onPinnedMsg", {
+                  res:res,
+                },)
+              )
                 logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             }catch(err){
@@ -52,7 +60,11 @@ const ioChatEvents = function () {
                 console.log("message unpinned");
                 console.log('====================================');
                 logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :" taw nzidouha , date: ${fullDate}"   \n `)
-                foued.unPinMsg(data)
+                foued.unPinMsg(data).then((res) => 
+                socket.emit("onUnPinnedMsg", {
+                  res:res,
+                },)
+              )
             }catch(err){
                 logger.error(`Event: onMessageUnpinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
                 
@@ -67,7 +79,11 @@ const ioChatEvents = function () {
                 console.log("message reacted");
                 console.log('====================================');
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                react.postReact(data)
+                react.postReact(data).then((res) => 
+                socket.emit("onReactMsg", {
+                  res:res,
+                },)
+              )
             }catch(err){
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
@@ -80,16 +96,24 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message unReacted");
                 console.log('====================================');
-                react.unReactMsg(data)
+                react.unReactMsg(data).then((res) => 
+                socket.emit("onUnReactMsg", {
+                  res:res,
+                },)
+              )
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }catch(err){
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
         });
         // onMentionRequest : Fired when the user add mention.
-        socket.on('onMentionRequest', function (data) {
+        socket.on('requestMention', function (data) {
             try{
-                io.to(data.metaData.conversation).emit('onMentionRequest', data);
+                io.to(data.metaData.conversation).then((data) => 
+                socket.emit("onMentionRequest", {
+                  res:data,
+                },)
+              );
                 console.log('====================================');
                 console.log("Mention Request");
                 console.log('====================================');
@@ -118,12 +142,12 @@ const ioChatEvents = function () {
         // onTypingStarted : Fired when the user start typing.
         socket.on('onTypingStarted', function (data) {
             try{
-                io.to(data.metaData.conversation).emit('onTypingStarted', data);
+                socket.to(data.metaData.conversation);
                 console.log('====================================');
                 console.log(" on typing started ");
                 console.log('====================================');
                 logger.info(`Event: onTypingStarted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
+                socket.emit('onTypingStarted', data)
             }catch(err){
                 logger.error(`Event: onTypingStarted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
@@ -137,14 +161,10 @@ const ioChatEvents = function () {
                 console.log(" on typing stopped ");
                 console.log('====================================');
                 logger.info(`Event: onTypingStopped ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
             }catch(err){
                 logger.error(`Event: onTypingStopped ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
             }
-        
         });
-
     })
 
 

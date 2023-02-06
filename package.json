@@ -34,6 +34,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
     "nodemon": "^2.0.20",
+    "path": "^0.12.7",
     "process": "^0.11.10",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",

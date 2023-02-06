@@ -12,7 +12,7 @@ const ioMessageEvents = function () {
     // onMessageDelivered : Fired when the message is sent.
     socket.on('onMessageCreated', (data,to, error) => {
       try {
-        io.to(to).emit('onMessageDelivered',{
+        io.emit('onMessageDelivered',{
           content:data.metaData.message,
           from:socket.id
         } );
@@ -20,14 +20,14 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message created");
         console.log('====================================');
-        // foued.addMsg(data)
-        //   .then((res) =>
-        //     socket.broadcast.emit("onMessageDelivered", {
-        //       content:res.message,
-        //       id: res._id,
-        //       uuid: res.uuid
-        //     }, )
-        //   )
+        foued.addMsg(data) 
+          .then((res) => 
+            socket.broadcast.emit("onMessageDelivered", {
+              content:res.message,
+              id: res._id,
+              uuid: res.uuid
+            },)
+          )
       } catch (err) {
         logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
@@ -61,7 +61,6 @@ const ioMessageEvents = function () {
         console.log("Message received");
         console.log('====================================');
         logger.info(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
       }catch(err){
         logger.error(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
 
@@ -72,14 +71,19 @@ const ioMessageEvents = function () {
     // onMessageUpdated : Fired when the message data updated.
 
     socket.on('onMessageUpdated', (data) => {
-      console.log(data.metaData.message)
+
       try{
         io.to(data.metaData.message).emit('onMessageUpdated', data);
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
 
-        foued.putMsg(data.metaData.message)
+         foued.putMsg(data.metaData.message)
+         .then((res) => 
+            socket.emit("onMessageUpdated", {
+              res:res,
+            },)
+          )
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
       }catch(err){
@@ -98,7 +102,11 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message deleted");
         console.log('====================================');
-        foued.deleteMsg(data)
+        foued.deleteMsg(data).then((res) => 
+        socket.emit("onMessageDeleted", {
+          res:res
+        },)
+      )
         logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
       }catch(err){
