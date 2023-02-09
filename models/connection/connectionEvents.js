@@ -8,15 +8,14 @@ const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import methods from './connectionMethods.js'
 const db = new methods()
+
+
 const ioConnEvents = function () {
-
-
     io.on('connection', async (socket) => {
         /**
          * onConnect : User connect to websocket
          */
         socket.on('onConnect', async (data,userName) => {     
-            console.log(userName)
             try {    
                 check(data.app_id).then((res) => {
                     if (res) {
@@ -24,7 +23,6 @@ const ioConnEvents = function () {
                         console.log("user just connected!!", socket.id)
                         socket.join(socket.id)
                         logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                       
                         db.postConnection(data.metaData, socket.id).then((newData) => {
                             socket.emit('onConnected', info.onConnected, newData)
                         })
