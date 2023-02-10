@@ -15,7 +15,7 @@ const ioConnEvents = function () {
         /**
          * onConnect : User connect to websocket
          */
-        socket.on('onConnect', async (data,userName) => {     
+        socket.on('onConnect', async (data) => {     
             try {    
                 check(data.app_id).then((res) => {
                     if (res) {
