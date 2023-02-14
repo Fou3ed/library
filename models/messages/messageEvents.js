@@ -14,7 +14,7 @@ const ioMessageEvents = function () {
     socket.on('onMessageCreated', (data,to, error) => {
       console.log(data)
       try {
-        io.emit('onMessageDelivered',{
+        socket.broadcast.emit('onMessageDelivered',{
           content:data.metaData.message,
           from:socket.id,
           date:currentDate,
@@ -31,10 +31,9 @@ const ioMessageEvents = function () {
               uuid: res.uuid
             },)
           )
-          logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} "   \n `)
-
+          logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
       } catch (err) {
-        logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+          logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
     });
 
@@ -59,6 +58,7 @@ const ioMessageEvents = function () {
     // });
 
     // onMessageReceived : Fired when the message is received.
+
     socket.on('onMessageReceived', (data) => {
       console.log("receive msg : ",data)
       try{
@@ -81,7 +81,6 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
-
          foued.putMsg(data.metaData.message)
          .then((res) => 
             socket.emit("onMessageUpdated", {
@@ -89,10 +88,8 @@ const ioMessageEvents = function () {
             },)
           )
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
       }catch(err){
         logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-
       }
     
     });
