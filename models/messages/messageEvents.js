@@ -12,13 +12,7 @@ const ioMessageEvents = function () {
     // onMessageDelivered : Fired when the message is sent.
 
     socket.on('onMessageCreated', (data,to, error) => {
-      console.log(data)
       try {
-        socket.broadcast.emit('onMessageDelivered',{
-          content:data.metaData.message,
-          from:socket.id,
-          date:currentDate,
-        });
         console.log(socket.client.id)
         console.log('====================================');
         console.log("Message created");
@@ -28,6 +22,8 @@ const ioMessageEvents = function () {
             socket.broadcast.emit("onMessageDelivered", {
               content:res.message,
               id: res._id,
+              from:socket.id,
+              date:currentDate,
               uuid: res.uuid
             },)
           )
