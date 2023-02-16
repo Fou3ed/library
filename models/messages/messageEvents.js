@@ -9,29 +9,38 @@ const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
-    // onMessageDelivered : Fired when the message is sent.
 
-    socket.on('onMessageCreated', (data,to, error) => {
+
+    socket.on('onMessageCreated', (data, to, error) => {
       try {
         console.log(socket.client.id)
         console.log('====================================');
         console.log("Message created");
         console.log('====================================');
-        foued.addMsg(data) 
-          .then((res) => 
-            socket.broadcast.emit("onMessageDelivered", {
-              content:res.message,
+        foued.addMsg(data)
+          .then((res) => {
+            const message = {
+              content: res.message,
               id: res._id,
-              from:socket.id,
-              date:currentDate,
+              from: socket.id,
+              date: currentDate,
               uuid: res.uuid
-            },)
-          )
-          logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
+            };
+            socket.emit("onMessageReceived", {
+              ...message,
+              isSender: true
+            });
+            socket.broadcast.emit("onMessageReceived", {
+              ...message,
+              isSender: false
+            });
+          })
+        logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
       } catch (err) {
-          logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+        logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
     });
+
 
     // socket.on('onMessageDelivered', (data) => {
     //   try {
@@ -54,19 +63,18 @@ const ioMessageEvents = function () {
     // });
 
     // onMessageReceived : Fired when the message is received.
-
-    socket.on('onMessageReceived', (data) => {
-      console.log("receive msg : ",data)
-      try{
-        io.to(data.metaData.message).emit('onMessageReceived', data);
-        console.log('====================================');
-        console.log("Message received");
-        console.log('====================================');
-        logger.info(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-      }catch(err){
-        logger.error(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-      }
-    });
+    // socket.on('onMessageReceived', (data) => {
+    //   console.log("receive msg : ",data)
+    //   try{
+    //     io.to(data.metaData.message).emit('onMessageReceived', data);
+    //     console.log('====================================');
+    //     console.log("Message received");
+    //     console.log('====================================');
+    //     logger.info(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+    //   }catch(err){
+    //     logger.error(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+    //   }
+    // });
 
     // onMessageUpdated : Fired when the message data updated.
 

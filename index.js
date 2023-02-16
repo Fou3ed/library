@@ -21,9 +21,23 @@ import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
 const app = express();
 const httpServer = createServer(app);
+
+
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 export const io = new Server(httpServer, {
     origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000"],
 });
+import userRoutes from './routers/usersRoutes.js'
+
+app.use('/users',userRoutes)
+
+
+
 
 ioConnEvents()
 ioConversationEvents()
