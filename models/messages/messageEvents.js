@@ -28,11 +28,13 @@ const ioMessageEvents = function () {
             };
             socket.emit("onMessageReceived", {
               ...message,
-              isSender: true
+              isSender: true,
+              direction:"in"
             });
             socket.broadcast.emit("onMessageReceived", {
               ...message,
-              isSender: false
+              isSender: false,
+              direction:"out"
             });
           })
         logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
