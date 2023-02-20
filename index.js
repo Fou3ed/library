@@ -33,9 +33,9 @@ export const io = new Server(httpServer, {
     origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000"],
 });
 import userRoutes from './routers/usersRoutes.js'
-
+import messageRoutes from './routers/messageRoutes.js'
 app.use('/users',userRoutes)
-
+app.use('/messages/', messageRoutes);
 
 
 

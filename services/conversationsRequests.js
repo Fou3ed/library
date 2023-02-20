@@ -7,7 +7,7 @@ import {
 import loggers from '../config/newLogger.js';
 import logs from '../models/logs/logsMethods.js'
 const log = new logs()
-const  element=3
+const element = 3
 const logger = debug('namespace')
 
 
@@ -37,6 +37,10 @@ export const getConversations = async (req, res) => {
         })
     }
 }
+
+
+
+
 
 /**
  * getConversation : get conversation data
@@ -105,7 +109,7 @@ export const postConversation = async (req, res) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "Create conversation",
                     "element": element,
                     "element_id": "1",
@@ -130,7 +134,7 @@ export const postConversation = async (req, res) => {
  * @route /conversation/:id
  * @method put
  */
-export const putConversation = async (id, req, res,error) => {
+export const putConversation = async (id, req, res, error) => {
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such conversation (wrong id)'
@@ -146,7 +150,7 @@ export const putConversation = async (id, req, res,error) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "Update conversation ",
                     "element": element,
                     "element_id": "1",
@@ -181,7 +185,7 @@ export const deleteConversation = async (req, res) => {
             let dataLog = {
                 "app_id": "63ce8575037d76527a59a655",
                 "user_id": "6390b2efdfb49a27e7e3c0b9",
-                "socket_id":"req.body.socket_id",
+                "socket_id": "req.body.socket_id",
                 "action": "Delete conversation ",
                 "element": element,
                 "element_id": "1",

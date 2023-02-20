@@ -61,6 +61,51 @@ export const getMessage = async (req, res) => {
         }
     }
 }
+
+export const getMessagesUsers = async (req, res) => {
+    const conversationId = req.params.id
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
+    const skip = (page - 1) * limit
+  
+    try {
+      const totalMessages = await message.countDocuments({ conversation_id: conversationId })
+      const messages = await message.find({ conversation_id: conversationId })
+        .sort({ created_at: -1 })
+        .limit(limit)
+        .skip(skip)
+  
+      if (messages.length > 0) {
+        res.status(200).json({
+          message: "success",
+          data: {
+            messages,
+            totalPages: Math.ceil(totalMessages / limit),
+            currentPage: page
+          }
+        })
+      } else {
+        res.status(200).json({
+          message: "success",
+          data: "there are no conversation "
+        })
+      }
+  
+    } catch (err) {
+      logger(err)
+      console.log(err)
+      res.status(400).send({
+        message: "fail retrieving data "
+      })
+    }
+  }
+  
+  
+
+
+
+
+
 /**
  * createMessage : create message
  * @route /message
