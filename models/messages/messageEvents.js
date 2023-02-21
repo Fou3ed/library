@@ -11,9 +11,9 @@ const ioMessageEvents = function () {
   io.on('connection', function (socket) {
 
 
-    socket.on('onMessageCreated', (data, to, error) => {
+    socket.on('onMessageCreated', (data, error) => {
       try {
-        console.log(socket.client.id)
+        console.log("client : ",socket.client.id)
         console.log('====================================');
         console.log("Message created");
         console.log('====================================');
@@ -25,7 +25,7 @@ const ioMessageEvents = function () {
               from: socket.id,
               date: currentDate,
               uuid: res.uuid
-            };
+            };         
             socket.emit("onMessageReceived", {
               ...message,
               isSender: true,
@@ -43,6 +43,40 @@ const ioMessageEvents = function () {
       }
     });
 
+
+    // socket.on('onMessageCreated', (data, error) => {
+    //   try {
+    //     console.log(socket.client.id)
+    //     console.log('====================================');
+    //     console.log("Message created");
+    //     console.log('====================================');
+    //     foued.addMsg(data)
+    //       .then((res) => {
+    //         const message = {
+    //           content: res.message,
+    //           id: res._id,
+    //           from: socket.id,
+    //           date: currentDate,
+    //           uuid: res.uuid
+    //         };
+    //         const recipient = data.to; // get the recipient's socket ID
+    //         socket.to(recipient).emit("onMessageReceived", {
+    //           ...message,
+    //           isSender: false,
+    //           direction:"out"
+    //         });
+    //         socket.emit("onMessageReceived", {
+    //           ...message,
+    //           isSender: true,
+    //           direction:"in"
+    //         });
+    //       })
+    //     logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
+    //   } catch (err) {
+    //     logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+    //   }
+    // });
+    
 
     // socket.on('onMessageDelivered', (data) => {
     //   try {

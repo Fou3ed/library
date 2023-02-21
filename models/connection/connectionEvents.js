@@ -24,6 +24,8 @@ const ioConnEvents = function () {
                         socket.join(socket.id)
                         logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                         db.postConnection(data.metaData, socket.id).then((newData) => {
+                            console.log(newData)
+
                             socket.emit('onConnected', info.onConnected, newData)
                         })
                     } else {
