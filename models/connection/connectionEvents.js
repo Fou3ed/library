@@ -16,6 +16,7 @@ const ioConnEvents = function () {
          * onConnect : User connect to websocket
          */
         socket.on('onConnect', async (data) => {     
+            console.log(data)
             try {    
                 check(data.app_id).then((res) => {
                     if (res) {
@@ -24,9 +25,7 @@ const ioConnEvents = function () {
                         socket.join(socket.id)
                         logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                         db.postConnection(data.metaData, socket.id).then((newData) => {
-                            console.log(newData)
-
-                            socket.emit('onConnected', info.onConnected, newData)
+                            socket.emit('onConnected', info.onConnected, newData,data)
                         })
                     } else {
                         logger.info(`Event: Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}"   \n `)

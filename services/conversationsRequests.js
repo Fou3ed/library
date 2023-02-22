@@ -37,9 +37,44 @@ export const getConversations = async (req, res) => {
         })
     }
 }
+/**
+ * get conversation between two users 
+ */
+// export const getConv=async(req,res)=>{
+//     try{
+//             const result=await 
+//     }catch(err){
+//         logger(err)
+//         res.status(400).send({
+//             message:"fail retrieving data"
+//         })
+//     }
+// }
 
 
 
+
+/**
+ * get conversation by operators 
+ */
+export const getUserConversations=async(req,res)=>{
+    const id=req.params.id
+    console.log(id)
+
+    try {
+        const result = await conversation.find({operators: id});
+        res.status(200).json({
+            message: "success",
+            data: result
+        })
+    } catch (err) {
+        console.log(err)
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+    }
+}
 
 
 /**

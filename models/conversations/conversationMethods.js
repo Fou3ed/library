@@ -3,11 +3,14 @@
      deleteConversation,
      getConversations,
      postConversation,
-     putConversation
+     putConversation,
+     getUserConversations
  } from '../../services/conversationsRequests.js'
  class conversationActions {
 
-
+    async getUserConversations(){
+        const response=await fetch(``)
+    }
      /**
       * get all conversations 
       *  */

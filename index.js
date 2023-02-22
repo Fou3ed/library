@@ -19,6 +19,7 @@ import ioConnEvents from './models/connection/connectionEvents.js';
 import dbServer from "./DB.js";
 import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
+
 const app = express();
 const httpServer = createServer(app);
 
@@ -30,13 +31,14 @@ app.use((req, res, next) => {
 });
 
 export const io = new Server(httpServer, {
-    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000"],
+    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/"],
 });
 import userRoutes from './routers/usersRoutes.js'
 import messageRoutes from './routers/messageRoutes.js'
+import conversationRoutes from './routers/conversationRoutes.js'
 app.use('/users',userRoutes)
 app.use('/messages/', messageRoutes);
-
+app.use('/conversation/',conversationRoutes)
 
 
 ioConnEvents()
@@ -101,7 +103,7 @@ app.use(cookieParser());
 dbServer();
 
 /* It's listening to the port number that is stored in the .env file. */
-httpServer.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT,'0.0.0.0', () => {
   console.log(`server up and running on port : ${process.env.PORT}`);
   logger.info("server is running smoothly");
 });

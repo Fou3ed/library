@@ -1,6 +1,6 @@
 import express from "express";
-import { getConversationUsers } from "../services/conversationsRequests.js";
+import { getUserConversations } from "../services/conversationsRequests.js";
 const router =express.Router()
 
-router.get('/:id',getConversationUsers)
+router.get('/:id',getUserConversations)
 export default router 
