@@ -19,7 +19,7 @@ import ioConnEvents from './models/connection/connectionEvents.js';
 import dbServer from "./DB.js";
 import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
-
+import ioConversationMembersEvents from "./models/convMembers/convMembersEvents.js"
 const app = express();
 const httpServer = createServer(app);
 
@@ -39,7 +39,7 @@ import conversationRoutes from './routers/conversationRoutes.js'
 app.use('/users',userRoutes)
 app.use('/messages/', messageRoutes);
 app.use('/conversation/',conversationRoutes)
-
+app.use('/conv/',conversationRoutes)
 
 ioConnEvents()
 ioConversationEvents()
@@ -47,7 +47,7 @@ ioMessageEvents()
 ioChatEvents()
 ioUserEvents()
 ioAppEvents()
-
+ioConversationMembersEvents()
 /****
  *
  *

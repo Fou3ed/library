@@ -13,7 +13,7 @@ const fullDate = currentDate.toLocaleString();
 const ioConversationEvents = function () {
 
     //room namespace
-    io.on('connection', function (socket) {
+    io.on('connection', async (socket) => {
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {

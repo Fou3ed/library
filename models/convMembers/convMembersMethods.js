@@ -7,7 +7,9 @@ import {
 } from "../../services/convMembersRequests.js";
 
 class convMembersAction {
+    constructor(){
 
+    }
 
     /**
      * getMembers : get members of conversation.
@@ -31,8 +33,7 @@ class convMembersAction {
 
     async addMember(data) {
         const response = await postMember(data)
-        const resData = await response.json()
-        return resData
+        return response
     }
     /**
      * updateMember : update member data.

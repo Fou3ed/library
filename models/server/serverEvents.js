@@ -36,7 +36,7 @@ onError : Websocket connection closed
 
         socket.on('onError', function (data) {
             try {
-
+                
             } catch (err) {
 
             }

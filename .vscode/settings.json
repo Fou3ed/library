@@ -4,7 +4,8 @@
         "Cnvs",
         "conv",
         "socketio",
-        "tawa"
+        "tawa",
+        "uuidv"
     ],
     "docwriter.style": "JSDoc",
     "files.associations": {

@@ -1,4 +1,4 @@
-import conversationMember from '../models/convMembersModel.js'
+import conversationMember from '../models/convMembers/convMembersModel.js'
 import {
     debug,
     Joi,
@@ -71,25 +71,10 @@ export const getMember = async (req, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-    const data = {
-        conversation: req.body.conversation_id,
-        name: req.body.conversation_name
-
-    }
-    const check = Joi.object({
-        conversation: Joi.string().required(),
-        name: Joi.string().required().min(4).max(48),
-    })
-    const {
-        error
-    } = check.validate(data)
-    if (error) {
-        res.status(400).send({
-            'error': error.details[0].message
-        })
-    } else {
-        try {
-            const result = await conversationMember.create(req.body);
+   
+        try{
+            const result = await conversationMember.create(req);
+          
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -101,23 +86,19 @@ export const postMember = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-                res.status(201).json({
-                    message: "success",
-                    date: result
-                })
+              
             } else {
-                res.status(400).json({
-                    "error": 'failed to create new conversation'
-                })
+                console.log("error adding  conversation member ")
             }
         } catch (err) {
+            
             res.status(400).json({
                 'error': 'some error occurred.try again'
             })
             logger(err)
         }
     }
-}
+
 /**
  * updateMember : update member
  * @route /member/:id

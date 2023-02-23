@@ -4,11 +4,13 @@ import {
 } from '../../index.js';
 import logger from '../../config/newLogger.js'
 import * as info from '../../data.js'
-
-const foued = new conversationActions
+const currentDate = new Date();
+const fullDate = currentDate.toLocaleString();
+const foued = new convMembers()
 
 const ioConversationMembersEvents = function () {
 
+    io.on('connection', function (socket)  {
 
     // onConversationMemberRequest : Fired when the join request created.
     socket.on('onConversationMemberRequest', (data) => {
@@ -22,12 +24,10 @@ const ioConversationMembersEvents = function () {
             logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
 
         }
-    
     });
     // onConversationMemberJoined : Fired when the member join a conversation.
-    socket.on('onConversationMemberJoined', (data) => {
+    socket.on('onConversationMemberJoin', (data) => {
         try{
-            io.to(data.metaData.conversation).emit('onConversationMemberJoined', data);
             console.log('====================================');
             console.log("conversation member joined");
             console.log('====================================');
@@ -35,12 +35,9 @@ const ioConversationMembersEvents = function () {
                 socket.emit('onConversationMemberJoined',info.onConversationMemberJoined,res)
             })
             logger.info(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
         }catch(err){
             logger.error(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-
         }
-     
     });
     // onConversationMemberLeft : Fired when the member left a conversation.
     socket.on('onConversationMemberLeft', (data) => {
@@ -135,6 +132,5 @@ const ioConversationMembersEvents = function () {
         }
  
     });
-}
-
+})}
 export default ioConversationMembersEvents

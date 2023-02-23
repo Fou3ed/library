@@ -10,7 +10,6 @@ const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
 
-
     socket.on('onMessageCreated', (data, error) => {
       try {
         console.log("client : ",socket.client.id)

@@ -1,4 +1,8 @@
 import conversation from '../models/conversations/conversationModel.js'
+import members from '../models/convMembers/convMembersModel.js'
+import {
+    mongoose
+} from '../dependencies.js';
 import {
     debug,
     Joi,
@@ -40,29 +44,73 @@ export const getConversations = async (req, res) => {
 /**
  * get conversation between two users 
  */
-// export const getConv=async(req,res)=>{
-//     try{
-//             const result=await 
-//     }catch(err){
-//         logger(err)
-//         res.status(400).send({
-//             message:"fail retrieving data"
-//         })
-//     }
-// }
+export const getConv=async(req,res)=>{
+    const userId1 = req.query.user1
+    const userId2 = req.query.user2
+    try{
+    const result = await conversation.aggregate([
+      {
+        $lookup: {
+          from: 'members',
+          localField: '_id',
+          foreignField: 'conversation_id',
+          as: 'members'
+        }
+      },
+      {
+        $match: {
+          'members.user_id': {
+            $all: [
+                mongoose.Types.ObjectId(userId1),
+                mongoose.Types.ObjectId(userId2)
+            ]
+          }
+        }
+      },
+      {
+        $project: {
+          'members': 0
+        }
+      }
+    ]); 
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+    }
+    catch(err){
+        console.log(err)
+        logger(err)
+        res.status(400).send({
+            message:"fail retrieving data"
+        })
+    }
 
-
+}
 
 
 /**
- * get conversation by operators 
+ * get all conversation user connected have 
  */
 export const getUserConversations=async(req,res)=>{
     const id=req.params.id
-    console.log(id)
-
     try {
-        const result = await conversation.find({operators: id});
+        const result = await  conversation.aggregate([
+            {
+              $lookup: {
+                from: "members",
+                localField: "_id",
+                foreignField: "conversation_id",
+                as: "members"
+              }
+            },
+            {
+              $match: {
+                "members.user_id": mongoose.Types.ObjectId(id),
+              }
+            }
+          ])
+          
         res.status(200).json({
             message: "success",
             data: result
@@ -75,6 +123,7 @@ export const getUserConversations=async(req,res)=>{
         })
     }
 }
+
 
 
 /**

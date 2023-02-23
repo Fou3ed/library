@@ -1,49 +1,43 @@
-import {
-    mongoose
-} from '../../dependencies.js';
+import { mongoose } from '../../dependencies.js';
+import { v4 as uuidv4 } from 'uuid';
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-/**
- * conversation members Schema
- * define every conversation and her members 
- * every conversation have her members 
- * members are users (user_id)
- */
 const membersSchema = new Schema({
     id:{
-        type:UUID(),
-        required:true
+      type: String,
+      default: uuidv4,
+      required: true
     },
     conversation_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'conversation',
-        required: true,
-        description: "conversation Id  ",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'conversation',
+      required: true,
+      description: "conversation Id  ",
     },
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        required: true,
-        description: "user Id"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+      description: "user Id"
     },
     conversation_name: {
-        type: String,
-        required: false,
-        description: 'conversation name'
+      type: String,
+      required: false,
+      description: 'conversation name'
     },
     created_at: {
-        type: Date,
-        required: true,
-        default: Date.now,
-        description: "Date & time when a record was created "
+      type: Date,
+      required: true,
+      default: Date.now,
+      description: "Date & time when a record was created "
     },
     updated_at: {
-        type: Date,
-        required: false,
-        default: Date.now,
-        description: "Date & time when a record was updated"
+      type: Date,
+      required: false,
+      default: Date.now,
+      description: "Date & time when a record was updated"
     }
-})
+  });
 
-export default mongoose.model("member", membersSchema)
+export default mongoose.model("members", membersSchema);
