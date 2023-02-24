@@ -44,6 +44,7 @@ const ioMessageEvents = function () {
 
 
     // socket.on('onMessageCreated', (data, error) => {
+    //   console.log(data)
     //   try {
     //     console.log(socket.client.id)
     //     console.log('====================================');
