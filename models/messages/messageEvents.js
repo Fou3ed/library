@@ -25,7 +25,7 @@ const ioMessageEvents = function () {
               date: currentDate,
               uuid: res.uuid
             };         
-            socket.emit("onMessageReceived", {
+            socket.emit("onMessageDelivered", {
               ...message,
               isSender: true,
               direction:"in"
@@ -44,9 +44,8 @@ const ioMessageEvents = function () {
 
 
     // socket.on('onMessageCreated', (data, error) => {
-    //   console.log(data)
     //   try {
-    //     console.log(socket.client.id)
+    //     console.log("client : ",socket.client.id)
     //     console.log('====================================');
     //     console.log("Message created");
     //     console.log('====================================');
@@ -59,13 +58,8 @@ const ioMessageEvents = function () {
     //           date: currentDate,
     //           uuid: res.uuid
     //         };
-    //         const recipient = data.to; // get the recipient's socket ID
-    //         socket.to(recipient).emit("onMessageReceived", {
-    //           ...message,
-    //           isSender: false,
-    //           direction:"out"
-    //         });
-    //         socket.emit("onMessageReceived", {
+    //         const roomName = 'myRoom'; // Replace with the desired room name
+    //         io.to(roomName).emit("onMessageReceived", {
     //           ...message,
     //           isSender: true,
     //           direction:"in"
@@ -77,6 +71,15 @@ const ioMessageEvents = function () {
     //   }
     // });
     
+
+
+
+
+
+
+
+
+
 
     // socket.on('onMessageDelivered', (data) => {
     //   try {

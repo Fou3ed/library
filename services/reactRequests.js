@@ -15,9 +15,10 @@ const logger = debug('namespace')
  * @body  name,role_type,permissions
  */
 export const postReact = async (req, res) => {
-
+console.log("aaaa",req)
         try {
-            const result = await react.create(req);
+            const result = await react.create(req.metaData);
+            console.log(result)
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -75,9 +76,10 @@ export const putReact = async (req, res) => {
  * @method delete
  */
 export const unReactMsg = async (req, res) => {
-    
+    const id=req.metaData.message_id
         try {
             const result = await react.findByIdAndDelete(id)
+      
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -92,7 +94,7 @@ export const unReactMsg = async (req, res) => {
                 return result 
 
             } else {
-               console.log("error unracting a message ")
+               console.log("error unReacting a message ")
             }
         } catch (err) {
             console.log(err)

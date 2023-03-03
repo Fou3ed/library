@@ -72,16 +72,16 @@ const ioChatEvents = function () {
        
         });
         // onMessageReacted : Fired when the user add a reaction to message.
-        socket.on('onMessageReacted', function (data) {
+        socket.on('reactMsg', function (data) {
             try{
-                io.to(data.metaData.message).emit('onMessageReacted', data);
+                io.to(data.metaData.message)
                 console.log('====================================');
                 console.log("message reacted");
                 console.log('====================================');
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                 react.postReact(data).then((res) => 
-                socket.emit("onReactMsg", {
-                  res:res,
+                socket.emit("onMsgReacted", {
+                  res,
                 },)
               )
             }catch(err){
@@ -90,9 +90,9 @@ const ioChatEvents = function () {
             
         });
         // onMessageUnReacted : Fired when the user remove a reaction from message.
-        socket.on('onMessageUnReacted', function (data) {
+        socket.on('unReactMsg', function (data) {
             try{
-                io.to(data.metaData.message).emit('onMessageUnReacted', data);
+                io.to(data.metaData.message);
                 console.log('====================================');
                 console.log("message unReacted");
                 console.log('====================================');

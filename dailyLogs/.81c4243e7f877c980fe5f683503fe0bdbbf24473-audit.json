@@ -6,36 +6,6 @@
     "auditLog": "dailyLogs\\.81c4243e7f877c980fe5f683503fe0bdbbf24473-audit.json",
     "files": [
         {
-            "date": 1676021477771,
-            "name": "dailyLogs\\info.log.2023-02-10.1",
-            "hash": "0517706a2abce18d5897016920d2f562d281e774337a2ab661638d265538a1e7"
-        },
-        {
-            "date": 1676278874763,
-            "name": "dailyLogs\\info.log.2023-02-13",
-            "hash": "5cb957c6f033377f49719b4e6e1a8987a72a1b699cbf4cbbc8a3f8a45fec3cd7"
-        },
-        {
-            "date": 1676364012033,
-            "name": "dailyLogs\\info.log.2023-02-14",
-            "hash": "56afb4311360586f217a3bf8e8b121753e89440cee8fc3ec4af7da47b65b9dc8"
-        },
-        {
-            "date": 1676453001960,
-            "name": "dailyLogs\\info.log.2023-02-15",
-            "hash": "a0239a1c4aa555c48b9adb8dabcc6fdd3445b7752bb3619f09918c807c35006c"
-        },
-        {
-            "date": 1676538230655,
-            "name": "dailyLogs\\info.log.2023-02-16",
-            "hash": "bae504b8c8e2a52bbeffa3d14fb687757a2e2d01357aa19d29456096d2bb90dd"
-        },
-        {
-            "date": 1676623598099,
-            "name": "dailyLogs\\info.log.2023-02-17",
-            "hash": "93f65e62fc06313ba98fb551aa71f248024eb118f76bc2ca237aeb6ec1a34398"
-        },
-        {
             "date": 1676883505525,
             "name": "dailyLogs\\info.log.2023-02-20",
             "hash": "7d72829eb89c3a6004d28a70cfe55d15f2e7e37389a96cdd352d4fd547d989b8"
@@ -59,6 +29,26 @@
             "date": 1677230460006,
             "name": "dailyLogs\\info.log.2023-02-24",
             "hash": "894db1e0f2d4767dff4fed5602e602b2b9102e012619d30843b739b252b396de"
+        },
+        {
+            "date": 1677490206874,
+            "name": "dailyLogs\\info.log.2023-02-27",
+            "hash": "156cd39cb524c20f7d3a7a600c787d0f87d3e75ad1d534acbcdb285c0268f3d4"
+        },
+        {
+            "date": 1677575513609,
+            "name": "dailyLogs\\info.log.2023-02-28",
+            "hash": "7cbeea03e63e5d3d5cb8d204c81c7b67f52525c8cc47c71bbc8fc1164c372774"
+        },
+        {
+            "date": 1677662935018,
+            "name": "dailyLogs\\info.log.2023-03-01",
+            "hash": "dbb8be0704365d717060ceba13847e0983447c9109976e91a2b999b262fd26b8"
+        },
+        {
+            "date": 1677835259791,
+            "name": "dailyLogs\\info.log.2023-03-03",
+            "hash": "26aa095973d0a2c70edb5c113922e129c3add5417a88483b97cfb1a6b71530ae"
         }
     ],
     "hashType": "sha256"
