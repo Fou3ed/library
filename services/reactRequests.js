@@ -8,6 +8,34 @@ const log = new logs()
 const element= 7
 const logger = debug('namespace')
 
+
+/**
+ * find reacts in a message  
+ */
+export const getReact=async(req,res)=>{
+    console.log(req.params.id)
+    const idMessage=req.params.id
+    try{
+        const result =await react.find({ message_id: idMessage })
+        if(result.length>0){
+            res.json({
+                message:"success",
+                data:result
+                
+            })
+        }else {
+            res.status(200).json({
+                message:"success",
+                data:"there are no reacts on this message"
+            })
+        }
+    }catch{
+        logger(err)
+        res.status(400).send({
+            message:"fail retrieving reacts data"
+        })
+    }
+}
 /**
  * createRole: create role
  * @route /role

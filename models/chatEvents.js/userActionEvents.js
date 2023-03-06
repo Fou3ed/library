@@ -32,30 +32,31 @@ const ioChatEvents = function () {
     
         // onMessagePinned : Fired when the user pin a message.
                  
-        socket.on('onMessagePinned',  (data)=> {
+        socket.on('pinMsg',  (data)=> {
+            console.log(data)
             try{
-                io.to(data.metaData.message).emit('onMessagePinned', data);
+                io.to(data.metaData.message)
                 console.log('====================================');
                 console.log("message pinned");
                 console.log('====================================');
                 foued.pinMsg(data).then((res) => 
-                socket.emit("onPinnedMsg", {
+                socket.emit("onMsgPinned", {
                   res:res,
                 },)
               )
-                logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                logger.info(`Event: pinMsg ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             }catch(err){
 
-                logger.error(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+                logger.error(`Event: onMsgPinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
 
             }
           
         });
         // onMessageUnpinned : Fired when the user unpin a message.
-        socket.on('onMessageUnpinned',  (data)=> {
+        socket.on('unPinMsg',  (data)=> {
             try{
-                io.to(data.metaData.message).emit('onMessageUnpinned', data);
+                io.to(data.metaData.message)
                 console.log('====================================');
                 console.log("message unpinned");
                 console.log('====================================');

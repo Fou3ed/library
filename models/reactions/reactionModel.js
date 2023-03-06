@@ -14,8 +14,7 @@ const reactionSchema = new Schema({
     },
     path:{
         type:String,
-        required:false,
-
+        required:true,
     },
     created_at:{
         type:Date,

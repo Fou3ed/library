@@ -219,7 +219,7 @@ export const MarkMessageAsRead = async (data, res) => {
  * @method put
  */
 export const MarkMessageAsPinned = async (data, res) => {
-    const id = data.metaData.message
+    const id = data.metaData.message_id
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'

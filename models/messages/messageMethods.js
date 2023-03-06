@@ -68,8 +68,8 @@ class messageActions {
     /**
      * MarkMsg as Pinned 
      */
-    async pinMsg(id){
-        const response=await MarkMessageAsPinned(id)
+    async pinMsg(data){
+        const response=await MarkMessageAsPinned(data)
         return response
     }
       /**
