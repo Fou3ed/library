@@ -10,6 +10,39 @@ const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
 
+    // socket.on('onMessageCreated', (data, error) => {
+    //   try {
+    //     console.log("client : ",socket.client.id)
+    //     console.log('====================================');
+    //     console.log("Message created");
+    //     console.log('====================================');
+    //     foued.addMsg(data)
+    //       .then((res) => {
+    //         const message = {
+    //           content: res.message,
+    //           id: res._id,
+    //           from: socket.id,
+    //           date: currentDate,
+    //           uuid: res.uuid
+    //         };         
+    //         socket.emit("onMessageDelivered", {
+    //           ...message,
+    //           isSender: true,
+    //           direction:"in"
+    //         });
+    //         socket.broadcast.emit("onMessageReceived", {
+    //           ...message,
+    //           isSender: false,
+    //           direction:"out"
+    //         });
+    //       })
+    //     logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
+    //   } catch (err) {
+    //     logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+    //   }
+    // });
+
+
     socket.on('onMessageCreated', (data, error) => {
       try {
         console.log("client : ",socket.client.id)
@@ -30,7 +63,7 @@ const ioMessageEvents = function () {
               isSender: true,
               direction:"in"
             });
-            socket.broadcast.emit("onMessageReceived", {
+            io.to(data.metaData.conversation_id).emit("onMessageReceived", {
               ...message,
               isSender: false,
               direction:"out"
@@ -41,35 +74,6 @@ const ioMessageEvents = function () {
         logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
     });
-
-
-    // socket.on('onMessageCreated', (data, error) => {
-    //   try {
-    //     console.log("client : ",socket.client.id)
-    //     console.log('====================================');
-    //     console.log("Message created");
-    //     console.log('====================================');
-    //     foued.addMsg(data)
-    //       .then((res) => {
-    //         const message = {
-    //           content: res.message,
-    //           id: res._id,
-    //           from: socket.id,
-    //           date: currentDate,
-    //           uuid: res.uuid
-    //         };
-    //         const roomName = 'myRoom'; // Replace with the desired room name
-    //         io.to(roomName).emit("onMessageReceived", {
-    //           ...message,
-    //           isSender: true,
-    //           direction:"in"
-    //         });
-    //       })
-    //     logger.info(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} " \n `)
-    //   } catch (err) {
-    //     logger.error(`Event: onMessageCreated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-    //   }
-    // });
     
 
 

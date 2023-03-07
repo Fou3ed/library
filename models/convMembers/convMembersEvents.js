@@ -26,19 +26,36 @@ const ioConversationMembersEvents = function () {
         }
     });
     // onConversationMemberJoined : Fired when the member join a conversation.
+    // socket.on('onConversationMemberJoin', (data) => {
+    //     try{
+    //         console.log('====================================');
+    //         console.log("conversation member joined");
+    //         console.log('====================================');
+    //         foued.addMember(data).then((res)=>{
+    //             socket.emit('onConversationMemberJoined',info.onConversationMemberJoined,res)
+    //         })
+    //         logger.info(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+    //     }catch(err){
+    //         logger.error(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+    //     }
+    // });
+
     socket.on('onConversationMemberJoin', (data) => {
-        try{
-            console.log('====================================');
-            console.log("conversation member joined");
-            console.log('====================================');
-            foued.addMember(data).then((res)=>{
-                socket.emit('onConversationMemberJoined',info.onConversationMemberJoined,res)
-            })
-            logger.info(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-        }catch(err){
-            logger.error(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+        console.log("join room ",data)
+        try {
+          const { conversationId } = data.conversation_id;
+          console.log('====================================');
+          console.log('conversation member joined');
+          console.log('====================================');
+          foued.addMember(data).then((res) => {
+            socket.join(conversationId);
+            socket.emit(`onConversationMemberJoined:${conversationId}`, res);
+          });
+          logger.info(`Event: onConversationMemberJoined, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
+        } catch (err) {
+          logger.error(`Event: onConversationMemberJoined, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
         }
-    });
+      });
     // onConversationMemberLeft : Fired when the member left a conversation.
     socket.on('onConversationMemberLeft', (data) => {
         try{
