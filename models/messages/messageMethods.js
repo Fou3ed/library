@@ -1,5 +1,5 @@
 import {
-    GetMessages,
+    GetLastMessage,
     postMessage,
     deleteMessage,
     MarkMessageAsRead,
@@ -24,7 +24,7 @@ class messageActions {
      * getMessages : get messages.
      */
     async getMsgs() {
-        const response = await GetMessages();
+        const response = await GetLastMessage();
         const resData = await response.json();
         return resData;
     }

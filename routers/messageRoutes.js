@@ -1,6 +1,7 @@
 import express from "express";
-import { getMessagesUsers } from "../services/messageRequests.js";
+import { GetLastMessage, getMessagesUsers } from "../services/messageRequests.js";
 const router =express.Router()
 
 router.get('/:id',getMessagesUsers)
+router.get('/lastMsg/:id',GetLastMessage)
 export default router 

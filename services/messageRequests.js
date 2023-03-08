@@ -13,27 +13,35 @@ const logger = debug('namespace')
  * @route /messages
  * @method Get 
  */
-export const GetMessages = async (req, res) => {
+export const GetLastMessage = async (req, res) => {
+    const conversationId = req.params.id
+    
     try {
-        const result = await message.find();
-        if (result.length > 0) {
-            res.status(200).json({
-                message: "success",
-                data: result
-            })
-        } else {
-            res.status(200).json({
-                message: "success",
-                data: "there are no such message "
-            })
-        }
-    } catch (err) {
-        logger(err)
-        res.status(400).send({
-            message: "fail retrieving data ",
+      const lastMessage = await message.find({ conversation_id: conversationId })
+        .sort({ created_at: -1 }) // Sort by created_at in descending order
+        .limit(1)
+      if (lastMessage.length > 0) {
+
+        res.status(200).json({
+          message: "success",
+          data: lastMessage[0]
         })
+      } else {
+        res.status(200).json({
+          message: "success",
+          data: "there are no conversation "
+        })
+      }
+  
+    } catch (err) {
+      logger(err)
+      console.log(err)
+      res.status(400).send({
+        message: "fail retrieving data "
+      })
     }
 }
+
 
 /**
  * getMessage:get message data
@@ -70,10 +78,11 @@ export const getMessagesUsers = async (req, res) => {
   
     try {
       const totalMessages = await message.countDocuments({ conversation_id: conversationId })
-      const messages = await message.find({ conversation_id: conversationId })
-        .sort({ created_at: -1 })
-        .limit(limit)
-        .skip(skip)
+      const messages = await message
+      .find({ conversation_id: conversationId })
+      .sort({ created_at: -1 }) // Sort by created_at in descending order
+      .limit(limit)
+      .skip(skip)
   
       if (messages.length > 0) {
         res.status(200).json({

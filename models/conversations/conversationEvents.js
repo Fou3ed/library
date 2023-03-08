@@ -18,6 +18,7 @@ const ioConversationEvents = function () {
     io.on('connection', async (socket) => {
 
 
+            console.log(socket.client.id)
 
 
 
@@ -50,13 +51,11 @@ const ioConversationEvents = function () {
         });
 
         socket.on('joinRoom',(data)=>{
-            console.log("room ",data)
             try{
                 socket.join(data)
                 socket.emit('roomJoined',data)
             }catch(err){
                 logger.error(`Event: onCreate roo ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `)
-
             }
         })
 

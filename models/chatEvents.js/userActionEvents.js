@@ -141,29 +141,29 @@ const ioChatEvents = function () {
            
         });
         // onTypingStarted : Fired when the user start typing.
-        socket.on('onTypingStarted', function (data) {
+        socket.on('onTypingStart', function (data) {
             try{
                 socket.to(data.metaData.conversation);
                 console.log('====================================');
                 console.log(" on typing started ");
                 console.log('====================================');
-                logger.info(`Event: onTypingStarted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                logger.info(`Event: onTypingStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                 socket.emit('onTypingStarted', data)
             }catch(err){
-                logger.error(`Event: onTypingStarted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                logger.error(`Event: onTypingStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
       
         });
         // onTypingStopped : Fired when the user stop typing.
-        socket.on('onTypingStopped', function (data) {
+        socket.on('onTypingStop', function (data) {
             try{
                 io.to(data.metaData.conversation).emit('onTypingStopped', data);
                 console.log('====================================');
                 console.log(" on typing stopped ");
                 console.log('====================================');
-                logger.info(`Event: onTypingStopped ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                logger.info(`Event: onTypingStop ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }catch(err){
-                logger.error(`Event: onTypingStopped ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                logger.error(`Event: onTypingStop,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
         });
     })

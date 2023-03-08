@@ -37,13 +37,15 @@ import userRoutes from './routers/usersRoutes.js'
 import messageRoutes from './routers/messageRoutes.js'
 import conversationRoutes from './routers/conversationRoutes.js'
 import  getReact  from "./routers/reactRoutes.js";
+import GetLastMessage  from "./routers/messageRoutes.js";
 app.use('/users',userRoutes)
 app.use('/messages/', messageRoutes);
 app.use('/conversation/',conversationRoutes)
 app.use('/conv/',conversationRoutes)
 app.use('/react/',getReact)
+app.use('/message',GetLastMessage)
 ioConnEvents()
-ioConversationEvents()
+ioConversationEvents() 
 ioMessageEvents()
 ioChatEvents()
 ioUserEvents()
