@@ -3,13 +3,21 @@ import {
     deleteMember,
     getMember,
     postMember,
-    putMember
+    putMember,
+    getMembersByConversation
 } from "../../services/convMembersRequests.js";
+import User from '../user/userModel.js'
 
 class convMembersAction {
     constructor(){
 
     }
+    async getConversationMembers(convId){
+        const members = await getMembersByConversation(convId);
+        const userIds = members.map(member => member._id.toString());
+        const users = await User.find({ _id: { $in: userIds } });
+        return users.map(user => user._id.toString());
+      }
 
     /**
      * getMembers : get members of conversation.

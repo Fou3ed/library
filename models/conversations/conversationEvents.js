@@ -18,14 +18,13 @@ const ioConversationEvents = function () {
     io.on('connection', async (socket) => {
 
 
-            console.log(socket.client.id)
-
-
 
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {
+            console.log("conversation",data)
             try {
+                console.log(data.metaData.name == "")
                 if (data.metaData.name == "") {
                     console.log("conversation must obtain a name ")
                 } else {
@@ -39,6 +38,7 @@ const ioConversationEvents = function () {
                      * find if the room already exist in data base 
                      * else create new one 
                      */
+
                     foued.addCnv(data).then((res) => {
                         socket.join(res._id)
                         socket.emit('onConversationStarted', info.onConversationCreated, res)

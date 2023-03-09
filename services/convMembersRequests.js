@@ -37,6 +37,28 @@ export const GetMembers = async (req, res) => {
     }
 }
 
+
+export const getMembersByConversation = async (convId) => {
+    try {
+      console.log(`Getting members for conversation with ID: ${convId}`);
+      const result = await conversationMember.find({ conversation_id: convId }).populate('user_id')
+      if (result.length > 0) {
+        console.log(`Found ${result.length} members for conversation with ID: ${convId}`);
+        return result.map(member => member.user_id);
+      } else {
+        console.log(`No members found for conversation with ID: ${convId}`);
+        return [];
+      }
+    } catch (err) {
+      console.log(`Error while fetching conversation members: ${err}`);
+      logger.error(`Error while fetching conversation members: ${err}`);
+      return [];
+    }
+  };
+  
+
+
+
 /**
  * getConversation : getMember : get member data
  * @route /conversation/:id

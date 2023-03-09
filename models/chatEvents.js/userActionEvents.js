@@ -144,9 +144,7 @@ const ioChatEvents = function () {
         socket.on('onTypingStart', function (data) {
             try{
                 socket.to(data.metaData.conversation);
-                console.log('====================================');
-                console.log(" on typing started ");
-                console.log('====================================');
+          
                 logger.info(`Event: onTypingStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                 socket.emit('onTypingStarted', data)
             }catch(err){
