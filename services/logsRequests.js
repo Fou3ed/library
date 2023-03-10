@@ -80,3 +80,17 @@ export const postLog = async (req, res) => {
         }
     }
 
+export const getUserConnection = async (req, res) => {
+    try {
+        const result = await logs.findOne({ user_id: req }).sort({ created_at: -1 }).select('socket_id')
+        if (result) {
+            return result.socket_id 
+
+        } else {
+           console.log("there is no connection")
+        }
+    } catch (err) {
+        logger(err)
+      console.log(err)
+    }
+}

@@ -9,32 +9,39 @@ const fullDate = currentDate.toLocaleString();
 import methods from './connectionMethods.js'
 const db = new methods()
 
-
 const ioConnEvents = function () {
+
     io.on('connection', async (socket) => {
+
         /**
          * onConnect : User connect to websocket
          */
-        socket.on('onConnect', async (data) => {     
-            console.log(data)
-            try {    
+        socket.on('onConnect', async (data) => {
+            io.sockets.sockets['foued'] = socket.id;
+
+            try {
+                console.log(socket.foued)
                 check(data.app_id).then((res) => {
                     if (res) {
-                        info.onConnected.socket_id=socket.id
+                        // Save user_id and socket_id together in socket data
+                        socket.data.user_id = data.user;
+                        socket.data.socket_id = socket.id;
+                            console.log(socket.data)
+                        info.onConnected.socket_id = socket.client.id
                         console.log("user just connected!!", socket.id)
                         socket.join(socket.id)
-                        logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                        logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}" \n `)
                         db.postConnection(data.metaData, socket.id).then((newData) => {
-                            socket.emit('onConnected', info.onConnected, newData,data)
+                            socket.emit('onConnected', info.onConnected, newData, data,socket.data)
                         })
                     } else {
-                        logger.info(`Event: Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}"   \n `)
+                        logger.info(`Event: Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}" \n `)
                         socket.leave(socket.id)
                         console.log("not allowed")
-                    }   
+                    }
                 })
             } catch (err) {
-                logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}"   \n `)
+                logger.error(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate} , error : ${err}" \n `)
             }
         })
 
@@ -69,4 +76,6 @@ const ioConnEvents = function () {
         })
     })
 }
+
+
 export default ioConnEvents

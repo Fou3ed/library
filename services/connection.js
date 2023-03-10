@@ -34,6 +34,8 @@ export const getConnection = async (req, res) => {
         })
     }
 }
+
+
 export const postConnection = async (req,socket_id, res) => {
     try {
         const result = await connection.create(req)

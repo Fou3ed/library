@@ -3,6 +3,7 @@ import {
     
     getLog,
     postLog,
+    getUserConnection
 
 } from "../../services/logsRequests.js"
 
@@ -32,6 +33,10 @@ class Logs {
     async addLog(data) {
         const response = await postLog(data)
         return response
+    }
+    async getUserConnection(data) {
+        const response = await getUserConnection(data); 
+        return response;
     }
 }
 export default Logs

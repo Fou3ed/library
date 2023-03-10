@@ -11,6 +11,7 @@ const connectionSchema = new Schema({
         ref: 'app_id',
     },
 
+
     api_token: {
         type: String,
         required: true,
