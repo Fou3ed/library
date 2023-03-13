@@ -1,11 +1,13 @@
 import messageActions from './messageMethods.js'
 import convMembersAction from '../convMembers/convMembersMethods.js'
 import logsActions from '../logs/logsMethods.js'
+import userMethod from '../user/userMethods.js'
 import {
   io
 } from '../../index.js'
 const foued = new messageActions()
-const convMember= new convMembersAction()
+const convMember = new convMembersAction()
+const userM = new userMethod()
 import logger from '../../config/newLogger.js'
 // import { sockety } from '../connection/connectionEvents.js'
 const currentDate = new Date();
@@ -82,141 +84,115 @@ const ioMessageEvents = function () {
     // });
 
 
- // When a client sends a message
- socket.on('onMessageCreated', async (data, error) => {
-  try {
-    console.log('Data:', data);
-
-    // Save the message to your database
-    const message = await foued.addMsg(data);
-
-    // Construct a message object to send to clients
-    const messageData = {
-      content: message.message,
-      id: message._id,
-      from: socket.id,
-      conversation: data.metaData.conversation_id,
-      date: currentDate,
-      uuid: message.uuid
-    };
-
-    // Emit an event to the client who sent the message to indicate that the message was delivered
-    socket.emit('onMessageDelivered', {
-      ...messageData,
-      isSender: true,
-      direction: 'in'
-    });
-    // Get the conversation ID and room object
-    const conversationId = data.metaData.conversation_id;
-    let room = io.sockets.adapter.rooms[conversationId];
-    // console.log("sockety",sockety)
-    // If room does not exist, create a new room and join all members
-    if (!room) {
-    console.log(socket.data.user_id)
-      const userId = data.metaData.user;
-      const members = await convMember.getConversationMembers(conversationId);
-      const socketIds = members
-      console.log("socket ids",socketIds,io.sockets.data.socket_id)
-      .map(memberId => io.sockets.connected[memberId])
-      .filter(memberSocket => memberSocket)
-      .map(memberSocket => memberSocket.id);
-      console.log("aaaaaaaa",socketIds)
-      socketIds.forEach(socketId => {
-        io.sockets.sockets[socketId].join(conversationId);
-      });
-    }
-
-    // Emit an event to all clients in the conversation room to indicate that a new message was received
-    io.in(conversationId).emit('onMessageReceived', {
-      ...messageData,
-      conversation: conversationId,
-      isSender: false,
-      direction: 'out'
-    });
-  } catch (err) {
-    console.error(`Error while processing message: ${err}`);
-    logger.error(`Event: onMessageCreated, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
-  }
-});
-
-
-
-
-    // socket.on('onMessageDelivered', (data) => {
-    //   try {
-    //     io.to(data.roomId).emit('onMessageDelivered', data);
-    //     console.log(socket.client.id)
-    //     console.log('====================================');
-    //     console.log("Message delivered");
-    //     console.log('====================================');
-    //     foued.addMsg(data)
-    //       .then((res) =>
-    //         socket.to(data.roomId).to(socket.client.id).emit("onMessageDelivered", {
-    //           ...res.message,
-    //           id: res._id,
-    //           uuid: res.uuid
-    //         }, )
-    //       )
-    //   } catch (err) {
-    //   }
-    // });
-
-    // onMessageReceived : Fired when the message is received.
-    // socket.on('onMessageReceived', (data) => {
-    //   console.log("receive msg : ",data)
-    //   try{
-    //     io.to(data.metaData.message).emit('onMessageReceived', data);
-    //     console.log('====================================');
-    //     console.log("Message received");
-    //     console.log('====================================');
-    //     logger.info(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-    //   }catch(err){
-    //     logger.error(`Event: onMessageReceived ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-    //   }
-    // });
-
-    // onMessageUpdated : Fired when the message data updated.
-
-    socket.on('onMessageUpdated', (data) => {
+    // When a client sends a message
+   
+    socket.on('onMessageCreated', async (data, error) => {
       try {
-        io.to(data.metaData.message).emit('onMessageUpdated', data);
-        console.log('====================================');
-        console.log("Message updated");
-        console.log('====================================');
-        foued.putMsg(data.metaData.message)
-          .then((res) =>
-            socket.emit("onMessageUpdated", {
-              res: res,
+        // Save the message to your database
+        const message = await foued.addMsg(data);
+    
+        // Construct a message object to send to clients
+        const messageData = {
+          content: message.message,
+          id: message._id,
+          from: socket.id,
+          conversation: data.metaData.conversation_id,
+          date: currentDate,
+          uuid: message.uuid
+        };
+    
+        // Get the conversation ID
+        const conversationId = data.metaData.conversation_id;
+    
+        // Check if the room exists
+        const roomExists = io.sockets.adapter.rooms.has(conversationId);
+        // If the room doesn't exist, join specific members' sockets to the room
+        if (!roomExists) {
+          // Retrieve the conversation members from the database
+          const members = await convMember.getConversationMembers(conversationId);
+          // Retrieve the socket IDs for specific members of the conversation
+          const specificMembers = members; 
+          const specificSocketsToJoin = await Promise.all(specificMembers.map(async (member) => {
+            const socket_id = await userM.getUser(member);
+            return socket_id;
+          }));  
+
+               specificSocketsToJoin.forEach(socket_id => {
+            console.log("Joining socket", socket_id, "to room", conversationId);
+            socket.join(conversationId)
+          });
+    
+          // Register event handler for join-room event
+          io.of("/").adapter.on("join-room", (room, socketId) => {
+            console.log(`Socket ${socketId} has joined room ${room}`);
+          });
+        }
+    
+        // Emit an event to the client who sent the message to indicate that the message was delivered
+        socket.emit('onMessageDelivered', {
+          ...messageData,
+          isSender: true,
+          direction: 'in'
+        });
+    
+        // Emit an event to all members of the conversation to indicate that a new message has been received
+        io.in(conversationId).emit('onMessageReceived', {
+          ...messageData,
+          conversation: conversationId,
+          isSender: false,
+          direction: 'out'
+        });
+      } catch (err) {
+        console.error(`Error while processing message: ${err}`);
+        logger.error(`Event: onMessageCreated, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
+      }
+    });
+    
+
+
+
+
+      // onMessageUpdated : Fired when the message data updated.
+
+      socket.on('onMessageUpdated', (data) => {
+        try {
+          io.to(data.metaData.message).emit('onMessageUpdated', data);
+          console.log('====================================');
+          console.log("Message updated");
+          console.log('====================================');
+          foued.putMsg(data.metaData.message)
+            .then((res) =>
+              socket.emit("onMessageUpdated", {
+                res: res,
+              }, )
+            )
+          logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+        } catch (err) {
+          logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+        }
+      });
+      // onMessageDeleted : Fired when the message deleted
+
+      socket.on('onMessageDeleted', (data) => {
+        try {
+          io.to(data.metaData.message).emit('onMessageDeleted', data);
+          console.log('====================================');
+          console.log("Message deleted");
+          console.log('====================================');
+          foued.deleteMsg(data).then((res) =>
+            socket.emit("onMessageDeleted", {
+              res: res
             }, )
           )
-        logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-      } catch (err) {
-        logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-      }
-    });
-    // onMessageDeleted : Fired when the message deleted
+          logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
-    socket.on('onMessageDeleted', (data) => {
-      try {
-        io.to(data.metaData.message).emit('onMessageDeleted', data);
-        console.log('====================================');
-        console.log("Message deleted");
-        console.log('====================================');
-        foued.deleteMsg(data).then((res) =>
-          socket.emit("onMessageDeleted", {
-            res: res
-          }, )
-        )
-        logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+        } catch (err) {
+          logger.error(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
 
-      } catch (err) {
-        logger.error(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+        }
 
-      }
+      });
 
-    });
-
-  })
-
-}
+    })
+  }
 export default ioMessageEvents

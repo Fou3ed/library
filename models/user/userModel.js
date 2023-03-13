@@ -14,6 +14,10 @@ const userSchema = new Schema({
         required: true,
         description: 'User full name'
     },
+    socket_id:{
+       type:String,
+       required:false 
+    },
     profile_url: {
         type: String,
         required: false,

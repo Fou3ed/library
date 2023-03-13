@@ -67,19 +67,10 @@ export const getUserName = async (req, res) => {
  * @route /user/:id
  * @method Get
  */
-export const getUser = async (req, res) => {
-    const id = req.params.id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such user(wrong id) '
-        })
-    } else {
+export const getUser = async (id, res) => {
         try {
             const result = await user.findById(id);
-            res.status(200).json({
-                message: "success",
-                data: result
-            })
+         return result
         } catch (err) {
             console.log(err)
             logger(err)
@@ -88,7 +79,7 @@ export const getUser = async (req, res) => {
             })
         }
     }
-}
+
 /**
  * createUser: create user
  * @route /user
@@ -244,6 +235,45 @@ export const putUser = async (req, res) => {
     }
 
 }
+
+
+/**
+ * update socket _id 
+ */
+export const putUserSocket = async (id,socket_id, res) => {
+    if (!validator.isMongoId(id)) {
+        res.status(400).send({
+            'error': 'there is no such user (wrong id)'
+        })
+    } else {
+            try {
+                const result = await user.findByIdAndUpdate(
+                    id, {
+                        $set: { socket_id: socket_id }
+                    })
+                if (result) {
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":socket_id,
+                        "action": "update user socket id ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
+                  return result
+                } else {
+               console.log("error")
+                }
+            } catch (err) {
+              console.log(err)
+                logger(err)
+            }
+        }
+    }
+
+
 /**
  * getUserStatus : get user status
  * @route /users/status/:id

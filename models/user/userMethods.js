@@ -10,6 +10,7 @@
      putUser,
      registerUser,
      unBanUser,
+     putUserSocket
 
  } from '../../services/userRequests.js'
 
@@ -29,8 +30,7 @@
       */
      async getUser(id) {
          const response = await getUser(id)
-         const resData = await response.json();
-         return resData;
+         return response.socket_id
      }
 
      /**
@@ -54,9 +54,14 @@
       * updateUser : update user data.
       */
      async putUser(id, data) {
+        
          const response = await putUser(id, data)
          const resData = await response.json()
          return resData
+     }
+     async putUserSocket(id,socket_id){
+        const response = await putUserSocket(id,socket_id)
+        return response
      }
      /**
       * deletedUser : delete user.

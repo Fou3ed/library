@@ -40,7 +40,6 @@ export const GetMembers = async (req, res) => {
 
 export const getMembersByConversation = async (convId) => {
     try {
-      console.log(`Getting members for conversation with ID: ${convId}`);
       const result = await conversationMember.find({ conversation_id: convId }).populate('user_id')
       if (result.length > 0) {
         console.log(`Found ${result.length} members for conversation with ID: ${convId}`);

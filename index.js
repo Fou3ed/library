@@ -20,6 +20,7 @@ import dbServer from "./DB.js";
 import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
 import ioConversationMembersEvents from "./models/convMembers/convMembersEvents.js"
+import redisAdapter from 'socket.io-redis'
 const app = express();
 const httpServer = createServer(app);
 
@@ -31,8 +32,15 @@ app.use((req, res, next) => {
 });
 
 export const io = new Server(httpServer, {
+  pingTimeout: 60000, // Set the timeout to 60 seconds
+
     origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/"],
 });
+
+io.sockets.setMaxListeners(20)
+
+io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
+
 import userRoutes from './routers/usersRoutes.js'
 import messageRoutes from './routers/messageRoutes.js'
 import conversationRoutes from './routers/conversationRoutes.js'
