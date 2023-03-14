@@ -23,7 +23,7 @@ const ioConnEvents = function () {
                 check(data.app_id).then((res) => {
                     if (res) {     
                       info.onConnected.socket_id = socket.client.id;
-                      userAct.putUserSocket(data.user,socket.client.id).then((res)=>{
+                      userAct.putUserSocket(data.user,socket.id).then((res)=>{
                         console.log(res)
                       })
                       console.log("user just connected!!", socket.id);

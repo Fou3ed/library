@@ -1,0 +1,472 @@
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : PqcFqFIAgSq73tq0AAAB ,token :\"taw nzidouha , date: 14/03/2023 09:48:33\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : qnoFmWfrL4ygrJgjAAAF ,token :\"taw nzidouha , date: 14/03/2023 09:48:33\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"q\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: dgsUoQyUDhdU6E9aAAAH, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"tete\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: uy8f708s8laG_vmfAAAJ, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aaa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"}, socket_id: uGEiEtP114nxVrJcAAAD, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"xD\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: btbtHqprbJ5_Ujt8AAAL, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : FgmIZGZAcE3KtOtyAAAP ,token :\"taw nzidouha , date: 14/03/2023 10:19:00\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : jr779wOdLLa1Xq5GAAAN ,token :\"taw nzidouha , date: 14/03/2023 10:19:00\" \n "}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"}, socket_id: qK52ZmH_YmaUEvHXAAAT, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aaaaa\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: fF6RI2RD-vxNYNE0AAAR, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:19:00"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: h0WFgwTePLVplWDuAAAC, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:32:46"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aaaaa\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: XgfIM4EOpkojDbvfAAAF, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'socket_id'), date: 14/03/2023 10:33:47"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onMessageCreated, data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"}}, socket_id: yxcZtBaYCFSIwd2NAAAB, token: \"taw nzidouha\", error: TypeError: Cannot read properties of undefined (reading 'status'), date: 14/03/2023 10:34:10"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : 3dE1Og9oePTKCfe2AAAJ ,token :\"taw nzidouha , date: 14/03/2023 10:46:33\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : 99UVjJMOD3R5IVKFAAAH ,token :\"taw nzidouha , date: 14/03/2023 10:46:33\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : ze-duWjOyPc2gqBDAAAH ,token :\"taw nzidouha , date: 14/03/2023 10:55:30\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : UW3GW6Ys4ueICCdnAAAH ,token :\"taw nzidouha , date: 14/03/2023 10:55:54\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : iruX7K78fX--SBH0AAAH ,token :\"taw nzidouha , date: 14/03/2023 10:56:18\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : nsg-aYm7Mh_LRWb0AAAH ,token :\"taw nzidouha , date: 14/03/2023 10:59:51\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : loQl6MRLXoNzmKJvAAAH ,token :\"taw nzidouha , date: 14/03/2023 11:00:22\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : _-O_8d4m-iaUWmnvAAAD ,token :\"taw nzidouha , date: 14/03/2023 11:08:30\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : _qpGBhJ67lE_snyCAAAH ,token :\"taw nzidouha , date: 14/03/2023 11:08:30\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : _qpGBhJ67lE_snyCAAAH ,token :\"taw nzidouha , date: 14/03/2023 11:08:30\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : vu7gQTAiNaVozvahAAAL ,token :\"taw nzidouha , date: 14/03/2023 11:08:30\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : 3gOasvRMPm8Mq0YUAAAN ,token :\"taw nzidouha , date: 14/03/2023 11:08:30\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : 1OjhUd1vzF-2SlHmAAAH ,token :\"taw nzidouha , date: 14/03/2023 11:24:33\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : mJTVU_3ECoi_8Oh3AAAJ ,token :\"taw nzidouha , date: 14/03/2023 11:24:33\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aaa\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : 62a7BKxrwKl135JpAAAU ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aaaa\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : 62a7BKxrwKl135JpAAAU ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"64089c61c0df4e8f565ceaef\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aaaa\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : zQiyTNxqpkC1w-KQAAAV ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aaa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : zQiyTNxqpkC1w-KQAAAV ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : yRboSFUovfGNzVKiAAAZ ,token :\"taw nzidouha , date: 14/03/2023 11:59:36\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : xlQMffDQXN0WsDLMAAAX ,token :\"taw nzidouha , date: 14/03/2023 11:59:36\" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 8voew7U3gBQkzM8PAAAb ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : i5Ipzc2XQb01PgLFAAAd ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 8voew7U3gBQkzM8PAAAb ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : i5Ipzc2XQb01PgLFAAAd ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"azeaea\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 8voew7U3gBQkzM8PAAAb ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aazeaze\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : i5Ipzc2XQb01PgLFAAAd ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 8voew7U3gBQkzM8PAAAb ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640854377c99b62b7975e2a1\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\" test kabil\"} , socket_id : i5Ipzc2XQb01PgLFAAAd ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 8voew7U3gBQkzM8PAAAb ,token :\"taw nzidouha , date: 14/03/2023 11:59:36 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : khybKc2GjPvYgBONAAAH ,token :\"taw nzidouha , date: 14/03/2023 12:13:26\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : ygr2oFGnYHkedWQVAAAJ ,token :\"taw nzidouha , date: 14/03/2023 12:13:26\" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : nM4mhBXUQfr3XNfdAAAN ,token :\"taw nzidouha , date: 14/03/2023 12:13:26 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : 4bG6_aKQDZdK9D6IAAAL ,token :\"taw nzidouha , date: 14/03/2023 12:13:26 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : nM4mhBXUQfr3XNfdAAAN ,token :\"taw nzidouha , date: 14/03/2023 12:13:26 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : nM4mhBXUQfr3XNfdAAAN ,token :\"taw nzidouha , date: 14/03/2023 12:13:26 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : IroE5rjhKpU3VNA9AAAC ,token :\"taw nzidouha , date: 14/03/2023 12:14:53 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : MG6vJ0cqkmJzJmqpAAAC ,token :\"taw nzidouha , date: 14/03/2023 12:15:08 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"a\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : DMuDY_Trq1kGooObAAAF ,token :\"taw nzidouha , date: 14/03/2023 12:15:45 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"message\":\"aa\",\"data\":\"non other data\",\"origin\":\"web\"}} , socket_id : GSlVdumDiGwpzgGzAAAB ,token :\"taw nzidouha , date: 14/03/2023 12:17:03 \" \n "}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aaaa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : VjECD06zIMb4W9VgAAAD ,token :\"taw nzidouha , date: 14/03/2023 12:17:03 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"zaeaea\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : luPFISFakoumzQuvAAAB ,token :\"taw nzidouha , date: 14/03/2023 12:18:14 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageCreated ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.create\",\"metaData\":{\"type\":\"MSG\",\"conversation_id\":\"640765357d9cfe9f6f9caba9\",\"user\":\"6407640935e74a0ac45d7480\",\"message\":\"aaaaa\",\"data\":\"non other data\",\"origin\":\"web\"},\"to\":\"foued hammouda\"} , socket_id : 57hKPY546FTMLyloAAAB ,token :\"taw nzidouha , date: 14/03/2023 12:18:41 \" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : b6oPX7fE1RsbABqIAAAJ ,token :\"taw nzidouha , date: 14/03/2023 13:44:58\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : RoKBHNu9SNZ0RFrfAAAH ,token :\"taw nzidouha , date: 14/03/2023 13:44:58\" \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"64107163c1200b80de55bd98\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"64107163c1200b80de55bd98\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : YlIF_-2WWMYxr2_QAAAV ,token :\"taw nzidouha , date: 14/03/2023 14:05:36\" \n "}
+{"level":"info","message":"Event: onConversationStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"64107163c1200b80de55bd98\",\"action\":\"conversation.create\",\"metaData\":{\"name\":\"foued hammouda\",\"channel_url\":\"foued/test\",\"conversation_type\":\"private\",\"description\":\"private chat\",\"operators\":[1],\"members\":[\"64107163c1200b80de55bd98\",\"63aec1a90412b157c3ef3c1d\"],\"permissions\":{\"key\":\"value\"},\"members_count\":2,\"max_length_message\":\"256\"}} , socket_id : ggExqVuoJAGWOqu0AAAX ,token taw nzidouha , date: 14/03/2023 14:05:36\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: {\"conversation_id\":\"6410718e92d7529942f5200d\",\"user_id\":\"64107163c1200b80de55bd98\",\"conversation_name\":\"foued hammouda\"}, socket_id: ggExqVuoJAGWOqu0AAAX, token: \"taw nzidouha, date: 14/03/2023 14:05:36\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: {\"conversation_id\":\"6410718e92d7529942f5200d\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"conversation_name\":\"64107163c1200b80de55bd98\"}, socket_id: ggExqVuoJAGWOqu0AAAX, token: \"taw nzidouha, date: 14/03/2023 14:05:36\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"conversation.create\",\"metaData\":{\"name\":\"testin test\",\"channel_url\":\"foued/test\",\"conversation_type\":\"private\",\"description\":\"private chat\",\"operators\":[1],\"members\":[\"63aec1a90412b157c3ef3c1d\",\"64107163c1200b80de55bd98\"],\"permissions\":{\"key\":\"value\"},\"members_count\":2,\"max_length_message\":\"256\"}} , socket_id : Ohgu_eyBtcIQ6kztAAAJ ,token taw nzidouha , date: 14/03/2023 14:08:20\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: {\"conversation_id\":\"6410720ac79de0df9cb02932\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"conversation_name\":\"testin test\"}, socket_id: Ohgu_eyBtcIQ6kztAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:08:20\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: {\"conversation_id\":\"6410720ac79de0df9cb02932\",\"user_id\":\"64107163c1200b80de55bd98\",\"conversation_name\":\"63aec1a90412b157c3ef3c1d\"}, socket_id: Ohgu_eyBtcIQ6kztAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:08:20\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : u6OgoIU4R--gn_ZdAAAH ,token :\"taw nzidouha , date: 14/03/2023 14:32:46\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : frbNn4dAx1yI-Gv9AAAL ,token :\"taw nzidouha , date: 14/03/2023 14:32:46\" \n "}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: RPaEeabzh_VZVSrVAAAJ, token: \"taw nzidouha, error:ReferenceError: res is not defined, date: 14/03/2023 14:32:46\"\n"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: CjL3c3Pe75-cwNTYAAAN, token: \"taw nzidouha, error:ReferenceError: res is not defined, date: 14/03/2023 14:32:46\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: ilWlHhpUEcpyEeF3AAAF, token: \"taw nzidouha, error:ReferenceError: res is not defined, date: 14/03/2023 14:34:19\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: L1UZ-Esw1lguYS2NAAAD, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 14:35:22\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: wErNhQTpK32S3yXIAAAB, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 14:35:47\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: cbK04SHEtr7I70dJAAAC, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 14:36:08\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: 0PzF-Fyp6GB_RCdoAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:39:57\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: gDnLac__N_Se3wqrAAAH, token: \"taw nzidouha, date: 14/03/2023 14:39:57\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: gDnLac__N_Se3wqrAAAH, token: \"taw nzidouha, date: 14/03/2023 14:39:57\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: 0PzF-Fyp6GB_RCdoAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:39:57\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: 0PzF-Fyp6GB_RCdoAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:39:57\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: 373tWl6gFBUgtgrDAAAD, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: -kofXiXDMS21CWJRAAAB, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: 373tWl6gFBUgtgrDAAAD, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: l94hLSc6OK4b0PvoAAAJ, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: ASkNgXZpFDvA_LnzAAAN, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: ASkNgXZpFDvA_LnzAAAN, token: \"taw nzidouha, date: 14/03/2023 14:41:42\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: YTU9H5FWCHx1KIqRAAAB, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:05:02\"\n"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"64089c61c0df4e8f565ceaef\", socket_id: CvhYwv9LT_3tFOtUAAAD, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:05:02\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : eGy5WEr3q4BYsVPHAAAH ,token :\"taw nzidouha , date: 14/03/2023 15:05:32\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : ek9o4e7xKMaWPNxkAAAJ ,token :\"taw nzidouha , date: 14/03/2023 15:05:32\" \n "}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: GRKSuedN6kW4odguAAAL, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:05:32\"\n"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: SeDqOQdDBPcBbl_8AAAN, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:05:32\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: YBa15HJ-eN6BGhZRAAAD, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:06:33\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: t2NeSGxy0J2_dSzKAAAB, token: \"taw nzidouha, error:ReferenceError: userM is not defined, date: 14/03/2023 15:06:52\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: LSA6_24XMM3aJqysAAAH, token: \"taw nzidouha, date: 14/03/2023 15:07:41\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: LSA6_24XMM3aJqysAAAH, token: \"taw nzidouha, date: 14/03/2023 15:07:41\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: Uu0jgPsGwc-qO-pPAAAB, token: \"taw nzidouha, date: 14/03/2023 15:07:41\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: kVqsDsH8zUk81WFrAAAR, token: \"taw nzidouha, date: 14/03/2023 15:29:55\"\n"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: bTbmwmVt-1FUAWGfAAAP, token: \"taw nzidouha, date: 14/03/2023 15:29:55\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: 2aRLralUEbeCm5AwAAAF, token: \"taw nzidouha, date: 14/03/2023 15:31:47\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : wbvEQIVvODY16fY7AAAJ ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:31:56\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: wbvEQIVvODY16fY7AAAJ, token: \"taw nzidouha, date: 14/03/2023 15:31:56\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : TfzPeqLVTstO_4W5AAAD ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:32:23\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: TfzPeqLVTstO_4W5AAAD, token: \"taw nzidouha, date: 14/03/2023 15:32:23\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : kHbCbI-ZQf8E7CXiAAAD ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:32:39\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: kHbCbI-ZQf8E7CXiAAAD, token: \"taw nzidouha, date: 14/03/2023 15:32:39\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : uLCZ9n9AWs2ET664AAAD ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:33:10\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: uLCZ9n9AWs2ET664AAAD, token: \"taw nzidouha, date: 14/03/2023 15:33:10\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : Czw_YTRZNlGnRTA5AAAB ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:33:26\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: Czw_YTRZNlGnRTA5AAAB, token: \"taw nzidouha, date: 14/03/2023 15:33:26\"\n"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : xS2DhhgQ4dQAEQ5yAAAE ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:33:26\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: xS2DhhgQ4dQAEQ5yAAAE, token: \"taw nzidouha, date: 14/03/2023 15:33:26\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : RJtC5OXCn83YbhsdAAAJ ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:34:16\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: RJtC5OXCn83YbhsdAAAJ, token: \"taw nzidouha, date: 14/03/2023 15:34:16\"\n"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : 7hdI0CO9lQ5fk6RoAAAR ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:34:16\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : ZwgGlOz_UvTWD1VjAAAB ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:35:34\"   \n "}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : ZwgGlOz_UvTWD1VjAAAB ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:35:34\"   \n "}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"64089c61c0df4e8f565ceaef\" , socket_id : pzU-4yFVLwHxBFECAAAF ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:35:34\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : apPkieVEoehLaS2OAAAB ,token :\"taw nzidouha ,error:ReferenceError: conversationId is not defined , date: 14/03/2023 15:37:48\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: apPkieVEoehLaS2OAAAB, token: \"taw nzidouha, date: 14/03/2023 15:37:48\"\n"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: ScsSNmJZ_pI4o3M8AAAB, token: \"taw nzidouha, date: 14/03/2023 15:40:27\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : ScsSNmJZ_pI4o3M8AAAB ,token :\"taw nzidouha , date: 14/03/2023 15:40:27\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: ScsSNmJZ_pI4o3M8AAAB, token: \"taw nzidouha, date: 14/03/2023 15:40:27\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : ScsSNmJZ_pI4o3M8AAAB ,token :\"taw nzidouha , date: 14/03/2023 15:40:27\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: 7-RSnf4aEJC9rFgJAAAD, token: \"taw nzidouha, date: 14/03/2023 15:41:13\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : 7-RSnf4aEJC9rFgJAAAD ,token :\"taw nzidouha , date: 14/03/2023 15:41:13\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: WTdRrlhoSUxT9YwXAAAD, token: \"taw nzidouha, date: 14/03/2023 15:41:40\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : WTdRrlhoSUxT9YwXAAAD ,token :\"taw nzidouha , date: 14/03/2023 15:41:40\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: 0bq-UQkzqFo7pW6pAAAB, token: \"taw nzidouha, date: 14/03/2023 15:42:13\"\n"}
+{"level":"error","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : 0bq-UQkzqFo7pW6pAAAB ,token :\"taw nzidouha ,error:ReferenceError: array is not defined , date: 14/03/2023 15:42:13\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: 34gXysueVe2_8oTnAAAD, token: \"taw nzidouha, date: 14/03/2023 15:42:50\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : 34gXysueVe2_8oTnAAAD ,token :\"taw nzidouha , date: 14/03/2023 15:42:50\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"63aec1a90412b157c3ef3c1d\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"63aec1a90412b157c3ef3c1d\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69\"}} , socket_id : znacx2_em1HzTIs4AAAH ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\" \n "}
+{"level":"info","message":"Event: onConnect ,data: {\"app_id\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"connect\",\"metaData\":{\"app_id\":\"638dc76312488c6bf67e8fc0\",\"socket_id\":\"123\",\"user_id\":\"6407640935e74a0ac45d7480\",\"api_token\":\"123456789123456\"},\"device\":{\"ip\":\"192.168.1.1\",\"timezone\":\"Europe/Paris\",\"platform\":\"Win32\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 OPR/96.0.0.0\"}} , socket_id : 2M0gA2N1B6g5s-XFAAAL ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\" \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: crIUQw7R6wHapPYYAAAN, token: \"taw nzidouha, date: 14/03/2023 15:43:37\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : crIUQw7R6wHapPYYAAAN ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: XUnmF4fj03V1KEjkAAAJ, token: \"taw nzidouha, date: 14/03/2023 15:43:37\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : XUnmF4fj03V1KEjkAAAJ ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: crIUQw7R6wHapPYYAAAN, token: \"taw nzidouha, date: 14/03/2023 15:43:37\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : crIUQw7R6wHapPYYAAAN ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: XUnmF4fj03V1KEjkAAAJ, token: \"taw nzidouha, date: 14/03/2023 15:43:37\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : XUnmF4fj03V1KEjkAAAJ ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: XUnmF4fj03V1KEjkAAAJ, token: \"taw nzidouha, date: 14/03/2023 15:43:37\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : XUnmF4fj03V1KEjkAAAJ ,token :\"taw nzidouha , date: 14/03/2023 15:43:37\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: tqMk7akE8YvnKzA9AAAD, token: \"taw nzidouha, date: 14/03/2023 15:45:07\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : tqMk7akE8YvnKzA9AAAD ,token :\"taw nzidouha , date: 14/03/2023 15:45:07\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: jTGTVyAkv8OWYMRKAAAD, token: \"taw nzidouha, date: 14/03/2023 15:50:38\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : jTGTVyAkv8OWYMRKAAAD ,token :\"taw nzidouha , date: 14/03/2023 15:50:38\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: _VRPyJiRGcv3gaSHAAAQ, token: \"taw nzidouha, date: 14/03/2023 15:50:38\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : _VRPyJiRGcv3gaSHAAAQ ,token :\"taw nzidouha , date: 14/03/2023 15:50:38\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"6410720ac79de0df9cb02932\", socket_id: A3Q_1JX-4pcjcJuTAAAC, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"6410720ac79de0df9cb02932\" , socket_id : A3Q_1JX-4pcjcJuTAAAC ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: A3Q_1JX-4pcjcJuTAAAC, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : A3Q_1JX-4pcjcJuTAAAC ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: ciINl3Clyr_nqJdoAAAD, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : ciINl3Clyr_nqJdoAAAD ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: A3Q_1JX-4pcjcJuTAAAC, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : A3Q_1JX-4pcjcJuTAAAC ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: ImRuYn_Qjn3bRE3yAAAK, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : ImRuYn_Qjn3bRE3yAAAK ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: AoZ2pAVsdW22HKL2AAAL, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : AoZ2pAVsdW22HKL2AAAL ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"Event: onConversationMemberJoined, data: \"640765357d9cfe9f6f9caba9\", socket_id: ImRuYn_Qjn3bRE3yAAAK, token: \"taw nzidouha, date: 14/03/2023 16:28:45\"\n"}
+{"level":"info","message":"Event: onConversationMemberRequest ,data: \"640765357d9cfe9f6f9caba9\" , socket_id : ImRuYn_Qjn3bRE3yAAAK ,token :\"taw nzidouha , date: 14/03/2023 16:28:45\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}

@@ -7,55 +7,73 @@ import * as info from '../../data.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const foued = new convMembers()
-
+import convMembersAction from '../convMembers/convMembersMethods.js'
+const convMember = new convMembersAction()
+import userMethod from '../user/userMethods.js'
+const userM = new userMethod()
 const ioConversationMembersEvents = function () {
 
     io.on('connection', function (socket)  {
 
     // onConversationMemberRequest : Fired when the join request created.
-    socket.on('onConversationMemberRequest', (data) => {
+    socket.on('onConversationMemberRequest', async (data) => {
         try{
-            io.to(data.roomId).emit('onConversationMemberRequest', data);
+            const members = await convMember.getConversationMembers(data);
+
+             const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
+            const socket_id = await userM.getUser(member);
+            return socket_id
+            }));  
+            specificSocketsToJoin.forEach(socket_id => {
+                io.to(socket_id).emit('onConversationMemberJoined', data);
+            });
+
             console.log('====================================');
             console.log("conversation member request");
             console.log('====================================');
             logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
         }catch(err){
             logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-
         }
     });
-    // onConversationMemberJoined : Fired when the member join a conversation.
-    // socket.on('onConversationMemberJoin', (data) => {
-    //     try{
-    //         console.log('====================================');
-    //         console.log("conversation member joined");
-    //         console.log('====================================');
-    //         foued.addMember(data).then((res)=>{
-    //             socket.emit('onConversationMemberJoined',info.onConversationMemberJoined,res)
-    //         })
-    //         logger.info(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-    //     }catch(err){
-    //         logger.error(`Event: onConversationMemberJoined ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-    //     }
-    // });
 
-    socket.on('onConversationMemberJoin', (data) => {
-        console.log("join room ",data)
+    socket.on('onConversationMemberCreate',async (data)=>{
+        try{
+            const members = await convMember.getConversationMembers(data);
+            const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
+             const socket_id = await userM.getUser(member);
+           return socket_id
+           }));  
+           specificSocketsToJoin.forEach(socket_id => {
+               io.to(socket_id).emit('onConversationMemberJoin', data);
+           });
+            console.log('====================================');
+            console.log('conversation member created');
+            console.log('====================================');
+            foued.addMember(data).then((res) => {
+                socket.emit(`onConversationMemberCreated`, res);
+              });
+        }catch(err){
+            console.log(err)
+        }
+    })
+
+
+    socket.on('onConversationMemberJoin',async (conversationId) => {
         try {
-          const { conversationId } = data.conversation_id;
           console.log('====================================');
           console.log('conversation member joined');
           console.log('====================================');
-          foued.addMember(data).then((res) => {
-            socket.join(conversationId);
-            socket.emit(`onConversationMemberJoined:${conversationId}`, res);
-          });
-          logger.info(`Event: onConversationMemberJoined, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
+             socket.join(conversationId)
+             socket.emit(`onConversationMemberJoined`,conversationId);
+          
+          logger.info(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
         } catch (err) {
-          logger.error(`Event: onConversationMemberJoined, data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
+          logger.error(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
         }
       });
+
+
     // onConversationMemberLeft : Fired when the member left a conversation.
     socket.on('onConversationMemberLeft', (data) => {
         try{

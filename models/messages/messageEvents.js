@@ -100,33 +100,8 @@ const ioMessageEvents = function () {
           date: currentDate,
           uuid: message.uuid
         };
-    
         // Get the conversation ID
         const conversationId = data.metaData.conversation_id;
-    
-        // Check if the room exists
-        const roomExists = io.sockets.adapter.rooms.has(conversationId);
-        // If the room doesn't exist, join specific members' sockets to the room
-        if (!roomExists) {
-          // Retrieve the conversation members from the database
-          const members = await convMember.getConversationMembers(conversationId);
-          // Retrieve the socket IDs for specific members of the conversation
-          const specificMembers = members; 
-          const specificSocketsToJoin = await Promise.all(specificMembers.map(async (member) => {
-            const socket_id = await userM.getUser(member);
-            return socket_id;
-          }));  
-
-               specificSocketsToJoin.forEach(socket_id => {
-            console.log("Joining socket", socket_id, "to room", conversationId);
-            socket.join(conversationId)
-          });
-    
-          // Register event handler for join-room event
-          io.of("/").adapter.on("join-room", (room, socketId) => {
-            console.log(`Socket ${socketId} has joined room ${room}`);
-          });
-        }
     
         // Emit an event to the client who sent the message to indicate that the message was delivered
         socket.emit('onMessageDelivered', {
@@ -134,9 +109,9 @@ const ioMessageEvents = function () {
           isSender: true,
           direction: 'in'
         });
-    
+        
         // Emit an event to all members of the conversation to indicate that a new message has been received
-        io.in(conversationId).emit('onMessageReceived', {
+        socket.to(conversationId).emit('onMessageReceived', {
           ...messageData,
           conversation: conversationId,
           isSender: false,

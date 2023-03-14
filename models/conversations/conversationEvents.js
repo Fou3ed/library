@@ -1,8 +1,6 @@
 //import conversation from './conversationModel.js'
 import conversationActions from './conversationMethods.js';
-import {
-    randomUUID
-} from 'crypto';
+
 import {
     io
 } from '../../index.js';
@@ -40,7 +38,6 @@ const ioConversationEvents = function () {
                      */
 
                     foued.addCnv(data).then((res) => {
-                        socket.join(res._id)
                         socket.emit('onConversationStarted', info.onConversationCreated, res)
                     })
                     logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
