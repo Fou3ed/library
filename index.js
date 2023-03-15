@@ -31,6 +31,10 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
+
+
 export const io = new Server(httpServer, {
   pingTimeout: 60000, // Set the timeout to 60 seconds
 
@@ -52,6 +56,7 @@ app.use('/conversation/',conversationRoutes)
 app.use('/conv/',conversationRoutes)
 app.use('/react/',getReact)
 app.use('/message',GetLastMessage)
+
 ioConnEvents()
 ioConversationEvents() 
 ioMessageEvents()
@@ -116,3 +121,4 @@ httpServer.listen(process.env.PORT,'0.0.0.0', () => {
   console.log(`server up and running on port : ${process.env.PORT}`);
   logger.info("server is running smoothly");
 });
+  

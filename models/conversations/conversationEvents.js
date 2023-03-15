@@ -32,11 +32,7 @@ const ioConversationEvents = function () {
                     console.log("client id : ", socket.client.id)
                     console.log("room id : ", socket.rooms)
                     console.log('====================================');
-                    /**
-                     * find if the room already exist in data base 
-                     * else create new one 
-                     */
-
+                   
                     foued.addCnv(data).then((res) => {
                         socket.emit('onConversationStarted', info.onConversationCreated, res)
                     })

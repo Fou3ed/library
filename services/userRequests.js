@@ -241,6 +241,7 @@ export const putUser = async (req, res) => {
  * update socket _id 
  */
 export const putUserSocket = async (id,socket_id, res) => {
+
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such user (wrong id)'
@@ -265,7 +266,7 @@ export const putUserSocket = async (id,socket_id, res) => {
                   return result
                 } else {
                console.log("error")
-                }
+                        }
             } catch (err) {
               console.log(err)
                 logger(err)

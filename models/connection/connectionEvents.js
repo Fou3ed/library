@@ -12,8 +12,16 @@ import userAction from '../user/userMethods.js'
 const userAct=new userAction()
 const ioConnEvents = function () {
 
-    io.on('connection', async (socket) => {
 
+
+
+    io.on('connection', async (socket) => {
+        
+        socket.on("user-connected", (userId) => {
+            console.log(userId);
+            userAct.putUserSocket(userId,socket.id).then((res)=>{
+                console.log("socket.id updated")
+              })});
         /**
          * onConnect : User connect to websocket
          */
@@ -21,6 +29,7 @@ const ioConnEvents = function () {
         
             try {
                 check(data.app_id).then((res) => {
+                    console.log(socket.id)
                     if (res) {     
                       info.onConnected.socket_id = socket.client.id;
                       userAct.putUserSocket(data.user,socket.id).then((res)=>{

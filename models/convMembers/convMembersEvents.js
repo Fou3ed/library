@@ -16,57 +16,54 @@ const ioConversationMembersEvents = function () {
     io.on('connection', function (socket)  {
 
     // onConversationMemberRequest : Fired when the join request created.
-    socket.on('onConversationMemberRequest', async (data) => {
-        try{
-            const members = await convMember.getConversationMembers(data);
+   
 
-             const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
-            const socket_id = await userM.getUser(member);
-            return socket_id
-            }));  
-            specificSocketsToJoin.forEach(socket_id => {
-                io.to(socket_id).emit('onConversationMemberJoined', data);
-            });
+    socket.on('onConversationMemberCreate', async (data) => {
+        try {
+          console.log('====================================');
+          console.log('conversation member created');
+          console.log('====================================');
+          
+          await foued.addMember(data)
+      
+        } catch (err) {
+          console.log(err);
+        }
+      });
+
+
+      socket.on('onConversationMemberRequest', async (conversationId) => {
+        try{
 
             console.log('====================================');
             console.log("conversation member request");
             console.log('====================================');
-            logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+            const members = await convMember.getConversationMembers(conversationId);
+            const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
+              const socket_id = await userM.getUser(member);
+              return socket_id;
+            }));
+            // Emit the event to the sender and receivr sockets
+            specificSocketsToJoin.forEach((socket_id) => {
+                console.log("socket_id",socket_id,"socket.id",socket.id)
+
+
+                io.to(socket_id).emit('onConversationMemberJoined',socket_id, conversationId);
+            });
+
+         
+            logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
         }catch(err){
-            logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+            logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
         }
     });
 
-    socket.on('onConversationMemberCreate',async (data)=>{
-        try{
-            const members = await convMember.getConversationMembers(data);
-            const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
-             const socket_id = await userM.getUser(member);
-           return socket_id
-           }));  
-           specificSocketsToJoin.forEach(socket_id => {
-               io.to(socket_id).emit('onConversationMemberJoin', data);
-           });
-            console.log('====================================');
-            console.log('conversation member created');
-            console.log('====================================');
-            foued.addMember(data).then((res) => {
-                socket.emit(`onConversationMemberCreated`, res);
-              });
-        }catch(err){
-            console.log(err)
-        }
-    })
-
-
-    socket.on('onConversationMemberJoin',async (conversationId) => {
-        try {
-          console.log('====================================');
-          console.log('conversation member joined');
-          console.log('====================================');
-             socket.join(conversationId)
-             socket.emit(`onConversationMemberJoined`,conversationId);
-          
+    socket.on('onConversationMemberJoined',async (socket_id,conversationId) => {
+        try { 
+          const room = socket.adapter.rooms[conversationId];
+          if (!room || !room.sockets[socket_id]) {
+            socket.join(conversationId);
+          }
           logger.info(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
         } catch (err) {
           logger.error(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);

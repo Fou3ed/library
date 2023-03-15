@@ -107,15 +107,13 @@ export const postMember = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-              
+                console.log("adding member")
+                return result
             } else {
                 console.log("error adding  conversation member ")
             }
         } catch (err) {
-            
-            res.status(400).json({
-                'error': 'some error occurred.try again'
-            })
+            console.log(err)
             logger(err)
         }
     }
