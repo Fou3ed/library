@@ -71,7 +71,7 @@ export const postLog = async (req, res) => {
         try {
             const result = await logs.create(req);
             if (result) {
-            console.log("added to log")
+            console.log("added to log",req.action)
             } else {
              console.log("failed to save in logs")
             }

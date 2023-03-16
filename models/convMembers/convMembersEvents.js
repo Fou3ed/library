@@ -32,43 +32,70 @@ const ioConversationMembersEvents = function () {
       });
 
 
-      socket.on('onConversationMemberRequest', async (conversationId) => {
-        try{
+    //   socket.on('onConversationMemberRequest', async (conversationId) => {
+    //     try{
+    //         console.log('====================================');
+    //         console.log("conversation member request");
+    //         console.log('====================================');
+    //         const members = await convMember.getConversationMembers(conversationId);
+    //         const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
+    //           const socket_id = await userM.getUser(member);
+    //           return socket_id;
+    //         }));
+    //         // Emit the event to the sender and receiver sockets
+    //         specificSocketsToJoin.forEach((socket_id) => {
+    //             io.to(socket_id).emit('onConversationMemberJoined',socket_id, conversationId);
+    //         });
 
-            console.log('====================================');
-            console.log("conversation member request");
-            console.log('====================================');
+    //         logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+    //     }catch(err){
+    //         logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+    //     }
+    // });
+
+    socket.on('onConversationMemberJoin', async (conversationId) => {
+        try { 
+
             const members = await convMember.getConversationMembers(conversationId);
             const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
               const socket_id = await userM.getUser(member);
               return socket_id;
             }));
-            // Emit the event to the sender and receivr sockets
+            
+            console.log('====================================');
+            console.log(" Join conversation member");
+            console.log('====================================');
+            // Emit the event to the sender and receiver sockets
             specificSocketsToJoin.forEach((socket_id) => {
-                console.log("socket_id",socket_id,"socket.id",socket.id)
-
-
                 io.to(socket_id).emit('onConversationMemberJoined',socket_id, conversationId);
+                
             });
 
-         
-            logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-        }catch(err){
-            logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-        }
-    });
-
-    socket.on('onConversationMemberJoined',async (socket_id,conversationId) => {
-        try { 
-          const room = socket.adapter.rooms[conversationId];
-          if (!room || !room.sockets[socket_id]) {
-            socket.join(conversationId);
-          }
-          logger.info(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
+          logger.info(`Event: onConversationMemberJoin, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
         } catch (err) {
-          logger.error(`Event: onConversationMemberJoined, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
+          logger.error(`Event: onConversationMemberJoin, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
         }
       });
+
+
+      socket.on('onConversationMemberJoined',async(socket_id,conversationId)=>{
+        const room = socket.adapter.rooms[conversationId];
+        if (!room) {
+          // If the room doesn't exist, create it and add the user to it
+          socket.join(conversationId);
+        } else if (!room.sockets[socket_id]) {
+          // If the user isn't already in the room, add them to it
+          socket.join(conversationId);
+        }
+        
+      })
+
+
+
+
+
+
+
 
 
     // onConversationMemberLeft : Fired when the member left a conversation.

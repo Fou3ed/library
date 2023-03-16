@@ -18,10 +18,8 @@ const ioConnEvents = function () {
     io.on('connection', async (socket) => {
         
         socket.on("user-connected", (userId) => {
-            console.log(userId);
-            userAct.putUserSocket(userId,socket.id).then((res)=>{
-                console.log("socket.id updated")
-              })});
+            userAct.putUserSocket(userId,socket.id)
+        });
         /**
          * onConnect : User connect to websocket
          */
