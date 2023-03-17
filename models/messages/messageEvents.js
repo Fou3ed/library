@@ -17,14 +17,13 @@ const ioMessageEvents = function () {
   io.on('connection', function (socket) {
 
     socket.on('onMessageCreated', async (data, error) => {
-      console.log(data)
       try {
         // Validate the input
         if (!data || !data.metaData || !data.metaData.conversation_id) {
           console.error('Invalid input data');
           return;
         }
-        // Save the message to your database
+        // Save the message to your database 
         const message = await foued.addMsg(data);
 
         // Construct a message object to send to clients
@@ -46,7 +45,7 @@ const ioMessageEvents = function () {
           uuid,
           type
         };
-
+        console.log("1")
         // Emit an event to the client who sent the message to indicate that the message was delivered
         socket.emit('onMessageSent', {
           ...messageData,
@@ -54,12 +53,6 @@ const ioMessageEvents = function () {
           direction: 'in'
         });
 
-        // Emit an event to all members of the conversation to indicate that a new message has been received
-        io.to(conversation).emit('onMessageReceived', {
-          ...messageData,
-          isSender: false,
-          direction: 'out'
-        });
       } catch (err) {
         console.error(`Error while processing message: ${err}`);
         logger.error(`Event: onMessageCreated , data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
@@ -69,7 +62,6 @@ const ioMessageEvents = function () {
 
     socket.on('onMessageDelivered',(data)=>{
       console.log("message delivered")
-      socket.emit('messageDelivered',data)
     })
  
  
