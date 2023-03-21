@@ -52,13 +52,11 @@ const ioConversationMembersEvents = function () {
                     console.log(" Join conversation member");
                     console.log('====================================');
                 });
-
                 logger.info(`Event: onConversationMemberJoin, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, date: ${fullDate}"\n`);
             } catch (err) {
                 logger.error(`Event: onConversationMemberJoin, data: ${JSON.stringify(conversationId)}, socket_id: ${socket.id}, token: "taw nzidouha, error:${err}, date: ${fullDate}"\n`);
             }
         });
-
 
         socket.on('onConversationMemberJoined', async (socket_id, info, conversationId) => {
             const room = socket.adapter.rooms[conversationId];
@@ -70,13 +68,8 @@ const ioConversationMembersEvents = function () {
                 socket.join(conversationId);
             }
 
-
-            // Emit an event to all members of the conversation to indicate that a new message has been received
-            io.to(conversationId).emit('onMessageReceived', {
-                ...info,
-                isSender: false,
-                direction: 'out'
-            });
+                 socket.emit('onMessageCreated',info,conversationId)
+           
 
         })
 

@@ -17,6 +17,7 @@ const ioMessageEvents = function () {
   io.on('connection', function (socket) {
 
     socket.on('onMessageCreated', async (data, error) => {
+      console.log(data)
       try {
         // Validate the input
         if (!data || !data.metaData || !data.metaData.conversation_id) {
@@ -45,13 +46,19 @@ const ioMessageEvents = function () {
           uuid,
           type
         };
-        console.log("1")
         // Emit an event to the client who sent the message to indicate that the message was delivered
         socket.emit('onMessageSent', {
           ...messageData,
           isSender: true,
-          direction: 'in'
+          direction: 'out'
         });
+
+         // Emit an event to all members of the conversation to indicate that a new message has been received
+        io.to(conversation).emit('onMessageReceived', {
+                ...messageData,
+                isSender: false,
+                direction: 'in'
+            });
 
       } catch (err) {
         console.error(`Error while processing message: ${err}`);
