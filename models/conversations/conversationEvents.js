@@ -68,13 +68,10 @@ const ioConversationEvents = function () {
         // onConversationUpdated : Fired when the conversation data updated.
         socket.on('onConversationUpdated', (data) => {
             try {
-                console.log('====================================');
-                console.log("socket rooms : ", socket.rooms);
-                console.log('====================================');
+              foued.putCnv(data)
+              socket.emit("onConversationUpdated", data)
                 logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                foued.putCnv(data.metaData.conversation, data).then((res) => {
-                    socket.emit("onConversationUpdated", data, res)
-                })
+
             } catch (err) {
                 logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }

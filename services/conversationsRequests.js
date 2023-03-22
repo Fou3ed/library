@@ -44,45 +44,43 @@ export const getConversations = async (req, res) => {
 /**
  * get conversation between two users 
  */
-export const getConv=async(req,res)=>{
+export const getConv = async (req, res) => {
     const userId1 = req.query.user1
     const userId2 = req.query.user2
-    try{
-    const result = await conversation.aggregate([
-      {
-        $lookup: {
-          from: 'members',
-          localField: '_id',
-          foreignField: 'conversation_id',
-          as: 'members'
-        }
-      },
-      {
-        $match: {
-          'members.user_id': {
-            $all: [
-                mongoose.Types.ObjectId(userId1),
-                mongoose.Types.ObjectId(userId2)
-            ]
-          }
-        }
-      },
-      {
-        $project: {
-          'members': 0
-        }
-      }
-    ]); 
-            res.status(200).json({
-                message: "success",
-                data: result
-            })
-    }
-    catch(err){
+    try {
+        const result = await conversation.aggregate([{
+                $lookup: {
+                    from: 'members',
+                    localField: '_id',
+                    foreignField: 'conversation_id',
+                    as: 'members'
+                }
+            },
+            {
+                $match: {
+                    'members.user_id': {
+                        $all: [
+                            mongoose.Types.ObjectId(userId1),
+                            mongoose.Types.ObjectId(userId2)
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    'members': 0
+                }
+            }
+        ]);
+        res.status(200).json({
+            message: "success",
+            data: result
+        })
+    } catch (err) {
         console.log(err)
         logger(err)
         res.status(400).send({
-            message:"fail retrieving data"
+            message: "fail retrieving data"
         })
     }
 
@@ -92,25 +90,24 @@ export const getConv=async(req,res)=>{
 /**
  * get all conversation user connected have 
  */
-export const getUserConversations=async(req,res)=>{
-    const id=req.params.id
+export const getUserConversations = async (req, res) => {
+    const id = req.params.id
     try {
-        const result = await  conversation.aggregate([
-            {
-              $lookup: {
-                from: "members",
-                localField: "_id",
-                foreignField: "conversation_id",
-                as: "members"
-              }
+        const result = await conversation.aggregate([{
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "conversation_id",
+                    as: "members"
+                }
             },
             {
-              $match: {
-                "members.user_id": mongoose.Types.ObjectId(id),
-              }
+                $match: {
+                    "members.user_id": mongoose.Types.ObjectId(id),
+                }
             }
-          ])
-          
+        ])
+
         res.status(200).json({
             message: "success",
             data: result
@@ -218,42 +215,39 @@ export const postConversation = async (req, res) => {
  * @route /conversation/:id
  * @method put
  */
-export const putConversation = async (id, req, res, error) => {
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such conversation (wrong id)'
-        })
-    } else {
-        try {
-            const result = await conversation.findByIdAndUpdate(
-                id, {
-                    $set: req.metaData.fields
-                })
-            if (result) {
-                console.log("conversation updated successfully")
-                let dataLog = {
-                    "app_id": "63ce8575037d76527a59a655",
-                    "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id": "req.body.socket_id",
-                    "action": "Update conversation ",
-                    "element": element,
-                    "element_id": "1",
-                    "ip_address": "192.168.1.1"
-                }
-                log.addLog(dataLog)
-                return result
-            } else {
-                console.log("wrong values")
-
+export const putConversation = async (req,res, error) => {
+    const id = req.conversation
+    try {
+        const result = await conversation.findByIdAndUpdate(
+            id, 
+            { $set: { updated_at: Date.now() } },
+            { new: true } // to return the updated document
+          );
+        if (result) {
+            console.log("conversation updated successfully")
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id": "req.body.socket_id",
+                "action": "Update conversation ",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
             }
+            log.addLog(dataLog)
+            return result
+        } else {
+            console.log("wrong values")
 
-        } catch (err) {
-
-            console.log(err)
-            logger.error(err)
         }
+
+    } catch (err) {
+
+        console.log(err)
+        logger.error(err)
     }
 }
+
 
 
 /**
