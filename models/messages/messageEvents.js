@@ -18,6 +18,7 @@ const ioMessageEvents = function () {
 
     socket.on('onMessageCreated', async (data, error) => {
       try {
+        console.log("okkk")
         // Validate the input
         if (!data || !data.metaData || !data.metaData.conversation_id) {
           console.error('Invalid input data');
@@ -25,7 +26,7 @@ const ioMessageEvents = function () {
         }
         // Save the message to your database 
         const message = await foued.addMsg(data);
-
+    
         // Construct a message object to send to clients
         const {
           message: content,
@@ -35,7 +36,7 @@ const ioMessageEvents = function () {
         const from = socket.id;
         const conversation = data.metaData.conversation_id;
         const date = currentDate;
-        const type=data.metaData.type
+        const type = data.metaData.type
         const messageData = {
           content,
           id,
@@ -45,31 +46,36 @@ const ioMessageEvents = function () {
           uuid,
           type
         };
+    
         // Emit an event to the client who sent the message to indicate that the message was sent
         socket.emit('onMessageSent', {
           ...messageData,
           isSender: true,
           direction: 'out'
         });
-          
-         // Emit an event to all members of the conversation to indicate that a new message has been received
-        io.to(conversation).emit('onMessageReceived', {
-                ...messageData,
-                isSender: false,
-                direction: 'in'
-            });
-
-
+    
+        // Emit an event to all members of the conversation except the sender to indicate that a new message was received
+        socket.to(conversation).emit('onMessageReceived', {
+          ...messageData,
+          isSender: false,
+          direction: 'in'
+        });
+    
       } catch (err) {
         console.error(`Error while processing message: ${err}`);
         logger.error(`Event: onMessageCreated , data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
       }
     });
+    
+    socket.on('onMessageDelivered', (data) => {
+      console.log("Message delivered: ", data);
+      // Emit an event to the sender of the message to indicate that the message was delivered
+      socket.emit('onMessageDelivered', data);
+    });
+    
 
 
-    socket.on('onMessageDelivered',(data)=>{
-      console.log("message delivered")
-    })
+
  
  
     io.on('connect_error', (err) => {

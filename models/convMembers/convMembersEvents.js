@@ -39,15 +39,13 @@ const ioConversationMembersEvents = function () {
                     return socket_id;
                 }));
 
-
-
                 // Join the sender to the conversation(room)
-                socket.join(conversationId);
+                socket.join(conversationId);    
 
                 // Emit the event to the other members of the conversation
                 const otherSocketsToJoin = specificSocketsToJoin.filter((socket_id) => socket_id !== socket.id);
                 otherSocketsToJoin.forEach((socket_id) => {
-                    io.to(socket_id).emit('onConversationMemberJoined', socket.id, info, conversationId);
+                    io.to(socket_id).emit('JoinConversationMember', socket.id, info, conversationId);
                     console.log('====================================');
                     console.log(" Join conversation member");
                     console.log('====================================');
@@ -68,9 +66,8 @@ const ioConversationMembersEvents = function () {
                 socket.join(conversationId);
             }
 
-                 socket.emit('onMessageCreated',info,conversationId)
-           
-
+                 socket.emit('createMessage',info,conversationId)
+                        
         })
 
 
