@@ -18,7 +18,17 @@ const ioConnEvents = function () {
     io.on('connection', async (socket) => {
         
         socket.on("user-connected", (userId) => {
+            const status =true
+
             userAct.putUserSocket(userId,socket.id)
+            userAct.putUserActivity(userId,status)
+        });
+
+        socket.on("user-disconnected", (userId,socket_id) => {
+            const status=false
+            console.log("lééénna")
+            userAct.putUserActivity(userId,status)
+            
         });
         /**
          * onConnect : User connect to websocket
@@ -38,6 +48,7 @@ const ioConnEvents = function () {
                       db.postConnection(data.metaData, socket.id).then((newData) => {
                           socket.emit('onConnected', info.onConnected, newData, data,socket.data)
                       });
+                     
                     } else {
                         logger.info(`Event: Attempt to onConnect ,data: ${JSON.stringify(data)} , date: ${fullDate}" \n `);
                         socket.leave(socket.id);

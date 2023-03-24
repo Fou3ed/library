@@ -10,7 +10,8 @@
      putUser,
      registerUser,
      unBanUser,
-     putUserSocket
+     putUserSocket, 
+     putUserActivity
 
  } from '../../services/userRequests.js'
 
@@ -61,6 +62,10 @@
      }
      async putUserSocket(id,socket_id){
         const response = await putUserSocket(id,socket_id)
+        return response
+     }
+     async putUserActivity(id,status){
+        const response = await putUserActivity(id,status)
         return response
      }
      /**

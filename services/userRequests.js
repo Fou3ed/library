@@ -275,6 +275,44 @@ export const putUserSocket = async (id,socket_id, res) => {
     }
 
 
+    /**
+ * update socket _id 
+ */
+export const putUserActivity = async (id,status) => {
+
+    if (!validator.isMongoId(id)) {
+        res.status(400).send({
+            'error': 'there is no such user (wrong id)'
+        })
+    } else {
+            try {
+                const result = await user.findByIdAndUpdate(
+                    id, {
+                        $set: { is_active: status }
+                    })
+                if (result) {
+                    
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"123123",
+                        "action": `update user activity ${status} `,
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
+                  return result
+                } else {
+               console.log("error")
+                        }
+            } catch (err) {
+              console.log(err)
+                logger(err)
+            }
+        }
+    }
+
 /**
  * getUserStatus : get user status
  * @route /users/status/:id

@@ -153,6 +153,7 @@ export const postMessage = async (req, res) => {
  * @method put
  */
 export const putMessage = async (req, res) => {
+    console.log(req)
     if (!validator.isMongoId(req)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
