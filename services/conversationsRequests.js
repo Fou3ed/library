@@ -93,7 +93,8 @@ export const getConv = async (req, res) => {
 export const getUserConversations = async (req, res) => {
     const id = req.params.id
     try {
-        const result = await conversation.aggregate([{
+        const result = await conversation.aggregate([
+            {
                 $lookup: {
                     from: "members",
                     localField: "_id",
@@ -105,6 +106,9 @@ export const getUserConversations = async (req, res) => {
                 $match: {
                     "members.user_id": mongoose.Types.ObjectId(id),
                 }
+            },
+            {
+                $sort: { updated_at: -1 }
             }
         ])
 
@@ -120,6 +124,7 @@ export const getUserConversations = async (req, res) => {
         })
     }
 }
+
 
 
 

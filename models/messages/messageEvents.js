@@ -62,7 +62,6 @@ const ioMessageEvents = function () {
               });
               console.log(room, res.socket_id)
               io.to(res.socket_id).emit('joinConversationMember', conversationId);
-
             }
             // Check if the receiver is joined, if not send an emit to join them
             else if (!(room && room.has(res.socket_id))) {
@@ -71,7 +70,7 @@ const ioMessageEvents = function () {
                 ...messageData,
                 isSender: true,
                 direction: 'in'
-              }, online);
+              });
               io.to(res.socket_id).emit('joinConversationMember', conversationId);
 
             } else {
