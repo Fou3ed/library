@@ -38,7 +38,6 @@
       * updateConversation : update conversation.
       */
      async putCnv(data) {
-        console.log("d5al")
          const response = await putConversation(data)
          return response
      }

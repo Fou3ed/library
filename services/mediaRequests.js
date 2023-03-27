@@ -175,7 +175,7 @@ export const putMedia = async (req, res) => {
                     log.addLog(dataLog)
                 } else {
                     res.status(400).send({
-                        'error': 'wrong values'
+                        'error': ' wrong values'
                     })
                 }
 

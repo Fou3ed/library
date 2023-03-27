@@ -19,15 +19,13 @@ const ioConnEvents = function () {
         
         socket.on("user-connected", (userId) => {
             const status =true
-
             userAct.putUserSocket(userId,socket.id)
-            userAct.putUserActivity(userId,status)
+            userAct.putUserActivity(socket.id,status)
         });
 
-        socket.on("user-disconnected", (userId,socket_id) => {
+        socket.on("disconnect", (data) => {
             const status=false
-            console.log("lééénna")
-            userAct.putUserActivity(userId,status)
+             userAct.putUserActivity(socket.id,status)
             
         });
         /**

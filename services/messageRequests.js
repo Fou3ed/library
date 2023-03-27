@@ -142,7 +142,7 @@ export const postMessage = async (req, res) => {
            console.log("error adding msg")
         }
     } catch (err) {
-            console.log(err)
+            console.log("error adding a message into data base",err)
         logger(err)
     }
 }
@@ -214,7 +214,7 @@ export const MarkMessageAsRead = async (data, res) => {
        
                return result
             } else {
-                console.log("error")
+                console.log(" 1 error")
             }
 
         } catch (err) {
@@ -299,7 +299,7 @@ export const MarkMessageAsUnPinned = async (data, res) => {
                 log.addLog(dataLog)
                return result
             } else {
-                console.log("error")
+                console.log(" 2 error")
             }
 
         } catch (err) {
@@ -373,7 +373,7 @@ export const markMessageAsDelivered = async (req, res) => {
 
             } else {
                 res.status(400).send({
-                    'error': 'wrong values'
+                    'error': '  wrong values'
                 })
             }
 

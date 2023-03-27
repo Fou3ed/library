@@ -14,111 +14,144 @@ const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
 
+  let newMessage
+
   io.on('connection', function (socket) {
-
-
-
     socket.on('onMessageCreated', async (data, error) => {
-      console.log(data)
       try {
-        // Validate the input
+        // Save the message to your database
+        const savedMessage = await foued.addMsg(data);
+
+
         const conversationId = data.metaData.conversation_id;
         const receiver = data.to;
-        const message = data.metaData.message;
+        const from = socket.id;
+        const conversation = conversationId;
+        const date = currentDate;
+        const type = data.metaData.type;
+
+        // Construct a message object to send to clients
+        const messageData = {
+          content: data.metaData.message,
+          id: savedMessage._id,
+          from,
+          conversation,
+          date,
+          uuid: data.uuid,
+          type
+        };
         if (!data || !data.metaData || !conversationId) {
           console.error('Invalid input data');
           return;
         }
 
-        //check if receiver is connected , if not  just send the message , if connected 
-        //check if there is a room created ,if not create it 
-        //then check 
+        //get receiver information
+        userM.getUser(receiver).then((res) => {
+          // Check if the receiver is online (connected to the socket)
+          if (res.is_active == true) {
+            console.log("receiver is active")
+            // Check if the room exists, if not create the room
+            const room = io.of('/').adapter.rooms.get(conversationId);
+            if (room === undefined) {
+              console.log("room been created")
+              socket.join(conversationId)
+              socket.emit('onMessageSent', {
+                ...messageData,
+                isSender: true,
+                direction: 'in'
+              });
+              console.log(room, res.socket_id)
+              io.to(res.socket_id).emit('joinConversationMember', conversationId);
 
-//get the receiver socket_id 
-userM.getUser(receiver).then((res)=>{
-  console.log("aa",res)
-  // Check if the receiver is online (connected to the socket)
-  if (io.sockets.connected[res]) {
-    console.log("okk")
-    // Check if the room exists, if not create the room
-    if (!socket.adapter.rooms[conversationId]) {
-      socket.join(conversationId);
-    }
-    // Check if the receiver is joined, if not send an emit to join them
-    else if (!socket.adapter.rooms.get(conversationId)?.has(res)) {
-      io.to(res).emit('onConversationMemberJoin', conversationId);
-    } else {
-      console.log('User is already joined');
-    }
-  } else {
-    console.log('Receiver is offline');
-  }
-})
+            }
+            // Check if the receiver is joined, if not send an emit to join them
+            else if (!(room && room.has(res.socket_id))) {
+              console.log(`Socket ${res.socket_id} is in room ${conversationId}`)
+              socket.emit('onMessageSent', {
+                ...messageData,
+                isSender: true,
+                direction: 'in'
+              }, online);
+              io.to(res.socket_id).emit('joinConversationMember', conversationId);
 
+            } else {
+              let online = 1
+              console.log('Users are already joined');
+              socket.emit('onMessageSent', {
+                ...messageData,
+                isSender: true,
+                direction: 'in'
+              }, online);
 
-
-
-
-
-
-
-  // Emit an event to the client who sent the message to indicate that the message was sent
-  // socket.emit('onMessageSent', {
-  //   ...messageData,
-  //   isSender: true,
-  //   direction: 'out'
-  // });
-
-
-        // Save the message to your database
-        const savedMessage = await foued.addMsg(data);
-    
-        // Construct a message object to send to clients
-        const { message: content, _id: id, uuid } = savedMessage;
-        const from = socket.id;
-        const conversation = conversationId;
-        const date = currentDate;
-        const type = data.metaData.type;
-        const messageData = {
-          content,
-          id,
-          from,
-          conversation,
-          date,
-          uuid,
-          type
-        };
-    
-      
-        // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-        socket.to(conversation).emit('onMessageReceived', {
-          ...messageData,
-          isSender: false,
-          direction: 'in'
-        });
+            }
+          } else {
+            console.log('Receiver is offline');
+            let online = 0
+            // Emit an event to the client who sent the message to indicate that the message was sent
+            socket.emit('onMessageSent', {
+              ...messageData,
+              isSender: true,
+              direction: 'in'
+            }, online);
+          }
+        })
+        newMessage = {
+          messageData,
+          ...savedMessage
+        }
+        return messageData
       } catch (err) {
         console.error(`Error while processing message: ${err}`);
         logger.error(`Event: onMessageCreated , data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
       }
     });
-    
-    
+
+    socket.on('onConversationMemberJoined', async (conversationId) => {
+      console.log("here to add the other member in ", conversationId)
+      // join room
+      socket.join(conversationId)
+      socket.emit('onMessageReceived', {
+        ...newMessage,
+        isSender: false,
+        direction: 'out'
+      });
+
+    })
+
+    socket.on('receiveMessage', conversationId => {
+      // Emit an event to all members of the conversation except the sender to indicate that a new message was received
+      socket.to(conversationId).emit('onMessageReceived', {
+        ...newMessage,
+        isSender: false,
+        direction: 'out'
+      });
+    })
+
     socket.on('onMessageDelivered', (data) => {
       console.log("Message delivered: ", data);
       // Emit an event to the sender of the message to indicate that the message was delivered
       socket.emit('onMessageDelivered', data);
     });
-    
 
 
 
- 
- 
+    //     socket.on('onConversationMemberJoined', async (conversationId) => {
+    //       console.log("here to add the other member in ",conversationId)
+    //         // join room
+    //        await socket.join(conversationId);
+    //        socket.to(conversationId).emit('onMessageReceived', {
+    //         ...newMessage,
+    //         isSender: false,
+    //         direction: 'out'
+    //       });
+    // })
+
+
     io.on('connect_error', (err) => {
       console.error(`An error occurred: ${err.message}`);
     });
 
-  
+
     // onMessageUpdated : Fired when the message data updated.
 
     socket.on('onMessageUpdated', (data) => {

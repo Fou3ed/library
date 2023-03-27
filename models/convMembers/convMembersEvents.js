@@ -29,6 +29,12 @@ const ioConversationMembersEvents = function () {
                 console.log(err);
             }
         });
+        socket.on('onConversationMemberJoined', async (conversationId) => {
+            console.log("here to add the other member in ",conversationId)
+      // join room
+      socket.join(conversationId);
+            socket.emit('memberJoinedDone',conversationId)
+})
 
         socket.on('onConversationMemberJoin', async (info, conversationId) => {
             try {
@@ -56,19 +62,7 @@ const ioConversationMembersEvents = function () {
             }
         });
 
-        socket.on('onConversationMemberJoined', async (socket_id, info, conversationId) => {
-            const room = socket.adapter.rooms[conversationId];
-            if (!room) {
-                // If the room doesn't exist, create it and add the user to it
-                socket.join(conversationId);
-            } else if (!room.sockets[socket_id]) {
-                // If the user isn't already in the room, add them to it
-                socket.join(conversationId);
-            }
-
-                 socket.emit('createMessage',info,conversationId)
-                        
-        })
+   
 
 
         // onConversationMemberLeft : Fired when the member left a conversation.

@@ -142,11 +142,12 @@ const ioChatEvents = function () {
         });
         // onTypingStarted : Fired when the user start typing.
         socket.on('onTypingStart', function (data) {
+            console.log(data)
             try{
-                socket.to(data.metaData.conversation);
+                socket.to(data.metaData.conversation).socket.emit('onTypingStarted', data)
           
                 logger.info(`Event: onTypingStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                socket.emit('onTypingStarted', data)
+           
             }catch(err){
                 logger.error(`Event: onTypingStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }

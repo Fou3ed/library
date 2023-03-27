@@ -161,6 +161,7 @@ export const postUser = async (req, res) => {
  * @method put
  */
 export const putUser = async (req, res) => {
+
     const id = req.params.id
     if (!validator.isMongoId(id)) {
         res.status(400).send({
@@ -222,7 +223,7 @@ export const putUser = async (req, res) => {
                     })
                 } else {
                     res.status(400).send({
-                        'error': 'wrong values'
+                        'error': ' wrong values'
                     })
                 }
             } catch (err) {
@@ -265,7 +266,7 @@ export const putUserSocket = async (id,socket_id, res) => {
                     log.addLog(dataLog)
                   return result
                 } else {
-               console.log("error")
+               console.log("3 error")
                         }
             } catch (err) {
               console.log(err)
@@ -279,17 +280,12 @@ export const putUserSocket = async (id,socket_id, res) => {
  * update socket _id 
  */
 export const putUserActivity = async (id,status) => {
-
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such user (wrong id)'
-        })
-    } else {
             try {
-                const result = await user.findByIdAndUpdate(
-                    id, {
-                        $set: { is_active: status }
-                    })
+                const result = await user.findOneAndUpdate(
+                    { socket_id: id }, // find user by socket_id
+                    { $set: { is_active: status } }, // update is_active field
+                    { new: true } // return the updated document
+                );
                 if (result) {
                     
                     let dataLog = {
@@ -304,14 +300,14 @@ export const putUserActivity = async (id,status) => {
                     log.addLog(dataLog)
                   return result
                 } else {
-               console.log("error")
+               console.log("  failed updating user activity ")
                         }
             } catch (err) {
               console.log(err)
                 logger(err)
             }
         }
-    }
+    
 
 /**
  * getUserStatus : get user status
@@ -413,7 +409,7 @@ export const registerUser = async (req, res) => {
                     log.addLog(dataLog)
                 } else {
                     res.status(400).send({
-                        'error': 'wrong values'
+                        'error': ' wrong values'
                     })
                 }
 
@@ -464,7 +460,7 @@ export const banUser = async (req, res) => {
                 })
             } else {
                 res.status(400).send({
-                    'error': 'wrong values'
+                    'error': ' wrong values'
                 })
             }
 

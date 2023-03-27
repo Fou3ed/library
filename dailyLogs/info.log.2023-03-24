@@ -563,3 +563,6 @@
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
 {"level":"error","message":"Event: onMessageCreated , data: null, socket_id: sJ0OxnAIuuw35ckJAAAJ, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'metaData'), date: 24/03/2023 14:54:45"}
+{"level":"error","message":"Event: onMessageCreated , data: null, socket_id: hEYl4y2pzMFHAzk8AAAL, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'metaData'), date: 24/03/2023 14:54:45"}
+{"level":"error","message":"Event: onMessageCreated , data: null, socket_id: sqMWhuHBTlJd1JuoAAAV, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'metaData'), date: 24/03/2023 14:54:45"}
+{"level":"error","message":"Event: onMessageCreated , data: null, socket_id: IAVZjMQl37dWNH_fAAAX, token: \"taw nzidouha\", error: TypeError: Cannot read properties of null (reading 'metaData'), date: 24/03/2023 14:54:45"}

@@ -31,7 +31,7 @@
       */
      async getUser(id) {
          const response = await getUser(id)
-         return response.socket_id
+         return response
      }
 
      /**

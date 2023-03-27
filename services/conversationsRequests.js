@@ -216,7 +216,8 @@ export const postConversation = async (req, res) => {
  * @method put
  */
 export const putConversation = async (req,res, error) => {
-    const id = req.conversation
+    console.log("req",req)
+    const id = req
     try {
         const result = await conversation.findByIdAndUpdate(
             id, 
@@ -237,7 +238,7 @@ export const putConversation = async (req,res, error) => {
             log.addLog(dataLog)
             return result
         } else {
-            console.log("wrong values")
+            console.log(" wrong values")
 
         }
 
