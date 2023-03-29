@@ -73,7 +73,7 @@ const ioConversationMembersEvents = function () {
                 console.log("conversation member left ");
                 console.log('====================================');
                 logger.info(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                //foued.updateConvMember()
+            
             } catch (err) {
                 logger.error(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }

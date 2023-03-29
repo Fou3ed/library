@@ -122,6 +122,7 @@ export const getMessagesUsers = async (req, res) => {
  * @body  type,conversation_id,user,mentioned_users,readBy,is_removed,message,data,attachments,parent_message_id,parent_message_info,location,origin
  */
 export const postMessage = async (req, res) => {
+    console.log(req)
     try {
         const result = await message.create(req.metaData);
         if (result) {
@@ -153,17 +154,18 @@ export const postMessage = async (req, res) => {
  * @method put
  */
 export const putMessage = async (req, res) => {
-    console.log(req)
-    if (!validator.isMongoId(req)) {
+const id=req.metaData.message
+    if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
         })
     } {
             try {
                 const result = await message.findByIdAndUpdate(
-                    req, {
+                    id, {
                         $set: {
-                            ...req.metaData,
+                            
+                            message:req.metaData.fields.content,
                             updated_at: Date.now()
                         }
                     })
@@ -273,7 +275,8 @@ export const MarkMessageAsPinned = async (data, res) => {
  * @method put
  */
 export const MarkMessageAsUnPinned = async (data, res) => {
-    const id = data.metaData.message
+    
+    const id = data.metaData.message_id
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
@@ -419,8 +422,10 @@ export const GetUnreadMessages = async (req, res) => {
  * @method delete
  */
 export const deleteMessage = async (req, res) => {
+    console.log(req.metaData.message)
         try {
             const result = await message.findByIdAndDelete(req.metaData.message)
+            console.log(result)
             if (result) {
              console.log("deleted")
 

@@ -105,6 +105,7 @@ export const putReact = async (req, res) => {
  */
 export const unReactMsg = async (req, res) => {
     const id=req.metaData.message_id
+    console.log(id)
         try {
             const result = await react.findByIdAndDelete(id)
       

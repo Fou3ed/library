@@ -46,8 +46,8 @@ class messageActions {
     /**
      * updatedMessage : update message data.
      */
-    async putMsg(id, data) {
-        const response = await putMessage(id, data)
+    async putMsg(data) {
+        const response = await putMessage(data)
      
         return response
     }

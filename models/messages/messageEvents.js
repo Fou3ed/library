@@ -44,11 +44,10 @@ const ioMessageEvents = function () {
           console.error('Invalid input data');
           return;
         }
-
         //get receiver information
         userM.getUser(receiver).then((res) => {
           // Check if the receiver is online (connected to the socket)
-          if (res.is_active == true) {
+          if (res.is_active === true) {
             console.log("receiver is active")
             // Check if the room exists, if not create the room
             const room = io.of('/').adapter.rooms.get(conversationId);
@@ -85,6 +84,7 @@ const ioMessageEvents = function () {
             }
           } else {
             console.log('Receiver is offline');
+
             let online = 0
             // Emit an event to the client who sent the message to indicate that the message was sent
             socket.emit('onMessageSent', {
@@ -114,7 +114,6 @@ const ioMessageEvents = function () {
         isSender: false,
         direction: 'out'
       });
-
     })
 
     socket.on('receiveMessage', conversationId => {
@@ -133,19 +132,6 @@ const ioMessageEvents = function () {
     });
 
 
-
-    //     socket.on('onConversationMemberJoined', async (conversationId) => {
-    //       console.log("here to add the other member in ",conversationId)
-    //         // join room
-    //        await socket.join(conversationId);
-    //        socket.to(conversationId).emit('onMessageReceived', {
-    //         ...newMessage,
-    //         isSender: false,
-    //         direction: 'out'
-    //       });
-    // })
-
-
     io.on('connect_error', (err) => {
       console.error(`An error occurred: ${err.message}`);
     });
@@ -153,37 +139,37 @@ const ioMessageEvents = function () {
 
     // onMessageUpdated : Fired when the message data updated.
 
-    socket.on('onMessageUpdated', (data) => {
+    socket.on('updateMessage',async (data) => {
       try {
-        console.log("update")
-        io.to(data.metaData.message).emit('onMessageUpdated', data);
+        
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
-        foued.putMsg(data.metaData.message)
-          .then((res) =>
-            socket.emit("onMessageUpdated", {
-              res: res,
-            }, )
-          )
+       await foued.putMsg(data).then((res)=>{
+        socket.to(data.metaData.conversation).emit('onMessageUpdated', res);
+       })
+          
+          
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
       } catch (err) {
         logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
       }
     });
+
     // onMessageDeleted : Fired when the message deleted
 
     socket.on('onMessageDeleted', (data) => {
       try {
-        io.to(data.metaData.message).emit('onMessageDeleted', data);
         console.log('====================================');
         console.log("Message deleted");
         console.log('====================================');
-        foued.deleteMsg(data).then((res) =>
-          socket.emit("onMessageDeleted", {
-            res: res
-          }, )
-        )
+      //change this to update status = 0 means the message is deleted .
+
+        foued.deleteMsg(data).then((res) =>{
+          console.log(data.metaData.conversation)
+          io.to(data.metaData.conversation).emit("onMessageDeleted", res )
+        })
+        
         logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
       } catch (err) {
