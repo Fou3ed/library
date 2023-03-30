@@ -33,7 +33,6 @@ const ioConnEvents = function () {
             });
         });
 
-
         socket.on("disconnect", async (reason) => {
             if (reason === "io server disconnect") {
                 // the disconnection was initiated by the server, you need to reconnect manually
@@ -43,8 +42,10 @@ const ioConnEvents = function () {
             //update user activity to is_active=false
             const status = false
             await userAct.putUserActivity(socket.id, status)
+            // get user with socket.id
+             const user= await userAct.getUserBySocket(socket.id)
             //inform all the users in the name space user disconnection
-             socket.broadcast.emit("onDisconnected", reason, socket.id)
+             socket.broadcast.emit("onDisconnected", reason, user)
         });
 
 

@@ -11,7 +11,8 @@
      registerUser,
      unBanUser,
      putUserSocket, 
-     putUserActivity
+     putUserActivity,
+     getUserBySocket
 
  } from '../../services/userRequests.js'
 
@@ -32,6 +33,10 @@
      async getUser(id) {
          const response = await getUser(id)
          return response
+     }
+     async getUserBySocket(id){
+        const response = await getUserBySocket(id)
+        return response
      }
 
      /**

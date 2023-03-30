@@ -2,7 +2,8 @@ import {
     postReact,
     putReact,
     unReactMsg,
-    getReact
+    getReact,
+    getMsgReact
 } from "../../services/reactRequests.js"
 
 
@@ -22,7 +23,10 @@ class reactActions {
         return response
     }
     
-
+    async getMsgReact(message,user) {
+        const response=await getMsgReact(message,user)
+        return response
+    }
 
   /**
      * update react : update react

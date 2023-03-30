@@ -33,17 +33,17 @@ const ioChatEvents = function () {
 
         socket.on('pinMsg', (data) => {
             try {
-               
+
                 console.log('====================================');
-                console.log("message pinned",data);
+                console.log("message pinned", data);
                 console.log('====================================');
-                foued.pinMsg(data).then((res) =>{
+                foued.pinMsg(data).then((res) => {
                     io.to(data.metaData.conversation).emit("onMsgPinned", {
                         res: res,
                     }, )
-                
+
                 })
-              
+
                 logger.info(`Event: pinMsg ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             } catch (err) {
@@ -60,12 +60,12 @@ const ioChatEvents = function () {
                 console.log("message unpinned");
                 console.log('====================================');
                 logger.info(`Event: onMessagePinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :" taw nzidouha , date: ${fullDate}"   \n `)
-                console.log("unpin",data)
-                foued.unPinMsg(data).then((res) =>{
+                console.log("unpin", data)
+                foued.unPinMsg(data).then((res) => {
                     io.to(data.metaData.conversation).emit("onMsgUnPinned", res)
-            })
-                
-             
+                })
+
+
             } catch (err) {
                 logger.error(`Event: onMessageUnpinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
 
@@ -73,18 +73,32 @@ const ioChatEvents = function () {
 
         });
         // onMessageReacted : Fired when the user add a reaction to message.
-        socket.on('reactMsg', function (data) {
+        socket.on('reactMsg', async function (data) {
             try {
                 console.log('====================================');
                 console.log("message reacted");
                 console.log('====================================');
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                //if the message is being reacted byt hte same person , delete the react and update it with the new one , else create new one directly
-                react.postReact(data).then((res) => {
-                    console.log("res", res)
-                    io.to(data.metaData.conversation).emit("onMsgReacted", res)
 
+                //if the message is being reacted by  the same person , delete the react and update it with the new one , else create new one directly
+                const user_id = data.user
+                const message = data.metaData.message_id
+                await react.getMsgReact(message, user_id).then(async (res) => {
+                    if (res.length>0) {
+                        await react.putReact(res).then((res)=>{
+                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
+                            console.log("just update")
+                        })
+                        
+                    } else {
+                        await react.postReact(data).then((res) => {
+                            console.log("add React ", res)
+                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
+
+                        })
+                    }
                 })
+
 
 
             } catch (err) {
@@ -113,7 +127,7 @@ const ioChatEvents = function () {
         socket.on('requestMention', function (data) {
             try {
                 io.to(data.metaData.conversation).emit("onMentionRequest", data)
-                        
+
                 console.log('====================================');
                 console.log("Mention Request");
                 console.log('====================================');

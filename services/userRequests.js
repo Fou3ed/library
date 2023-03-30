@@ -38,6 +38,19 @@ export const getUsers = async (req, res) => {
     }
 }
 
+
+/**
+ * get user by socket.id
+ */
+export const getUserBySocket=async(req,res)=>{
+    console.log("req ::: ",req)
+    try{
+            const result= await user.findOne({socket_id:req})
+            return result 
+    }catch(err){
+        console.log(err ,"error getting user by socket id ")
+    }
+}
 /**
  *getUserName : get user by y name 
  @route /userName/:name

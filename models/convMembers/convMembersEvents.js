@@ -124,35 +124,24 @@ const ioConversationMembersEvents = function () {
             }
 
         });
-        //   socket.on('onConversationMemberRequest', async (conversationId) => {
-        //     try{
-        //         console.log('====================================');
-        //         console.log("conversation member request");
-        //         console.log('====================================');
-        //         const members = await convMember.getConversationMembers(conversationId);
-        //         const specificSocketsToJoin = await Promise.all(members.map(async (member) => {
-        //           const socket_id = await userM.getUser(member);
-        //           return socket_id;
-        //         }));
-        //         // Emit the event to the sender and receiver sockets
-        //         specificSocketsToJoin.forEach((socket_id) => {
-        //             io.to(socket_id).emit('onConversationMemberJoined',socket_id, conversationId);
-        //         });
-
-        //         logger.info(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-        //     }catch(err){
-        //         logger.error(`Event: onConversationMemberRequest ,data: ${JSON.stringify(conversationId)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-        //     }
-        // });
-
-        // onConversationTransferAccept : Fired when user accept transfer.
-        socket.on('onConversationTransferAccept', (data) => {
+  
+        socket.on('onConversationTransferAccept',   async  (data) => {
             try {
-                io.to(data.roomId).emit('onConversationTransferAccept', data);
+                await foued.addMember(data).then(async (res) => {
+                    console.log('====================================');
+                    console.log("conversation transfer accepted");
+                    console.log('====================================');
 
-                console.log('====================================');
-                console.log("conversation transfer accepted");
-                console.log('====================================');
+                        //get the user socket_id 
+                        const user= await userM.getUser(data.user_id)
+                        const userSocket_id=user.socket_id
+                        //send an event to the agent who gonna join 
+                        io.to(userSocket_id).emit('onConversationTransferAccept', socket.id, data.conversation_id);
+                         socket.emit('onConversationMemberJoined', res)
+
+                              })
+
+       
                 logger.info(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             } catch (err) {
@@ -161,6 +150,17 @@ const ioConversationMembersEvents = function () {
             }
 
         });
+            socket.on('onConversationTransferAccepted',(data)=>{
+                try{
+                        socket.join(data.conversation_id)
+                        io.to(data.conversation_id).emit('onConversationTransferAcceptedJoined',data)
+                }catch(err){
+                    logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+
+                }
+            })
+
+
 
         // onConversationTransferReject : Fired when user reject transfer.
         socket.on('onConversationTransferReject', (data) => {

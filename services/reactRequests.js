@@ -13,7 +13,7 @@ const logger = debug('namespace')
  * find reacts in a message  
  */
 export const getReact=async(req,res)=>{
-    console.log(req.params.id)
+    
     const idMessage=req.params.id
     try{
         const result =await react.find({ message_id: idMessage })
@@ -36,6 +36,21 @@ export const getReact=async(req,res)=>{
         })
     }
 }
+
+/**
+ * check react with msg id and user
+ *  
+ */
+export const getMsgReact=async(message,user,res)=>{
+    try{
+        const result = await react.find({message_id:message ,user_id:user
+        })
+        return result
+    }catch(err){
+        console.log(err)
+    }
+}
+
 /**
  * createRole: create role
  * @route /role
@@ -43,10 +58,10 @@ export const getReact=async(req,res)=>{
  * @body  name,role_type,permissions
  */
 export const postReact = async (req, res) => {
-console.log("aaaa",req)
+
         try {
             const result = await react.create(req.metaData);
-            console.log(result)
+           
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -75,7 +90,7 @@ console.log("aaaa",req)
 export const putReact = async (req, res) => {
             try {
                 const result = await react.findByIdAndUpdate(
-                    id, {
+                    req[0]._id, {
                         $set: req.body,
                         updated_at: Date.now()
                     })
@@ -105,7 +120,6 @@ export const putReact = async (req, res) => {
  */
 export const unReactMsg = async (req, res) => {
     const id=req.metaData.message_id
-    console.log(id)
         try {
             const result = await react.findByIdAndDelete(id)
       
