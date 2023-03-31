@@ -74,6 +74,7 @@ const ioChatEvents = function () {
         });
         // onMessageReacted : Fired when the user add a reaction to message.
         socket.on('reactMsg', async function (data) {
+            console.log("data ",data)
             try {
                 console.log('====================================');
                 console.log("message reacted");
@@ -85,22 +86,20 @@ const ioChatEvents = function () {
                 const message = data.metaData.message_id
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length>0) {
-                        await react.putReact(res).then((res)=>{
-                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
+                        console.log("aazeazeazeaa",data)
+                        await react.putReact(res[0]._id,data).then((newRes)=>{
+                            io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
+                            socket.emit("onMsgReacted",newRes,res)
                             console.log("just update")
-                        })
-                        
-                    } else {
-                        await react.postReact(data).then((res) => {
-                            console.log("add React ", res)
-                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
 
+                        })
+                    } else {
+                        await react.postReact(data).then((res) => {                         
+                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
+                            socket.emit("onMsgReacted",res)
                         })
                     }
                 })
-
-
-
             } catch (err) {
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }

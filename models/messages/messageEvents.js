@@ -21,14 +21,20 @@ const ioMessageEvents = function () {
       try {
         // Save the message to your database
         const savedMessage = await foued.addMsg(data);
-
-
         const conversationId = data.metaData.conversation_id;
-        const receiver = data.to;
-        const from = socket.id;
+        const from = data.user;
         const conversation = conversationId;
         const date = currentDate;
         const type = data.metaData.type;
+
+        const members = await convMember.getConversationMembers(conversationId);
+        const receiver = await Promise.all(
+          members
+          .filter(member => member !== data.user)
+          .map(async (member) => {
+            return member;
+          })
+        );
 
         // Construct a message object to send to clients
         const messageData = {
@@ -139,17 +145,15 @@ const ioMessageEvents = function () {
 
     // onMessageUpdated : Fired when the message data updated.
 
-    socket.on('updateMessage',async (data) => {
+    socket.on('updateMessage', async (data) => {
       try {
-        
+
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
-       await foued.putMsg(data).then((res)=>{
-        socket.to(data.metaData.conversation).emit('onMessageUpdated', res);
-       })
-          
-          
+        await foued.putMsg(data).then((res) => {
+          socket.to(data.metaData.conversation).emit('onMessageUpdated', res);
+        })
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
       } catch (err) {
         logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
@@ -163,13 +167,13 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message deleted");
         console.log('====================================');
-      //change this to update status = 0 means the message is deleted .
+        //change this to update status = 0 means the message is deleted .
 
-        foued.deleteMsg(data).then((res) =>{
+        foued.deleteMsg(data).then((res) => {
           console.log(data.metaData.conversation)
-          io.to(data.metaData.conversation).emit("onMessageDeleted", res )
+          io.to(data.metaData.conversation).emit("onMessageDeleted", res)
         })
-        
+
         logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
       } catch (err) {

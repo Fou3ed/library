@@ -87,11 +87,12 @@ export const postReact = async (req, res) => {
  * @route /react/:id
  * @method put
  */
-export const putReact = async (req, res) => {
+export const putReact = async (id,data, res) => {
+    console.log("a",id,path)
             try {
                 const result = await react.findByIdAndUpdate(
-                    req[0]._id, {
-                        $set: req.body,
+                    id, {
+                        $set:path,
                         updated_at: Date.now()
                     })
                 if (result) {
@@ -105,6 +106,7 @@ export const putReact = async (req, res) => {
                         "ip_address": "192.168.1.1"
                     }
                     log.addLog(dataLog)
+                    console.log("result ",result)
                  return result
                 } else {
                   console.log("error updating reaction ")

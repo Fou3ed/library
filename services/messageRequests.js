@@ -212,6 +212,7 @@ export const MarkMessageAsRead = async (data, res) => {
                         read: Date.now()
                     }
                 })
+                
             if (result) {
        
                return result
