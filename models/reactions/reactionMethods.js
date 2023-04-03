@@ -24,6 +24,7 @@ class reactActions {
     }
     
     async getMsgReact(message,user) {
+       
         const response=await getMsgReact(message,user)
         return response
     }
@@ -31,13 +32,13 @@ class reactActions {
   /**
      * update react : update react
      */
-    async putReact(data) {
-        const response = await putReact(data)
+    async putReact(id,data) {
+        const response = await putReact(id,data)
         return response
     }
 
-    async unReactMsg(data){
-        const response = await unReactMsg(data)
+    async unReactMsg(id){
+        const response = await unReactMsg(id)
         return response
     }
 

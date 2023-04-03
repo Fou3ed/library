@@ -14,34 +14,32 @@ const ioChatEvents = function () {
         // onMessageRead : Fired when the user read a message.
         socket.on('onMessageRead', (data) => {
             try {
-                io.to(data.metaData.conversation).emit('read-msg', data);
                 console.log('====================================');
                 console.log("message read");
                 console.log('====================================');
                 logger.info(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                foued.readMsg(data).then((res) =>
-                    socket.emit("onMessageRead", {
-                        res: res,
-                    }, )
-                )
-            } catch (err) {
+                foued.readMsg(data).then((res) =>{     
+                    socket.emit("onMessageRead",res)
+                    io.to(data.metaData.conversation).emit('read-msg', data);
+                })
+        } catch (err) {
                 logger.error(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
             }
         });
 
         // onMessagePinned : Fired when the user pin a message.
 
-        socket.on('pinMsg', (data) => {
+        socket.on('pinMsg',async (data) => {
             try {
 
                 console.log('====================================');
                 console.log("message pinned", data);
                 console.log('====================================');
-                foued.pinMsg(data).then((res) => {
-                    io.to(data.metaData.conversation).emit("onMsgPinned", {
-                        res: res,
-                    }, )
-
+                const user_id=data.user
+                const messageId=data.metaData.message_id
+                await foued.pinMsg(messageId,user_id).then((newRes) => {
+                    io.to(data.metaData.conversation).emit("onMsgPinned", newRes )
+                    socket.emit("onMsgPinned",newRes)
                 })
 
                 logger.info(`Event: pinMsg ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
@@ -63,6 +61,7 @@ const ioChatEvents = function () {
                 console.log("unpin", data)
                 foued.unPinMsg(data).then((res) => {
                     io.to(data.metaData.conversation).emit("onMsgUnPinned", res)
+                    socket.emit("onMsgUnPinned",res)
                 })
 
 
@@ -74,7 +73,6 @@ const ioChatEvents = function () {
         });
         // onMessageReacted : Fired when the user add a reaction to message.
         socket.on('reactMsg', async function (data) {
-            console.log("data ",data)
             try {
                 console.log('====================================');
                 console.log("message reacted");
@@ -86,38 +84,41 @@ const ioChatEvents = function () {
                 const message = data.metaData.message_id
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length>0) {
-                        console.log("aazeazeazeaa",data)
                         await react.putReact(res[0]._id,data).then((newRes)=>{
                             io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
                             socket.emit("onMsgReacted",newRes,res)
                             console.log("just update")
-
                         })
-                    } else {
+                    } else {                    
                         await react.postReact(data).then((res) => {                         
                             io.to(data.metaData.conversation).emit("onMsgReacted", res)
-                            socket.emit("onMsgReacted",res)
+                            socket.emit("onMsgReacted",res) 
                         })
                     }
                 })
             } catch (err) {
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
-
         });
         // onMessageUnReacted : Fired when the user remove a reaction from message.
-        socket.on('unReactMsg', function (data) {
+        socket.on('unReactMsg', async function (data) {
+        
             try {
-
                 console.log('====================================');
-                console.log("message unReacted");
+                console.log("message UnReacted");
                 console.log('====================================');
-                react.unReactMsg(data).then((res) => {
-                        io.to(data.metaData.conversation).emit("onUnReactMsg", res)
+                    if(data){
+                        await react.unReactMsg(data.metaData.message_id).then((newRes)=>{
+                            console.log("unreacted",newRes)
+                            io.to(data.metaData.conversation).emit("onUnReactMsg", newRes)       
+                            socket.emit("onUnReactMsg",newRes,res)
+                            console.log("just update")
+                        })
+                    }else{
+                        console.log("there is no react to unReact")
                     }
-
-                )
-                logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                     
+                   
             } catch (err) {
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }

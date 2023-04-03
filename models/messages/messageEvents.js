@@ -151,8 +151,10 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message updated");
         console.log('====================================');
+
         await foued.putMsg(data).then((res) => {
           socket.to(data.metaData.conversation).emit('onMessageUpdated', res);
+          socket.emit("onMessageUpdated",res)
         })
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
       } catch (err) {
@@ -170,8 +172,9 @@ const ioMessageEvents = function () {
         //change this to update status = 0 means the message is deleted .
 
         foued.deleteMsg(data).then((res) => {
-          console.log(data.metaData.conversation)
+       
           io.to(data.metaData.conversation).emit("onMessageDeleted", res)
+          socket.emit("onMessageDeleted",res)
         })
 
         logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)

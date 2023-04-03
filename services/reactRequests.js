@@ -45,6 +45,7 @@ export const getMsgReact=async(message,user,res)=>{
     try{
         const result = await react.find({message_id:message ,user_id:user
         })
+        console.log("aaa",result)
         return result
     }catch(err){
         console.log(err)
@@ -87,14 +88,17 @@ export const postReact = async (req, res) => {
  * @route /react/:id
  * @method put
  */
-export const putReact = async (id,data, res) => {
-    console.log("a",id,path)
+export const putReact = async (id,data) => {
+    const reactId =id.toString()
+
             try {
                 const result = await react.findByIdAndUpdate(
-                    id, {
-                        $set:path,
+                    reactId, {
+                        path:data.metaData.path,
                         updated_at: Date.now()
-                    })
+                    },
+                    {new:true}
+                    )
                 if (result) {
                     let dataLog = {
                         "app_id": "63ce8575037d76527a59a655",
@@ -106,8 +110,7 @@ export const putReact = async (id,data, res) => {
                         "ip_address": "192.168.1.1"
                     }
                     log.addLog(dataLog)
-                    console.log("result ",result)
-                 return result
+                 return  result 
                 } else {
                   console.log("error updating reaction ")
                 }
@@ -120,8 +123,9 @@ export const putReact = async (id,data, res) => {
  * @route /role/:id
  * @method delete
  */
-export const unReactMsg = async (req, res) => {
-    const id=req.metaData.message_id
+export const unReactMsg = async (id) => {
+    console.log(id)
+
         try {
             const result = await react.findByIdAndDelete(id)
       

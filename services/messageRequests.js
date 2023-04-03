@@ -8,6 +8,7 @@ import logs from '../models/logs/logsMethods.js'
 const log = new logs()
 const element=6
 const logger = debug('namespace')
+import mongoose from 'mongoose'
 /**
  *  GetMessages :get get messages
  * @route /messages
@@ -29,10 +30,9 @@ export const GetLastMessage = async (req, res) => {
       } else {
         res.status(200).json({
           message: "success",
-          data: "there are no conversation "
+          data: "there are no conversation"
         })
       }
-  
     } catch (err) {
       logger(err)
       console.log(err)
@@ -71,18 +71,41 @@ export const getMessage = async (req, res) => {
 }
 
 export const getMessagesUsers = async (req, res) => {
-    const conversationId = req.params.id
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 10
-    const skip = (page - 1) * limit
+    const conversationId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
   
     try {
-      const totalMessages = await message.countDocuments({ conversation_id: conversationId })
+      const totalMessages = await message.countDocuments({
+        conversation_id: conversationId,
+      });
       const messages = await message
-      .find({ conversation_id: conversationId })
-      .sort({ created_at: -1 }) // Sort by created_at in descending order
-      .limit(limit)
-      .skip(skip)
+        .aggregate([
+          {
+            $match: {
+              conversation_id: mongoose.Types.ObjectId(conversationId),
+            },
+          },
+          {
+            $sort: { created_at: -1 },
+          },
+          {
+            $lookup: {
+              from: "reacts",
+              localField: "_id",
+              foreignField: "message_id",
+              as: "reacts",
+            },
+          },
+          {
+            $skip: skip,
+          },
+          {
+            $limit: limit,
+          },
+        ])
+        .exec();
   
       if (messages.length > 0) {
         res.status(200).json({
@@ -90,24 +113,24 @@ export const getMessagesUsers = async (req, res) => {
           data: {
             messages,
             totalPages: Math.ceil(totalMessages / limit),
-            currentPage: page
-          }
-        })
+            currentPage: page,
+          },
+        });
       } else {
         res.status(200).json({
           message: "success",
-          data: "there are no conversation "
-        })
+          data: "there are no conversation ",
+        });
       }
-  
     } catch (err) {
-      logger(err)
-      console.log(err)
+      logger(err);
+      console.log(err);
       res.status(400).send({
-        message: "fail retrieving data "
-      })
+        message: "fail retrieving data ",
+      });
     }
-  }
+  };
+  
   
   
 
@@ -199,7 +222,7 @@ const id=req.metaData.message
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
-    const id=(data.metaData.message)
+    const id=data.metaData.message
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such member (wrong id)'
@@ -207,19 +230,16 @@ export const MarkMessageAsRead = async (data, res) => {
     } else {
         try {
             const result = await message.findByIdAndUpdate(
-                id, {
+               id, {
                     $set: {
                         read: Date.now()
                     }
                 })
-                
             if (result) {
-       
                return result
             } else {
-                console.log(" 1 error")
+                console.log(" error updating message to read")
             }
-
         } catch (err) {
             logger(err)
         }
@@ -231,20 +251,15 @@ export const MarkMessageAsRead = async (data, res) => {
  * @route /message/pin/:id
  * @method put
  */
-export const MarkMessageAsPinned = async (data, res) => {
-    const id = data.metaData.message_id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such member (wrong id)'
-        })
-    } else {
+export const MarkMessageAsPinned = async (id,user) => {
+    console.log("pined :: ",id)
         try {
             const result = await message.findByIdAndUpdate(
                 id, {
-                    $set: {
                         pinned: 1
-                    }
-                })
+                },
+                {new:true}
+                )
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -256,6 +271,7 @@ export const MarkMessageAsPinned = async (data, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
+                console.log("resulted pinned",result)
                return result
             } else {
                 console.log("error")
@@ -266,7 +282,7 @@ export const MarkMessageAsPinned = async (data, res) => {
             logger(err)
         }
     }
-}
+
 
 
 
