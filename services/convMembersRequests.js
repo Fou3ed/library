@@ -54,6 +54,32 @@ export const getMembersByConversation = async (convId) => {
       return [];
     }
   };
+
+  export const getMembersConversation = async (req,res) => {
+    console.log(req.params.id)
+    try {
+      const result = await conversationMember.find({ conversation_id: req.params.id }).populate('user_id')
+      if (result.length > 0) {
+        console.log(`Found ${result.length} members for conversation with ID: ${req.params.id}`);
+        res.status(200).json({
+            message:"success",
+            data:result
+        })
+      } else {
+        res.status(200).json({
+            message:"success",
+            data:"no members found"
+        })
+      }
+    } catch (err) {
+      console.log(`Error while fetching conversation members: ${err}`);
+      logger.error(`Error while fetching conversation members: ${err}`);
+      res.status(400).send({
+        message: "fail retrieving data"
+    })
+    }
+  };
+  
   
 
 

@@ -3252,3 +3252,4 @@
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6407640935e74a0ac45d7480\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"641d73021425f0a9b24b3c6b\",\"message\":\"642ad533667a8de4b837cca9\"}} , socket_id : -1OErerOjMrJFfcVAAAN ,token :\"taw nzidouha , date: 03/04/2023 14:44:27\"   \n "}

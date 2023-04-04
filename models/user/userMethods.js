@@ -28,6 +28,14 @@
          return resData;
      }
      /**
+      * get connected users
+      */
+    //  async getConnectedUsers(){
+    //     const response =await fetch(`http://127.0.0.1:3000/users/connected`())
+    //     const resData=await response.json()
+    //     return resData
+    //  }
+     /**
       * getUser : get user data.
       */
      async getUser(id) {

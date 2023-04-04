@@ -38,17 +38,42 @@ export const getUsers = async (req, res) => {
     }
 }
 
-
+/**
+ * get users connected 
+ */
+export const getUserConnected = async (req, res) => {
+    try {
+        const result = await user.find({is_active:true});
+        if (result.length > 0) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(204).json({
+                message: "success",
+                data: "there are no users connected"
+            })
+        }
+    } catch (err) {
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+    }
+}
 /**
  * get user by socket.id
  */
-export const getUserBySocket=async(req,res)=>{
-    console.log("req ::: ",req)
-    try{
-            const result= await user.findOne({socket_id:req})
-            return result 
-    }catch(err){
-        console.log(err ,"error getting user by socket id ")
+export const getUserBySocket = async (req, res) => {
+    console.log("req ::: ", req)
+    try {
+        const result = await user.findOne({
+            socket_id: req
+        })
+        return result
+    } catch (err) {
+        console.log(err, "error getting user by socket id ")
     }
 }
 /**
@@ -81,17 +106,17 @@ export const getUserName = async (req, res) => {
  * @method Get
  */
 export const getUser = async (id, res) => {
-        try {
-            const result = await user.findById(id);
-         return result
-        } catch (err) {
-            console.log(err)
-            logger(err)
-            res.status(400).send({
-                message: "fail retrieving data"
-            })
-        }
+    try {
+        const result = await user.findById(id);
+        return result
+    } catch (err) {
+        console.log(err)
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
     }
+}
 
 /**
  * createUser: create user
@@ -141,7 +166,7 @@ export const postUser = async (req, res) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "Create user ",
                     "element": element,
                     "element_id": "1",
@@ -223,7 +248,7 @@ export const putUser = async (req, res) => {
                     let dataLog = {
                         "app_id": "63ce8575037d76527a59a655",
                         "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id":"req.body.socket_id",
+                        "socket_id": "req.body.socket_id",
                         "action": "update user",
                         "element": element,
                         "element_id": "1",
@@ -254,73 +279,82 @@ export const putUser = async (req, res) => {
 /**
  * update socket _id 
  */
-export const putUserSocket = async (id,socket_id, res) => {
+export const putUserSocket = async (id, socket_id, res) => {
 
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such user (wrong id)'
         })
     } else {
-            try {
-                const result = await user.findByIdAndUpdate(
-                    id, {
-                        $set: { socket_id: socket_id }
-                    })
-                if (result) {
-                    let dataLog = {
-                        "app_id": "63ce8575037d76527a59a655",
-                        "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id":socket_id,
-                        "action": "update user socket id ",
-                        "element": element,
-                        "element_id": "1",
-                        "ip_address": "192.168.1.1"
+        try {
+            const result = await user.findByIdAndUpdate(
+                id, {
+                    $set: {
+                        socket_id: socket_id
                     }
-                    log.addLog(dataLog)
-                  return result
-                } else {
-               console.log("3 error")
-                        }
-            } catch (err) {
-              console.log(err)
-                logger(err)
+                })
+            if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id": socket_id,
+                    "action": "update user socket id ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+                return result
+            } else {
+                console.log("3 error")
             }
+        } catch (err) {
+            console.log(err)
+            logger(err)
         }
     }
+}
 
 
-    /**
+/**
  * update socket _id 
  */
-export const putUserActivity = async (id,status) => {
-            try {
-                const result = await user.findOneAndUpdate(
-                    { socket_id: id }, // find user by socket_id
-                    { $set: { is_active: status } }, // update is_active field
-                    { new: true } // return the updated document
-                );
-                if (result) {
-                    
-                    let dataLog = {
-                        "app_id": "63ce8575037d76527a59a655",
-                        "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id":"123123",
-                        "action": `update user activity ${status} `,
-                        "element": element,
-                        "element_id": "1",
-                        "ip_address": "192.168.1.1"
-                    }
-                    log.addLog(dataLog)
-                  return result
-                } else {
-               console.log("  failed updating user activity ")
-                        }
-            } catch (err) {
-              console.log(err)
-                logger(err)
+export const putUserActivity = async (id, status) => {
+    try {
+        const result = await user.findOneAndUpdate({
+                socket_id: id
+            }, // find user by socket_id
+            {
+                $set: {
+                    is_active: status
+                }
+            }, // update is_active field
+            {
+                new: true
+            } // return the updated document
+        );
+        if (result) {
+
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id": "123123",
+                "action": `update user activity ${status} `,
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
             }
+            log.addLog(dataLog)
+            return result
+        } else {
+            console.log("  failed updating user activity ")
         }
-    
+    } catch (err) {
+        console.log(err)
+        logger(err)
+    }
+}
+
 
 /**
  * getUserStatus : get user status
@@ -413,7 +447,7 @@ export const registerUser = async (req, res) => {
                     let dataLog = {
                         "app_id": "63ce8575037d76527a59a655",
                         "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id":"req.body.socket_id",
+                        "socket_id": "req.body.socket_id",
                         "action": "register user ",
                         "element": element,
                         "element_id": "1",
@@ -460,7 +494,7 @@ export const banUser = async (req, res) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "ban user ",
                     "element": element,
                     "element_id": "1",
@@ -509,7 +543,7 @@ export const unBanUser = async (req, res) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "unBan user ",
                     "element": element,
                     "element_id": "1",
@@ -557,7 +591,7 @@ export const deleteUser = async (req, res) => {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id":"req.body.socket_id",
+                    "socket_id": "req.body.socket_id",
                     "action": "Delete user ",
                     "element": element,
                     "element_id": "1",
@@ -576,4 +610,3 @@ export const deleteUser = async (req, res) => {
         }
     }
 }
-

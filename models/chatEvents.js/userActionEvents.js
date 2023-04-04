@@ -85,7 +85,7 @@ const ioChatEvents = function () {
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length>0) {
                         await react.putReact(res[0]._id,data).then((newRes)=>{
-                            io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
+                            //io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
                             socket.emit("onMsgReacted",newRes,res)
                             console.log("just update")
                         })
@@ -102,22 +102,16 @@ const ioChatEvents = function () {
         });
         // onMessageUnReacted : Fired when the user remove a reaction from message.
         socket.on('unReactMsg', async function (data) {
-        
             try {
                 console.log('====================================');
                 console.log("message UnReacted");
                 console.log('====================================');
-                    if(data){
                         await react.unReactMsg(data.metaData.message_id).then((newRes)=>{
-                            console.log("unreacted",newRes)
                             io.to(data.metaData.conversation).emit("onUnReactMsg", newRes)       
-                            socket.emit("onUnReactMsg",newRes,res)
-                            console.log("just update")
+                            socket.emit("onUnReactMsg",newRes)
+
                         })
-                    }else{
-                        console.log("there is no react to unReact")
-                    }
-                     
+                
                    
             } catch (err) {
                 logger.info(`Event: onMessageUnReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)

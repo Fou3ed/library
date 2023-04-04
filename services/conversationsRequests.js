@@ -42,7 +42,7 @@ export const getConversations = async (req, res) => {
     }
 }
 /**
- * get conversation between two users 
+ * get conversation between agent and client 
  */
 export const getConv = async (req, res) => {
     const userId1 = req.query.user1
