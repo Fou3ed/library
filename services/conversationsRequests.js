@@ -1,5 +1,4 @@
 import conversation from '../models/conversations/conversationModel.js'
-import members from '../models/convMembers/convMembersModel.js'
 import {
     mongoose
 } from '../dependencies.js';
@@ -70,7 +69,7 @@ export const getConv = async (req, res) => {
                 $project: {
                     'members': 0
                 }
-            }
+            },
         ]);
         res.status(200).json({
             message: "success",

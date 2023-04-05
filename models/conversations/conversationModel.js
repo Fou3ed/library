@@ -75,6 +75,12 @@ import {mongoose} from '../../dependencies.js';
         type: Object,
         required: false,
         description: '[optional] Additional data'
+    },
+    status:{
+        type:Number,
+        required:true,
+        default:0,
+        description:"update status for conversation activity , is_active: 1,is not :0"
     }
 })
 

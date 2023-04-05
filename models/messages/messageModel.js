@@ -105,6 +105,11 @@ const messageSchema = new Schema({
         default:"0",
         description:"0 = unPinned , 1 Pinned "
     },
+    status:{
+        type:Number,
+        default:"1",
+        description:"status of deleted messages, 1 : is not deleted, 0 is deleted,2:edited,3:forwarded"
+    }
 
 })
 
