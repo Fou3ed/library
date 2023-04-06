@@ -85,6 +85,10 @@ export const getConv = async (req, res) => {
 
 }
 
+/**
+ * update last message in conversation 
+ */
+
 
 /**
  * get all conversation user connected have 
@@ -92,8 +96,7 @@ export const getConv = async (req, res) => {
 export const getUserConversations = async (req, res) => {
     const id = req.params.id
     try {
-        const result = await conversation.aggregate([
-            {
+        const result = await conversation.aggregate([{
                 $lookup: {
                     from: "members",
                     localField: "_id",
@@ -107,7 +110,9 @@ export const getUserConversations = async (req, res) => {
                 }
             },
             {
-                $sort: { updated_at: -1 }
+                $sort: {
+                    updated_at: -1
+                }
             }
         ])
 
@@ -155,6 +160,25 @@ export const getConversation = async (req, res) => {
         }
     }
 }
+export const getConversationById = async (id, res) => {
+    if (!validator.isMongoId(id)) {
+        res.status(400).send({
+            'error': 'there is no such conversation(wrong id) '
+        })
+    } else {
+        try {
+            const result = await conversation.findById(id);
+            return result   
+        } catch (err) {
+            console.log(err)
+            logger(err)
+            res.status(400).send({
+                message: "fail retrieving data"
+            })
+        }
+    }
+}
+
 
 /**
  * createConversation: create conversation
@@ -219,15 +243,21 @@ export const postConversation = async (req, res) => {
  * @route /conversation/:id
  * @method put
  */
-export const putConversation = async (req,res, error) => {
-    console.log("req",req)
-    const id = req
+export const putConversationLastMessage = async (id, message, error) => {
     try {
+ 
+
         const result = await conversation.findByIdAndUpdate(
-            id, 
-            { $set: { updated_at: Date.now() } },
-            { new: true } // to return the updated document
-          );
+            id, {
+                $set: {
+                    last_message: message,
+                    updated_at: Date.now(),
+                }
+            }, {
+                new: true
+            } // to return the updated document
+        );
+
         if (result) {
             console.log("conversation updated successfully")
             let dataLog = {
@@ -240,14 +270,13 @@ export const putConversation = async (req,res, error) => {
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
+
             return result
         } else {
             console.log(" wrong values")
-
         }
 
     } catch (err) {
-
         console.log(err)
         logger.error(err)
     }
@@ -282,5 +311,66 @@ export const deleteConversation = async (req, res) => {
     } catch (err) {
         loggers.error(err)
 
+    }
+
+
+}
+export const getActiveCnvs = async (req, res) => {
+    try {
+        const result = await conversation.find({
+            status: 1
+        })
+        if (result) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: "there are no active conversations"
+            })
+        }
+
+    } catch (err) {
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+        console.log(err)
+        loggers.err(err)
+    }
+}
+
+export const putActiveCnvs = async (req, res) => {
+    const id = req.params.id
+    try {
+        const result = await conversation.findByIdAndUpdate(
+            id, {
+                $set: {
+                    status: 0,
+                    updated_at: Date.now(),
+                }
+            }, {
+                new: true
+            } // to return the updated document
+        );
+        if (result) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: "there are no active conversations"
+            })
+        }
+
+    } catch (err) {
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+        console.log(err)
+        loggers.err(err)
     }
 }

@@ -3,7 +3,6 @@ import {mongoose} from '../../dependencies.js';
  const Schema = mongoose.Schema
 
  const conversationSchema  = new Schema({
-
     name: {
         type: String,
         required: true,
@@ -51,7 +50,7 @@ import {mongoose} from '../../dependencies.js';
         description: 'the array of [users] registered as operators of the channel'
     },
     owner_id: {
-        type:Number,
+        type:String,
         ref:'user',
         required: false,
         description: 'ID of conversation s owner (user)'
@@ -79,7 +78,7 @@ import {mongoose} from '../../dependencies.js';
     status:{
         type:Number,
         required:true,
-        default:0,
+        default:1,
         description:"update status for conversation activity , is_active: 1,is not :0"
     }
 })

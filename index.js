@@ -54,7 +54,6 @@ import getMembers from "./routers/membersRoutes.js"
 app.use('/users',userRoutes)
 app.use('/messages/', messageRoutes);
 app.use('/conversation/',conversationRoutes)
-app.use('/conv/',conversationRoutes)
 app.use('/react/',getReact)
 app.use('/message',GetLastMessage)
 app.use('/members',getMembers)

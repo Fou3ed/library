@@ -1,7 +1,9 @@
 import express from "express";
-import { getConv, getUserConversations } from "../services/conversationsRequests.js";
+import { getConv, getUserConversations,getActiveCnvs, putActiveCnvs } from "../services/conversationsRequests.js";
 const router =express.Router()
 
 router.get('/:id',getUserConversations)
 router.get('/',getConv)
+router.get('/active/Cnv',getActiveCnvs)
+router.put('/status/:id',putActiveCnvs)
 export default router 

@@ -20,9 +20,9 @@ const ioConversationEvents = function () {
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {
-            console.log("conversation",data)
+            console.log("conversation", data)
             try {
-                console.log(data.metaData.name == "")
+              
                 if (data.metaData.name == "") {
                     console.log("conversation must obtain a name ")
                 } else {
@@ -32,8 +32,9 @@ const ioConversationEvents = function () {
                     console.log("client id : ", socket.client.id)
                     console.log("room id : ", socket.rooms)
                     console.log('====================================');
-                   
+
                     foued.addCnv(data).then((res) => {
+                        console.log("awa",res)
                         socket.emit('onConversationStarted', info.onConversationCreated, res)
                     })
                     logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
@@ -43,11 +44,11 @@ const ioConversationEvents = function () {
             }
         });
 
-        socket.on('joinRoom',(data)=>{
-            try{
+        socket.on('joinRoom', (data) => {
+            try {
                 socket.join(data)
-                socket.emit('roomJoined',data)
-            }catch(err){
+                socket.emit('roomJoined', data)
+            } catch (err) {
                 logger.error(`Event: onCreate roo ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `)
             }
         })
@@ -66,14 +67,21 @@ const ioConversationEvents = function () {
             }
         });
         // onConversationUpdated : Fired when the conversation data updated.
-        socket.on('onConversationUpdated', (data) => {
+        socket.on('updateConversationLM', async (id, message, from) => {
             try {
-              foued.putCnv(data)
-              socket.emit("onConversationUpdated", data)
-                logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                await foued.getCnvById(id).then(async (res) => {
+                    console.log("okazeae",res)
+                    if (res.owner_id === id) {
+                        console.log("gonna update the status conversation to 1")
+                    }
+                    await foued.putCnvLM(id, message)
+                    socket.emit("onConversationUpdated", id, message)
+                })
+
+                logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(id,message)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             } catch (err) {
-                logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+                logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(id,message)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
         });
 

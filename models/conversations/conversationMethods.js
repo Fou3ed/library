@@ -3,8 +3,8 @@
      deleteConversation,
      getConversations,
      postConversation,
-     putConversation,
-     getUserConversations
+     putConversationLastMessage,
+     getConversationById
  } from '../../services/conversationsRequests.js'
  class conversationActions {
 
@@ -28,6 +28,14 @@
          return resData;
      }
      /**
+      * get conversation by id 
+      */
+     async getCnvById(id) {
+        const response = await getConversationById(id)
+  
+        return response;
+    }
+     /**
       * createConversation : create conversation.
       */
      async addCnv(data) {
@@ -37,8 +45,8 @@
      /**
       * updateConversation : update conversation.
       */
-     async putCnv(data) {
-         const response = await putConversation(data)
+     async putCnvLM(id,message) {
+         const response = await putConversationLastMessage(id,message)
          return response
      }
      /**
