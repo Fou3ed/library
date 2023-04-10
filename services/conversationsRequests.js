@@ -85,6 +85,44 @@ export const getConv = async (req, res) => {
 
 }
 
+
+export const getConvBetweenUsers = async (req, res) => {
+    const userId1 = req.user1
+    const userId2 = req.user2
+    try {
+        const result = await conversation.aggregate([{
+                $lookup: {
+                    from: 'members',
+                    localField: '_id',
+                    foreignField: 'conversation_id',
+                    as: 'members'
+                }
+            },
+            {
+                $match: {
+                    'members.user_id': {
+                        $all: [
+                            mongoose.Types.ObjectId(userId1),
+                            mongoose.Types.ObjectId(userId2)
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    'members': 0
+                }
+            },
+        ]);
+      return result 
+    } catch (err) {
+        console.log(err)
+        logger(err)         
+    }
+
+}
+
+
 /**
  * update last message in conversation 
  */

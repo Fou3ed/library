@@ -4,9 +4,14 @@
      getConversations,
      postConversation,
      putConversationLastMessage,
-     getConversationById
+     getConversationById,
+     getConvBetweenUsers
  } from '../../services/conversationsRequests.js'
  class conversationActions {
+    async getConvBetweenUsers(){
+        const response = await getConvBetweenUsers()
+        return response
+    }
 
     async getUserConversations(){
         const response=await fetch(``)

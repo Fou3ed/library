@@ -13,6 +13,7 @@ class convMembersAction {
 
     }
     async getConversationMembers(convId){
+        console.log("conversation id a",convId)
         const members = await getMembersByConversation(convId);
         const userIds = members.map(member => member._id.toString());
         const users = await User.find({ _id: { $in: userIds } });

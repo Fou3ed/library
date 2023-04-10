@@ -9,7 +9,8 @@ import {
     markMessageAsDelivered,
     putMessage,
     MarkMessageAsPinned,
-    MarkMessageAsUnPinned
+    MarkMessageAsUnPinned,
+    MarkMessageAsForwarded
 } from "../../services/messageRequests.js"
 
 
@@ -104,6 +105,10 @@ class messageActions {
         const response = await GetUnreadMessagesCount();
         const resData = await response
         return resData;
+    }
+    async markMessageAsForwarded(data){
+        const response = await MarkMessageAsForwarded(data)
+        return response
     }
 }
 

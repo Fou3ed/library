@@ -118,10 +118,13 @@ export const getMember = async (req, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-   
+       const data={
+            user_id:req.user_id,
+            conversation_id:req.conversation
+        }
         try{
-            const result = await conversationMember.create(req);
-          
+
+            const result = await conversationMember.create(data);
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",

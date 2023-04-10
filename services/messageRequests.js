@@ -482,6 +482,45 @@ export const getPinnedMessage = async (req, res) => {
         })
     }
 }
+
+/**
+ * MarkMessageAsPinned : mark a message as pinned
+ * @route /message/pin/:id
+ * @method put
+ */
+export const MarkMessageAsForwarded= async (id, user) => {
+    console.log("forwarded :  ", id)
+    try {
+        const result = await message.findByIdAndUpdate(
+            id, {
+                status: 3
+            }, {
+                new: true
+            }
+        )
+        if (result) {
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id": "req.body.socket_id",
+                "action": "Mark message as forwarded ",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            }
+            log.addLog(dataLog)
+            console.log("message forwarded result :", result)
+            return result
+        } else {
+            console.log("error")
+        }
+
+    } catch (err) {
+
+        logger(err)
+    }
+}
+
 /**
  * deleteMessage : delete message
  * @route /message/:id
@@ -519,4 +558,13 @@ export const deleteMessage = async (req, res) => {
             'error': 'some error occurred. Try again '
         })
     }
+
+
+
+
+
+
+
+
+    
 }
