@@ -5,11 +5,11 @@
      postConversation,
      putConversationLastMessage,
      getConversationById,
-     getConvBetweenUsers
+     getConvBetweenUsers,
  } from '../../services/conversationsRequests.js'
  class conversationActions {
-    async getConvBetweenUsers(){
-        const response = await getConvBetweenUsers()
+    async getConvBetweenUsers(user1,user2){
+        const response = await getConvBetweenUsers(user1,user2)
         return response
     }
 

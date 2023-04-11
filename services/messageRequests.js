@@ -1,9 +1,7 @@
 import message from '../models/messages/messageModel.js'
-import react from '../models/reactions/reactionModel.js'
 
 import {
     debug,
-    Joi,
     validator
 } from '../dependencies.js'
 import logs from '../models/logs/logsMethods.js'
@@ -538,7 +536,6 @@ export const deleteMessage = async (req, res) => {
         console.log(result)
         if (result) {
             console.log("deleted / status updated to 0")
-
             let dataLog = {
                 "app_id": "63ce8575037d76527a59a655",
                 "user_id": "6390b2efdfb49a27e7e3c0b9",

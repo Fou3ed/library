@@ -86,9 +86,7 @@ export const getConv = async (req, res) => {
 }
 
 
-export const getConvBetweenUsers = async (req, res) => {
-    const userId1 = req.user1
-    const userId2 = req.user2
+export const getConvBetweenUsers = async (userId1,userId2) => {
     try {
         const result = await conversation.aggregate([{
                 $lookup: {
@@ -114,6 +112,7 @@ export const getConvBetweenUsers = async (req, res) => {
                 }
             },
         ]);
+       
       return result 
     } catch (err) {
         console.log(err)
