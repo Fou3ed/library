@@ -79,64 +79,80 @@ export const getMessagesUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-
+  
     try {
-        const totalMessages = await message.countDocuments({
-            conversation_id: conversationId,
+      const logMessages = await message
+        .find({
+          conversation_id: conversationId,
+          type: "log"
+        })
+        .sort({ created_at: -1 })
+        .exec();
+  
+      const totalMessages = await message.countDocuments({
+        conversation_id: conversationId,
+        type: { $ne: "log" }
+      });
+  
+      const messages = await message
+        .aggregate([
+          {
+            $match: {
+              conversation_id: mongoose.Types.ObjectId(conversationId),
+              type: { $ne: "log" }
+            },
+          },
+          {
+            $sort: {
+              created_at: -1
+            },
+          },
+          {
+            $lookup: {
+              from: "reacts",
+              localField: "_id",
+              foreignField: "message_id",
+              as: "reacts",
+            },
+          },
+          {
+            $skip: skip,
+          },
+          {
+            $limit: limit,
+          },
+        ])
+        .exec();
+  
+      if (messages.length > 0 || logMessages.length > 0) {
+        const totalPages = Math.ceil(totalMessages / limit);
+        const currentPage = page;
+        const allMessages = [...logMessages, ...messages];
+        allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        res.status(200).json({
+          message: "success",
+          data: {
+            messages: allMessages,
+            totalPages,
+            currentPage,
+          },
         });
-        const messages = await message
-            .aggregate([{
-                    $match: {
-                        conversation_id: mongoose.Types.ObjectId(conversationId),
-                    },
-                },
-                {
-                    $sort: {
-                        created_at: -1
-                    },
-                },
-                {
-                    $lookup: {
-                        from: "reacts",
-                        localField: "_id",
-                        foreignField: "message_id",
-                        as: "reacts",
-                    },
-                },
-                {
-                    $skip: skip,
-                },
-                {
-                    $limit: limit,
-                },
-            ])
-            .exec();
-
-        if (messages.length > 0) {
-            res.status(200).json({
-                message: "success",
-                data: {
-                    messages,
-                    totalPages: Math.ceil(totalMessages / limit),
-                    currentPage: page,
-                },
-            });
-        } else {
-            res.status(200).json({
-                message: "success",
-                data: "there are no conversation ",
-            });
-        }
+      } else {
+        res.status(200).json({
+          message: "success",
+          data: "there are no conversation ",
+        });
+      }
+  
     } catch (err) {
-        logger(err);
-        console.log(err);
-        res.status(400).send({
-            message: "fail retrieving data ",
-        });
+      logger(err);
+      console.log(err);
+      res.status(400).send({
+        message: "fail retrieving data ",
+      });
     }
-};
-
-
+  };
+  
 
 
 

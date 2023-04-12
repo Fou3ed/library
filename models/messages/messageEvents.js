@@ -140,6 +140,8 @@ const ioMessageEvents = function () {
       });
     })
 
+
+
     socket.on('onMessageDelivered', (data) => {
       console.log("Message delivered: ", data);
       // Emit an event to the sender of the message to indicate that the message was delivered
@@ -209,7 +211,6 @@ const ioMessageEvents = function () {
         //get conversation using conversation members
         receivers.forEach(async (user) => {
           const conversation = await conversationAct.getConvBetweenUsers(user, data.user);
-
           const from = data.user;
           const date = currentDate;
           const type = data.metaData.type;
