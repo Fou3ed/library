@@ -29,12 +29,13 @@ const ioConversationMembersEvents = function () {
                 console.log(err);
             }
         });
+
         socket.on('onConversationMemberJoined', async (conversationId) => {
-            console.log("here to add the other member in ",conversationId)
-      // join room
-      socket.join(conversationId);
-            socket.emit('memberJoinedDone',conversationId)
-})
+            console.log("here to add the other member in ", conversationId)
+            // join room
+            socket.join(conversationId);
+            socket.emit('memberJoinedDone', conversationId)
+        })
 
         socket.on('onConversationMemberJoin', async (info, conversationId) => {
             try {
@@ -46,7 +47,7 @@ const ioConversationMembersEvents = function () {
                 }));
 
                 // Join the sender to the conversation(room)
-                socket.join(conversationId);    
+                socket.join(conversationId);
 
                 // Emit the event to the other members of the conversation
                 const otherSocketsToJoin = specificSocketsToJoin.filter((socket_id) => socket_id !== socket.id);
@@ -62,18 +63,21 @@ const ioConversationMembersEvents = function () {
             }
         });
 
-   
+
 
 
         // onConversationMemberLeft : Fired when the member left a conversation.
-        socket.on('onConversationMemberLeft', (data) => {
+        socket.on('onConversationMemberLeft', async (data) => {
             try {
-                io.to(data.metaData.conversation).emit('onConversationMemberLeft', data);
+               await  foued.deleteMember(data.id).then((res)=>{
+                io.to(data.metaData.conversation).emit('onConversationMemberLeft', res);
+
+               })
                 console.log('====================================');
                 console.log("conversation member left ");
                 console.log('====================================');
                 logger.info(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-            
+
             } catch (err) {
                 logger.error(`Event: onConversationMemberLeft ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
@@ -124,23 +128,27 @@ const ioConversationMembersEvents = function () {
             }
 
         });
-  
-        socket.on('acceptCnvTransfer',   async  (data) => {
-   
+
+        socket.on('transferConversation', async (data) => {
+
             try {
                 await foued.addMember(data).then(async (res) => {
                     console.log('====================================');
-                    console.log("conversation transfer accepted");
+                    console.log("conversation transfer ",data);
                     console.log('====================================');
 
-                        //get the user socket_id 
-                        const user= await userM.getUser(data.user_id)
-                           
-                        const userSocket_id=user.socket_id
-                        //send an event to the agent who gonna join 
+                    //get the user socket_id 
+                    const user = await userM.getUser(data.user_id)
+
+                    const userSocket_id = user.socket_id
+                    if(userSocket_id==true){
                         io.to(userSocket_id).emit('onConversationTransferAccept', data.user_id, data.conversation);
-                        //  socket.emit('onConversationMemberJoined', res)
-                              })
+
+                    }else{
+                        console.log("agent is offline ")
+                    }
+                    
+                })
 
                 logger.info(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
@@ -150,16 +158,16 @@ const ioConversationMembersEvents = function () {
             }
 
         });
-            socket.on('onConversationTransferAccepted',(user_id,conversationId)=>{
-                try{
-                        console.log(user_id,conversationId)
-                        socket.join(conversationId) 
-                        io.to(conversationId).emit('onConversationTransferAcceptedJoined',user_id,conversationId)
-                }catch(err){
-                    logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
+        socket.on('onConversationTransferAccepted', (user_id, conversationId) => {
+            try {
+                console.log(user_id, conversationId)
+                socket.join(conversationId)
+                io.to(conversationId).emit('onConversationTransferAcceptedJoined', user_id, conversationId)
+            } catch (err) {
+                logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
 
-                }
-            })
+            }
+        })
 
 
 

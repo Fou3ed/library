@@ -79,85 +79,81 @@ export const getMessagesUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-  
     try {
-      const logMessages = await message
-        .find({
-          conversation_id: conversationId,
-          type: "log"
-        })
-        .sort({ created_at: -1 })
-        .exec();
-  
-      const totalMessages = await message.countDocuments({
-        conversation_id: conversationId,
-        type: { $ne: "log" }
-      });
-  
-      const messages = await message
-        .aggregate([
-          {
-            $match: {
-              conversation_id: mongoose.Types.ObjectId(conversationId),
-              type: { $ne: "log" }
-            },
-          },
-          {
-            $sort: {
-              created_at: -1
-            },
-          },
-          {
-            $lookup: {
-              from: "reacts",
-              localField: "_id",
-              foreignField: "message_id",
-              as: "reacts",
-            },
-          },
-          {
-            $skip: skip,
-          },
-          {
-            $limit: limit,
-          },
-        ])
-        .exec();
-  
-      if (messages.length > 0 || logMessages.length > 0) {
-        const totalPages = Math.ceil(totalMessages / limit);
-        const currentPage = page;
-        const allMessages = [...logMessages, ...messages];
-        allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        res.status(200).json({
-          message: "success",
-          data: {
-            messages: allMessages,
-            totalPages,
-            currentPage,
-          },
+        const logMessages = await message
+            .find({
+                conversation_id: conversationId,
+                type: "log"
+            })
+            .sort({
+                created_at: -1
+            })
+            .exec();
+
+        const totalMessages = await message.countDocuments({
+            conversation_id: conversationId,
+            type: {
+                $ne: "log"
+            }
         });
-      } else {
-        res.status(200).json({
-          message: "success",
-          data: "there are no conversation ",
-        });
-      }
-  
+        const messages = await message
+            .aggregate([{
+                    $match: {
+                        conversation_id: mongoose.Types.ObjectId(conversationId),
+                        type: {
+                            $ne: "log"
+                        }
+                    },
+                },
+                {
+                    $sort: {
+                        created_at: -1
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "reacts",
+                        localField: "_id",
+                        foreignField: "message_id",
+                        as: "reacts",
+                    },
+                },
+                {
+                    $skip: skip,
+                },
+                {
+                    $limit: limit,
+                },
+            ])
+            .exec();
+
+        if (messages.length > 0 || logMessages.length > 0) {
+            const totalPages = Math.ceil(totalMessages / limit);
+            const currentPage = page;
+            const allMessages = [...logMessages, ...messages];
+            allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            res.status(200).json({
+                message: "success",
+                data: {
+                    messages: allMessages,
+                    totalPages,
+                    currentPage,
+                },
+            });
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: "there are no conversation ",
+            });
+        }
     } catch (err) {
-      logger(err);
-      console.log(err);
-      res.status(400).send({
-        message: "fail retrieving data ",
-      });
+        logger(err);
+        console.log(err);
+        res.status(400).send({
+            message: "fail retrieving data ",
+        });
     }
-  };
-  
-
-
-
-
-
+};
 
 /**
  * createMessage : create message
@@ -229,8 +225,8 @@ export const putMessage = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-                
-                return result 
+
+                return result
             } else {
                 console.log("error updating message")
             }
@@ -240,7 +236,6 @@ export const putMessage = async (req, res) => {
         }
     }
 }
-
 
 /**
  * MarkMessageAsRead : mark a message as read
@@ -502,7 +497,7 @@ export const getPinnedMessage = async (req, res) => {
  * @route /message/pin/:id
  * @method put
  */
-export const MarkMessageAsForwarded= async (id, user) => {
+export const MarkMessageAsForwarded = async (id, user) => {
     console.log("forwarded :  ", id)
     try {
         const result = await message.findByIdAndUpdate(
@@ -576,8 +571,87 @@ export const deleteMessage = async (req, res) => {
 
 
 
-
-
-
-    
 }
+export const getMessagesUsersTransferred = async (req, res) => {
+    const conversationId = req.params.id;
+    const messageId = req.query.message;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+  
+    try {
+      const logMessages = await message
+        .find({
+          conversation_id: conversationId,
+          type: "log"
+        })
+        .sort({ created_at: -1 })
+        .exec();
+  
+      const totalMessages = await message.countDocuments({
+        conversation_id: conversationId,
+        type: { $ne: "log" }
+      });
+  
+      const startMessage = await message.findById(messageId);
+  
+      const messages = await message
+        .aggregate([
+          {
+            $match: {
+              conversation_id: mongoose.Types.ObjectId(conversationId),
+              type: { $ne: "log" },
+              created_at: { $gte: startMessage.created_at }
+            },
+          },
+          {
+            $sort: {
+              created_at: -1
+            },
+          },
+          {
+            $lookup: {
+              from: "reacts",
+              localField: "_id",
+              foreignField: "message_id",
+              as: "reacts",
+            },
+          },
+          {
+            $skip: skip,
+          },
+          {
+            $limit: limit,
+          },
+        ])
+        .exec();
+  
+      if (messages.length > 0 || logMessages.length > 0) {
+        const totalPages = Math.ceil(totalMessages / limit);
+        const currentPage = page;
+        const allMessages = [...logMessages, ...messages];
+        allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        res.status(200).json({
+          message: "success",
+          data: {
+            messages: allMessages,
+            totalPages,
+            currentPage,
+          },
+        });
+      } else {
+        res.status(200).json({
+          message: "success",
+          data: "there are no conversation ",
+        });
+      }
+  
+    } catch (err) {
+      logger(err);
+      console.log(err);
+      res.status(400).send({
+        message: "fail retrieving data ",
+      });
+    }
+  };
+  
