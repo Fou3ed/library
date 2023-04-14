@@ -103,8 +103,8 @@ class messageActions {
      */
     async getUnReadMsgCount() {
         const response = await GetUnreadMessagesCount();
-        const resData = await response
-        return resData;
+  
+        return response;
     }
     async markMessageAsForwarded(data){
         const response = await MarkMessageAsForwarded(data)

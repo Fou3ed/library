@@ -118,7 +118,6 @@ export const getMember = async (req, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-    console.log(req)
        const data={
             user_id:req.user_id,
             conversation_id:req.conversation_id

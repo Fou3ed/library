@@ -10,6 +10,7 @@ import convMembersAction from '../convMembers/convMembersMethods.js'
 const convMember = new convMembersAction()
 import userMethod from '../user/userMethods.js'
 const userM = new userMethod()
+import { getConversationById } from '../../services/conversationsRequests.js';
 const ioConversationMembersEvents = function () {
 
     io.on('connection', function (socket) {
@@ -139,11 +140,16 @@ const ioConversationMembersEvents = function () {
 
                     //get the user socket_id 
                     const user = await userM.getUser(data.user_id)
+                   
+                    const userActive = user.is_active
+                    
+                    if(userActive){
+                
+                          await  getConversationById(data.conversation_id).then((res)=>{
+                           
+                                io.to(user.socket_id).emit('onConversationTransferAccept',res);
 
-                    const userSocket_id = user.socket_id
-                    if(userSocket_id==true){
-                        io.to(userSocket_id).emit('onConversationTransferAccept', data.user_id, data.conversation);
-
+                            })
                     }else{
                         console.log("agent is offline ")
                     }
@@ -158,11 +164,12 @@ const ioConversationMembersEvents = function () {
             }
 
         });
-        socket.on('onConversationTransferAccepted', (user_id, conversationId) => {
+        socket.on('onConversationTransferAccepted', (conversationId) => {
             try {
-                console.log(user_id, conversationId)
+            
                 socket.join(conversationId)
-                io.to(conversationId).emit('onConversationTransferAcceptedJoined', user_id, conversationId)
+                io.to(conversationId).emit('onConversationTransferAcceptedJoined', conversationId)
+
             } catch (err) {
                 logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
 

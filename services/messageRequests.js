@@ -79,16 +79,44 @@ export const getMessagesUsers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    try {
+    try {  
+        // Get the 10 other typed messages
+        const messages = await message
+            .find({
+                conversation_id: conversationId,
+                type: {
+                    $ne: "log"
+                }
+            })
+            .sort({
+                created_at: -1
+            })
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
+        // Get the timestamps of the first and last message in the set
+        const firstMessageTimestamp = messages.length > 0 ? messages[messages.length - 1].created_at : new Date();
+        const lastMessageTimestamp = messages.length > 0 ? messages[0].created_at : new Date();
+
+        // Get the log messages that were created between the timestamps
         const logMessages = await message
             .find({
                 conversation_id: conversationId,
-                type: "log"
+                type: "log",
+                created_at: {
+                    $gte: firstMessageTimestamp,
+                    $lte: lastMessageTimestamp
+                }
             })
             .sort({
                 created_at: -1
             })
             .exec();
+
+        // Merge the two sets of messages and sort them by timestamp
+        const allMessages = [...logMessages, ...messages];
+        allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         const totalMessages = await message.countDocuments({
             conversation_id: conversationId,
@@ -96,56 +124,19 @@ export const getMessagesUsers = async (req, res) => {
                 $ne: "log"
             }
         });
-        const messages = await message
-            .aggregate([{
-                    $match: {
-                        conversation_id: mongoose.Types.ObjectId(conversationId),
-                        type: {
-                            $ne: "log"
-                        }
-                    },
-                },
-                {
-                    $sort: {
-                        created_at: -1
-                    },
-                },
-                {
-                    $lookup: {
-                        from: "reacts",
-                        localField: "_id",
-                        foreignField: "message_id",
-                        as: "reacts",
-                    },
-                },
-                {
-                    $skip: skip,
-                },
-                {
-                    $limit: limit,
-                },
-            ])
-            .exec();
-
-        if (messages.length > 0 || logMessages.length > 0) {
-            const totalPages = Math.ceil(totalMessages / limit);
-            const currentPage = page;
-            const allMessages = [...logMessages, ...messages];
-            allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-            res.status(200).json({
-                message: "success",
-                data: {
-                    messages: allMessages,
-                    totalPages,
-                    currentPage,
-                },
-            });
-        } else {
-            res.status(200).json({
-                message: "success",
-                data: "there are no conversation ",
-            });
-        }
+        
+        const totalPages = Math.ceil(totalMessages / limit);
+        const currentPage = page;
+        
+        res.status(200).json({
+            message: "success",
+            data: {
+                messages: allMessages,
+                totalPages,
+                currentPage,
+            },
+        });
+        
     } catch (err) {
         logger(err);
         console.log(err);
