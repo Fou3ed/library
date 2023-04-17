@@ -45,10 +45,10 @@ export const getConversations = async (req, res) => {
  * get conversation between agent and client 
  */
 export const getConv = async (req, res) => {
-
+    
     const userId1 = req.query.user1
     const userId2 = req.query.user2
-
+console.log(userId1,userId2)
     try {
         const result = await conversation.aggregate([{
             $lookup: {

@@ -8,6 +8,7 @@ const foued = new messageActions
 const react = new reactActions
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
+import joinRoom from '../../utils/joinRoom.js'
 const ioChatEvents = function () {
 
     io.on('connection', function (socket) {
@@ -84,12 +85,17 @@ const ioChatEvents = function () {
                 const message = data.metaData.message_id
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length>0) {
+                   joinRoom(io,socket,data.metaData.conversation,user_id)
+
                         await react.putReact(res[0]._id,data).then((newRes)=>{
-                            //io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
+                            console.log("conversation id ",data.metaData.conversation)
+                            io.to(data.metaData.conversation).emit("onMsgReacted", newRes)       
                             socket.emit("onMsgReacted",newRes,res)
                             console.log("just update")
                         })
-                    } else {                    
+                    } else {                
+                            joinRoom(io,socket,data.metaData.conversation,user_id)
+
                         await react.postReact(data).then((res) => {                         
                             io.to(data.metaData.conversation).emit("onMsgReacted", res)
                             socket.emit("onMsgReacted",res) 

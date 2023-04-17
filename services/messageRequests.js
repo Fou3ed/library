@@ -9,6 +9,7 @@ const log = new logs()
 const element = 6
 const logger = debug('namespace')
 import mongoose from 'mongoose'
+import react from '../models/reactions/reactionModel.js'
 /**
  *  GetMessages :get get messages
  * @route /messages
@@ -82,18 +83,34 @@ export const getMessagesUsers = async (req, res) => {
     try {  
         // Get the 10 other typed messages
         const messages = await message
-            .find({
-                conversation_id: conversationId,
-                type: {
-                    $ne: "log"
-                }
-            })
-            .sort({
-                created_at: -1
-            })
-            .skip(skip)
-            .limit(limit)
-            .exec();
+        .aggregate([{
+                $match: {
+                    conversation_id: mongoose.Types.ObjectId(conversationId),
+                },
+            },
+            {
+                $sort: {
+                    created_at: -1
+                },
+            },
+            {
+                $lookup: {
+                    from: "reacts",
+                    localField: "_id",
+                    foreignField: "message_id",
+                    as: "reacts",
+                },
+            },
+            {
+                $skip: skip,
+            },
+            {
+                $limit: limit,
+            },
+        ])
+        .exec();
+
+
 
         // Get the timestamps of the first and last message in the set
         const firstMessageTimestamp = messages.length > 0 ? messages[messages.length - 1].created_at : new Date();
@@ -101,19 +118,25 @@ export const getMessagesUsers = async (req, res) => {
 
         // Get the log messages that were created between the timestamps
         const logMessages = await message
-            .find({
-                conversation_id: conversationId,
-                type: "log",
-                created_at: {
-                    $gte: firstMessageTimestamp,
-                    $lte: lastMessageTimestamp
+        .aggregate([
+            {
+                $match: {
+                    conversation_id: conversationId,
+                    type: "log",
+                    created_at: {
+                        $gte: firstMessageTimestamp,
+                        $lte: lastMessageTimestamp
+                    }
                 }
-            })
-            .sort({
-                created_at: -1
-            })
-            .exec();
+            },
+            {
+                $sort: {
+                    created_at: -1
+                }
+            }
+        ])
 
+     
         // Merge the two sets of messages and sort them by timestamp
         const allMessages = [...logMessages, ...messages];
         allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -458,7 +481,7 @@ export const getPinnedMessage = async (req, res) => {
         const result = await message.find({
                 conversation_id: conversationId,
                 pinned: 1,
-
+                
             }).sort({
                 created_at: -1
             })

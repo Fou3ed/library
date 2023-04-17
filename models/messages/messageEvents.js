@@ -55,6 +55,7 @@ const ioMessageEvents = function () {
           uuid: data.uuid,
           type
         };
+
         if (!data || !data.metaData || !conversationId) {
           console.error('Invalid input data');
           return;
@@ -207,17 +208,17 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message forward");
         console.log('====================================');
-
         //get conversation using conversation members
         receivers.forEach(async (user) => {
+
           const conversation = await conversationAct.getConvBetweenUsers(user, data.user);
           const from = data.user;
           const date = currentDate;
           const type = data.metaData.type;
           const status = "3"
-          const conversation_id = conversation[0]._id
-          console.log(conversation[0])
-          if (conversation) {
+          // if conversation id  exists 
+          if (conversation.length > 0) {
+            const conversation_id = conversation[0]._id
             //save message in data base 
             //message data obj to be sent 
             const savingMessage = {
@@ -248,6 +249,7 @@ const ioMessageEvents = function () {
               status
             };
             const members = await convMember.getConversationMembers(conversation_id);
+            console.log("hedhom  members",members)
             const receiver = await Promise.all(
               members
               .filter(member => member !== data.user)
@@ -257,13 +259,11 @@ const ioMessageEvents = function () {
             );
             //get receiver information
             userM.getUser(receiver).then((res) => {
-
               // Check if the receiver is online (connected to the socket)
               if (res.is_active === true) {
                 console.log("receiver is active")
                 // Check if the room exists, if not create the room
                 const room = io.of('/').adapter.rooms.get(conversation_id);
-                console.log("room", room)
                 if (room === undefined) {
                   console.log("room been created")
                   socket.join(conversation_id)
@@ -335,8 +335,16 @@ const ioMessageEvents = function () {
               },
             }
             conversationAct.addCnv(conversationInfo).then(async (res) => {
-              let conversation_id = res._id
-              receivers.ForEach(async (user) => {
+            
+              receivers.map(async (user) => {
+                const from = data.user;
+                const date = currentDate;
+                const type = data.metaData.type;
+                const status = "3"
+                const conversation_id = res._id
+                console.log(conversation[0])
+                
+                console.log("receiverrs",res)
                 const data1 = {
                   conversation_id: conversation_id,
                   user_id: from,
@@ -348,12 +356,7 @@ const ioMessageEvents = function () {
                 await convMember.addMember(data1)
                 await convMember.addMember(data2)
 
-                const from = data.user;
-                const date = currentDate;
-                const type = data.metaData.type;
-                const status = "3"
-                const conversation_id = conversation[0]._id
-                console.log(conversation[0])
+              
                 if (conversation) {
                   //save message in data base 
                   //message data obj to be sent 

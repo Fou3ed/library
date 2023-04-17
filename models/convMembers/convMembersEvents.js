@@ -153,7 +153,6 @@ const ioConversationMembersEvents = function () {
                     }else{
                         console.log("agent is offline ")
                     }
-                    
                 })
 
                 logger.info(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
