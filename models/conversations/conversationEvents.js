@@ -20,7 +20,7 @@ const ioConversationEvents = function () {
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {
-            console.log("conversation", data)
+            
             try {
               
                 if (data.metaData.name == "") {
@@ -28,13 +28,8 @@ const ioConversationEvents = function () {
                 } else {
                     console.log('====================================');
                     console.log("conversation created")
-                    console.log("socket id:", socket.id)
-                    console.log("client id : ", socket.client.id)
-                    console.log("room id : ", socket.rooms)
-                    console.log('====================================');
-
+                    console.log('====================================')
                     foued.addCnv(data).then((res) => {
-                        console.log("awa",res)
                         socket.emit('onConversationStarted', info.onConversationCreated, res)
                     })
                     logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
@@ -70,9 +65,7 @@ const ioConversationEvents = function () {
         socket.on('updateConversationLM', async (id, message, from) => {
             try {
                 await foued.getCnvById(id).then(async (res) => {
-                    console.log("okazeae",res)
                     if (res.owner_id === id) {
-                        console.log("gonna update the status conversation to 1")
                     }
                     await foued.putCnvLM(id, message)
                     socket.emit("onConversationUpdated", id, message)

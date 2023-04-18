@@ -4,6 +4,6 @@ const router =express.Router()
 
 router.get('/:id',getUserConversations)
 router.get('/',getConv)
-router.get('/active/Cnv',getActiveCnvs)
+router.get('/active/:id',getActiveCnvs)
 router.put('/status/:id',putActiveCnvs)
 export default router 

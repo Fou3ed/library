@@ -50,10 +50,10 @@
      /**
       * getUserName: get user by name 
       */
-     async getUserName(name) {
-         const response = await getUserName(name)
-         const resData = await response.json()
-         return resData
+     async getUserName(id) {
+         const response = await getUserName(id)
+           
+         return response
      }
 
      /**

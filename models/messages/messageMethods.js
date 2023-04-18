@@ -62,8 +62,8 @@ class messageActions {
     /**
      * markMessageAsRead : mark a message as read.
      */
-    async readMsg(id) {
-        const response = await MarkMessageAsRead(id)
+    async readMsg(data) {
+        const response = await MarkMessageAsRead(data)
         return response
     }
     /**

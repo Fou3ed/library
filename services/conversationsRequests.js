@@ -357,10 +357,29 @@ export const deleteConversation = async (req, res) => {
 
 }
 export const getActiveCnvs = async (req, res) => {
+   const userId=req.params.id
     try {
-        const result = await conversation.find({
-            status: 1
-        })
+        const result = await conversation.aggregate([
+            {
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "conversation_id",
+                    as: "members"
+                }
+            },
+            {
+                $match: {
+                    "members.user_id": mongoose.Types.ObjectId(userId),
+                    status: 1 // Add this line to filter by status = 1
+                }
+            },
+            {
+                $sort: {
+                    updated_at: -1
+                }
+            }
+        ])
         if (result) {
             res.status(200).json({
                 message: "success",

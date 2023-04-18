@@ -80,16 +80,11 @@ export const getUserBySocket = async (req, res) => {
  *getUserName : get user by y name 
  @route /userName/:name
  *  */
-export const getUserName = async (req, res) => {
-    const nickname = req.query.nickname
+export const getUserName = async (id, res) => {
+    
     try {
-        const result = await user.findOne({
-            nickname: nickname
-        })
-        res.status(200).json({
-            message: "success",
-            data: result
-        })
+        const result = await user.findById(id)
+     return result.full_name
     } catch (err) {
         console.log(err)
         logger(err)

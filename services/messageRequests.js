@@ -1,5 +1,5 @@
 import message from '../models/messages/messageModel.js'
-
+import conversation from '../models/conversations/conversationModel.js'
 import {
     debug,
     validator
@@ -9,7 +9,6 @@ const log = new logs()
 const element = 6
 const logger = debug('namespace')
 import mongoose from 'mongoose'
-import react from '../models/reactions/reactionModel.js'
 /**
  *  GetMessages :get get messages
  * @route /messages
@@ -102,6 +101,14 @@ export const getMessagesUsers = async (req, res) => {
                 },
             },
             {
+                $lookup: {
+                    from: "users",
+                    localField: "user",
+                    foreignField: "_id",
+                    as: "user_data",
+                },
+            },
+            {
                 $skip: skip,
             },
             {
@@ -154,7 +161,10 @@ export const getMessagesUsers = async (req, res) => {
         res.status(200).json({
             message: "success",
             data: {
-                messages: allMessages,
+                messages: allMessages.map(m => ({
+                    ...m,
+                    user_data: m.user_data[0],
+                })),
                 totalPages,
                 currentPage,
             },
@@ -168,6 +178,7 @@ export const getMessagesUsers = async (req, res) => {
         });
     }
 };
+
 
 /**
  * createMessage : create message
@@ -257,37 +268,51 @@ export const putMessage = async (req, res) => {
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
-    const id = data.metaData.message
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such member (wrong id)'
-        })
-    } else {
-        try {
-            const result = await message.findByIdAndUpdate(
-                id, {
-                    $set: {
-                        read: Date.now()
-                    }
-                })
-            if (result) {
+    const  conversationId=data.metaData.conversation
+    const userId=data.user
+    const messageId=data.metaData.message
+    try {
+        // Find the conversation by id and check if the user is part of it
+        const conversationData = await conversation.findOne({ _id: conversationId, members: userId })
+        if (!conversationData) {
+            console.log("User is not a part of this conversation")
+        } else {
+            // Find all the messages in the conversation where read is empty and the message is created before the given messageId
+            const result = await message.updateMany(
+                {
+                    $and: [
+                        { _id: { $lte: messageId } },
+                        { conversation_id: conversationId },
+                        { read: { $exists: false } }
+                    ]
+                },
+                {
+                    $set: { read: Date.now() }
+                }
+            )
+            if (result.nModified > 0) {
                 return result
             } else {
-                console.log(" error updating message to read")
+                console.log("No messages were updated")
             }
-        } catch (err) {
-            logger(err)
         }
+    } catch (err) {
+      logger(err);
+      return res.status(500).send({
+        error: 'Internal server error',
+      });
     }
-}
+  };
+  
 
+  
 /**
  * MarkMessageAsPinned : mark a message as pinned
  * @route /message/pin/:id
  * @method put
  */
+
 export const MarkMessageAsPinned = async (id, user) => {
-    console.log("pined :: ", id)
     try {
         const result = await message.findByIdAndUpdate(
             id, {
