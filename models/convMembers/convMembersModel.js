@@ -21,6 +21,11 @@ const membersSchema = new Schema({
       required: true,
       description: "user Id"
     },
+    transfer_type:{
+      type:String,
+      required:false,
+      description:"1:transfer all conversation , 2:transfer since the last message"
+  },
     conversation_name: {
       type: String,
       required: false,

@@ -10,7 +10,10 @@ import convMembersAction from '../convMembers/convMembersMethods.js'
 const convMember = new convMembersAction()
 import userMethod from '../user/userMethods.js'
 const userM = new userMethod()
-import { getConversationById } from '../../services/conversationsRequests.js';
+import {
+    getConversationById,
+    putConvType
+} from '../../services/conversationsRequests.js';
 const ioConversationMembersEvents = function () {
 
     io.on('connection', function (socket) {
@@ -70,10 +73,10 @@ const ioConversationMembersEvents = function () {
         // onConversationMemberLeft : Fired when the member left a conversation.
         socket.on('onConversationMemberLeft', async (data) => {
             try {
-               await  foued.deleteMember(data.id).then((res)=>{
-                io.to(data.metaData.conversation).emit('onConversationMemberLeft', res);
+                await foued.deleteMember(data.id).then((res) => {
+                    io.to(data.metaData.conversation).emit('onConversationMemberLeft', res);
 
-               })
+                })
                 console.log('====================================');
                 console.log("conversation member left ");
                 console.log('====================================');
@@ -133,28 +136,45 @@ const ioConversationMembersEvents = function () {
         socket.on('transferConversation', async (data) => {
 
             try {
-                await foued.addMember(data).then(async (res) => {
-                    console.log('====================================');
-                    console.log("conversation transfer ",data);
-                    console.log('====================================');
 
-                    //get the user socket_id 
-                    const user = await userM.getUser(data.user_id)
-                   
-                    const userActive = user.is_active
+                await foued.checkMember(data.conversation_id, data.user_id).then(async (exist) => {
                     
-                    if(userActive){
-                
-                          await  getConversationById(data.conversation_id).then((res)=>{
-                           
-                                io.to(user.socket_id).emit('onConversationTransferAccept',res);
+                    if (exist.length == 0) {
+                        console.log("data",data)
+                    //if (user_id in the member where conversation_id=conversation id ) do not add 
+                    await foued.addMember(data).then(async (res) => {
+                        console.log('====================================');
+                        console.log("conversation transfer ", data);
+                        console.log('====================================');
 
-                            })
-                    }else{
-                        console.log("agent is offline ")
+                        //get the user socket_id 
+                        const user = await userM.getUser(data.user_id)
+
+                        const userActive = user.is_active
+                        const status = "2"
+                        await putConvType(data.conversation_id, status).then(async (res) => {
+                            if (userActive) {
+
+                                await getConversationById(data.conversation_id).then((newRes) => {
+
+                                    io.to(user.socket_id).emit('onConversationTransferAccept', newRes,data.message_id);
+
+                                })
+                            } else {
+                                console.log("agent is offline ")
+                            }
+                        })
+                    })
+                  
+
+                    } else {
+                        console.log("member is already there ")
                     }
-                })
 
+
+
+
+                })
                 logger.info(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             } catch (err) {
@@ -165,7 +185,7 @@ const ioConversationMembersEvents = function () {
         });
         socket.on('onConversationTransferAccepted', (conversationId) => {
             try {
-            
+
                 socket.join(conversationId)
                 io.to(conversationId).emit('onConversationTransferAcceptedJoined', conversationId)
 
@@ -188,9 +208,7 @@ const ioConversationMembersEvents = function () {
 
             } catch (err) {
                 logger.error(`Event: onConversationTransferReject ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-
             }
-
         });
     })
 }

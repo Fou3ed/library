@@ -268,6 +268,7 @@ export const putMessage = async (req, res) => {
  * @method put
  */
 export const MarkMessageAsRead = async (data, res) => {
+    
     const  conversationId=data.metaData.conversation
     const userId=data.user
     const messageId=data.metaData.message
@@ -288,13 +289,12 @@ export const MarkMessageAsRead = async (data, res) => {
                 },
                 {
                     $set: { read: Date.now() }
-                }
+                },
+                        
             )
-            if (result.nModified > 0) {
+                    console.log("aaa",result )
                 return result
-            } else {
-                console.log("No messages were updated")
-            }
+        
         }
     } catch (err) {
       logger(err);
@@ -633,7 +633,6 @@ export const getMessagesUsersTransferred = async (req, res) => {
       });
   
       const startMessage = await message.findById(messageId);
-  
       const messages = await message
         .aggregate([
           {
@@ -656,6 +655,13 @@ export const getMessagesUsersTransferred = async (req, res) => {
               as: "reacts",
             },
           },
+          {  $lookup: {
+                    from: "users",
+                    localField: "user",
+                    foreignField: "_id",
+                    as: "user_data",
+                },
+            },
           {
             $skip: skip,
           },

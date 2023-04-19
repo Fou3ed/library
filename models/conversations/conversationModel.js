@@ -80,7 +80,8 @@ import {mongoose} from '../../dependencies.js';
         required:true,
         default:1,
         description:"update status for conversation activity , is_active: 1,is not :0"
-    }
+    },
+ 
 })
 
 

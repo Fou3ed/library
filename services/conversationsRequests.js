@@ -126,6 +126,46 @@ export const getConvBetweenUsers = async (userId1,userId2) => {
     }
 
 }
+export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
+
+    try {
+        const result = await conversation.aggregate([{
+                $lookup: {
+                    from: 'members',
+                    localField: '_id',
+                    foreignField: 'conversation_id',
+                    as: 'members'
+                }
+            },
+            {
+                $match: {
+                    'members.user_id': {
+                        $all: [
+                            mongoose.Types.ObjectId(userId1),
+                            mongoose.Types.ObjectId(userId2)
+                        ]
+                    }
+                }
+            },
+            {
+                $match: {
+                    conversation_type: 3
+                }
+            },
+            {
+                $project: {
+                    'members': 0
+                }
+            },
+        ]);
+       
+      return result 
+    } catch (err) {
+        console.log(err)
+        logger(err)         
+    }
+
+}
 
 
 /**
@@ -430,6 +470,27 @@ export const putActiveCnvs = async (req, res) => {
         res.status(400).send({
             message: "fail retrieving data"
         })
+        console.log(err)
+        loggers.err(err)
+    }
+}
+
+export const putConvType = async (id,status,type, res) => {
+    
+    try {
+        const result = await conversation.findByIdAndUpdate(
+            id, {
+                $set: {
+                    conversation_type: status,
+                    updated_at: Date.now(),
+                }
+            },
+        );
+    
+       return result
+        
+    } catch (err) {
+        
         console.log(err)
         loggers.err(err)
     }

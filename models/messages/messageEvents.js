@@ -14,7 +14,7 @@ import {
 } from '../../index.js'
 const foued = new messageActions()
 const convMember = new convMembersAction()
-const userM = new userMethod()
+const userM = new userMethod() 
 const conversationAct = new conversationActions()
 import logger from '../../config/newLogger.js'
 import checkJoined from '../../utils/joinRoom.js'
@@ -227,7 +227,7 @@ const ioMessageEvents = function () {
 
 
     socket.on('forwardMessage', async (data) => {
- 
+      //check if they have a conversation together else create one (user 1 and user 2)
       //data will have an array of the users who are gonna receive the message
       //the user can forward the message to multiple 
       try {
@@ -238,12 +238,12 @@ const ioMessageEvents = function () {
         console.log('====================================');
         //get conversation using conversation members
         receivers.forEach(async (user) => {
-
-          const conversation = await conversationAct.getConvBetweenUsers(user, data.user);
+          const conversation = await conversationAct.getPrivateConvBetweenUsers(user, data.user);
           const from = data.user;
           const date = currentDate;
           const type = data.metaData.type;
           const status = "3"
+          
           // if conversation id  exists 
           if (conversation.length > 0) {
             const conversation_id = conversation[0]._id

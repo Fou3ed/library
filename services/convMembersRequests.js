@@ -90,7 +90,7 @@ export const getMembersByConversation = async (convId) => {
  * @method Get
  */
 export const getMember = async (req, res) => {
-    const id = req.params.id
+    
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such conversation member(wrong id) '
@@ -111,6 +111,26 @@ export const getMember = async (req, res) => {
         }
     }
 }
+
+
+
+/**
+ * getConversation : getMember : get member data
+ * @route /conversation/:id
+ * @method Get
+ */
+export const checkMember = async (convId,userId, res) => {
+        try {
+            const result = await conversationMember.find({ conversation_id:convId, user_id: userId })
+
+           return result
+        } catch (err) {
+            console.log(err)
+            logger(err)
+        
+        }
+    }
+
 /**
  * addMembers:add members to conversation
  * @route /member
@@ -118,13 +138,15 @@ export const getMember = async (req, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-       const data={
-            user_id:req.user_id,
-            conversation_id:req.conversation_id
-        }
+      
         try{
-
-            const result = await conversationMember.create(data);
+            if(req.transfer_type==3){
+                const data={
+                    user_id:req.user_id,
+                    conversation_id:req.conversation_id,
+                    transfer_type:req.message_id 
+                }
+                const result = await conversationMember.create(data);
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
@@ -136,11 +158,38 @@ export const postMember = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-                console.log("adding member")
+                console.log("adding member to ",data.conversation_id)
                 return result
             } else {
                 console.log("error adding  conversation member ")
             }
+            }else {
+                const data={
+                    user_id:req.user_id,
+                    conversation_id:req.conversation_id,
+                    transfer_type:req.transfer_type
+                }
+                const result = await conversationMember.create(data);
+                if (result) {
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id":"req.body.socket_id",
+                        "action": "Add member",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
+                    console.log("adding member to ",data.conversation_id)
+                    return result
+                } else {
+                    console.log("error adding  conversation member ")
+                }
+            }
+       
+
+           
         } catch (err) {
             console.log(err)
             logger(err)

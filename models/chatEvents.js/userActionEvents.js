@@ -23,7 +23,6 @@ const ioChatEvents = function () {
                 await foued.readMsg(data).then(async (res) => {
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMessageRead";
-
                     // socket.emit("onMessageRead",res)
                     switch (status) {
                         case 0:
@@ -34,13 +33,11 @@ const ioChatEvents = function () {
                         case 3:
                             io.to(data.metaData.conversation).emit(emitEvent, res);
                             break;
-
                         default:
                             console.log("error reading a message");
                             break;
                     }
                     logger.info(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
                 });
             } catch (err) {
                 logger.error(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
@@ -51,7 +48,6 @@ const ioChatEvents = function () {
 
         socket.on('pinMsg', async (data) => {
             try {
-
                 console.log('====================================');
                 console.log("message pinned", data);
                 console.log('====================================');
@@ -60,7 +56,6 @@ const ioChatEvents = function () {
                 await foued.pinMsg(messageId, user_id).then(async (newRes) => {
                     let status = await checkJoined(io, socket, data.metaData.conversation, user_id);
                     let emitEvent = "onMsgPinned";
-
                     switch (status) {
                         case 0:
                             socket.emit(emitEvent, newRes);
@@ -80,9 +75,7 @@ const ioChatEvents = function () {
             } catch (err) {
 
                 logger.error(`Event: onMsgPinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-
             }
-
         });
 
         // onMessageUnpinned : Fired when the user unpin a message.
@@ -95,7 +88,6 @@ const ioChatEvents = function () {
                 await foued.unPinMsg(data).then(async (res) => {
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMsgUnPinned";
-
                     switch (status) {
                         case 0:
                             socket.emit(emitEvent, res);

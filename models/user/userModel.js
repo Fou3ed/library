@@ -68,8 +68,12 @@ const userSchema = new Schema({
         type: Number,
         required: true,
         description: 'user status'
+    },
+    id:{
+        type:String,
+        required:true,
+        description:"additional id" 
     }
-
 })
 
 export default mongoose.model("user", userSchema)

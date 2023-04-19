@@ -6,13 +6,17 @@
      putConversationLastMessage,
      getConversationById,
      getConvBetweenUsers,
+     getPrivateConvBetweenUsers
  } from '../../services/conversationsRequests.js'
  class conversationActions {
     async getConvBetweenUsers(user1,user2){
         const response = await getConvBetweenUsers(user1,user2)
         return response
     }
-
+    async getPrivateConvBetweenUsers(user1,user2){
+        const response = await getPrivateConvBetweenUsers(user1,user2)
+        return response
+    }
     async getUserConversations(){
         const response=await fetch(``)
     }

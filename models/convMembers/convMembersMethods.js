@@ -4,7 +4,8 @@ import {
     getMember,
     postMember,
     putMember,
-    getMembersByConversation
+    getMembersByConversation,
+    checkMember
 } from "../../services/convMembersRequests.js";
 import User from '../user/userModel.js'
 
@@ -13,7 +14,7 @@ class convMembersAction {
 
     }
     async getConversationMembers(convId){
-        console.log("conversation id a",convId)
+      
         const members = await getMembersByConversation(convId);
         const userIds = members.map(member => member._id.toString());
         const users = await User.find({ _id: { $in: userIds } });
@@ -42,6 +43,10 @@ class convMembersAction {
 
     async addMember(data) {
         const response = await postMember(data)
+        return response
+    }
+    async checkMember(convId,userId) {
+        const response = await checkMember(convId,userId)
         return response
     }
     /**
