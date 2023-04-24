@@ -19,25 +19,30 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message read");
                 console.log('====================================');
-                
                 await foued.readMsg(data).then(async (res) => {
+                    console.log("res read message",res.modifiedCount)
+                    if(res.modifiedCount===0){
+                            console.log("all messages are being seen")
+                    }else {
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMessageRead";
                     // socket.emit("onMessageRead",res)
+
                     switch (status) {
                         case 0:
-                            socket.emit(emitEvent, res);
+                            socket.emit(emitEvent, data);
                             break;
                         case 1:
                         case 2:
                         case 3:
-                            io.to(data.metaData.conversation).emit(emitEvent, res);
+                            io.to(data.metaData.conversation).emit(emitEvent, data);
                             break;
                         default:
                             console.log("error reading a message");
                             break;
                     }
                     logger.info(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                }
                 });
             } catch (err) {
                 logger.error(`Event: onMessageRead ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)

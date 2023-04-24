@@ -267,8 +267,13 @@ export const putMessage = async (req, res) => {
  * @route /message/read/:id
  * @method put
  */
+/**
+ * MarkMessageAsRead : mark a message as read
+ * @route /message/read/:id
+ * @method put
+ */
 export const MarkMessageAsRead = async (data, res) => {
-    
+  
     const  conversationId=data.metaData.conversation
     const userId=data.user
     const messageId=data.metaData.message
@@ -277,6 +282,11 @@ export const MarkMessageAsRead = async (data, res) => {
         const conversationData = await conversation.findOne({ _id: conversationId, members: userId })
         if (!conversationData) {
             console.log("User is not a part of this conversation")
+            if (res) {
+                return res.status(404).send({
+                    error: 'User is not a part of this conversation',
+                });
+            }
         } else {
             // Find all the messages in the conversation where read is empty and the message is created before the given messageId
             const result = await message.updateMany(
@@ -289,21 +299,22 @@ export const MarkMessageAsRead = async (data, res) => {
                 },
                 {
                     $set: { read: Date.now() }
-                },
-                        
+                },  
+                { new: true } // Return the modified documents instead of the default result object
             )
-                    console.log("aaa",result )
                 return result
-        
         }
     } catch (err) {
-      logger(err);
-      return res.status(500).send({
-        error: 'Internal server error',
-      });
+        console.error(err);
+        if (res) {
+            return res.status(500).send({
+                error: 'Internal server error',
+            });
+        }
     }
-  };
-  
+};
+
+
 
   
 /**
@@ -580,8 +591,11 @@ export const deleteMessage = async (req, res) => {
     try {
         const result = await message.findByIdAndUpdate(id, {
             $set: {
-                status: 0
+                status: 0,
+                updated_at:Date.now()
             }
+        }, {
+            new: true
         })
         console.log(result)
         if (result) {
@@ -626,7 +640,6 @@ export const getMessagesUsersTransferred = async (req, res) => {
         })
         .sort({ created_at: -1 })
         .exec();
-  
       const totalMessages = await message.countDocuments({
         conversation_id: conversationId,
         type: { $ne: "log" }

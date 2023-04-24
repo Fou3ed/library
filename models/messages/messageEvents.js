@@ -81,6 +81,7 @@ const ioMessageEvents = function () {
                 direction: 'in'
               });
               console.log(room, res.socket_id)
+              conversationAct.putCnvLM(conversationId,messageData.content)
               io.to(res.socket_id).emit('joinConversationMember', conversationId);
             }
             // Check if the receiver is joined, if not send an emit to join them
@@ -91,6 +92,7 @@ const ioMessageEvents = function () {
                 isSender: true,
                 direction: 'in'
               });
+              conversationAct.putCnvLM(conversationId,messageData.content)
               io.to(res.socket_id).emit('joinConversationMember', conversationId);
 
             } else {
@@ -101,11 +103,11 @@ const ioMessageEvents = function () {
                 isSender: true,
                 direction: 'in'
               }, online);
-
+              conversationAct.putCnvLM(conversationId,messageData.content)
             }
           } else {
             console.log('Receiver is offline');
-
+            conversationAct.putCnvLM(conversationId,messageData.content)
             let online = 0
             // Emit an event to the client who sent the message to indicate that the message was sent
             socket.emit('onMessageSent', {
@@ -144,6 +146,7 @@ const ioMessageEvents = function () {
         isSender: false,
         direction: 'out'
       });
+       conversationAct.putCnvLM(conversationId,newMessage.message)
     })
 
     socket.on('onMessageDelivered', (data) => {
@@ -243,7 +246,7 @@ const ioMessageEvents = function () {
           const date = currentDate;
           const type = data.metaData.type;
           const status = "3"
-          
+              console.log("hedhy tawa",conversation)
           // if conversation id  exists 
           if (conversation.length > 0) {
             const conversation_id = conversation[0]._id
@@ -299,6 +302,7 @@ const ioMessageEvents = function () {
                     isSender: true,
                     direction: 'in'
                   });
+                  conversationAct.putCnvLM(conversation_id,messageData.content)
 
                   io.to(res.socket_id).emit('joinConversationMember', conversation_id);
                 }
@@ -309,6 +313,7 @@ const ioMessageEvents = function () {
                     isSender: true,
                     direction: 'in'
                   });
+                  conversationAct.putCnvLM(conversation_id,messageData.content)
                   io.to(res.socket_id).emit('joinConversationMember', conversation_id);
                 } else {
                   let online = 1
@@ -318,7 +323,9 @@ const ioMessageEvents = function () {
                     isSender: true,
                     direction: 'in'
                   }, online);
+
                 }
+                conversationAct.putCnvLM(conversation_id,messageData.content)
               } else {
                 console.log('Receiver is offline');
 
@@ -330,6 +337,7 @@ const ioMessageEvents = function () {
                   direction: 'in'
                 }, online);
               }
+              conversationAct.putCnvLM(conversation_id,messageData.content)
             })
             newMessage = {
               messageData,
@@ -433,7 +441,7 @@ const ioMessageEvents = function () {
                           isSender: true,
                           direction: 'in'
                         });
-
+                        conversationAct.putCnvLM(conversation_id,messageData.content)
                         io.to(res.socket_id).emit('joinConversationMember', conversation_id);
                       }
                       // Check if the receiver is joined, if not send an emit to join them
@@ -452,10 +460,11 @@ const ioMessageEvents = function () {
                           isSender: true,
                           direction: 'in'
                         }, online);
+                        conversationAct.putCnvLM(conversation_id,messageData.content)
                       }
                     } else {
                       console.log('Receiver is offline');
-
+                      conversationAct.putCnvLM(conversation_id,messageData.content)
                       let online = 0
                       // Emit an event to the client who sent the message to indicate that the message was sent
                       socket.emit('onMessageSent', {

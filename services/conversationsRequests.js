@@ -126,8 +126,11 @@ export const getConvBetweenUsers = async (userId1,userId2) => {
     }
 
 }
-export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
 
+
+
+export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
+        console.log("user 1 and user 2 ",userId1,userId2)
     try {
         const result = await conversation.aggregate([{
                 $lookup: {
@@ -147,18 +150,18 @@ export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
                     }
                 }
             },
-            {
-                $match: {
-                    conversation_type: 3
-                }
-            },
+            // {
+            //     $match: {
+            //         conversation_type: 3
+            //     }
+            // },
             {
                 $project: {
                     'members': 0
                 }
             },
         ]);
-       
+        console.log("hedhy res",result)
       return result 
     } catch (err) {
         console.log(err)
@@ -177,41 +180,42 @@ export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
  * get all conversation user connected have 
  */
 export const getUserConversations = async (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
     try {
-        const result = await conversation.aggregate([{
-                $lookup: {
-                    from: "members",
-                    localField: "_id",
-                    foreignField: "conversation_id",
-                    as: "members"
-                }
-            },
-            {
-                $match: {
-                    "members.user_id": mongoose.Types.ObjectId(id),
-                }
-            },
-            {
-                $sort: {
-                    updated_at: -1
-                }
-            }
-        ])
-          
-        res.status(200).json({
-            message: "success",
-            data: result
-        })
+      const result = await conversation.aggregate([
+        {
+          $lookup: {
+            from: "members",
+            localField: "_id",
+            foreignField: "conversation_id",
+            as: "members",
+          },
+        },
+        {
+          $match: {
+            "members.user_id": mongoose.Types.ObjectId(id),
+          },
+        },
+        {
+          $sort: {
+            updated_at: -1,
+          },
+        },
+      ]);
+  
+      res.status(200).json({
+        message: "success",
+        data: result,
+      });
     } catch (err) {
-        console.log(err)
-        logger(err)
-        res.status(400).send({
-            message: "fail retrieving data"
-        })
+      console.log(err);
+      logger(err);
+      res.status(400).send({
+        message: "fail retrieving data",
+      });
     }
-}
-
+  };
+  
 
 
 
@@ -326,8 +330,6 @@ export const postConversation = async (req, res) => {
  */
 export const putConversationLastMessage = async (id, message, error) => {
     try {
- 
-
         const result = await conversation.findByIdAndUpdate(
             id, {
                 $set: {

@@ -45,7 +45,6 @@ export const getMsgReact=async(message,user,res)=>{
     try{
         const result = await react.find({message_id:message ,user_id:user
         })
-        console.log("aaa",result)
         return result
     }catch(err){
         console.log(err)

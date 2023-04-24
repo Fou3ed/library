@@ -66,7 +66,7 @@ export const getUserConnected = async (req, res) => {
  * get user by socket.id
  */
 export const getUserBySocket = async (req, res) => {
-    console.log("req ::: ", req)
+
     try {
         const result = await user.findOne({
             socket_id: req
@@ -315,6 +315,7 @@ export const putUserSocket = async (id, socket_id, res) => {
  * update socket _id 
  */
 export const putUserActivity = async (id, status) => {
+
     try {
         const result = await user.findOneAndUpdate({
                 socket_id: id
