@@ -1,5 +1,6 @@
 import message from '../models/messages/messageModel.js'
 import conversation from '../models/conversations/conversationModel.js'
+import user from '../models/user/userModel.js'
 import {
     debug,
     validator
@@ -26,10 +27,12 @@ export const GetLastMessage = async (req, res) => {
             }) // Sort by created_at in descending order
             .limit(1)
         if (lastMessage.length > 0) {
-
+            const userId = lastMessage[0].user
+            console.log("user",userId)
+            const userData=await user.findById(userId)
             res.status(200).json({
                 message: "success",
-                data: lastMessage[0]
+                data: lastMessage[0] , ...userData 
             })
         } else {
             res.status(200).json({
@@ -597,8 +600,10 @@ export const deleteMessage = async (req, res) => {
         }, {
             new: true
         })
-        console.log(result)
+   
         if (result) {
+                const userId=result[0].user
+                const userData=await user.findById(userId)
             console.log("deleted / status updated to 0")
             let dataLog = {
                 "app_id": "63ce8575037d76527a59a655",
@@ -610,7 +615,7 @@ export const deleteMessage = async (req, res) => {
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
-            return result
+            return result , userData
         } else {
             console.log("deleting message went wrong ")
         }

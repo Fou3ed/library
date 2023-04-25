@@ -27,7 +27,7 @@ const ioChatEvents = function () {
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMessageRead";
                     // socket.emit("onMessageRead",res)
-
+                         console.log(data,status)   
                     switch (status) {
                         case 0:
                             socket.emit(emitEvent, data);

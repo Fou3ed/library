@@ -1388,3 +1388,5 @@
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"Event: onMessageDeleted ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"6390b2efdfb49a27e7e3c0b9\",\"action\":\"message.delete\",\"metaData\":{\"conversation\":\"6446585592760e3c83bf538a\",\"message\":\"6446b3b0402e1f424072a9dc\"}} , socket_id : HPZtEPWV2JhIDjuwAAAJ ,token :\"taw nzidouha , date: 24/04/2023 17:53:00\"   \n "}
+{"level":"info","message":"Event: onConversationUpdated ,data: null , socket_id : mUGwcR3LuCy9ttSZAAAF ,token :\"taw nzidouha , date: 24/04/2023 17:53:00\"   \n "}
