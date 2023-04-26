@@ -120,7 +120,7 @@ const ioChatEvents = function () {
         socket.on('reactMsg', async function (data) {
             try {
                 console.log('====================================');
-                console.log("message reacted");
+                console.log("message reacted",data);
                 console.log('====================================');
 
                 //if the message is being reacted by  the same person , delete the react and update it with the new one , else create new one directly
@@ -154,18 +154,19 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message UnReacted");
                 console.log('====================================');
-
                 await react.unReactMsg(data.metaData.message_id).then(async (newRes) => {
+                    
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onUnReactMsg";
+                    console.log(status)
                     switch (status) {
                         case 0:
-                            socket.emit(emitEvent, res);
+                            socket.emit(emitEvent, newRes);
                             break;
                         case 1:
                         case 2:
                         case 3:
-                            io.to(data.metaData.conversation).emit(emitEvent, res);
+                             io.in(data.metaData.conversation).emit(emitEvent, newRes);
                             break;
                         default:
                             console.log("error unReacting a message");

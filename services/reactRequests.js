@@ -123,8 +123,7 @@ export const putReact = async (id,data) => {
  * @method delete
  */
 export const unReactMsg = async (id) => {
-    console.log(id)
-
+   
         try {
             const result = await react.findByIdAndDelete(id)
       

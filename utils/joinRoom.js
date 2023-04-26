@@ -9,6 +9,7 @@ const userM = new userMethod()
 
 export default async function checkJoined(io, socket, conversationId, userId) {
     let status = "";
+    console.log(conversationId,userId)
     try {
       // get conversation Members
       const members = await convMember.getConversationMembers(conversationId);
@@ -17,13 +18,14 @@ export default async function checkJoined(io, socket, conversationId, userId) {
   
       // get receiver information
       const res = await userM.getUser(receiver);
-  
+      
       // Check if the receiver is online (connected to the socket)
       if (res.is_active === true) {
         console.log("receiver is active");
   
         // Check if the room exists, if not create the room
         const room = io.of('/').adapter.rooms.get(conversationId);
+        console.log("ici",(room && room.has(res.socket_id)))
         if (room === undefined) {
           console.log("room been created");
           socket.join(conversationId);

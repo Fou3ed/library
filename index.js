@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 export const io = new Server(httpServer, {
   pingTimeout: 60000, // Set the timeout to 60 seconds
 
-    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/"],
+    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/","http://192.168.0.41:3000/"]
 });
 
 io.sockets.setMaxListeners(20)
