@@ -132,11 +132,11 @@ const ioMessageEvents = function () {
       console.log("here to add the other member in ", conversationId)
       // join room
       socket.join(conversationId)
-      socket.emit('onMessageReceived', {
-        ...newMessage,
-        isSender: false,
-        direction: 'out'
-      });
+      // socket.emit('onMessageReceived', {
+      //   ...newMessage,
+      //   isSender: false,
+      //   direction: 'out'
+      // });
     })
 
     socket.on('receiveMessage', conversationId => {
@@ -164,12 +164,14 @@ const ioMessageEvents = function () {
     socket.on('updateMessage', async (data) => {
       try {
         console.log('====================================');
-        console.log("Message updated");
+        console.log("Message updated",data);
         console.log('====================================');
         
         await foued.putMsg(data).then(async (res) => {
         let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+      
         let emitEvent = "onMessageUpdated";
+        console.log(status)
         switch (status) {
           case 0:
               socket.emit(emitEvent,res);

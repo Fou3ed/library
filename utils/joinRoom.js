@@ -40,6 +40,7 @@ export default async function checkJoined(io, socket, conversationId, userId) {
           console.log("join Member to the conversation");
           status = 2;
         } else {
+          socket.emit('joinConversationMember', conversationId);
           console.log('Users are already joined');
           status = 1;
         }

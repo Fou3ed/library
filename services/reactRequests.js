@@ -123,10 +123,10 @@ export const putReact = async (id,data) => {
  * @method delete
  */
 export const unReactMsg = async (id) => {
-   
+   console.log("aaa",id)
         try {
             const result = await react.findByIdAndDelete(id)
-      
+      console.log("ress",result)
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",

@@ -590,7 +590,9 @@ export const MarkMessageAsForwarded = async (id, user) => {
  */
 
 export const deleteMessage = async (req, res) => {
+    
     const id = req.metaData.message
+      
     try {
         const result = await message.findByIdAndUpdate(id, {
             $set: {
@@ -600,10 +602,11 @@ export const deleteMessage = async (req, res) => {
         }, {
             new: true
         })
-   
+        
         if (result) {
-                const userId=result[0].user
+                const userId=result.user
                 const userData=await user.findById(userId)
+
             console.log("deleted / status updated to 0")
             let dataLog = {
                 "app_id": "63ce8575037d76527a59a655",
@@ -615,28 +618,22 @@ export const deleteMessage = async (req, res) => {
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
-            return result , userData
+            
+            return {result , userData}
         } else {
             console.log("deleting message went wrong ")
         }
     } catch (err) {
-        res.status(400).send({
-            'error': 'some error occurred. Try again '
-        })
+     console.log("error deleting a message",err)
     }
-
-
-
-
-
 }
+
 export const getMessagesUsersTransferred = async (req, res) => {
     const conversationId = req.params.id;
     const messageId = req.query.message;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-  
     try {
       const logMessages = await message
         .find({

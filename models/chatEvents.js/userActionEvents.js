@@ -152,7 +152,7 @@ const ioChatEvents = function () {
         socket.on('unReactMsg', async function (data) {
             try {
                 console.log('====================================');
-                console.log("message UnReacted");
+                console.log("message UnReacted",data);
                 console.log('====================================');
                 await react.unReactMsg(data.metaData.message_id).then(async (newRes) => {
                     
@@ -187,7 +187,6 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 let emitEvent = "onMentionRequest";
-
                 switch (status) {
                     case 0:
                       socket.emit(emitEvent, res);
@@ -292,13 +291,6 @@ const ioChatEvents = function () {
             }
         });
     })
-
-
-
-
-
-
-
 }
 
 export default ioChatEvents
