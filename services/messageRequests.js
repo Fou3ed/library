@@ -327,6 +327,7 @@ export const MarkMessageAsRead = async (data, res) => {
  */
 
 export const MarkMessageAsPinned = async (id, user) => {
+    console.log("pin",id)
     try {
         const result = await message.findByIdAndUpdate(
             id, {

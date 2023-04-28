@@ -89,7 +89,6 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message unpinned");
                 console.log('====================================');
-
                 await foued.unPinMsg(data).then(async (res) => {
                     let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMsgUnPinned";
@@ -107,14 +106,10 @@ const ioChatEvents = function () {
                             break;
                     }
                 });
-
                 logger.info(`Event: onMessageUnPinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :" taw nzidouha , date: ${fullDate}"   \n `)
-
             } catch (err) {
                 logger.error(`Event: onMessageUnpinned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
-
             }
-
         });
         // onMessageReacted : Fired when the user add a reaction to message.
         socket.on('reactMsg', async function (data) {
@@ -129,7 +124,6 @@ const ioChatEvents = function () {
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length > 0) {
                         joinRoom(io, socket, data.metaData.conversation, user_id)
-
                         await react.putReact(res[0]._id, data).then((newRes) => {
                             io.to(data.metaData.conversation).emit("onMsgReacted", newRes)
                             socket.emit("onMsgReacted", newRes, res)
