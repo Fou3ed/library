@@ -6,12 +6,12 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
     nickname: {
         type: String,
-        required: true,
+        required: false,
         description: "A user's nickname",
     },
     full_name: {
         type: String,
-        required: true,
+        required: false,
         description: 'User full name'
     },
     socket_id:{
@@ -29,23 +29,23 @@ const userSchema = new Schema({
         description: 'an opaque string that identifies the user'
     },
     role: {
-        type: Object,
-        required: true,
+        type: String,
+        required: false,
         description: 'ADMIN,AGENT,OPERATOR'
     },
     is_active: {
         type: Boolean,
-        required: true,
+        required: false,
         description: 'indicates whether the user is active within the application'
     },
     is_online: {
         type: Boolean,
-        required: true,
+        required: false,
         description: 'indicates whether the user is connected to the server'
     },
     locale: {
         type: String,
-        required: true,
+        required: false,
         description: 'FR-fr'
     },
     created_at: {
@@ -56,7 +56,7 @@ const userSchema = new Schema({
     },
     last_seen_at: {
         type: Number,
-        required: true,
+        required: false,
         description: 'the time the user went offline to indicate when the user was last connected to the server.if the use is online, the value is set to 0'
     },
     metadata: {
@@ -66,12 +66,12 @@ const userSchema = new Schema({
     },
     status: {
         type: Number,
-        required: true,
+        required: false,
         description: 'user status'
     },
     id:{
         type:String,
-        required:true,
+        required:false,
         description:"additional id" 
     }
 })

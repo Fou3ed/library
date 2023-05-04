@@ -160,7 +160,6 @@ export const getMessagesUsers = async (req, res) => {
         
         const totalPages = Math.ceil(totalMessages / limit);
         const currentPage = page;
-        
         res.status(200).json({
             message: "success",
             data: {
@@ -552,7 +551,6 @@ export const getPinnedMessage = async (req, res) => {
  * @method put
  */
 export const MarkMessageAsForwarded = async (id, user) => {
-    console.log("forwarded :  ", id)
     try {
         const result = await message.findByIdAndUpdate(
             id, {
@@ -635,20 +633,24 @@ export const getMessagesUsersTransferred = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    
     try {
+      const startMessage = await message.findById(messageId);
       const logMessages = await message
         .find({
           conversation_id: conversationId,
-          type: "log"
+          type: "log",
+          created_at: { $gte: startMessage.created_at }
         })
         .sort({ created_at: -1 })
         .exec();
+    
       const totalMessages = await message.countDocuments({
         conversation_id: conversationId,
-        type: { $ne: "log" }
+        type: { $ne: "log" },
+        created_at: { $gte: startMessage.created_at }
       });
-  
-      const startMessage = await message.findById(messageId);
+    
       const messages = await message
         .aggregate([
           {
@@ -671,13 +673,14 @@ export const getMessagesUsersTransferred = async (req, res) => {
               as: "reacts",
             },
           },
-          {  $lookup: {
-                    from: "users",
-                    localField: "user",
-                    foreignField: "_id",
-                    as: "user_data",
-                },
+          {  
+            $lookup: {
+              from: "users",
+              localField: "user",
+              foreignField: "_id",
+              as: "user_data",
             },
+          },
           {
             $skip: skip,
           },
@@ -686,7 +689,7 @@ export const getMessagesUsersTransferred = async (req, res) => {
           },
         ])
         .exec();
-  
+    
       if (messages.length > 0 || logMessages.length > 0) {
         const totalPages = Math.ceil(totalMessages / limit);
         const currentPage = page;
@@ -706,7 +709,6 @@ export const getMessagesUsersTransferred = async (req, res) => {
           data: "there are no conversation ",
         });
       }
-  
     } catch (err) {
       logger(err);
       console.log(err);

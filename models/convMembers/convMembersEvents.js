@@ -114,9 +114,7 @@ const ioConversationMembersEvents = function () {
             } catch (err) {
                 logger.error(`Event: onConversationMemberUnbanned ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
-
-        });
-
+        })
         // onConversationTransferRequest : Fired when transfer created.
         socket.on('onConversationTransferRequest', (data) => {
             try {
@@ -156,7 +154,7 @@ const ioConversationMembersEvents = function () {
                             if (userActive) {
 
                                 await getConversationById(data.conversation_id).then((newRes) => {
-
+                                            console.log("newRes",newRes)
                                     io.to(user.socket_id).emit('onConversationTransferAccept', newRes,data.message_id);
 
                                 })
@@ -170,28 +168,19 @@ const ioConversationMembersEvents = function () {
                     } else {
                         console.log("member is already there ")
                     }
-
-
-
-
                 })
                 logger.info(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
 
             } catch (err) {
                 logger.error(`Event: onConversationTransferAccept ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-
             }
-
         });
         socket.on('onConversationTransferAccepted', (conversationId) => {
             try {
-
-                socket.join(conversationId)
-                io.to(conversationId).emit('onConversationTransferAcceptedJoined', conversationId)
-
+                socket.join(conversationId._doc._id)
+                io.to(conversationId._doc._id).emit('onConversationTransferAcceptedJoined', conversationId._doc._id)
             } catch (err) {
                 logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
-
             }
         })
 

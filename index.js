@@ -31,10 +31,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
-
 export const io = new Server(httpServer, {
   pingTimeout: 60000, // Set the timeout to 60 seconds
 
@@ -57,6 +53,7 @@ app.use('/conversation/',conversationRoutes)
 app.use('/react/',getReact)
 app.use('/message',GetLastMessage)
 app.use('/members',getMembers)
+
 ioConnEvents()
 ioConversationEvents() 
 ioMessageEvents()

@@ -18,17 +18,15 @@ const userM = new userMethod()
 const conversationAct = new conversationActions()
 import logger from '../../config/newLogger.js'
 import checkJoined from '../../utils/joinRoom.js'
-// import { sockety } from '../connection/connectionEvents.js'
+import reviewBalance from '../../utils/balance.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
-
   let newMessage;
 
   io.on('connection', function (socket) {
     socket.on('onMessageCreated', async (data, error) => {
       try {
-
         // Save the message to your database
         const savedMessage = await foued.addMsg(data);
         const conversationId = data.metaData.conversation_id;
@@ -36,7 +34,6 @@ const ioMessageEvents = function () {
         const conversation = conversationId;
         const date = currentDate;
         const type = data.metaData.type;
-
         const members = await convMember.getConversationMembers(conversationId);
         const receiver = await Promise.all(
           members
@@ -64,7 +61,6 @@ const ioMessageEvents = function () {
           console.error('Invalid input data');
           return;
         }
-
         //get receiver information
         userM.getUser(receiver).then((res) => {
           // Check if the receiver is online (connected to the socket)
@@ -94,7 +90,6 @@ const ioMessageEvents = function () {
               });
               conversationAct.putCnvLM(conversationId,messageData.content)
               io.to(res.socket_id).emit('joinConversationMember', conversationId);
-
             } else {
               let online = 1
               console.log('Users are already joined');
@@ -109,6 +104,8 @@ const ioMessageEvents = function () {
             console.log('Receiver is offline');
             conversationAct.putCnvLM(conversationId,messageData.content)
             let online = 0
+            reviewBalance(io,socket,conversationId,messageData.from)
+
             // Emit an event to the client who sent the message to indicate that the message was sent
             socket.emit('onMessageSent', {
               ...messageData,
@@ -140,13 +137,13 @@ const ioMessageEvents = function () {
     })
 
     socket.on('receiveMessage', conversationId => {
-      // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-      socket.to(conversationId).emit('onMessageReceived', {
-        ...newMessage,
-        isSender: false,
-        direction: 'out'
-      });
-       conversationAct.putCnvLM(conversationId,newMessage.message)
+  // Emit an event to all members of the conversation except the sender to indicate that a new message was received
+  socket.to(conversationId).emit('onMessageReceived', {
+    ...newMessage,
+    isSender: false,
+    direction: 'out'
+  });
+   conversationAct.putCnvLM(conversationId,newMessage.message)
     })
 
     socket.on('onMessageDelivered', (data) => {
@@ -166,9 +163,9 @@ const ioMessageEvents = function () {
         console.log('====================================');
         console.log("Message updated",data);
         console.log('====================================');
-        
-        await foued.putMsg(data).then(async (res) => {
         let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
+        await foued.putMsg(data).then(async (res) => {
       
         let emitEvent = "onMessageUpdated";
         console.log(status)
@@ -200,10 +197,10 @@ const ioMessageEvents = function () {
         console.log("Message deleted");
         console.log('====================================');
         //change this to update status = 0 means the message is deleted .
-    
+        let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
         foued.deleteMsg(data).then(async (res) => {
 
-          let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
           let emitEvent = "onMessageDeleted";
     
           switch (status) {
@@ -248,7 +245,6 @@ const ioMessageEvents = function () {
           const date = currentDate;
           const type = data.metaData.type;
           const status = "3"
-              console.log("hedhy tawa",conversation)
           // if conversation id  exists 
           if (conversation.length > 0) {
             const conversation_id = conversation[0]._id

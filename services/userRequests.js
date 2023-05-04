@@ -121,39 +121,38 @@ export const getUser = async (id, res) => {
  */
 export const postUser = async (req, res) => {
 
-    const data = {
-        nickname: req.body.nickname,
-        full_name: req.body.full_name,
-        profile_url: req.body.profile_url,
-        access_token: req.body.access_token,
-        role: req.body.role,
-        is_active: req.body.is_active,
-        is_online: req.body.is_online,
-        locale: req.body.locale,
-        last_seen_at: req.body.last_seen_at,
-        metadata: req.body.metadata,
-    }
-    const check = Joi.object({
-        nickname: Joi.string().required().min(4).max(48),
-        full_name: Joi.string().required().min(4).max(68),
-        profile_url: Joi.string(),
-        access_token: Joi.string().required(),
-        role: Joi.string().required(),
-        is_active: Joi.boolean().required(),
-        is_online: Joi.boolean().required(),
-        locale: Joi.string().required().min(2).max(3),
-        last_seen_at: Joi.number().required().default(0),
-        metadata: Joi.object(),
-    })
-    const {
-        error
-    } = check.validate(data)
-    if (error) {
-        res.status(400).send({
-            'error': error.details[0].message
-        })
-    } else {
-
+    // const data = {
+    //     nickname: req.body.nickname,
+    //     full_name: req.body.full_name,
+    //     profile_url: req.body.profile_url,
+    //     access_token: req.body.access_token,
+    //     role: req.body.role,
+    //     is_active: req.body.is_active,
+    //     is_online: req.body.is_online,
+    //     locale: req.body.locale,
+    //     last_seen_at: req.body.last_seen_at,
+    //     metadata: req.body.metadata,
+    // }
+    // const check = Joi.object({
+    //     nickname: Joi.string().required().min(4).max(48),
+    //     full_name: Joi.string().required().min(4).max(68),
+    //     profile_url: Joi.string(),
+    //     access_token: Joi.string().required(),
+    //     role: Joi.string().required(),
+    //     is_active: Joi.boolean().required(),
+    //     is_online: Joi.boolean().required(),
+    //     locale: Joi.string().required().min(2).max(3),
+    //     last_seen_at: Joi.number().required().default(0),
+    //     metadata: Joi.object(),
+    // })
+    // const {
+    //     error
+    // } = check.validate(data)
+    // if (error) {
+    //     res.status(400).send({
+    //         'error': error.details[0].message
+    //     })
+    // } else {
         try {
 
             const result = await user.create(req.body);
@@ -173,7 +172,6 @@ export const postUser = async (req, res) => {
                     date: result
                 })
             } else {
-
                 res.status(400).json({
                     "error": 'failed to create new user'
                 })
@@ -187,7 +185,7 @@ export const postUser = async (req, res) => {
             logger(err)
         }
     }
-}
+
 /**
  * updateUser : update user data
  * @route /user/:id

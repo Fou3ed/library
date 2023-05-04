@@ -15,19 +15,20 @@ const ioConnEvents = function () {
 
 
     io.on('connection', async (socket) => {
-
         socket.on("user-connected", async (onConnectData) => {
+            
             const user = onConnectData.user
-            console.log("user-connected : ", user)
+            console.log("user-connected : ", onConnectData)
             //update the user socket for every connection event
             await userAct.putUserSocket(user, socket.id)
             const status = true
             //update the use activity to is_active=true
             await userAct.putUserActivity(socket.id, status)
             //save connection to data base 
-            console.log(onConnectData.metaData)
             await db.postConnection(onConnectData.metaData, socket.id).then((newData) => {
                 //send an event to all users at the same namespace except the sender  to inform them about the new connection 
+                  
+                
                  socket.broadcast.emit("user-connection", user)
             });
         });
@@ -62,8 +63,12 @@ const ioConnEvents = function () {
                             console.log(res)
                         })
                         console.log("user just connected!!", socket.id);
+
                         logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}" \n `);
                         db.postConnection(data.metaData, socket.id).then((newData) => {
+                             //TODO  get balance and send it with the emit and save it in array 
+                            
+                                
                             socket.emit('onConnected', info.onConnected, newData, data, socket.data)
                         });
 

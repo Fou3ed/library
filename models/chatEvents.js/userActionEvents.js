@@ -19,12 +19,12 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message read");
                 console.log('====================================');
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 await foued.readMsg(data).then(async (res) => {
                     console.log("res read message",res.modifiedCount)
                     if(res.modifiedCount===0){
                             console.log("all messages are being seen")
                     }else {
-                    let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMessageRead";
                     // socket.emit("onMessageRead",res)
                          console.log(data,status)   
@@ -56,10 +56,12 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message pinned", data);
                 console.log('====================================');
+
                 const user_id = data.user
                 const messageId = data.metaData.message_id
+                let status = await checkJoined(io, socket, data.metaData.conversation, user_id);
+
                 await foued.pinMsg(messageId, user_id).then(async (newRes) => {
-                    let status = await checkJoined(io, socket, data.metaData.conversation, user_id);
                     let emitEvent = "onMsgPinned";
                     switch (status) {
                         case 0:
@@ -89,8 +91,9 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message unpinned");
                 console.log('====================================');
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
                 await foued.unPinMsg(data).then(async (res) => {
-                    let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onMsgUnPinned";
                     switch (status) {
                         case 0:
@@ -148,9 +151,10 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message UnReacted",data);
                 console.log('====================================');
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
                 await react.unReactMsg(data.metaData.message_id).then(async (newRes) => {
                     
-                    let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                     let emitEvent = "onUnReactMsg";
                     console.log(status)
                     switch (status) {
@@ -180,6 +184,7 @@ const ioChatEvents = function () {
                 console.log("Mention Request");
                 console.log('====================================');
                 let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
                 let emitEvent = "onMentionRequest";
                 switch (status) {
                     case 0:

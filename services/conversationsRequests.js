@@ -48,34 +48,50 @@ export const getConv = async (req, res) => {
     
     const userId1 = req.query.user1
     const userId2 = req.query.user2
-console.log(userId1,userId2)
+
     try {
-        const result = await conversation.aggregate([{
-            $lookup: {
-                from: 'members',
-                localField: '_id',
-                foreignField: 'conversation_id',
-                as: 'members'
-            }
-        },
-        {
-            $match: {
-                'members.user_id': {
-                    $all: [
-                        mongoose.Types.ObjectId(userId1),
-                        mongoose.Types.ObjectId(userId2)
-                    ]
+        const result = await conversation.aggregate([
+            {
+                $lookup: {
+                    from: 'members',
+                    localField: '_id',
+                    foreignField: 'conversation_id',
+                    as: 'members'
                 }
+            },
+            {
+                $match: {
+                    'members.user_id': {
+                        $all: [
+                            mongoose.Types.ObjectId(userId1),
+                            mongoose.Types.ObjectId(userId2)
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    'members': 0
+                }
+            },
+            {
+                $lookup: {
+                    from: 'messages',
+                    localField: '_id',
+                    foreignField: 'conversation_id',
+                    as: 'messages'
+                }
+            },
+            {
+                $match: {
+                    'messages.read': ''
+                }
+            },
+            {
+                $count: 'total_unReadMessages'
             }
-        },
-        {
-            $project: {
-                'members': 0
-            }
-        },
-    ]);
+        ]);
         
-        console.log(result)
         res.status(200).json({
             message: "success",
             data: result
