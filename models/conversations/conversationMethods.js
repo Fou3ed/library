@@ -33,8 +33,8 @@
       */
      async getCnv(id) {
          const response = await getConversation(id)
-         const resData=await response.json()
-         return resData;
+       
+         return response;
      }
      /**
       * get conversation by id 

@@ -15,14 +15,10 @@ const ioConversationEvents = function () {
     //room namespace
     io.on('connection', async (socket) => {
 
-
-
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {
-            
             try {
-              
                 if (data.metaData.name == "") {
                     console.log("conversation must obtain a name ")
                 } else {

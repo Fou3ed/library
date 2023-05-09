@@ -138,7 +138,7 @@ export const checkMember = async (convId,userId, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-      
+        console.log("create member",req)
         try{
             if(req.transfer_type==3){
                 const data={

@@ -67,7 +67,7 @@ const userSchema = new Schema({
     status: {
         type: Number,
         required: false,
-        description: 'user status'
+        description: 'user status,1:client,0:guest'
     },
     id:{
         type:String,

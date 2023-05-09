@@ -1,5 +1,7 @@
 import conversation from '../models/conversations/conversationModel.js'
 import members from '../models/convMembers/convMembersModel.js'
+import axios from 'axios';
+
 import {
     mongoose
 } from '../dependencies.js';
@@ -44,14 +46,13 @@ export const getConversations = async (req, res) => {
 /**
  * get conversation between agent and client 
  */
+
 export const getConv = async (req, res) => {
-    
+
     const userId1 = req.query.user1
     const userId2 = req.query.user2
-
     try {
-        const result = await conversation.aggregate([
-            {
+        const result = await conversation.aggregate([{
                 $lookup: {
                     from: 'members',
                     localField: '_id',
@@ -68,34 +69,31 @@ export const getConv = async (req, res) => {
                         ]
                     }
                 }
-            },
-            {
-                $project: {
-                    'members': 0
-                }
-            },
-            {
-                $lookup: {
-                    from: 'messages',
-                    localField: '_id',
-                    foreignField: 'conversation_id',
-                    as: 'messages'
-                }
-            },
-            {
-                $match: {
-                    'messages.read': ''
-                }
-            },
-            {
-                $count: 'total_unReadMessages'
             }
         ]);
-        
-        res.status(200).json({
-            message: "success",
-            data: result
-        })
+
+        if (result.length > 0 && result[0]._id) {
+            const conversationId = result[0]._id;
+            console.log("tit", conversationId)
+            const page = req.query.page || 1;
+            const limit = req.query.limit || 10;
+            const messagesUrl = `http://127.0.0.1:3000/messages/${conversationId}?page=${page}&limit=${limit}`;
+
+            const messagesResponse = await axios.get(messagesUrl);
+            res.status(200).json({
+                message: "success",
+                data: {
+                    conversation: result,
+                    messages: messagesResponse.data
+                }
+            })
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: null
+            })
+            console.log("never spoke")
+        }
     } catch (err) {
         console.log(err)
         logger(err)
@@ -103,11 +101,10 @@ export const getConv = async (req, res) => {
             message: "fail retrieving data"
         })
     }
-
 }
 
 
-export const getConvBetweenUsers = async (userId1,userId2) => {
+export const getConvBetweenUsers = async (userId1, userId2) => {
 
     try {
         const result = await conversation.aggregate([{
@@ -134,19 +131,19 @@ export const getConvBetweenUsers = async (userId1,userId2) => {
                 }
             },
         ]);
-       
-      return result 
+
+        return result
     } catch (err) {
         console.log(err)
-        logger(err)         
+        logger(err)
     }
 
 }
 
 
 
-export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
-        console.log("user 1 and user 2 ",userId1,userId2)
+export const getPrivateConvBetweenUsers = async (userId1, userId2) => {
+    console.log("user 1 and user 2 ", userId1, userId2)
     try {
         const result = await conversation.aggregate([{
                 $lookup: {
@@ -177,11 +174,11 @@ export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
                 }
             },
         ]);
-        console.log("hedhy res",result)
-      return result 
+        console.log("hedhy res", result)
+        return result
     } catch (err) {
         console.log(err)
-        logger(err)         
+        logger(err)
     }
 
 }
@@ -198,40 +195,39 @@ export const getPrivateConvBetweenUsers = async (userId1,userId2) => {
 export const getUserConversations = async (req, res) => {
     const id = req.params.id;
     try {
-      const result = await conversation.aggregate([
-        {
-          $lookup: {
-            from: "members",
-            localField: "_id",
-            foreignField: "conversation_id",
-            as: "members",
-          },
-        },
-        {
-          $match: {
-            "members.user_id": mongoose.Types.ObjectId(id),
-          },
-        },
-        {
-          $sort: {
-            updated_at: -1,
-          },
-        },
-      ]);
-  
-      res.status(200).json({
-        message: "success",
-        data: result,
-      });
+        const result = await conversation.aggregate([{
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "conversation_id",
+                    as: "members",
+                },
+            },
+            {
+                $match: {
+                    "members.user_id": mongoose.Types.ObjectId(id),
+                },
+            },
+            {
+                $sort: {
+                    updated_at: -1,
+                },
+            },
+        ]);
+
+        res.status(200).json({
+            message: "success",
+            data: result,
+        });
     } catch (err) {
-      console.log(err);
-      logger(err);
-      res.status(400).send({
-        message: "fail retrieving data",
-      });
+        console.log(err);
+        logger(err);
+        res.status(400).send({
+            message: "fail retrieving data",
+        });
     }
-  };
-  
+};
+
 
 
 
@@ -240,9 +236,7 @@ export const getUserConversations = async (req, res) => {
  * @route /conversation/:id
  * @method Get
  */
-export const getConversation = async (req, res) => {
-     
-    const id = req.params.id
+export const getConversation = async (id, res) => {
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such conversation(wrong id) '
@@ -250,36 +244,34 @@ export const getConversation = async (req, res) => {
     } else {
         try {
             const result = await conversation.findById(id);
-            res.status(200).json({
-                message: "success",
-                data: result
-            })
+            return result
         } catch (err) {
             console.log(err)
             logger(err)
-            res.status(400).send({
-                message: "fail retrieving data"
-            })
+            
         }
     }
 }
 
 export const getConversationById = async (id, res) => {
-        try {
-            const conversationData= await conversation.findById(id)
-            const membersData=await members.find({conversation_id: id}) 
+    try {
+        const conversationData = await conversation.findById(id)
+        const membersData = await members.find({
+            conversation_id: id
+        })
 
-         
-            return {...conversationData , members:membersData}
 
-        } catch (err) {
-            console.log(err)
-            logger(err)
-       
+        return {
+            ...conversationData,
+            members: membersData
         }
+
+    } catch (err) {
+        console.log(err)
+        logger(err)
+
     }
-
-
+}
 
 /**
  * createConversation: create conversation
@@ -288,6 +280,7 @@ export const getConversationById = async (id, res) => {
  * @body name:,channel_url: , conversation_type : , description:,members_count:,max_length_message:,operators:[],owner_id:,last_msg:,unread_messages_count:,permission:{key:value} ,metadata:{"key":"value"}
  */
 export const postConversation = async (req, res) => {
+    console.log("create conversation ",req)
     const data = {
         name: req.metaData.name,
         channel_url: req.metaData.channel_url,
@@ -415,10 +408,9 @@ export const deleteConversation = async (req, res) => {
 
 }
 export const getActiveCnvs = async (req, res) => {
-   const userId=req.params.id
+    const userId = req.params.id
     try {
-        const result = await conversation.aggregate([
-            {
+        const result = await conversation.aggregate([{
                 $lookup: {
                     from: "members",
                     localField: "_id",
@@ -493,8 +485,8 @@ export const putActiveCnvs = async (req, res) => {
     }
 }
 
-export const putConvType = async (id,status,type, res) => {
-    
+export const putConvType = async (id, status, type, res) => {
+
     try {
         const result = await conversation.findByIdAndUpdate(
             id, {
@@ -504,11 +496,11 @@ export const putConvType = async (id,status,type, res) => {
                 }
             },
         );
-    
-       return result
-        
+
+        return result
+
     } catch (err) {
-        
+
         console.log(err)
         loggers.err(err)
     }

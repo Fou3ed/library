@@ -10,7 +10,6 @@ export default async function checkJoined(io, socket, conversationId, userId) {
     let status = "";
     try {
       if (conversationId){
-
       // get conversation Members
       const members = await convMember.getConversationMembers(conversationId);
 
@@ -31,11 +30,9 @@ export default async function checkJoined(io, socket, conversationId, userId) {
           // Check if the receiver is joined, if not send an emit to join them
           else if (!(room && room.has(res.socket_id))) {  
             io.to(res.socket_id).emit('joinConversationMember', conversationId);
-            console.log("join Member to the conversation");
             status = 2;
           } else {
             // socket.emit('joinConversationMember', conversationId);
-            console.log('Users are already joined');
             status = 1;
           }
         } else {

@@ -10,6 +10,9 @@ const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import joinRoom from '../../utils/joinRoom.js'
 import checkJoined from '../../utils/joinRoom.js'
+import userMethod from '../user/userMethods.js'
+const userM = new userMethod() 
+
 const ioChatEvents = function () {
 
     io.on('connection', function (socket) {
@@ -27,7 +30,6 @@ const ioChatEvents = function () {
                     }else {
                     let emitEvent = "onMessageRead";
                     // socket.emit("onMessageRead",res)
-                         console.log(data,status)   
                     switch (status) {
                         case 0:
                             socket.emit(emitEvent, data);
@@ -120,27 +122,52 @@ const ioChatEvents = function () {
                 console.log('====================================');
                 console.log("message reacted",data);
                 console.log('====================================');
-
                 //if the message is being reacted by  the same person , delete the react and update it with the new one , else create new one directly
                 const user_id = data.user
                 const message = data.metaData.message_id
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length > 0) {
-                        joinRoom(io, socket, data.metaData.conversation, user_id)
                         await react.putReact(res[0]._id, data).then((newRes) => {
-                            io.to(data.metaData.conversation).emit("onMsgReacted", newRes)
-                            socket.emit("onMsgReacted", newRes, res)
-                        })
+                            let emitEvent="onMsgReacted"
+                            switch (status) {
+                                case 0:
+                                    socket.emit(emitEvent, data);
+                                    break;
+                                case 1:
+                                case 2:
+                                case 3:
+                                    io.to(data.metaData.conversation).emit(emitEvent, newRes);
+                                    break;
+                                default:
+                                    console.log("error updating  a react");
+                                    break;
+                            }
+                            logger.info(`Event: updateReact ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                        }
+                        )
                     } else {
-                        joinRoom(io, socket, data.metaData.conversation, user_id)
                         await react.postReact(data).then((res) => {
-                            io.to(data.metaData.conversation).emit("onMsgReacted", res)
-                            socket.emit("onMsgReacted", res)
-                        })
+                            let emitEvent="onMsgReacted"
+
+                            switch (status) {
+                                case 0:
+                                    socket.emit(emitEvent, res);
+                                    break;
+                                case 1:
+                                case 2:
+                                case 3:
+                                    io.to(data.metaData.conversation).emit(emitEvent, res);
+                                    break;
+                                default:
+                                    console.log("error updating  a react");
+                                    break;
+                            }
+                            logger.info(`Event: postReact(onMessageReacted) ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                        }
+                        )
                     }
                 })
-                logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
             } catch (err) {
                 logger.info(`Event: onMessageReacted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
             }
@@ -156,7 +183,6 @@ const ioChatEvents = function () {
                 await react.unReactMsg(data.metaData.message_id).then(async (newRes) => {
                     
                     let emitEvent = "onUnReactMsg";
-                    console.log(status)
                     switch (status) {
                         case 0:
                             socket.emit(emitEvent, newRes);
@@ -184,7 +210,6 @@ const ioChatEvents = function () {
                 console.log("Mention Request");
                 console.log('====================================');
                 let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
-
                 let emitEvent = "onMentionRequest";
                 switch (status) {
                     case 0:
@@ -252,7 +277,13 @@ const ioChatEvents = function () {
                     case 1:
                     case 2:
                     case 3:
-                        socket.to(data.metaData.conversation).emit(emitEvent, data);
+                        userM.getUser(data.user).then((userData)=>{
+                            const combinedData = { ...data, ...userData };
+
+                            socket.to(data.metaData.conversation).emit(emitEvent, combinedData);
+
+                        })
+
                         break;
                     default:
                         console.log("error onTypingStart a message");
@@ -266,6 +297,7 @@ const ioChatEvents = function () {
             }
 
         });
+ 
         // onTypingStopped : Fired when the user stop typing.
         socket.on('onTypingStop', async function (data) {
             try {

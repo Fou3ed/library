@@ -43,7 +43,7 @@ export const getUsers = async (req, res) => {
  */
 export const getUserConnected = async (req, res) => {
     try {
-        const result = await user.find({is_active:true});
+        const result = await user.find({is_active: true, role: {$ne: null}});
         if (result.length > 0) {
             res.status(200).json({
                 message: "success",
@@ -62,6 +62,7 @@ export const getUserConnected = async (req, res) => {
         })
     }
 }
+
 /**
  * get user by socket.id
  */
@@ -120,7 +121,6 @@ export const getUser = async (id, res) => {
  * @body  nickname,full_name,profile_url,access_token,role,is_active,is_online,locale,last_seen_at,metadata
  */
 export const postUser = async (req, res) => {
-
     // const data = {
     //     nickname: req.body.nickname,
     //     full_name: req.body.full_name,
@@ -313,7 +313,7 @@ export const putUserSocket = async (id, socket_id, res) => {
  * update socket _id 
  */
 export const putUserActivity = async (id, status) => {
-
+    console.log("id",id,status)
     try {
         const result = await user.findOneAndUpdate({
                 socket_id: id
@@ -341,7 +341,7 @@ export const putUserActivity = async (id, status) => {
             log.addLog(dataLog)
             return result
         } else {
-            console.log("  failed updating user activity ")
+            console.log("failed updating user activity ")
         }
     } catch (err) {
         console.log(err)

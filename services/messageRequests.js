@@ -16,8 +16,8 @@ import mongoose from 'mongoose'
  * @method Get 
  */
 export const GetLastMessage = async (req, res) => {
+    console.log("hereee")
     const conversationId = req.params.id
-
     try {
         const lastMessage = await message.find({
                 conversation_id: conversationId

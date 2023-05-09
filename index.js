@@ -28,14 +28,19 @@ const httpServer = createServer(app);
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
 export const io = new Server(httpServer, {
   pingTimeout: 60000, // Set the timeout to 60 seconds
-
-    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/","http://192.168.0.41:3000/"]
+  cors: {
+    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/","http://192.168.0.41:3000/"],
+    allowedHeaders: ["content-type"]
+  }
 });
+
 
 io.sockets.setMaxListeners(20)
 
