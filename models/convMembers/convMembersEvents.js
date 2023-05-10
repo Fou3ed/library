@@ -138,7 +138,6 @@ const ioConversationMembersEvents = function () {
                 await foued.checkMember(data.conversation_id, data.user_id).then(async (exist) => {
                     
                     if (exist.length == 0) {
-                        console.log("data",data)
                     //if (user_id in the member where conversation_id=conversation id ) do not add 
                     await foued.addMember(data).then(async (res) => {
                         console.log('====================================');
@@ -178,7 +177,7 @@ const ioConversationMembersEvents = function () {
         socket.on('onConversationTransferAccepted', (conversationId) => {
             try {
                 socket.join(conversationId._doc._id)
-                io.to(conversationId._doc._id).emit('onConversationTransferAcceptedJoined', conversationId._doc._id)
+                io.to(conversationId._doc._id).emit('onConversationTransferAcceptedJoined', conversationId)
             } catch (err) {
                 logger.error(`Event: onConversationTransferAccepted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }

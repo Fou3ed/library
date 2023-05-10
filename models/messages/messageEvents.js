@@ -27,7 +27,6 @@ const ioMessageEvents = function () {
 
   io.on('connection', function (socket) {
     socket.on('onMessageCreated', async (data, error) => {
-      console.log("data",data)
       try {
         // Save the message to your database
         const savedMessage = await foued.addMsg(data);
@@ -59,14 +58,12 @@ const ioMessageEvents = function () {
           uuid: data.uuid,
           type
         };
-
         if (!data || !data.metaData || !conversationId) {
           console.error('Invalid input data');
           return;
         }
         //get receiver information
         userM.getUser(receiver).then((res) => {
-
           // Check if the receiver is online (connected to the socket)
           if (res.is_active === true) {
             console.log("receiver is active")
@@ -74,7 +71,6 @@ const ioMessageEvents = function () {
             const room = io.of('/').adapter.rooms.get(conversationId);
             if (room === undefined) {
               const userId = messageData.from;
-
               const userBalance = clientBalance.find((b) => b.user === userId);
               reviewBalance(io, socket, conversationId, userBalance).then((newRes) =>{
                 console.log("room been created")
@@ -85,7 +81,7 @@ const ioMessageEvents = function () {
                   direction: 'in',
                   conversationName:conversationName
                 });
-                conversationAct.putCnvLM(conversationId,messageData.content)
+                conversationAct.putCnvLM(conversationId,messageData)
 
                 io.to(res.socket_id).emit('joinConversationMember', conversationId);
               })
@@ -96,6 +92,7 @@ const ioMessageEvents = function () {
             
 
               const userId = messageData.from;
+
                             // Find the user's balance in the clientBalance array
                             const userBalance = clientBalance.find((b) => b.user === userId);
               reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
@@ -105,11 +102,10 @@ const ioMessageEvents = function () {
                   ...messageData,
                   isSender: true,
                   direction: 'in',
-                  balance: balance,// Add the balance to the event data
+                  balance: userBalance.balance,// Add the balance to the event data
                   conversationName:conversationName
-
                 });
-              conversationAct.putCnvLM(conversationId,messageData.content)
+              conversationAct.putCnvLM(conversationId,messageData)
               })
             } else {
               const userId = messageData.from;
@@ -126,7 +122,7 @@ const ioMessageEvents = function () {
                   conversationName:conversationName,
                   balance: userBalance.balance // Add the balance to the event data
                 },online);
-              conversationAct.putCnvLM(conversationId,messageData.content)
+              conversationAct.putCnvLM(conversationId,messageData)
             })}
           } else {
             const userId = messageData.from;
@@ -134,7 +130,7 @@ const ioMessageEvents = function () {
             reviewBalance(io,socket,conversationId,userBalance).then((newRes)=>{
 
             console.log('Receiver is offline');
-            conversationAct.putCnvLM(conversationId,messageData.content)
+            conversationAct.putCnvLM(conversationId,messageData)
             let online = 0
             // Emit an event to the client who sent the message to indicate that the message was sent
             socket.emit('onMessageSent', {
@@ -172,7 +168,6 @@ const ioMessageEvents = function () {
     socket.on('receiveMessage', async conversationId => {
       const conversationData=await conversationAct.getCnv(conversationId)
            const conversationName=conversationData.name
-           console.log("receiveMessage")
   // Emit an event to all members of the conversation except the sender to indicate that a new message was received
   socket.to(conversationId).emit('onMessageReceived', {
     ...newMessage,
@@ -180,7 +175,7 @@ const ioMessageEvents = function () {
     direction: 'out',
     conversationName:conversationName
   });
-   conversationAct.putCnvLM(conversationId,newMessage.message)
+   conversationAct.putCnvLM(conversationId,newMessage)
     })
 
     socket.on('onMessageDelivered', (data) => {
@@ -228,15 +223,12 @@ const ioMessageEvents = function () {
 
     socket.on('onMessageDeleted', async (data) => {
       try {
-
         let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
-
         console.log('====================================');
         console.log("Message deleted");
         console.log('====================================');
         //change this to update status = 0 means the message is deleted .
         foued.deleteMsg(data).then(async (res) => {
-          console.log("hedhy",status )
           let emitEvent = "onMessageDeleted"
           switch (status) {
             case 0:
@@ -252,18 +244,17 @@ const ioMessageEvents = function () {
               break;
           }
         });
-    
         logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `);
       } catch (err) {
         logger.error(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `);
       }
     });
-  
     socket.on('forwardMessage', async (data) => {
       //check if they have a conversation together else create one (user 1 and user 2)
       //data will have an array of the users who are gonna receive the message
       //the user can forward the message to multiple 
       try {
+
         const receivers = data.to
         //check conversation if exist : just send a message if offline , if online join members and send message
         console.log('====================================');
@@ -271,14 +262,17 @@ const ioMessageEvents = function () {
         console.log('====================================');
         //get conversation using conversation members
         receivers.forEach(async (user) => {
-          const conversation = await conversationAct.getPrivateConvBetweenUsers(user, data.user);
+          const conversationData = await conversationAct.getPrivateConvBetweenUsers(user, data.user);
           const from = data.user;
           const date = currentDate;
           const type = data.metaData.type;
-          const status = "3"
+          // const status = "3"
           // if conversation id  exists 
-          if (conversation.length > 0) {
-            const conversation_id = conversation[0]._id
+
+          if (conversationData.length > 0) {
+            const conversation = conversationData[0]._id
+            let status = await checkJoined(io, socket, conversation, data.user);
+
             //save message in data base 
             //message data obj to be sent 
             const savingMessage = {
@@ -287,7 +281,7 @@ const ioMessageEvents = function () {
               action: "message.forward",
               metaData: {
                 type: data.metaData.type,
-                conversation_id: conversation_id,
+                conversation_id: conversation,
                 user: data.metaData.user,
                 message: data.metaData.message,
                 data: data.metaData.data,
@@ -296,82 +290,26 @@ const ioMessageEvents = function () {
               },
               to: data.to
             }
-            const savedMessage = await foued.addMsg(savingMessage);
-            const messageData = {
-              content: data.metaData.message,
-              id: savedMessage._id,
-              from,
-              conversation_id,
-              date,
-              uuid: data.uuid,
-              type,
-              status
-            };
-            const members = await convMember.getConversationMembers(conversation_id);
-           
-            const receiver = await Promise.all(
-              members
-              .filter(member => member !== data.user)
-              .map(async (member) => {
-                return member;
-              })
-            );
-            //get receiver information
-            userM.getUser(receiver).then((res) => {
-              // Check if the receiver is online (connected to the socket)
-              if (res.is_active === true) {
-                console.log("receiver is active")
-                // Check if the room exists, if not create the room
-                const room = io.of('/').adapter.rooms.get(conversation_id);
-                if (room === undefined) {
-                  console.log("room been created")
-                  socket.join(conversation_id)
-                  socket.emit('onMessageSent', {
-                    ...messageData,
-                    isSender: true,
-                    direction: 'in'
-                  });
-                  conversationAct.putCnvLM(conversation_id,messageData.content)
-                  console.log("herrree",res.socket_id)
-                  io.to(res.socket_id).emit('joinConversationMember', conversation_id);3
-                }
-                // Check if the receiver is joined, if not send an emit to join them
-                else if (!(room && room.has(res.socket_id))) {
-                  socket.emit('onMessageSent', {
-                    ...messageData,
-                    isSender: true,
-                    direction: 'in'
-                  });
-                  conversationAct.putCnvLM(conversation_id,messageData.content)
-                  io.to(res.socket_id).emit('joinConversationMember', conversation_id);
-                } else {
-                  let online = 1
-                  console.log('Users are already joined');
-                  socket.emit('onMessageSent', {
-                    ...messageData,
-                    isSender: true,
-                    direction: 'in'
-                  }, online);
+            await foued.addMsg(savingMessage).then((savedMessage)=>{
+              const messageData = {
+                content: data.metaData.message,
+                id: savedMessage._id,
+                from,
+                conversation,
+                date,
+                uuid: data.uuid,
+                type,
+                status
+              };
 
-                }
-                conversationAct.putCnvLM(conversation_id,messageData.content)
-              } else {
-                console.log('Receiver is offline');
-                let online = 0
-                // Emit an event to the client who sent the message to indicate that the message was sent
-                socket.emit('onMessageSent', {
-                  ...messageData,
-                  isSender: true,
-                  direction: 'in'
-                }, online);
-              }
-              conversationAct.putCnvLM(conversation_id,messageData.content)
-            })
-            newMessage = {
-              messageData,
-              ...savedMessage
-            }
-            return messageData
+              socket.emit('onMessageSent', {
+                ...messageData,
+                isSender: true,
+                direction: 'in',
+              }, status);
+               conversationAct.putCnvLM(conversation,messageData)
+            });
+        
           } else {
             console.log('====================================');
             console.log("Message forward first time talking ");
@@ -414,9 +352,10 @@ const ioMessageEvents = function () {
                 }
                 await convMember.addMember(data1)
                 await convMember.addMember(data2)
+                let statusJoin = await checkJoined(io, socket, conversation_id, data.user);
 
-
-                if (conversation) {
+                if (conversation_id) {
+                  const conversation=conversation_id
                   //save message in data base 
                   //message data obj to be sent 
                   const savingMessage = {
@@ -425,7 +364,7 @@ const ioMessageEvents = function () {
                     action: "message.forward",
                     metaData: {
                       type: data.metaData.type,
-                      conversation_id: conversation_id,
+                      conversation_id: conversation,
                       user: data.metaData.user,
                       message: data.metaData.message,
                       data: data.metaData.data,
@@ -434,79 +373,27 @@ const ioMessageEvents = function () {
                     },
                     to: data.to
                   }
-                  const savedMessage = await foued.addMsg(savingMessage);
-                  const messageData = {
-                    content: data.metaData.message,
-                    id: savedMessage._id,
-                    from,
-                    conversation_id,
-                    date,
-                    uuid: data.uuid,
-                    type,
-                    status
-                  };
-                  const members = await convMember.getConversationMembers(conversation_id);
-                  const receiver = await Promise.all(
-                    members
-                    .filter(member => member !== data.user)
-                    .map(async (member) => {
-                      return member;
-                    })
-                  );
-                  //get receiver information
-                  userM.getUser(receiver).then((res) => {
-
-                    // Check if the receiver is online (connected to the socket)
-                    if (res.is_active === true) {
-                      console.log("receiver is active")
-                      // Check if the room exists, if not create the room
-                      const room = io.of('/').adapter.rooms.get(conversation_id);
-                      if (room === undefined) {
-                        console.log("room been created")
-                        socket.join(conversation_id)
-                        socket.emit('onMessageSent', {
-                          ...messageData,
-                          isSender: true,
-                          direction: 'in'
-                        });
-                        conversationAct.putCnvLM(conversation_id,messageData.content)
-                        io.to(res.socket_id).emit('joinConversationMember', conversation_id);
-                      }
-                      // Check if the receiver is joined, if not send an emit to join them
-                      else if (!(room && room.has(res.socket_id))) {
-                        socket.emit('onMessageSent', {
-                          ...messageData,
-                          isSender: true,
-                          direction: 'in'
-                        });
-                        io.to(res.socket_id).emit('joinConversationMember', conversation_id);
-                      } else {
-                        let online = 1
-                        console.log('Users are already joined');
-                        socket.emit('onMessageSent', {
-                          ...messageData,
-                          isSender: true,
-                          direction: 'in'
-                        }, online);
-                        conversationAct.putCnvLM(conversation_id,messageData.content)
-                      }
-                    } else {
-                      console.log('Receiver is offline');
-                      conversationAct.putCnvLM(conversation_id,messageData.content)
-                      let online = 0
-                      // Emit an event to the client who sent the message to indicate that the message was sent
-                      socket.emit('onMessageSent', {
-                        ...messageData,
-                        isSender: true,
-                        direction: 'in'
-                      }, online);
-                    }
-                  })
-                  newMessage = {
-                    messageData,
-                    ...savedMessage
-                  }
-                  return messageData
+                  
+                  await foued.addMsg(savingMessage).then((savedMessage)=>{
+                    const messageData = {
+                      content: data.metaData.message,
+                      id: savedMessage._id,
+                      from,
+                      conversation,
+                      date,
+                      uuid: data.uuid,
+                      type,
+                      status
+                    };
+      
+                    socket.emit('onMessageSent', {
+                      ...messageData,
+                      isSender: true,
+                      direction: 'in',
+                    }, statusJoin);
+                     conversationAct.putCnvLM(conversation,messageData)
+                  });
+            
 
                 }
               })

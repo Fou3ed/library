@@ -342,32 +342,29 @@ export const putConversationLastMessage = async (id, message, error) => {
         const result = await conversation.findByIdAndUpdate(
             id, {
                 $set: {
-                    last_message: message,
+                    last_message: message.MessageData,
                     updated_at: Date.now(),
                 }
             }, {
                 new: true
             } // to return the updated document
         );
-
         if (result) {
             console.log("conversation updated successfully")
             let dataLog = {
                 "app_id": "63ce8575037d76527a59a655",
                 "user_id": "6390b2efdfb49a27e7e3c0b9",
                 "socket_id": "req.body.socket_id",
-                "action": "Update conversation ",
+                "action": "Update conversation last message ",
                 "element": element,
                 "element_id": "1",
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
-
             return result
         } else {
             console.log(" wrong values")
         }
-
     } catch (err) {
         console.log(err)
         logger.error(err)

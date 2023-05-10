@@ -32,17 +32,15 @@ export default async function checkJoined(io, socket, conversationId, userId) {
             io.to(res.socket_id).emit('joinConversationMember', conversationId);
             status = 2;
           } else {
-            // socket.emit('joinConversationMember', conversationId);
+             socket.emit('joinConversationMember', conversationId);
             status = 1;
           }
         } else {
           console.log('Receiver is offline');
-          status = 0;
+          status = 0; 
         }}
-      // )}
-   
       else{
-console.log("no conv id")
+        console.log("no conv id")
       }
     } catch (err) {
       console.log('Error:', err);

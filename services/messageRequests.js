@@ -16,7 +16,6 @@ import mongoose from 'mongoose'
  * @method Get 
  */
 export const GetLastMessage = async (req, res) => {
-    console.log("hereee")
     const conversationId = req.params.id
     try {
         const lastMessage = await message.find({
@@ -28,13 +27,13 @@ export const GetLastMessage = async (req, res) => {
             .limit(1)
         if (lastMessage.length > 0) {
             const userId = lastMessage[0].user
-            console.log("user",userId)
+  
             const userData=await user.findById(userId)
             res.status(200).json({
                 message: "success",
                 data: lastMessage[0] , ...userData 
             })
-        } else {
+        } else { 
             res.status(200).json({
                 message: "success",
                 data: "there are no conversation"
@@ -48,7 +47,6 @@ export const GetLastMessage = async (req, res) => {
         })
     }
 }
-
 
 /**
  * getMessage:get message data
@@ -119,13 +117,9 @@ export const getMessagesUsers = async (req, res) => {
             },
         ])
         .exec();
-
-
-
         // Get the timestamps of the first and last message in the set
         const firstMessageTimestamp = messages.length > 0 ? messages[messages.length - 1].created_at : new Date();
         const lastMessageTimestamp = messages.length > 0 ? messages[0].created_at : new Date();
-
         // Get the log messages that were created between the timestamps
         const logMessages = await message
         .aggregate([
@@ -145,8 +139,6 @@ export const getMessagesUsers = async (req, res) => {
                 }
             }
         ])
-
-     
         // Merge the two sets of messages and sort them by timestamp
         const allMessages = [...logMessages, ...messages];
         allMessages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -326,7 +318,7 @@ export const MarkMessageAsRead = async (data, res) => {
  */
 
 export const MarkMessageAsPinned = async (id, user) => {
-    console.log("pin",id)
+
     try {
         const result = await message.findByIdAndUpdate(
             id, {

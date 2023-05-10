@@ -19,10 +19,11 @@ const ioChatEvents = function () {
         // onMessageRead : Fired when the user read a message.
         socket.on('onMessageRead', async (data) => {
             try {
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
                 console.log('====================================');
                 console.log("message read");
                 console.log('====================================');
-                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 await foued.readMsg(data).then(async (res) => {
                     console.log("res read message",res.modifiedCount)
                     if(res.modifiedCount===0){
@@ -54,15 +55,15 @@ const ioChatEvents = function () {
         // onMessagePinned : Fired when the user pin a message.
 
         socket.on('pinMsg', async (data) => {
+            const user_id = data.user
+            const messageId = data.metaData.message_id
+            let status = await checkJoined(io, socket, data.metaData.conversation, user_id);
             try {
                 console.log('====================================');
                 console.log("message pinned", data);
                 console.log('====================================');
-
-                const user_id = data.user
-                const messageId = data.metaData.message_id
-                let status = await checkJoined(io, socket, data.metaData.conversation, user_id);
-
+    
+                console.log("status pin",status)
                 await foued.pinMsg(messageId, user_id).then(async (newRes) => {
                     let emitEvent = "onMsgPinned";
                     switch (status) {
@@ -90,10 +91,12 @@ const ioChatEvents = function () {
         // onMessageUnpinned : Fired when the user unpin a message.
         socket.on('unPinMsg', async (data) => {
             try {
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+                console.log("status",status)
                 console.log('====================================');
                 console.log("message unpinned");
                 console.log('====================================');
-                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
 
                 await foued.unPinMsg(data).then(async (res) => {
                     let emitEvent = "onMsgUnPinned";
@@ -119,20 +122,22 @@ const ioChatEvents = function () {
         // onMessageReacted : Fired when the user add a reaction to message.
         socket.on('reactMsg', async function (data) {
             try {
+                
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 console.log('====================================');
                 console.log("message reacted",data);
                 console.log('====================================');
                 //if the message is being reacted by  the same person , delete the react and update it with the new one , else create new one directly
                 const user_id = data.user
                 const message = data.metaData.message_id
-                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
                 await react.getMsgReact(message, user_id).then(async (res) => {
                     if (res.length > 0) {
                         await react.putReact(res[0]._id, data).then((newRes) => {
+                            console.log("update react",newRes)
                             let emitEvent="onMsgReacted"
                             switch (status) {
                                 case 0:
-                                    socket.emit(emitEvent, data);
+                                    socket.emit(emitEvent, newRes);
                                     break;
                                 case 1:
                                 case 2:
@@ -175,10 +180,11 @@ const ioChatEvents = function () {
         // onMessageUnReacted : Fired when the user remove a reaction from message.
         socket.on('unReactMsg', async function (data) {
             try {
+                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+
                 console.log('====================================');
                 console.log("message UnReacted",data);
                 console.log('====================================');
-                let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
 
                 await react.unReactMsg(data.metaData.message_id).then(async (newRes) => {
                     
