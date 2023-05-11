@@ -27,7 +27,6 @@ export const GetLastMessage = async (req, res) => {
             .limit(1)
         if (lastMessage.length > 0) {
             const userId = lastMessage[0].user
-  
             const userData=await user.findById(userId)
             res.status(200).json({
                 message: "success",

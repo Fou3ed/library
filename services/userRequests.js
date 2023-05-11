@@ -85,6 +85,7 @@ export const getUserName = async (id, res) => {
     
     try {
         const result = await user.findById(id)
+        
      return result.full_name
     } catch (err) {
         console.log(err)
@@ -154,7 +155,7 @@ export const postUser = async (req, res) => {
     //     })
     // } else {
         try {
-
+            
             const result = await user.create(req.body);
             if (result) {
                 let dataLog = {

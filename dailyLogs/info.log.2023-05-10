@@ -2278,3 +2278,4 @@
 {"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"645b9be9233dbafaea61c399\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"645bce52b027cdba26e5055f\",\"message\":\"645bce5cb027cdba26e505ad\"}} , socket_id : 0doeWt6nHzfskaDdAAAL ,token :\"taw nzidouha , date: 10/05/2023 18:02:34\"   \n "}
 {"level":"info","message":"Event: onConversationTransferAccept ,data: {\"user_id\":\"6411f414b6d7a66e7607aaaa\",\"conversation_id\":\"645bce52b027cdba26e5055f\",\"transfer_type\":\"3\",\"message_id\":\"645bce5cb027cdba26e505ad\"} , socket_id : UsTt_SCEQih_fzSKAAAJ ,token :\"taw nzidouha , date: 10/05/2023 18:02:34\"   \n "}
 {"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"server is running smoothly"}

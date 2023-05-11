@@ -162,8 +162,7 @@ const ioConversationMembersEvents = function () {
                             }
                         })
                     })
-                  
-
+            
                     } else {
                         console.log("member is already there ")
                     }

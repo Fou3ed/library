@@ -12,13 +12,11 @@ import userAction from '../user/userMethods.js'
 const userAct = new userAction()
 import https from 'https'
 
-export let clientBalance=[]
+export let  clientBalance=[]
 const ioConnEvents = function () {
-
-    
     io.on('connection', async (socket) => {
         socket.on("user-connected", async (onConnectData) => {
-            
+
             const user = onConnectData.user
             console.log("user-connected : ", onConnectData)
             //update the user socket for every connection event

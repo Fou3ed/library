@@ -48,7 +48,6 @@ export const getConversations = async (req, res) => {
  */
 
 export const getConv = async (req, res) => {
-
     const userId1 = req.query.user1
     const userId2 = req.query.user2
     try {
@@ -103,9 +102,7 @@ export const getConv = async (req, res) => {
     }
 }
 
-
 export const getConvBetweenUsers = async (userId1, userId2) => {
-
     try {
         const result = await conversation.aggregate([{
                 $lookup: {
@@ -143,7 +140,7 @@ export const getConvBetweenUsers = async (userId1, userId2) => {
 
 
 export const getPrivateConvBetweenUsers = async (userId1, userId2) => {
-    console.log("user 1 and user 2 ", userId1, userId2)
+    console.log("user 1 and user 2 ", userId1,userId2)
     try {
         const result = await conversation.aggregate([{
                 $lookup: {
@@ -157,7 +154,7 @@ export const getPrivateConvBetweenUsers = async (userId1, userId2) => {
                 $match: {
                     'members.user_id': {
                         $all: [
-                            mongoose.Types.ObjectId(userId1),
+                            mongoose.Types.ObjectId(userId1[0]),
                             mongoose.Types.ObjectId(userId2)
                         ]
                     }
@@ -248,7 +245,7 @@ export const getConversation = async (id, res) => {
         } catch (err) {
             console.log(err)
             logger(err)
-            
+
         }
     }
 }
@@ -280,7 +277,7 @@ export const getConversationById = async (id, res) => {
  * @body name:,channel_url: , conversation_type : , description:,members_count:,max_length_message:,operators:[],owner_id:,last_msg:,unread_messages_count:,permission:{key:value} ,metadata:{"key":"value"}
  */
 export const postConversation = async (req, res) => {
-    console.log("create conversation ",req)
+    console.log("create conversation ", req)
     const data = {
         name: req.metaData.name,
         channel_url: req.metaData.channel_url,

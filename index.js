@@ -23,7 +23,7 @@ import ioConversationMembersEvents from "./models/convMembers/convMembersEvents.
 import redisAdapter from 'socket.io-redis'
 const app = express();
 const httpServer = createServer(app);
-
+import bodyParser from "body-parser";
 
 
 app.use((req, res, next) => {
@@ -52,6 +52,11 @@ import conversationRoutes from './routers/conversationRoutes.js'
 import  getReact  from "./routers/reactRoutes.js";
 import GetLastMessage  from "./routers/messageRoutes.js";
 import getMembers from "./routers/membersRoutes.js"
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use('/users',userRoutes)
 app.use('/messages/', messageRoutes);
 app.use('/conversation/',conversationRoutes)
@@ -105,6 +110,7 @@ app.use(
     extended: true,
   })
 );
+
 
 /**
  * Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
