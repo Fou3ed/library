@@ -60,6 +60,8 @@ const ioConnEvents = function () {
             });
         });
 
+        
+
         socket.on("disconnect", async (reason) => {
             if (reason === "io server disconnect") {
                 // the disconnection was initiated by the server, you need to reconnect manually

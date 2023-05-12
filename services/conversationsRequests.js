@@ -192,40 +192,82 @@ export const getPrivateConvBetweenUsers = async (userId1, userId2) => {
 export const getUserConversations = async (req, res) => {
     const id = req.params.id;
     try {
-        const result = await conversation.aggregate([{
-                $lookup: {
-                    from: "members",
-                    localField: "_id",
-                    foreignField: "conversation_id",
-                    as: "members",
-                },
-            },
-            {
+      const result = await conversation.aggregate([
+        {
+          $lookup: {
+            from: "members",
+            localField: "_id",
+            foreignField: "conversation_id",
+            as: "members",
+          },
+        },
+        {
+          $match: {
+            "members.user_id": mongoose.Types.ObjectId(id),
+          },
+        },
+        {
+          $lookup: {
+            from: "messages",
+            let: { conversation_id: "$_id" },
+            pipeline: [
+              {
                 $match: {
-                    "members.user_id": mongoose.Types.ObjectId(id),
+                  $expr: {
+                    $and: [
+                      { $eq: ["$conversation_id", "$$conversation_id"] },
+                      {
+                        $or: [
+                          { $eq: ["$read", null] },
+                          { $eq: ["$read", undefined] },
+                          { $not: ["$read"] },
+                        ],
+                      },
+                    ],
+                  },
                 },
-            },
-            {
-                $sort: {
-                    updated_at: -1,
-                },
-            },
-        ]);
-
-        res.status(200).json({
-            message: "success",
-            data: result,
-        });
+              },
+              {
+                $count: "unread_count",
+              },
+            ],
+            as: "unread_messages",
+          },
+        },
+        {
+          $unwind: {
+            path: "$unread_messages",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: "messages",
+            localField: "last_message",
+            foreignField: "_id",
+            as: "last_message",
+          },
+        },
+        {
+          $sort: {
+            updated_at: -1,
+          },
+        },
+      ]);
+  
+      res.status(200).json({
+        message: "success",
+        data: result,
+      });
     } catch (err) {
-        console.log(err);
-        logger(err);
-        res.status(400).send({
-            message: "fail retrieving data",
-        });
+      console.log(err);
+      logger(err);
+      res.status(400).send({
+        message: "fail retrieving data",
+      });
     }
-};
-
-
+  };
+  
 
 
 /**
@@ -339,7 +381,7 @@ export const putConversationLastMessage = async (id, message, error) => {
         const result = await conversation.findByIdAndUpdate(
             id, {
                 $set: {
-                    last_message: message.MessageData,
+                    last_message: message._id,
                     updated_at: Date.now(),
                 }
             }, {
@@ -367,8 +409,6 @@ export const putConversationLastMessage = async (id, message, error) => {
         logger.error(err)
     }
 }
-
-
 
 /**
  * deleteConversation : delete conversation

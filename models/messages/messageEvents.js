@@ -14,12 +14,14 @@ import {
 } from '../../index.js'
 const foued = new messageActions()
 const convMember = new convMembersAction()
-const userM = new userMethod() 
+const userM = new userMethod()
 const conversationAct = new conversationActions()
 import logger from '../../config/newLogger.js'
 import checkJoined from '../../utils/joinRoom.js'
 import reviewBalance from '../../utils/balance.js'
-import { clientBalance } from '../connection/connectionEvents.js'
+import {
+  clientBalance
+} from '../connection/connectionEvents.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 const ioMessageEvents = function () {
@@ -44,8 +46,8 @@ const ioMessageEvents = function () {
           })
         );
         const senderName = await userM.getUserName(data.user)
-          const conversationData=await conversationAct.getCnv(conversationId)
-           const conversationName=conversationData.name
+        const conversationData = await conversationAct.getCnv(conversationId)
+        const conversationName = conversationData.name
         // Construct a message object to send to clients
         const messageData = {
           content: data.metaData.message,
@@ -70,33 +72,33 @@ const ioMessageEvents = function () {
             const room = io.of('/').adapter.rooms.get(conversationId);
             if (room === undefined) {
               const userId = messageData.from;
-               const userBalance = clientBalance.find((b) => b.user === userId);
-               console.log("clientBalance",clientBalance)
-               console.log("userBalance",userBalance)
-              reviewBalance(io, socket, conversationId, userBalance).then((newRes) =>{
+              
+              const userBalance = clientBalance.find((b) => b.user === userId);
+              console.log("clientBalance", clientBalance)
+              console.log("userBalance", userBalance)
+              reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
                 console.log("room been created")
                 socket.join(conversationId)
                 socket.emit('onMessageSent', {
                   ...messageData,
                   isSender: true,
                   direction: 'in',
-                  conversationName:conversationName
+                  conversationName: conversationName
                 });
-                conversationAct.putCnvLM(conversationId,messageData)
+                conversationAct.putCnvLM(conversationId, savedMessage)
 
                 io.to(res.socket_id).emit('joinConversationMember', conversationId);
               })
-            
+
             }
             // Check if the receiver is joined, if not send an emit to join them
             else if (!(room && room.has(res.socket_id))) {
-            
+
 
               const userId = messageData.from;
 
-                            // Find the user's balance in the clientBalance array
-                            const userBalance = clientBalance.find((b) => b.user === userId);
-                            console.log("2",userBalance)
+              // Find the user's balance in the clientBalance array
+              const userBalance = clientBalance.find((b) => b.user === userId);
 
               reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
 
@@ -105,15 +107,15 @@ const ioMessageEvents = function () {
                   ...messageData,
                   isSender: true,
                   direction: 'in',
-                  balance: userBalance.balance,// Add the balance to the event data
-                  conversationName:conversationName
+                  balance: userBalance.balance, // Add the balance to the event data
+                  conversationName: conversationName
                 });
-              conversationAct.putCnvLM(conversationId,messageData)
+              
+                conversationAct.putCnvLM(conversationId, savedMessage)
               })
             } else {
               const userId = messageData.from;
               const userBalance = clientBalance.find((b) => b.user === userId);
-              console.log("3",userBalance)
 
               reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
                 let online = 1
@@ -123,29 +125,28 @@ const ioMessageEvents = function () {
                   ...messageData,
                   isSender: true,
                   direction: 'in',
-                  conversationName:conversationName,
+                  conversationName: conversationName,
                   balance: userBalance.balance // Add the balance to the event data
-                },online);
-              conversationAct.putCnvLM(conversationId,messageData)
-            })}
+                }, online);
+                conversationAct.putCnvLM(conversationId, savedMessage)
+              })
+            }
           } else {
             const userId = messageData.from;
             const userBalance = clientBalance.find((b) => b.user === userId);
-            console.log("4",userBalance)
+            reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
 
-            reviewBalance(io,socket,conversationId,userBalance).then((newRes)=>{
-
-            console.log('Receiver is offline');
-            conversationAct.putCnvLM(conversationId,messageData)
-            let online = 0
-            // Emit an event to the client who sent the message to indicate that the message was sent
-            socket.emit('onMessageSent', {
-              ...messageData,
-              isSender: true,
-              direction: 'in',
-              balance:userBalance.balance,
-              conversationName:conversationName
-            }, online);
+              console.log('Receiver is offline');
+              conversationAct.putCnvLM(conversationId, savedMessage)
+              let online = 0
+              // Emit an event to the client who sent the message to indicate that the message was sent
+              socket.emit('onMessageSent', {
+                ...messageData,
+                isSender: true,
+                direction: 'in',
+                balance: userBalance.balance,
+                conversationName: conversationName
+              }, online);
             })
           }
         })
@@ -172,34 +173,34 @@ const ioMessageEvents = function () {
     })
 
     socket.on('receiveMessage', async conversationId => {
-      const conversationData=await conversationAct.getCnv(conversationId)
-      const conversationName=conversationData.name
-      console.log("newM",newMessage)
+      const conversationData = await conversationAct.getCnv(conversationId)
+      const conversationName = conversationData.name
 
       // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-  socket.to(conversationId).emit('onMessageReceived', {
-    ...newMessage,
-    newConversation:conversationId,
-    isSender: false,
-    direction: 'out',
-    conversationName:conversationName
-  });
-   conversationAct.putCnvLM(conversationId,newMessage)
+      socket.to(conversationId).emit('onMessageReceived', {
+        ...newMessage,
+        newConversation: conversationId,
+        isSender: false,
+        direction: 'out',
+        conversationName: conversationName
+      });
+      console.log("new msg ",newMessage.messageData.id)
+      conversationAct.putCnvLM(conversationId, newMessage.messageData)
     })
 
-    socket.on('receiveMessageForwarded', async (conversationId ,data)=> {
-      const conversationData=await conversationAct.getCnv(conversationId)
-      const conversationName=conversationData.name
+    socket.on('receiveMessageForwarded', async (conversationId, data) => {
+      const conversationData = await conversationAct.getCnv(conversationId)
+      const conversationName = conversationData.name
       // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-  socket.to(conversationId).emit('onMessageReceivedForwarded', {
-    messageData:data,
-    isSender: false,
-    direction: 'out',
-    conversationName:conversationName
-  });
-  // conversationAct.putCnvLM(conversationId,data.message)
+      socket.to(conversationId).emit('onMessageReceivedForwarded', {
+        messageData: data,
+        isSender: false,
+        direction: 'out',
+        conversationName: conversationName
+      });
+      // conversationAct.putCnvLM(conversationId,savedMessage._id)
     })
-    
+
 
 
 
@@ -218,27 +219,27 @@ const ioMessageEvents = function () {
     socket.on('updateMessage', async (data) => {
       try {
         console.log('====================================');
-        console.log("Message updated",data);
+        console.log("Message updated", data);
         console.log('====================================');
         let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
 
         await foued.putMsg(data).then(async (res) => {
-      
-        let emitEvent = "onMessageUpdated";
-        console.log(status)
-        switch (status) {
-          case 0:
-              socket.emit(emitEvent,res);
+
+          let emitEvent = "onMessageUpdated";
+          console.log(status)
+          switch (status) {
+            case 0:
+              socket.emit(emitEvent, res);
               break;
-          case 1:
-          case 2:
-          case 3:
-              io.to(data.metaData.conversation).emit(emitEvent,res);
+            case 1:
+            case 2:
+            case 3:
+              io.to(data.metaData.conversation).emit(emitEvent, res);
               break;
-          default:
+            default:
               console.log("error on Message updated");
               break;
-      }
+          }
         })
         logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
       } catch (err) {
@@ -288,142 +289,142 @@ const ioMessageEvents = function () {
         console.log("Message forward");
         console.log('====================================');
         //get conversation using conversation members
-          const conversationData = await conversationAct.getPrivateConvBetweenUsers(receiver, data.user);
-          console.log("conversation supposed ",conversationData)
-          const from = data.user;
-          const date = currentDate;
-          const type = data.metaData.type;
-          if (conversationData.length > 0) {
-            const conversation = conversationData[0]._id
-            console.log("conversation id supposed to be ",conversationData[0]._id)
-            let status = await checkJoined(io, socket, conversation, data.user);
-            //save message in data base 
-            //message data obj to be sent 
-            const savingMessage = {
-              app: data.app,
-              user: data.user,
-              action: "message.forward",
-              metaData: {
-                type: data.metaData.type,
-                conversation_id: conversation,
-                user: data.metaData.user,
-                message: data.metaData.message,
-                data: data.metaData.data,
-                origin: data.metaData.origin,
-                status: "3"
-              },
-              to: data.to
-            }
-            await foued.addMsg(savingMessage).then((savedMessage)=>{
-              console.log("savedMessage",savedMessage)
-              const messageData = {
-                content: data.metaData.message,
-                id: savedMessage._id,
-                from,
-                conversation:conversation,
-                date,
-                uuid: data.uuid,
-                type,
-                status
-              };
-                
-              socket.emit('onMessageForwardSent', {
-                ...messageData,
-                isSender: true,
-                direction: 'in',
-              }, status);
-              //  conversationAct.putCnvLM(conversation,messageData)
-            });
-          } else {
-            console.log('====================================');
-            console.log("Message forward first time talking ");
-            console.log('====================================');
-            //never spoke ,create conversation then conversation members
-            const conversationInfo = {
-              app: "638dc76312488c6bf67e8fc0",
-              user: data.user,
-              action: "conversation.create",
-              metaData: {
-                name: "test",
-                channel_url: "foued/test",
-                conversation_type: "private",
-                description: "private chat",
-                operators: [1],
-                owner_id: data.user,
-                members: [data.to],
-                permissions: {
-                  "key": "value"
-                },
-                members_count: 2,
-                max_length_message: "256",
-              },
-            }
-            conversationAct.addCnv(conversationInfo).then(async (res) => {
-
-              receiver.map(async (user) => {
-                const from = data.user;
-                const date = currentDate;
-                const type = data.metaData.type;
-                const status = "3"
-                const conversation_id = res._id
-                const data1 = {
-                  conversation_id: conversation_id,
-                  user_id: from,
-                }
-                const data2 = {
-                  conversation_id: conversation_id,
-                  user_id: user,
-                }
-                await convMember.addMember(data1)
-                await convMember.addMember(data2)
-                let statusJoin = await checkJoined(io, socket, conversation_id, data.user);
-
-                if (conversation_id) {
-                  const conversation=conversation_id
-                  //save message in data base 
-                  //message data obj to be sent 
-                  const savingMessage = {
-                    app: data.app,
-                    user: data.user,
-                    action: "message.forward",
-                    metaData: {
-                      type: data.metaData.type,
-                      conversation_id: conversation,
-                      user: data.metaData.user,
-                      message: data.metaData.message,
-                      data: data.metaData.data,
-                      origin: data.metaData.origin,
-                      status: "3"
-                    },
-                    to: data.to
-                  }
-                  
-                  await foued.addMsg(savingMessage).then((savedMessage)=>{
-                    const messageData = {
-                      content: data.metaData.message,
-                      id: savedMessage._id,
-                      from,
-                      conversation,
-                      date,
-                      uuid: data.uuid,
-                      type,
-                      status
-                    };
-      
-                    socket.emit('onMessageForwardSent', {
-                      ...messageData,
-                      isSender: true,
-                      direction: 'in',
-                    }, statusJoin);
-                     conversationAct.putCnvLM(conversation,messageData)
-                  });
-            
-
-                }
-              })
-            })
+        const conversationData = await conversationAct.getPrivateConvBetweenUsers(receiver, data.user);
+        console.log("conversation supposed ", conversationData)
+        const from = data.user;
+        const date = currentDate;
+        const type = data.metaData.type;
+        if (conversationData.length > 0) {
+          const conversation = conversationData[0]._id
+          console.log("conversation id supposed to be ", conversationData[0]._id)
+          let status = await checkJoined(io, socket, conversation, data.user);
+          //save message in data base 
+          //message data obj to be sent 
+          const savingMessage = {
+            app: data.app,
+            user: data.user,
+            action: "message.forward",
+            metaData: {
+              type: data.metaData.type,
+              conversation_id: conversation,
+              user: data.metaData.user,
+              message: data.metaData.message,
+              data: data.metaData.data,
+              origin: data.metaData.origin,
+              status: "3"
+            },
+            to: data.to
           }
-        
+          await foued.addMsg(savingMessage).then((savedMessage) => {
+            console.log("savedMessage", savedMessage)
+            const messageData = {
+              content: data.metaData.message,
+              id: savedMessage._id,
+              from,
+              conversation: conversation,
+              date,
+              uuid: data.uuid,
+              type,
+              status
+            };
+
+            socket.emit('onMessageForwardSent', {
+              ...messageData,
+              isSender: true,
+              direction: 'in',
+            }, status);
+            //  conversationAct.putCnvLM(conversation,messageData)
+          });
+        } else {
+          console.log('====================================');
+          console.log("Message forward first time talking ");
+          console.log('====================================');
+          //never spoke ,create conversation then conversation members
+          const conversationInfo = {
+            app: "638dc76312488c6bf67e8fc0",
+            user: data.user,
+            action: "conversation.create",
+            metaData: {
+              name: "test",
+              channel_url: "foued/test",
+              conversation_type: "private",
+              description: "private chat",
+              operators: [1],
+              owner_id: data.user,
+              members: [data.to],
+              permissions: {
+                "key": "value"
+              },
+              members_count: 2,
+              max_length_message: "256",
+            },
+          }
+          conversationAct.addCnv(conversationInfo).then(async (res) => {
+
+            receiver.map(async (user) => {
+              const from = data.user;
+              const date = currentDate;
+              const type = data.metaData.type;
+              const status = "3"
+              const conversation_id = res._id
+              const data1 = {
+                conversation_id: conversation_id,
+                user_id: from,
+              }
+              const data2 = {
+                conversation_id: conversation_id,
+                user_id: user,
+              }
+              await convMember.addMember(data1)
+              await convMember.addMember(data2)
+              let statusJoin = await checkJoined(io, socket, conversation_id, data.user);
+
+              if (conversation_id) {
+                const conversation = conversation_id
+                //save message in data base 
+                //message data obj to be sent 
+                const savingMessage = {
+                  app: data.app,
+                  user: data.user,
+                  action: "message.forward",
+                  metaData: {
+                    type: data.metaData.type,
+                    conversation_id: conversation,
+                    user: data.metaData.user,
+                    message: data.metaData.message,
+                    data: data.metaData.data,
+                    origin: data.metaData.origin,
+                    status: "3"
+                  },
+                  to: data.to
+                }
+
+                await foued.addMsg(savingMessage).then((savedMessage) => {
+                  const messageData = {
+                    content: data.metaData.message,
+                    id: savedMessage._id,
+                    from,
+                    conversation,
+                    date,
+                    uuid: data.uuid,
+                    type,
+                    status
+                  };
+
+                  socket.emit('onMessageForwardSent', {
+                    ...messageData,
+                    isSender: true,
+                    direction: 'in',
+                  }, statusJoin);
+                  conversationAct.putCnvLM(conversation, savedMessage)
+                });
+
+
+              }
+            })
+          })
+        }
+
       } catch (err) {
         console.log(err)
       }
