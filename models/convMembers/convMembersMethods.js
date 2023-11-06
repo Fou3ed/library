@@ -5,7 +5,8 @@ import {
     postMember,
     putMember,
     getMembersByConversation,
-    checkMember
+    checkMember,
+    removeMember
 } from "../../services/convMembersRequests.js";
 import User from '../user/userModel.js'
 
@@ -42,8 +43,7 @@ class convMembersAction {
      */
 
     async addMember(data) {
-        const response = await postMember(data)
-        return response
+        return await postMember(data)
     }
     async checkMember(convId,userId) {
         const response = await checkMember(convId,userId)
@@ -64,6 +64,9 @@ class convMembersAction {
         const response = await deleteMember(id)
         const resData = await response.json()
         return resData
+    }
+    async removeMember(conversationId, userId, conversationType) {
+        return await removeMember(conversationId, userId, conversationType)
     }
 }
 export default convMembersAction

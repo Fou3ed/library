@@ -1,434 +1,1143 @@
-/* The above code is defining and exporting a function called `ioMessageEvents` which sets up event
-listeners for socket.io connections. It listens for events such as `onMessageCreated`,
-`onConversationMemberJoined`, `receiveMessage`, `onMessageDelivered`, `updateMessage`,
-`onMessageDeleted`, and `forwardMessage`. These events are triggered when a user sends a message,
-joins a conversation, receives a message, confirms message delivery, updates a message, deletes a
-message, or forwards a message. The function uses various methods from other modules to handle these
-events, such as adding messages to */
-import messageActions from './messageMethods.js'
-import convMembersAction from '../convMembers/convMembersMethods.js'
-import userMethod from '../user/userMethods.js'
-import conversationActions from '../conversations/conversationMethods.js'
+import messageActions from "./messageMethods.js";
+import convMembersAction from "../convMembers/convMembersMethods.js";
+import userMethod from "../user/userMethods.js";
+import conversationActions from "../conversations/conversationMethods.js";
+import { socketIds } from "../connection/connectionEvents.js";
+import axios from "axios";
+import { io } from "../../index.js";
+const msgDb = new messageActions();
+const convMember = new convMembersAction();
+const userM = new userMethod();
+const conversationAct = new conversationActions();
+import logger from "../../config/newLogger.js";
+
+import { clientBalance } from "../connection/connectionEvents.js";
 import {
-  io
-} from '../../index.js'
-const foued = new messageActions()
-const convMember = new convMembersAction()
-const userM = new userMethod()
-const conversationAct = new conversationActions()
-import logger from '../../config/newLogger.js'
-import checkJoined from '../../utils/joinRoom.js'
-import reviewBalance from '../../utils/balance.js'
+  putUserBalance,
+  putBuyBalance,
+  getUsersByP,
+  getOperators,
+  putUserFreeBalance,
+} from "../../services/userRequests.js";
 import {
-  clientBalance
-} from '../connection/connectionEvents.js'
+  findMessageWithSiblings,
+  getConversationMessages,
+  getMessage,
+  getSocketConversationMessages,
+  putLinkMessage,
+  updateAllMessages,
+} from "../../services/messageRequests.js";
+import { addMember } from "../../services/convMembersRequests.js";
+import {
+  deleteRobot,
+  getCnvById,
+  getConversationById,
+  getConversationMemberIds,
+  getConvBetweenUserAndAgent,
+  deleteConversation} from "../../services/conversationsRequests.js";
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
+import message from "../messages/messageModel.js";
+import process from "process";
+import { dotenv } from "../../dependencies.js";
+import { informOperator } from "../../utils/informOperator.js";
+import addLogs from "../../utils/addLogs.js";
 const ioMessageEvents = function () {
-  let newMessage;
+  dotenv.config();
+  io.on("connection", function (socket) {
+    socket.on("onMessageCreated", async (data, error) => {
 
-  io.on('connection', function (socket) {
-    socket.on('onMessageCreated', async (data, error) => {
       try {
-        // Save the message to your database
-        const savedMessage = await foued.addMsg(data);
-        const conversationId = data.metaData.conversation_id;
-        const from = data.user;
-        const conversation = conversationId;
-        const date = currentDate;
-        const type = data.metaData.type;
-        const members = await convMember.getConversationMembers(conversationId);
-        const receiver = await Promise.all(
-          members
-          .filter(member => member !== data.user)
-          .map(async (member) => {
-            return member;
-          })
-        );
-        const senderName = await userM.getUserName(data.user)
-        const conversationData = await conversationAct.getCnv(conversationId)
-        const conversationName = conversationData.name
-        // Construct a message object to send to clients
-        const messageData = {
-          content: data.metaData.message,
-          id: savedMessage._id,
-          from,
-          senderName,
-          conversation,
-          date,
-          uuid: data.uuid,
-          type
-        };
-        if (!data || !data.metaData || !conversationId) {
-          console.error('Invalid input data');
-          return;
-        }
-        //get receiver information
-        userM.getUser(receiver).then((res) => {
-          // Check if the receiver is online (connected to the socket)
-          if (res.is_active === true) {
-            console.log("receiver is active")
-            // Check if the room exists, if not create the room
-            const room = io.of('/').adapter.rooms.get(conversationId);
-            if (room === undefined) {
-              const userId = messageData.from;
-              
-              const userBalance = clientBalance.find((b) => b.user === userId);
-              console.log("clientBalance", clientBalance)
-              console.log("userBalance", userBalance)
-              reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
-                console.log("room been created")
-                socket.join(conversationId)
-                socket.emit('onMessageSent', {
-                  ...messageData,
-                  isSender: true,
-                  direction: 'in',
-                  conversationName: conversationName
-                });
-                conversationAct.putCnvLM(conversationId, savedMessage)
+        const sender = socketIds[socket.id];
+        if (sender) {
+          const conversationData = await conversationAct.getCnv(
+            data.metaData.conversation_id
+          );
+          const memberIds = await getConversationMemberIds(
+            data.metaData.conversation_id
+          );
+          let agentId = null;
 
-                io.to(res.socket_id).emit('joinConversationMember', conversationId);
-              })
-
+          for (const member of memberIds) {
+            if (member.role === "AGENT") {
+              agentId = member.id;
+              break;
             }
-            // Check if the receiver is joined, if not send an emit to join them
-            else if (!(room && room.has(res.socket_id))) {
-
-
-              const userId = messageData.from;
-
-              // Find the user's balance in the clientBalance array
-              const userBalance = clientBalance.find((b) => b.user === userId);
-
-              reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
-
-                io.to(res.socket_id).emit('joinConversationMember', conversationId);
-                socket.emit('onMessageSent', {
-                  ...messageData,
-                  isSender: true,
-                  direction: 'in',
-                  balance: userBalance.balance, // Add the balance to the event data
-                  conversationName: conversationName
-                });
-              
-                conversationAct.putCnvLM(conversationId, savedMessage)
-              })
-            } else {
-              const userId = messageData.from;
-              const userBalance = clientBalance.find((b) => b.user === userId);
-
-              reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
-                let online = 1
-                console.log('Users are already joined');
-                // Find the user's balance in the clientBalance array
-                socket.emit('onMessageSent', {
-                  ...messageData,
-                  isSender: true,
-                  direction: 'in',
-                  conversationName: conversationName,
-                  balance: userBalance.balance // Add the balance to the event data
-                }, online);
-                conversationAct.putCnvLM(conversationId, savedMessage)
-              })
-            }
-          } else {
-            const userId = messageData.from;
-            const userBalance = clientBalance.find((b) => b.user === userId);
-            reviewBalance(io, socket, conversationId, userBalance).then((newRes) => {
-
-              console.log('Receiver is offline');
-              conversationAct.putCnvLM(conversationId, savedMessage)
-              let online = 0
-              // Emit an event to the client who sent the message to indicate that the message was sent
-              socket.emit('onMessageSent', {
-                ...messageData,
-                isSender: true,
-                direction: 'in',
-                balance: userBalance.balance,
-                conversationName: conversationName
-              }, online);
-            })
           }
-        })
-        newMessage = {
-          messageData,
-          ...savedMessage
-        }
-        return messageData
+          const exist = conversationData.members.includes(sender.userId);
+          
+          if (
+            exist ||
+            (conversationData.conversation_type == "4" &&
+              ["AGENT", "ADMIN"].includes(sender.role) &&
+              conversationData.owner_id == sender.accountId)
+          ) {
+            if (!exist) {
+              const conversationData = await getCnvById(
+                data.metaData.conversation_id
+              );
+              const clientIdObject = conversationData.members.find(
+                (member) => member.user_id.toString() !== process.env.ROBOT_ID
+              );  
+              const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(sender.userId,clientIdObject.user_id.toString())
+                  if((conversationBetweenAgentAndClient.length==0)){
+                    await addMember({
+                      user_id: sender.userId,
+                      conversation_id: data.metaData.conversation_id,
+                    });
+                    await deleteRobot(
+                      data.metaData.conversation_id,
+                      process.env.ROBOT_ID
+                    );
+                    const sentId = [];
+                    conversationData.members.forEach((member) => {
+                      sentId.push(member.user_id.toString());
+                    });
+                    Object.entries(socketIds).forEach(([socketId, user]) => {
+                      if (user.accountId === sender.accountId) {
+                        if (user.role === "ADMIN" || sentId.includes(user.userId)) {
+                          sentId.push(socketId);
+                          if (socketId === socket.id) {
+                            socket.emit(
+                              "conversationStatusUpdated",
+                              conversationData,
+                              1
+                            );
+                          } else {
+                            io.to(socketId).emit(
+                              "conversationStatusUpdated",
+                              conversationData,
+                              1,
+                              "robotUpdated"
+                            );
+                          }
+                        } else {
+                          io.to(socketId).emit(
+                            "robotConversationUpdated",
+                            conversationData._id
+                          );
+                        }
+                      }
+                    });
+                  }else {
+                      const updatedMessages =  await  updateAllMessages(data.metaData.conversation_id,conversationBetweenAgentAndClient[0]._id)
+                      const deletedCnv=await deleteConversation(data.metaData.conversation_id)
+                      data.metaData.conversation_id=conversationBetweenAgentAndClient[0]._id.toString()
+                      const savedMessage = await msgDb.addMsg(data);
+                      io.in(conversationBetweenAgentAndClient[0]._id.toString()).emit("mergeConversation",{messagesIds:updatedMessages,deletedConversationId:deletedCnv._id,newConversation:conversationBetweenAgentAndClient[0]._id})                    
+                  }
+                  return;
+            }
+            const userBalance = clientBalance[sender.userId];
+            if (userBalance && data?.metaData.type === "MSG") {
+              if (Number(userBalance?.free_balance) > 0)   {
+                data.metaData.paid = false;
+                const savedMessage = await msgDb.addMsg(data);
+                userBalance.free_balance = (
+                  parseInt(userBalance.free_balance) - 1
+                ).toString();
+                
+                await putUserFreeBalance(userBalance.user, userBalance.free_balance);
+                const messageData = {
+                  content: data.metaData.message,
+                  id: savedMessage._id,
+                  from: data.user,
+                  conversation: data.metaData.conversation_id,
+                  senderName: data.metaData.senderName,
+                  date: savedMessage.created_at,
+                  uuid: data.uuid,
+                  type: data.metaData.type,
+                  paid: false,
+                  status: conversationData.status,
+                  agent_id:agentId
+                };
+                if (data.metaData.type === "log") {
+                  addLogs(data.logData);
+                }
+                if (
+                  data.metaData.type !== "log" ||
+                  data.logData?.action !== "focus" || data.metaData.type !=="bloc"
+                ) {
+                  socket.emit("onMessageSent", {
+                    ...messageData,
+                    isSender: true,
+                    direction: "in",
+                    conversationName: conversationData.name,
+                    temporary_id: data.metaData?.temporary_id,
+                    userBalance: userBalance.balance,
+                    userFreeBalance:userBalance.free_balance
+                  });
+                  socket.to(data.metaData.conversation_id).emit(
+                    "onMessageReceived",
+                    {
+                      messageData,
+                      conversation: data.metaData.conversation_id,
+                      isSender: false,
+                      direction: "out",
+                      userId: data.user,
+                      conversationName: conversationData.name,
+                      aux: data.aux,
+                    },
+                    userBalance.balance
+                  );
+
+                  if (conversationData.status == 0) {
+                    let eventName = "onMessageReceived";
+                    let eventData = [
+                      {
+                        messageData,
+                        conversation: data.metaData.conversation_id,
+                        isSender: false,
+                        direction: "out",
+                        userId: data.user,
+                        conversationName: conversationData.name,
+                        aux: data.aux,
+                        userBalance: userBalance.balance,
+                        userFreeBalance:userBalance.free_balance
+                      },
+                    ];
+
+                    try {
+                      informOperator(
+                        io,
+                        socket.id,
+                        conversationData,
+                        eventName,
+                        eventData
+                      );
+                    } catch (err) {
+                      console.log("informOperator err", err);
+                      throw err;
+                    }
+                  }
+                }
+              } else 
+              if (Number(userBalance?.balance) > 0)   {
+                data.metaData.paid = true;
+                const savedMessage = await msgDb.addMsg(data);
+                userBalance.balance = (
+                  parseInt(userBalance.balance) - 1
+                ).toString();
+                await putUserBalance(userBalance.user, userBalance.balance);
+                const messageData = {
+                  content: data.metaData.message,
+                  id: savedMessage._id,
+                  from: data.user,
+                  conversation: data.metaData.conversation_id,
+                  senderName: data.metaData.senderName,
+                  date: savedMessage.created_at,
+                  uuid: data.uuid,
+                  type: data.metaData.type,
+                  paid: true,
+                  status: conversationData.status,
+                  agent_id:agentId
+                };
+                if (data.metaData.type === "log") {
+                  addLogs(data.logData);
+                }
+                if (
+                  data.metaData.type !== "log" ||
+                  data.logData?.action !== "focus" || data.metaData.type !=="bloc"
+                ) {
+                  socket.emit("onMessageSent", {
+                    ...messageData,
+                    isSender: true,
+                    direction: "in",
+                    conversationName: conversationData.name,
+                    temporary_id: data.metaData?.temporary_id,
+                    userBalance: userBalance.balance,
+                  });
+                  socket.to(data.metaData.conversation_id).emit(
+                    "onMessageReceived",
+                    {
+                      messageData,
+                      conversation: data.metaData.conversation_id,
+                      isSender: false,
+                      direction: "out",
+                      userId: data.user,
+                      conversationName: conversationData.name,
+                      aux: data.aux,
+                    },
+                    userBalance.balance
+                  );
+
+                  if (conversationData.status == 0) {
+                    let eventName = "onMessageReceived";
+                    let eventData = [
+                      {
+                        messageData,
+                        conversation: data.metaData.conversation_id,
+                        isSender: false,
+                        direction: "out",
+                        userId: data.user,
+                        conversationName: conversationData.name,
+                        aux: data.aux,
+                        userBalance: userBalance.balance,
+                      },
+                    ];
+
+                    try {
+                      informOperator(
+                        io,
+                        socket.id,
+                        conversationData,
+                        eventName,
+                        eventData
+                      );
+                    } catch (err) {
+                      console.log("informOperator err", err);
+                      throw err;
+                    }
+                  }
+                }
+              } 
+            } else {
+              data.metaData.paid = false;
+
+              const savedMessage = await msgDb.addMsg(data);
+
+              const messageData = {
+                content: data.metaData.message,
+                id: savedMessage._id,
+                from: data.user,
+                conversation: data.metaData.conversation_id,
+                date: savedMessage.created_at,
+                uuid: data.uuid,
+                type: data.metaData.type,
+                paid: false,
+                status: conversationData.status,
+                agent_id:agentId
+
+              };
+
+              if (data.metaData.type === "log") {
+                addLogs(data.logData);
+              }
+              if (
+                data.metaData.type !== "log" ||
+                data.logData?.action !== "focus"
+              ) {
+                getConversationById();
+                socket.emit("onMessageSent", {
+                  ...messageData,
+                  isSender: true,
+                  direction: "in",
+                  conversationName: conversationData.name,
+                  temporary_id: data.metaData?.temporary_id,
+                });
+
+                socket
+                  .to(data.metaData.conversation_id)
+                  .emit("onMessageReceived", {
+                    messageData,
+                    senderName: data.metaData.senderName,
+                    conversation: data.metaData.conversation_id,
+                    isSender: false,
+                    direction: "out",
+                    userId: data.user,
+                    conversationName: conversationData.name,
+                    aux: data.aux,
+                  });
+                if (conversationData.status == 0) {
+                  let eventName = "onMessageReceived";
+                  let eventData = [
+                    {
+                      messageData,
+                      conversation: data.metaData.conversation_id,
+                      isSender: false,
+                      direction: "out",
+                      userId: data.user,
+                      conversationName: conversationData.name,
+                      aux: data.aux,
+                      userBalance: userBalance?.balance,
+                    },
+                  ];
+                  try {
+                    informOperator(
+                      io,
+                      socket.id,
+                      conversationData,
+                      eventName,
+                      eventData
+                    );
+                  } catch (err) {
+                    console.log("informOperator err", err);
+                    throw err;
+                  }
+                }
+              }
+            }
+          }
+        } 
+
       } catch (err) {
         console.error(`Error while processing message: ${err}`);
-        logger.error(`Event: onMessageCreated , data: ${JSON.stringify(data)}, socket_id: ${socket.id}, token: "taw nzidouha", error: ${err}, date: ${fullDate}`);
+        logger.error(
+          `Event: onMessageCreated, data: ${JSON.stringify(data)}, socket_id: ${socket.id
+          }, token: "" "", error: ${err}, date: ${fullDate}`
+        );
       }
     });
 
-    socket.on('onConversationMemberJoined', async (conversationId) => {
-      console.log("here to add the other member in ", conversationId)
-      // join room
-      socket.join(conversationId)
-      // socket.emit('onMessageReceived', {
-      //   ...newMessage,
-      //   isSender: false,
-      //   direction: 'out'
-      // });
-    })
+    socket.on("onConversationMemberJoined", async (conversationId) => {
+      socket.join(conversationId._id);
+    });
 
-    socket.on('receiveMessage', async conversationId => {
-      const conversationData = await conversationAct.getCnv(conversationId)
-      const conversationName = conversationData.name
-
+    socket.on("receiveMessageForwarded", async (conversationId, data) => {
+      const conversationData = await conversationAct.getCnv(conversationId);
+      const conversationName = conversationData.name;
       // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-      socket.to(conversationId).emit('onMessageReceived', {
-        ...newMessage,
-        newConversation: conversationId,
-        isSender: false,
-        direction: 'out',
-        conversationName: conversationName
-      });
-      console.log("new msg ",newMessage.messageData.id)
-      conversationAct.putCnvLM(conversationId, newMessage.messageData)
-    })
-
-    socket.on('receiveMessageForwarded', async (conversationId, data) => {
-      const conversationData = await conversationAct.getCnv(conversationId)
-      const conversationName = conversationData.name
-      // Emit an event to all members of the conversation except the sender to indicate that a new message was received
-      socket.to(conversationId).emit('onMessageReceivedForwarded', {
+      socket.to(conversationId).emit("onMessageReceivedForwarded", {
         messageData: data,
         isSender: false,
-        direction: 'out',
-        conversationName: conversationName
+        direction: "out",
+        conversationName: conversationName,
       });
-      // conversationAct.putCnvLM(conversationId,savedMessage._id)
-    })
 
-
-
-
-
-
-    socket.on('onMessageDelivered', (data) => {
-      // Emit an event to the sender of the message to indicate that the message was delivered
-      socket.emit('onMessageDelivered', data);
+      if (conversationData.status == 0) {
+        let eventName = "onMessageReceivedForwarded";
+        let eventData = [
+          {
+            messageData: data,
+            isSender: false,
+            direction: "out",
+            conversationName: conversationName,
+          },
+        ];
+        try {
+          informOperator(io, socket.id, conversationData, eventName, eventData);
+        } catch (err) {
+          console.log("informOperator err", err);
+          throw err;
+        }
+      }
     });
-    io.on('connect_error', (err) => {
+
+    socket.on("onMessageDelivered", (data) => {
+      // Emit an event to the sender of the message to indicate that the message was delivered
+      socket.emit("onMessageDelivered", data);
+    });
+    io.on("connect_error", (err) => {
       console.error(`An error occurred: ${err.message}`);
     });
-
     // onMessageUpdated : Fired when the message data updated.
-
-    socket.on('updateMessage', async (data) => {
+    socket.on("updateMessage", async (data) => {
       try {
-        console.log('====================================');
-        console.log("Message updated", data);
-        console.log('====================================');
-        let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
+        const sender = socketIds[socket.id];
 
-        await foued.putMsg(data).then(async (res) => {
-
-          let emitEvent = "onMessageUpdated";
-          console.log(status)
-          switch (status) {
-            case 0:
-              socket.emit(emitEvent, res);
-              break;
-            case 1:
-            case 2:
-            case 3:
-              io.to(data.metaData.conversation).emit(emitEvent, res);
-              break;
-            default:
-              console.log("error on Message updated");
-              break;
+        const userBalance = clientBalance[sender.userId];
+        if (userBalance) {
+          if (Number(userBalance?.balance) > 0) {
+            userBalance.balance = (
+              parseInt(userBalance.balance) - 1
+            ).toString();
+            await putUserBalance(userBalance.user, userBalance.balance);
           }
-        })
-        logger.info(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+        }
+        await msgDb
+          .putMsg(data.metaData.message, data.metaData.fields.content)
+          .then(async (res) => {
+            socket.to(data.metaData.conversation).emit("onMessageUpdated", {res:res,userBalance:userBalance?.balance});
+            socket.emit("onMessageUpdated", {res:res,userBalance:userBalance?.balance});
+            const conversationData = await conversationAct.getCnv(
+              data.metaData.conversation
+            );
+            if (conversationData.status == 0) {
+              let eventName = "onMessageUpdated";
+              let eventData = [{res:res,userBalance:userBalance?.balance}];
+              try {
+                informOperator(
+                  io,
+                  socket.id,
+                  conversationData,
+                  eventName,
+                  eventData
+                );
+              } catch (err) {
+                console.log("informOperator err", err);
+                throw err;
+              }
+            }
+          });
+        logger.info(
+          `Event: onMessageUpdated ,data: ${JSON.stringify(
+            data
+          )} , socket_id : ${socket.id
+          } ,token :"" " , date: ${fullDate}"   \n `
+        );
       } catch (err) {
-        logger.error(`Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `)
+        logger.error(
+          `Event: onMessageUpdated ,data: ${JSON.stringify(
+            data
+          )} , socket_id : ${socket.id
+          } ,token :"" " ,error ${err}, date: ${fullDate} "   \n `
+        );
       }
     });
 
     // onMessageDeleted : Fired when the message deleted
 
-    socket.on('onMessageDeleted', async (data) => {
+    socket.on("onMessageDeleted", async (data) => {
       try {
-        let status = await checkJoined(io, socket, data.metaData.conversation, data.user);
-        console.log('====================================');
-        console.log("Message deleted");
-        console.log('====================================');
         //change this to update status = 0 means the message is deleted .
-        foued.deleteMsg(data).then(async (res) => {
-          let emitEvent = "onMessageDeleted"
-          switch (status) {
-            case 0:
-              socket.emit(emitEvent, res);
-              break;
-            case 1:
-            case 2:
-            case 3:
-              io.to(data.metaData.conversation).emit(emitEvent, res);
-              break;
-            default:
-              console.log("error deleting a message");
-              break;
+        msgDb.deleteMsg(data).then(async (res) => {
+          socket.to(data.metaData.conversation).emit("onMessageDeleted", res);
+          socket.emit("onMessageDeleted", res);
+
+          const conversationData = await conversationAct.getCnv(
+            data.metaData.conversation
+          );
+          if (conversationData.status == 0) {
+            let eventName = "onMessageDeleted";
+            let eventData = [res];
+            try {
+              informOperator(
+                io,
+                socket.id,
+                conversationData,
+                eventName,
+                eventData
+              );
+            } catch (err) {
+              console.log("informOperator err", err);
+              throw err;
+            }
           }
         });
-        logger.info(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `);
+        logger.info(
+          `Event: onMessageDeleted ,data: ${JSON.stringify(
+            data
+          )} , socket_id : ${socket.id
+          } ,token :"" " , date: ${fullDate}"   \n `
+        );
       } catch (err) {
-        logger.error(`Event: onMessageDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error ${err}, date: ${fullDate} "   \n `);
+        logger.error(
+          `Event: onMessageDeleted ,data: ${JSON.stringify(
+            data
+          )} , socket_id : ${socket.id
+          } ,token :"" " ,error ${err}, date: ${fullDate} "   \n `
+        );
       }
     });
 
-    socket.on('forwardMessage', async (data) => {
+    socket.on("forwardMessage", async (data) => {
       //check if they have a conversation together else create one (user 1 and user 2)
       //data will have an array of the users who are gonna receive the message
-      //the user can forward the message to multiple 
+      //the user can forward the message to multiple
       try {
-        const receiver = data.to
-        //check conversation if exist : just send a message if offline , if online join members and send message
-        console.log('====================================');
-        console.log("Message forward");
-        console.log('====================================');
-        //get conversation using conversation members
-        const conversationData = await conversationAct.getPrivateConvBetweenUsers(receiver, data.user);
-        console.log("conversation supposed ", conversationData)
-        const from = data.user;
-        const date = currentDate;
-        const type = data.metaData.type;
-        if (conversationData.length > 0) {
-          const conversation = conversationData[0]._id
-          console.log("conversation id supposed to be ", conversationData[0]._id)
-          let status = await checkJoined(io, socket, conversation, data.user);
-          //save message in data base 
-          //message data obj to be sent 
-          const savingMessage = {
-            app: data.app,
-            user: data.user,
-            action: "message.forward",
-            metaData: {
-              type: data.metaData.type,
-              conversation_id: conversation,
-              user: data.metaData.user,
-              message: data.metaData.message,
-              data: data.metaData.data,
-              origin: data.metaData.origin,
-              status: "3"
-            },
-            to: data.to
-          }
-          await foued.addMsg(savingMessage).then((savedMessage) => {
-            console.log("savedMessage", savedMessage)
-            const messageData = {
-              content: data.metaData.message,
-              id: savedMessage._id,
-              from,
-              conversation: conversation,
-              date,
-              uuid: data.uuid,
-              type,
-              status
-            };
+        const messageContent = await message.findById(data.message_id);
 
-            socket.emit('onMessageForwardSent', {
-              ...messageData,
-              isSender: true,
-              direction: 'in',
-            }, status);
-            //  conversationAct.putCnvLM(conversation,messageData)
-          });
-        } else {
-          console.log('====================================');
-          console.log("Message forward first time talking ");
-          console.log('====================================');
-          //never spoke ,create conversation then conversation members
-          const conversationInfo = {
-            app: "638dc76312488c6bf67e8fc0",
-            user: data.user,
-            action: "conversation.create",
-            metaData: {
-              name: "test",
-              channel_url: "foued/test",
-              conversation_type: "private",
-              description: "private chat",
-              operators: [1],
-              owner_id: data.user,
-              members: [data.to],
-              permissions: {
-                "key": "value"
-              },
-              members_count: 2,
-              max_length_message: "256",
-            },
-          }
-          conversationAct.addCnv(conversationInfo).then(async (res) => {
+        if (messageContent) {
+          const senderId = socketIds[socket.id];
 
-            receiver.map(async (user) => {
-              const from = data.user;
+          const receiver = data.users;
+          const userIds = await getUsersByP(receiver);
+          if (userIds.length > 0) {
+            for (let userId of userIds) {
+              const conversationData =
+                await conversationAct.getPrivateConvBetweenUsers(
+                  userId._id.toString(),
+                  senderId.userId
+                );
+
               const date = currentDate;
-              const type = data.metaData.type;
-              const status = "3"
-              const conversation_id = res._id
-              const data1 = {
-                conversation_id: conversation_id,
-                user_id: from,
-              }
-              const data2 = {
-                conversation_id: conversation_id,
-                user_id: user,
-              }
-              await convMember.addMember(data1)
-              await convMember.addMember(data2)
-              let statusJoin = await checkJoined(io, socket, conversation_id, data.user);
-
-              if (conversation_id) {
-                const conversation = conversation_id
-                //save message in data base 
-                //message data obj to be sent 
+              if (conversationData) {
                 const savingMessage = {
-                  app: data.app,
-                  user: data.user,
+                  app: messageContent.app,
+                  user: senderId.userId,
                   action: "message.forward",
                   metaData: {
-                    type: data.metaData.type,
-                    conversation_id: conversation,
-                    user: data.metaData.user,
-                    message: data.metaData.message,
-                    data: data.metaData.data,
-                    origin: data.metaData.origin,
-                    status: "3"
+                    type: messageContent.type,
+                    conversation_id: conversationData._id.toString(),
+                    user: senderId.userId,
+                    message: messageContent.message,
+                    status: "3",
+                    origin: "web",
                   },
-                  to: data.to
-                }
-
-                await foued.addMsg(savingMessage).then((savedMessage) => {
-                  const messageData = {
-                    content: data.metaData.message,
+                };
+                msgDb.addMsg(savingMessage).then((savedMessage) => {
+                  socket.emit("onMessageForwardSent", {
+                    content: savedMessage.message,
                     id: savedMessage._id,
-                    from,
-                    conversation,
+                    conversation: conversationData._id.toString(),
                     date,
+                    type: savingMessage.type,
+                    status: savingMessage.status,
+                  });
+
+                  if (conversationData?.status == 0) {
+                    let eventName = "onMessageForwardSent";
+                    let eventData = [
+                      {
+                        content: savedMessage.message,
+                        id: savedMessage._id,
+                        conversation: conversationData._id.toString(),
+                        date,
+                        type: savingMessage.type,
+                        status: savingMessage.status,
+                      },
+                    ];
+                    try {
+                      informOperator(
+                        io,
+                        socket.id,
+                        conversationData,
+                        eventName,
+                        eventData
+                      );
+                    } catch (err) {
+                      console.log("informOperator err", err);
+                      throw err;
+                    }
+                  }
+
+                  const messageData = {
+                    content: savedMessage.message,
+                    id: savedMessage._id,
+                    from: senderId.userId,
+                    conversation: conversationData._id.toString(),
+                    date: savedMessage.created_at,
                     uuid: data.uuid,
-                    type,
-                    status
+                    type: savedMessage.type,
+                    status: savedMessage.status,
+                    paid: false,
                   };
 
-                  socket.emit('onMessageForwardSent', {
-                    ...messageData,
-                    isSender: true,
-                    direction: 'in',
-                  }, statusJoin);
-                  conversationAct.putCnvLM(conversation, savedMessage)
+                  io.in(conversationData._id.toString()).emit(
+                    "onMessageReceived",
+                    {
+                      messageData,
+                      conversation: conversationData._id.toString(),
+                      isSender: false,
+                      direction: "out",
+                      userId: senderId.userId,
+                    }
+                  );
+
+                  if (conversationData.status == 0) {
+                    let eventName = "onMessageReceived";
+                    let eventData = [
+                      {
+                        messageData,
+                        conversation: conversationData._id.toString(),
+                        isSender: false,
+                        direction: "out",
+                        userId: senderId.userId,
+                      },
+                    ];
+                    try {
+                      informOperator(
+                        io,
+                        socket.id,
+                        conversationData,
+                        eventName,
+                        eventData
+                      );
+                    } catch (err) {
+                      console.log("informOperator err", err);
+                      throw err;
+                    }
+                  }
                 });
+              } else {
+      
+                //never spoke ,create conversation then conversation members
+                const conversationInfo = {
+                  app: messageContent.app,
+                  user: senderId.userId,
+                  action: "conversation.create",
+                  metaData: {
+                    name: "test",
+                    channel_url: "msgDb/test",
+                    conversation_type: "1",
+                    description: "private chat",
+                    operators: [],
+                    status: "1",
 
+                    owner_id: senderId.accountId,
+                    members: [senderId.userId, userId._id.toString()],
+                    members_count: 2,
+                    max_length_message: "256",
+                  },
+                };
+                conversationAct.addCnv(conversationInfo).then(async (res) => {
+                  if (res) {
+                    const savingMessage = {
+                      app: messageContent.app,
+                      user: senderId.userId,
+                      action: "message.forward",
+                      metaData: {
+                        type: messageContent.type,
+                        conversation_id: res._id.toString(),
+                        user: senderId.userId,
+                        origin: "web",
+                        message: messageContent.message,
+                        status: "3",
+                      },
+                    };
 
+                    const conversationInfo = await getCnvById(
+                      res._id.toString()
+                    );
+                    const sentId = [];
+                    conversationInfo.members.forEach((member) => {
+                      sentId.push(member.user_id.toString());
+                    });
+                    Object.entries(socketIds).forEach(([socketId, user]) => {
+                      if (
+                        (user.role === "ADMIN" &&
+                          user.accountId === senderId.accountId) ||
+                        sentId.includes(user.userId)
+                      ) {
+                        sentId.push(socketId);
+                        if (socketId === socket.id) {
+                          socket.emit(
+                            "conversationStatusUpdated",
+                            conversationInfo,
+                            1
+                          );
+                        } else {
+                          io.to(socketId).emit(
+                            "conversationStatusUpdated",
+                            conversationInfo,
+                            1
+                          );
+                        }
+                      }
+                    });
+                    msgDb.addMsg(savingMessage).then(async (savedMessage) => {
+                      socket.emit("onMessageForwardSent", {
+                        content: savedMessage.message,
+                        id: savedMessage._id,
+                        conversation: res._id.toString(),
+                        date,
+                        type: savingMessage.status,
+                      });
+                      const messageData = {
+                        content: savedMessage.message,
+                        id: savedMessage._id,
+                        from: senderId.userId,
+                        conversation: res._id.toString(),
+                        date: savedMessage.created_at,
+                        uuid: data.uuid,
+                        type: savedMessage.type,
+                        paid: false,
+                      };
+
+                      io.in(res._id.toString()).emit("onMessageReceived", {
+                        messageData,
+                        conversation: res._id.toString(),
+                        isSender: false,
+                        direction: "out",
+                        userId: senderId.userId,
+                      });
+
+                      if (conversationInfo.status == 0) {
+                        let eventName = "onMessageReceived";
+                        let eventData = [
+                          {
+                            messageData,
+                            conversation: res._id.toString(),
+                            isSender: false,
+                            direction: "out",
+                            userId: senderId.userId,
+                          },
+                        ];
+                        try {
+                          informOperator(
+                            io,
+                            socket.id,
+                            conversationInfo,
+                            eventName,
+                            eventData
+                          );
+                        } catch (err) {
+                          console.log("informOperator err", err);
+                          throw err;
+                        }
+                      }
+                    });
+                  }
+                });
               }
-            })
-          })
+            }
+          } else {
+            socket.emit("onMessageForwardFailed");
+            const conversationData = await conversationAct.getCnv(
+              data.metaData.conversation_id
+            );
+            if (conversationData.status == 0) {
+              let eventName = "onMessageForwardFailed";
+              let eventData = ["users_not_found"];
+              try {
+                informOperator(
+                  io,
+                  socket.id,
+                  conversationData,
+                  eventName,
+                  eventData
+                );
+              } catch (err) {
+                console.log("informOperator err", err);
+                throw err;
+              }
+            }
+          }
+        } else {
+          socket.emit("onMessageForwardFailed", "message_not_found");
+          const conversationData = await conversationAct.getCnv(
+            data.metaData.conversation_id
+          );
+          if (conversationData.status == 0) {
+            let eventName = "onMessageForwardFailed";
+            let eventData = ["message_not_found"];
+            try {
+              informOperator(
+                io,
+                socket.id,
+                conversationData,
+                eventName,
+                eventData
+              );
+            } catch (err) {
+              console.log("informOperator err", err);
+              throw err;
+            }
+          }
         }
-
       } catch (err) {
-        console.log(err)
+        socket.emit("onMessageForwardFailed", "error");
+        const conversationData = await conversationAct.getCnv(
+          data.metaData.conversation_id
+        );
+        if (conversationData.status == 0) {
+          let eventName = "onMessageForwardFailed";
+          let eventData = ["error"];
+          try {
+            informOperator(
+              io,
+              socket.id,
+              conversationData,
+              eventName,
+              eventData
+            );
+          } catch (err) {
+            console.log("informOperator err", err);
+            throw err;
+          }
+        }
+        console.log(err);
+      }
+    });
+
+    
+    socket.on('addSale',async(data)=>{
+      const userInfo=await axios.get(`${process.env.API_PATH}/getDataByProfileId/${data.contact}`,{
+        headers:{
+          key: `${process.env.API_KEY}`,
+
+        }
+      })
+     
+
+      //check if sale been made from agent message
+      if (data.messageId) {
+        const messageInfo = await msgDb.getMsg(data.messageId);
+        const contactId = await userM.getAgent(messageInfo.user);
+        data.agent_id = contactId.id;
+      } else {
+        data.agent_id = null;
+      }
+      try {
+        const user = socketIds[socket.id];
+        if (user) {
+          //add sale into admin data base 
+          const response = await axios.post(
+            `${process.env.API_PATH}/add_sales`,
+            data,
+            {
+              headers: {
+                key: `${process.env.API_KEY}`,
+              },
+            }
+          );
+          if (response.status === 200) {      
+              socket.emit("saleAdded",{
+                amount:response.data.plan_tariff,
+                currency:response.data.plan_currency,
+                country:"",
+                last_name:userInfo.data.data.lastname,
+                first_name:userInfo.data.data.firstname,
+                email:userInfo.data.data.email,
+                id_sale:response.data.sale_id,
+                messageId:data.messageId
+              })
+            
+          } else {
+            socket.emit("addSaleFailed", "failed");
+          }
+        }
+      } catch (error) {
+        socket.emit("addSaleFailed", error.toString());
+        console.error("An error occurred:", error);
       }
     })
-  })
-}
-export default ioMessageEvents
+
+    socket.on("saleSucceed", async (data) => {      
+      try {
+
+        if (data.messageId) {
+          const messageInfo = await msgDb.getMsg(data.messageId);
+          const contactId = await userM.getAgent(messageInfo.user);
+          data.agent_id = contactId.id;
+        } else {
+          data.agent_id = null;
+        }
+
+          const response = await axios.post(
+            `${process.env.API_PATH}/update_sales`,
+            {
+                sale_id:data.id_sale,
+                status:1,
+                date_end:data.date_end,
+                agent_id:data.agent_id
+            },
+            {
+              headers: {
+                key: `${process.env.API_KEY}`,
+              },
+            }
+          );
+            
+             if (data?.messageId) {
+                //update plan message status to 1
+                msgDb.putPlanMessage(data.messageId, 1);
+                  }    
+            
+            // userM.putUserStatus(data.contact);
+            // UserIndex returns the position of the client who bought a plan
+            const newBalance = await putBuyBalance(
+              data.contact,
+              response.data.balance
+            );
+    
+            // User does not exist in clientBalance array, push new data
+            clientBalance[data.userId] = {
+              user: data.contact,
+              balance: newBalance.balance,
+              free_balance:clientBalance[data.userId]?.free_balance ?? 0,
+              balance_type: 1,
+              sync: false,
+            };
+
+             socket.emit("planBought", response.data, newBalance.balance);
+             
+              Object.entries(socketIds).forEach(([socketId, user]) => {
+                if (
+                  user.accountId == data.accountId &&
+                  (user.role === "ADMIN" || user.role === "AGENT")
+                ) {
+                  io.to(socketId).emit("planBought", {
+                    newPlan: response.data,
+                    messageId: data.messageId,
+                    balance: newBalance.balance,
+                    userId: data.userId,
+                    contactId: data.contact,
+                  });
+                }
+              });
+              // add purchase log
+              const logData = {
+                user_id: data.contact,
+                action: "purchase completed",
+                element: "3",
+                element_id: response.data.id,
+                log_date: currentDate,
+                source: "3",
+                plan_name: response.data.plan_name,
+                messageId: data?.messageId,
+              };
+              //save log in data base as a message
+              const savedMessage = await msgDb.addMsg({
+                app: "638dc76312488c6bf67e8fc0",
+                user: data.userId,
+                action: "message.create",
+                metaData: {
+                  type: "log",
+                  conversation_id: data.conversationId,
+                  user: data.userId,
+                  message: JSON.stringify(logData),
+                  data: "",
+                  origin: "web",
+                },
+              });
+              const messageData = {
+                content: savedMessage.message,
+                id: savedMessage._id,
+                from: data.userId,
+                conversation: data.conversationId,
+                senderName: data?.senderName,
+                date: savedMessage.created_at,
+                type: savedMessage.type,
+              };
+              //if the purchase been made in a conversation
+              if (savedMessage?._id) {
+                // send a message to the conversation
+                socket.emit("onMessageSent", {
+                  ...messageData,
+                  isSender: true,
+                  direction: "in",
+                });
+                socket.to(data.conversationId).emit("onMessageReceived", {
+                  messageData,
+                  senderName: data?.senderName,
+                  conversation: data.conversationId,
+                  isSender: false,
+                  direction: "out",
+                  userId: data.userId,
+                  planName: data.plan,
+                });
+                const conversationData = await conversationAct.getCnv(
+                  data.conversationId
+                );
+                if (conversationData.status == 0) {
+                  let eventName = "onMessageReceived";
+                  let eventData = [
+                    {
+                      messageData,
+                      senderName: data?.enderName,
+                      conversation: data.conversationId,
+                      isSender: false,
+                      direction: "out",
+                      userId: data.userId,
+                      planName: data.plan,
+                    },
+                  ];
+                  try {
+                    informOperator(
+                      io,
+                      socket.id,
+                      conversationData,
+                      eventName,
+                      eventData
+                    );
+                  } catch (err) {
+                    console.log("informOperator err", err);
+                    throw err;
+                  }
+                }
+              }
+            
+          
+        
+      } catch (error) {
+        socket.emit("planBoughtFailed", error.toString());
+        logger.info(
+          `
+           error: ${JSON.stringify(error)}, date: ${fullDate}`
+        );
+        console.error("An error occurred:", error);
+      }
+    });
+
+    socket.on("linkClick", (messageId) => {
+      putLinkMessage(messageId)
+        .then(async (updatedMessage) => {
+          console.log(updatedMessage);
+          io.in(updatedMessage.conversation_id.toString()).emit(
+            "linkClicked",
+            updatedMessage
+          );
+          const conversationData = await conversationAct.getCnv(
+            updatedMessage.conversation_id.toSTring()
+          );
+          if (conversationData.status == 0) {
+            let eventName = "onMessageReceived";
+            let eventData = [updatedMessage];
+            try {
+              informOperator(
+                io,
+                socket.id,
+                conversationData,
+                eventName,
+                eventData
+              );
+            } catch (err) {
+              console.log("informOperator err", err);
+              throw err;
+            }
+          }
+        })
+        .catch((error) => {
+          console.log("error updating link clicking");
+        });
+    });
+
+    socket.on('saleFailed', async (data) => {
+      try {
+          //update sale in data base status=params.status,id_sale=params=id_sale,reason=params.reason,date_end=DataNow()
+        const response = await axios.post(`${process.env.API_PATH}/update_sales`, {
+          sale_id:data.id_sale,
+          status:2,
+          date_end:data.date_end,
+          reason:data.reason,
+        },{
+          headers: {
+            key: `${process.env.API_KEY}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error updating sale:', error);
+      }
+    });
+    
+    
+    socket.on(
+      "findMessageWithSiblings",
+      async (messageId, count, firstMessage) => {
+        try {
+          socket.emit(
+            "findMessageWithSiblingsResult",
+            messageId,
+            await findMessageWithSiblings(
+              messageId,
+              count,
+              firstMessage,
+              socketIds[socket.id]
+            )
+          );
+        } catch (err) {
+          console.log("err", err);
+          socket.emit(
+            "findMessageWithSiblingsFailed",
+            messageId,
+            err.toString()
+          );
+        }
+      }
+    );
+    socket.on("getConversationMessages", async (data) => {
+      try {
+        socket.emit(
+          "getConversationMessagesResult",
+          await getSocketConversationMessages(data),
+          data
+        );
+      } catch (err) {
+        socket.emit("getConversationMessagesFailed", err.toString(), data);
+      }
+    });
+
+    socket.on('loadMessages',async (data)=>{
+      const result =await getConversationMessages(socket,data)
+      socket.emit('loadMessages',result)
+    })
+    
+
+  });
+
+
+};
+
+
+export default ioMessageEvents;

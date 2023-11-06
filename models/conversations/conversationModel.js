@@ -10,7 +10,6 @@ import {mongoose} from '../../dependencies.js';
     },
     channel_url: {
         type: String,
-        required: true,
         description: 'the unique URL of the channel'
     },
     conversation_type: {
@@ -70,6 +69,11 @@ import {mongoose} from '../../dependencies.js';
         required: false,
         description: 'Permissions of this conversation'
     },
+    members:{
+        type:Array,
+        required:true,
+        description :"an array of users and agents in the conversation "
+    },
     metadata: {
         type: Object,
         required: false,
@@ -78,7 +82,6 @@ import {mongoose} from '../../dependencies.js';
     status:{
         type:Number,
         required:true,
-        default:1,
         description:"update status for conversation activity , is_active: 1,is not :0"
     },
  

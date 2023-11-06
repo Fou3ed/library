@@ -8,7 +8,7 @@ import  'winston-mongodb';
 const logger = createLogger({
     transports: [
         new transports.File({
-            filename: './dailyLogs/info.log',
+            filename: './dailyLogss/info.log',
             level: 'info',
             format: format.combine(format.timestamp(), format.json())
         }),
@@ -23,7 +23,7 @@ const logger = createLogger({
         }),
         
         new DailyRotateFile({
-            filename: './dailyLogs/info.log',
+            filename: './dailyLogss/info.log',
             datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '20m',

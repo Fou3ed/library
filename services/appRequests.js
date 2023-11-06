@@ -113,7 +113,6 @@
                 return false
             }
         } catch (err) {
-            console.log("ok")
             logger(err)
 
         }
@@ -145,7 +144,6 @@
                 plan: Joi.string().required(),
                 message_retention_hours: Joi.number(),
                 max_message_length: Joi.number()
-
             })
             const {
                 error

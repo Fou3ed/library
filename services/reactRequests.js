@@ -4,6 +4,7 @@ import {
    
 } from '../dependencies.js'
 import logs from '../models/logs/logsMethods.js'
+import mongoose from 'mongoose'
 const log = new logs()
 const element= 7
 const logger = debug('namespace')
@@ -122,10 +123,12 @@ export const putReact = async (id,data) => {
  * @route /role/:id
  * @method delete
  */
-export const unReactMsg = async (id) => {
+export const unReactMsg = async (data) => {
         try {
-            const result = await react.findByIdAndDelete(id)
-            console.log("result",result)
+
+            const result = await react.findOneAndDelete({
+                _id:data.metaData.message_id,
+                user_id:mongoose.Types.ObjectId(data.user)})
             if (result) {
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",

@@ -1,4 +1,5 @@
 import user from '../models/user/userModel.js'
+import conversation from '../models/conversations/conversationModel.js'
 import {
     debug,
     Joi,
@@ -6,6 +7,9 @@ import {
 } from '../dependencies.js'
 
 import logs from '../models/logs/logsMethods.js'
+import { clientBalance } from '../models/connection/connectionEvents.js'
+import mongoose from 'mongoose'
+import axios from 'axios'
 const log = new logs()
 const element = 9
 const logger = debug('namespace')
@@ -18,7 +22,65 @@ const logger = debug('namespace')
  */
 export const getUsers = async (req, res) => {
     try {
-        const result = await user.find();
+        const result = await user.find({
+            role:"AGENT"
+        });
+        if (result.length > 0) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: "there are no such user "
+            })
+        }
+    } catch (err) {
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data ",
+        })
+    }
+}
+export const getClient = async (req, res) => {
+    try {
+      const result = await user.findOne({
+        _id: req.params.id,
+      });
+    
+      if (result) {
+        const {data: {data}}=await axios.get(`${process.env.API_PATH}/getDataByProfileId/${result.id}`,{
+            headers:{
+              key: `${process.env.API_KEY}`,
+    
+            }
+          })
+         
+        res.status(200).json({
+          message: "success",
+          data: {...(JSON.parse(JSON.stringify(result))),contact_details: data },
+      
+        });
+      } else {
+        res.status(404).json({
+          message: "User not found"
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        message: "Error retrieving data"
+      });
+    }
+  };
+  
+
+export const getUserById = async (req, res) => {
+    try {
+        const result = await user.find({
+            id:req.params.id
+        });
         if (result.length > 0) {
             res.status(200).json({
                 message: "success",
@@ -42,17 +104,22 @@ export const getUsers = async (req, res) => {
  * get users connected 
  */
 export const getUserConnected = async (req, res) => {
+
     try {
-        const result = await user.find({is_active: true, role: {$ne: null}});
+        const result = await user.find({
+            role: "AGENT",
+            is_active: true,
+            accountId:req.query.accountId
+          });
         if (result.length > 0) {
             res.status(200).json({
                 message: "success",
                 data: result
             })
         } else {
-            res.status(204).json({
+            res.status(200).json({
                 message: "success",
-                data: "there are no users connected"
+                data: []
             })
         }
     } catch (err) {
@@ -62,6 +129,59 @@ export const getUserConnected = async (req, res) => {
         })
     }
 }
+
+export const getAgentConnected = async (req, res) => {
+
+    try {
+        const result = await user.findOne({
+            id:req.params.id})
+
+        if (result) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(404).json({
+                message: "success",
+                data: []
+            })
+        }
+    } catch (err) {
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+    }
+}
+
+
+export const getAllUserConnected = async (req, res) => {
+    const accountId=req.params.id
+    try {
+        const result = await user.find({
+            accountId:accountId,
+            is_active: true,
+          });
+        if (result.length > 0) {
+            res.status(200).json({
+                message: "success",
+                data: result
+            })
+        } else {
+            res.status(200).json({
+                message: "success",
+                data: []
+            })
+        }
+    } catch (err) {
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+    }
+}
+
 
 /**
  * get user by socket.id
@@ -104,6 +224,21 @@ export const getUserName = async (id, res) => {
  */
 export const getUser = async (id, res) => {
     try {
+
+        return  id instanceof Array ? user.find({ _id: { $in: id } }) : await user.findById(id);
+       
+    } catch (err) {
+        console.log(err)
+        logger(err)
+        res.status(400).send({
+            message: "fail retrieving data"
+        })
+    }
+}
+
+
+export const getConversationMembers = async (id, res) => {
+    try {
         const result = await user.findById(id);
         return result
     } catch (err) {
@@ -114,6 +249,64 @@ export const getUser = async (id, res) => {
         })
     }
 }
+export const getUserByP=async (id,type,res)=>{
+  
+    try {
+        const result = await user.findOne({id:id,...(type ? {role: {$ne: "CLIENT"} }: {}) });
+        if (result) {
+          return result
+        } 
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+export const getAgent=async (id,res)=>{
+  
+    try {
+        const result = await user.findOne({_id:id });
+        if (result) {
+          return result
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+export const getAgentDetails=async (id,res)=>{
+  
+    try {
+        const result = await user.findOne({_id:id });
+        if (result) {
+          return result
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+
+
+
+export const getUsersByP=async (id,res)=>{
+  
+    try {
+        const result = await user.find({id:id});
+        if (result) {
+          return result
+        } else {
+            console.log("error getting users")
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+
 
 /**
  * createUser: create user
@@ -122,40 +315,7 @@ export const getUser = async (id, res) => {
  * @body  nickname,full_name,profile_url,access_token,role,is_active,is_online,locale,last_seen_at,metadata
  */
 export const postUser = async (req, res) => {
-    // const data = {
-    //     nickname: req.body.nickname,
-    //     full_name: req.body.full_name,
-    //     profile_url: req.body.profile_url,
-    //     access_token: req.body.access_token,
-    //     role: req.body.role,
-    //     is_active: req.body.is_active,
-    //     is_online: req.body.is_online,
-    //     locale: req.body.locale,
-    //     last_seen_at: req.body.last_seen_at,
-    //     metadata: req.body.metadata,
-    // }
-    // const check = Joi.object({
-    //     nickname: Joi.string().required().min(4).max(48),
-    //     full_name: Joi.string().required().min(4).max(68),
-    //     profile_url: Joi.string(),
-    //     access_token: Joi.string().required(),
-    //     role: Joi.string().required(),
-    //     is_active: Joi.boolean().required(),
-    //     is_online: Joi.boolean().required(),
-    //     locale: Joi.string().required().min(2).max(3),
-    //     last_seen_at: Joi.number().required().default(0),
-    //     metadata: Joi.object(),
-    // })
-    // const {
-    //     error
-    // } = check.validate(data)
-    // if (error) {
-    //     res.status(400).send({
-    //         'error': error.details[0].message
-    //     })
-    // } else {
-        try {
-            
+        try {  
             const result = await user.create(req.body);
             if (result) {
                 let dataLog = {
@@ -192,89 +352,62 @@ export const postUser = async (req, res) => {
  * @route /user/:id
  * @method put
  */
-export const putUser = async (req, res) => {
 
-    const id = req.params.id
-    if (!validator.isMongoId(id)) {
-        res.status(400).send({
-            'error': 'there is no such user (wrong id)'
-        })
-    } else {
-        const data = {
-            nickname: req.body.nickname,
-            full_name: req.body.full_name,
-            profile_url: req.body.profile_url,
-            access_token: req.body.access_token,
-            role: req.body.role,
-            is_active: req.body.is_active,
-            is_online: req.body.is_online,
-            locale: req.body.locale,
-            last_seen_at: req.body.last_seen_at,
-            metadata: req.body.metadata,
+export const putUser = async (userId, body, res) => {
+    let formattedData = {};
 
+    // Loop through the array and format the data
+    body.fields.forEach(item => {
+        formattedData[item.field_type] = item.field_value;
+    });
+
+    try {
+        const firstName = formattedData["10"];
+        const lastName = formattedData["11"];
+
+        const metaDataWithoutNames = { ...formattedData };
+        delete metaDataWithoutNames["10"];
+        delete metaDataWithoutNames["11"];
+
+        const updateFields = {
+            metadata: metaDataWithoutNames
+        };
+
+        if (firstName !== undefined && lastName !== undefined) {
+            updateFields.nickname = firstName;
+            updateFields.full_name = `${firstName} ${lastName}`;
+            updateFields.status=1
         }
-        const check = Joi.object({
-            nickname: Joi.string().required().min(4).max(48),
-            full_name: Joi.string().required().min(4).max(68),
-            profile_url: Joi.string(),
-            access_token: Joi.string().required(),
-            role: Joi.string().required(),
-            is_active: Joi.boolean().required(),
-            is_online: Joi.boolean().required(),
-            locale: Joi.string().required().min(2).max(3),
-            last_seen_at: Joi.number().required().default(0),
-            metadata: Joi.object(),
-        })
-        const {
-            error
-        } = check.validate(data)
-        if (error) {
-            res.status(400).send({
-                'error': error.details[0].message
-            })
-        } else {
-            try {
-                const result = await user.findByIdAndUpdate(
-                    id, {
-                        $set: req.body
-                    })
-                if (result) {
-                    let dataLog = {
-                        "app_id": "63ce8575037d76527a59a655",
-                        "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id": "req.body.socket_id",
-                        "action": "update user",
-                        "element": element,
-                        "element_id": "1",
-                        "ip_address": "192.168.1.1"
-                    }
-                    log.addLog(dataLog)
-                    res.status(202).json({
-                        message: "success",
-                        data: result
-                    })
-                } else {
-                    res.status(400).send({
-                        'error': ' wrong values'
-                    })
-                }
-            } catch (err) {
-                res.status(400).send({
-                    'error': 'some error occurred. Try again (verify your params values ) '
-                })
-                logger(err)
-            }
+
+        const result = await user.findByIdAndUpdate(
+            userId, {
+                $set: updateFields
+            },
+            { upsert: true, new: true }
+        );
+
+        if (result) {
+            const dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id": "req.body.socket_id",
+                "action": "update user",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            };
+            log.addLog(dataLog);
         }
+        return result;
+    } catch (err) {
+        logger(err);
     }
-
-}
-
+};
 
 /**
  * update socket _id 
  */
 export const putUserSocket = async (id, socket_id, res) => {
-
     if (!validator.isMongoId(id)) {
         res.status(400).send({
             'error': 'there is no such user (wrong id)'
@@ -313,20 +446,21 @@ export const putUserSocket = async (id, socket_id, res) => {
 /**
  * update socket _id 
  */
-export const putUserActivity = async (id, status) => {
-    console.log("id",id,status)
+export const putUserActivity = async (data) => {
     try {
         const result = await user.findOneAndUpdate({
-                socket_id: id
-            }, // find user by socket_id
+                _id: data.userId
+            }, 
             {
                 $set: {
-                    is_active: status
+                    is_active: data.status,
+                    socket_id:data.socketId,
+                    last_seen_at:data?.last_seen_at
                 }
-            }, // update is_active field
+            }, 
             {
                 new: true
-            } // return the updated document
+            } 
         );
         if (result) {
 
@@ -334,21 +468,60 @@ export const putUserActivity = async (id, status) => {
                 "app_id": "63ce8575037d76527a59a655",
                 "user_id": "6390b2efdfb49a27e7e3c0b9",
                 "socket_id": "123123",
-                "action": `update user activity ${status} `,
+                "action": `update user activity ${data.status} `,
                 "element": element,
                 "element_id": "1",
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
+
             return result
-        } else {
-            console.log("failed updating user activity ")
-        }
+        } 
     } catch (err) {
         console.log(err)
         logger(err)
     }
 }
+
+
+export const putUserStatus = async (userId,res) => {
+    try {
+        let result = await user.findOneAndUpdate(
+            {id: userId}, 
+            {
+              $set: {
+                role:"CLIENT",
+                status: 1,
+              },
+            },
+            {
+              new: true,
+            }
+          );
+      
+      if (result) {
+        let dataLog = {
+          app_id: "63ce8575037d76527a59a655",
+          user_id: "6390b2efdfb49a27e7e3c0b9",
+          socket_id: "123123",
+          action: "update user activity",
+          element: element,
+          element_id: "1",
+          ip_address: "192.168.1.1",
+        };
+  
+        log.addLog(dataLog); // Assuming the log module has an addLog function
+  
+        return result;
+      } 
+    } catch (err) {
+      console.log(err);
+      // Assuming the logger function exists and is defined elsewhere
+      logger(err);
+    }
+  };
+
+
 
 
 /**
@@ -386,6 +559,7 @@ export const getUserStatus = async (req, res) => {
  * @method Get
  */
 export const getUsersOnline = async (req, res) => {
+
     try {
         const result = await user.find({
             is_online: true
@@ -420,6 +594,7 @@ export const registerUser = async (req, res) => {
         const check = Joi.object({
             access_token: Joi.string().required(),
         })
+        
         const {
             error
         } = check.validate(data)
@@ -604,4 +779,261 @@ export const deleteUser = async (req, res) => {
             })
         }
     }
+
+    
+      
+
 }
+/**
+     * get connected agent(role="agent" and is_online="true") who has the lowest active conversation ,status=1, 
+     * https://foued.local.itwise.pro/chat_server/users/available_agent
+     */
+export const agentAvailable = async (accountId) => {
+    try {
+        const activeAgents = await user.find({
+            role: "AGENT",
+            is_active: true,
+            accountId: accountId,
+        });
+
+        let agents;
+        let userConversations = {};
+
+        if (activeAgents.length > 0) {
+            const activeAgentIds = activeAgents.map((agent) => agent._id);
+
+            (await conversation.aggregate([
+                {
+                    $match: { owner_id: accountId, status: 1 },
+                },
+                {
+                    $unwind: "$members",
+                },
+                {
+                    $group: {
+                        _id: "$members",
+                        value: { $sum: 1 },
+                    },
+                },
+                { $sort: { _id: 1 } },
+            ])).forEach((agentDetails) => {
+                userConversations[agentDetails._id] = agentDetails.value;
+            });
+
+            agents = activeAgents.map((agent) => {
+                agent = { ...agent }._doc;
+                agent.count = userConversations[agent._id] ?? 0;
+                return agent;
+            });
+
+            agents.sort((a, b) => a.count > b.count ? 1 : (a.count < b.count ? -1 : 0));
+        } else {
+            agents = await user.find({
+                role: "AGENT",
+                accountId: accountId,
+            });
+
+            const allAgentIds = agents.map((agent) => agent._id);
+
+            (await conversation.aggregate([
+                {
+                    $match: { owner_id: accountId, status: 1 },
+                },
+                {
+                    $unwind: "$members",
+                },
+                {
+                    $group: {
+                        _id: "$members",
+                        value: { $sum: 1 },
+                    },
+                },
+                { $sort: { _id: 1 } },
+            ])).forEach((agentDetails) => {
+                userConversations[agentDetails._id] = agentDetails.value;
+            });
+
+            agents = agents.map((agent) => {
+                agent = { ...agent }._doc;
+                agent.count = userConversations[agent._id] ?? 0;
+                return agent;
+            });
+
+            agents.sort((a, b) => a.count > b.count ? 1 : (a.count < b.count ? -1 : 0));
+        }
+
+        return agents.find((agent) => true);
+    } catch (err) {
+        console.log("err", err);
+        logger(err);
+    }
+};
+
+
+  /**
+ * createUser: create user
+ * @route /user
+ * @method post
+ * @body  nickname,full_name,profile_url,access_token,role,is_active,is_online,locale,last_seen_at,metadata
+ */
+export const createGuest = async (data, res) => {
+        try {  
+            const result = await user.create(data);
+            if (result) {
+                let dataLog = {
+                    "app_id": "1",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id": "req.body.socket_id",
+                    "action": "Create user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+              return result 
+            } 
+        } catch (err) {
+     
+            logger(err)
+        }
+    }
+
+
+    export const createAgent = async (data, res) => {
+        try {  
+
+            const result = await user.create(data.body);
+            if (result) {
+                let dataLog = {
+                    "app_id": "1",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id": "req.body.socket_id",
+                    "action": "Create user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+                res.status(200).json({
+                    'data': result
+                })            } 
+            
+        } catch (err) {
+            res.status(400).json({
+                'error': 'some error occurred.try again'
+            })
+            logger(err)
+        }
+
+
+    }
+
+
+    /**
+ * update socket _id 
+ */
+export const putUserBalance = async (id,balance, res) => {
+        try {
+            const result = await user.findOneAndUpdate(
+                {id:id},
+                 {
+                    $set: {
+                        balance: balance
+                    },
+                    new:true,
+                })
+                // const balanceToUpdate = clientBalance.find(balance => balance.user === id);
+            if (result) {
+
+                return result
+            } 
+        } catch (err) {
+            console.log(err)
+            logger(err)
+        }
+    }
+
+    export const putUserFreeBalance = async (id,balance, res) => {
+        try {
+            const result = await user.findOneAndUpdate(
+                {id:id},
+                 {
+                    $set: {
+                        free_balance: balance
+                    },
+                    new:true,
+                })
+                // const balanceToUpdate = clientBalance.find(balance => balance.user === id);
+            if (result) {
+
+                return result
+            } 
+        } catch (err) {
+            console.log(err)
+            logger(err)
+        }
+    }
+
+
+    export const putBuyBalance = async (id, newBalance, res) => {      
+        try {
+          const userToUpdate = await user.findOne({ id: id });
+          if (!userToUpdate) {
+            return ;
+          }
+            const updatedBalance = userToUpdate?.balance || 0; 
+            const updatedValue = isNaN(newBalance) ? 0 : Number(newBalance); 
+            
+            const result = await user.findOneAndUpdate(
+              { id: id },
+              {
+                $set: {
+                  balance: updatedBalance + updatedValue,
+                },
+              },
+              { new: true }
+            );
+          return result;
+        } catch (err) {
+          console.log(err);
+          logger(err);
+        }
+      };
+
+export const getOperators=async(accountId)=>{
+    try{
+        const result=await user.find({
+            role:"ADMIN",
+            accountId:accountId        
+        })
+        return result[0]?._id
+    }catch(err){
+        console.log("err",err)
+    }
+  }
+
+
+  export const updateAllUsersActivities = async () => {
+    try {
+     await user.updateMany({}, { $set: { is_active: false } });
+    } catch (error) {
+      console.error('Error updating users:', error);
+    }
+  };
+  export const checkLoginUser =async(data)=>{
+    try{
+        const search=await user.find({
+            role:"CLIENT",
+            id:data.profile_id,
+            account_id:data.accountId
+        })
+            return search
+       
+
+        }
+    catch(error){
+        console.error('Error login user:', error);
+
+    }
+  }
+  

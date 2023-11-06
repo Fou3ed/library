@@ -4,7 +4,6 @@
      getUser,
      getUserName,
      getUserStatus,
-     getUsers,
      getUsersOnline,
      postUser,
      putUser,
@@ -12,8 +11,12 @@
      unBanUser,
      putUserSocket, 
      putUserActivity,
-     getUserBySocket
-
+     getUserBySocket,
+     getUserByP,
+     createGuest,
+     putUserStatus,
+     agentAvailable,
+    getAgent
  } from '../../services/userRequests.js'
 
  class userActions {
@@ -42,8 +45,20 @@
          const response = await getUser(id)
          return response
      }
+     async getAgent(id) {
+        const response = await getAgent(id)
+        return response
+    }
+     async agentAvailable(accountId) {
+        const response = await agentAvailable(accountId)
+        return response
+    }
      async getUserBySocket(id){
         const response = await getUserBySocket(id)
+        return response
+     }
+     async getUserByP(id,type){
+        const response = await getUserByP(id,type)
         return response
      }
 
@@ -52,7 +67,6 @@
       */
      async getUserName(id) {
          const response = await getUserName(id)
-           
          return response
      }
 
@@ -68,7 +82,6 @@
       * updateUser : update user data.
       */
      async putUser(id, data) {
-        
          const response = await putUser(id, data)
          const resData = await response.json()
          return resData
@@ -109,7 +122,6 @@
       * registerUser : log in a user.
       */
      async logIn(id) {
-         console.log("login")
          const response = await registerUser(id)
          const resData = await response.json();
          return resData;
@@ -139,7 +151,14 @@
          return resData
      }
 
-
+     async createGuest(data){
+        const response =await createGuest(data)
+        return response
+     }
+     async putUserStatus(data){
+        const response=await putUserStatus(data)
+        return response 
+     }
 
  }
  export default userActions

@@ -1,0 +1,21 @@
+{
+    "lang": "fr",
+    "sender": "PRIVATE CHAT",
+    "subject": "Bienvenue à ",
+    "content": {
+        "header": "Chèr(e) ",
+        "body": "Nous sommes heureux de vous accueillir au sein de notre chat sélect et privé.<br>Divers experts réputés dans leurs domaines vous attendent afin de répondre de manière totalement confidentielle et en toute discrétion à toutes vos interrogations.<br>Votre compte personnel a été créé et vos données d’accès sont les suivantes :",
+        "form": {
+            "user": "Utilisateur",
+            "password": "Mot de passe provisoire",
+            "url": "Site de connexion"
+        },
+        "footer": {
+            "closing": "A très vite !",
+            "greeting": "Cordialement,",
+            "brand": "PRIVATE CHAT",
+            "app": "Plateforme sécurisée de chat avec experts",
+            "team":"Équipe"
+        }
+    }
+}

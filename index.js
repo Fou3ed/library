@@ -8,9 +8,11 @@ import {
   process,
   Server,
   instrument,
+  cs
 } from "./dependencies.js";
 // import path from 'path'
 dotenv.config();
+import {readFileSync} from 'fs'
 import ioConversationEvents from './models/conversations/conversationEvents.js';
 import ioMessageEvents from './models/messages/messageEvents.js';
 import ioChatEvents from './models/chatEvents.js/userActionEvents.js';
@@ -20,11 +22,17 @@ import dbServer from "./DB.js";
 import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
 import ioConversationMembersEvents from "./models/convMembers/convMembersEvents.js"
-import redisAdapter from 'socket.io-redis'
-const app = express();
-const httpServer = createServer(app);
-import bodyParser from "body-parser";
+import getApiKeys from "./utils/getApiKeys.js";
+import {updateAllUsersActivities} from './services/userRequests.js'
+import {updateAllConversationsActivities} from './services/conversationsRequests.js'
 
+const app = express();
+const httpServer = cs(app);
+import bodyParser from "body-parser";
+const wsServer = cs({
+  // key: readFileSync(process.env.KEY_PATH),
+  // cert: readFileSync(process.env.CERT_PATH)
+});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,18 +41,15 @@ app.use((req, res, next) => {
   next();
 });
 
-export const io = new Server(httpServer, {
-  pingTimeout: 60000, // Set the timeout to 60 seconds
+export const io = new Server(wsServer, {
+  pingTimeout: 60000, 
   cors: {
-    origin: ["http://localhost:5500", "https://admin.socket.io","http://localhost:3000","http://192.168.1.19:3000/","http://143.198.55.254:3000/","http://192.168.0.41:3000/"],
+    origin:process.env.CORS.split(','),
     allowedHeaders: ["content-type"]
   }
 });
 
 
-io.sockets.setMaxListeners(20)
-
-io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 
 import userRoutes from './routers/usersRoutes.js'
 import messageRoutes from './routers/messageRoutes.js'
@@ -52,7 +57,7 @@ import conversationRoutes from './routers/conversationRoutes.js'
 import  getReact  from "./routers/reactRoutes.js";
 import GetLastMessage  from "./routers/messageRoutes.js";
 import getMembers from "./routers/membersRoutes.js"
-
+import getForms from './utils/forms.js'
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -71,13 +76,16 @@ ioChatEvents()
 ioUserEvents()
 ioAppEvents()
 ioConversationMembersEvents()  
-
+// Call the getForms function
+  getForms()
+  await  getApiKeys()
 /****
  *
  */
 process.on("uncaughtException", (err) => {
   console.log(err.name);
-  console.log(err.message);
+  console.log(err);
+
   console.log("shutting down...");
   process.exit(1);
 });
@@ -86,6 +94,20 @@ process.on("uncaughtException", (err) => {
 instrument(io, {
   auth: false,
   mode: "development",
+});
+
+
+process.on('SIGINT', async () => {
+  await  updateAllUsersActivities()
+  await updateAllConversationsActivities()
+  process.exit(0); 
+});
+
+process.on('SIGTERM', async () => {
+
+  await  updateAllUsersActivities()
+  await updateAllConversationsActivities()
+  process.exit(0); 
 });
 
 /**
@@ -121,12 +143,18 @@ app.use(helmet());
 object. */
 app.use(cookieParser());
 
-/* It's a function that connects to the database. */
+/* data base connection */
 dbServer();
 
 /* It's listening to the port number that is stored in the .env file. */
-httpServer.listen(process.env.PORT,'0.0.0.0', () => {
-  console.log(`server up and running on port : ${process.env.PORT}`);
+httpServer.listen(process.env.HTTP_PORT,'0.0.0.0', () => {
+  console.log(`server up and running on port : ${process.env.HTTP_PORT}`);
   logger.info("server is running smoothly");
+});
+
+/* It's listening to the port number that is stored in the .env file. */
+wsServer.listen(process.env.WS_PORT,'0.0.0.0', () => {
+  console.log(`ws  up and running on port : ${process.env.WS_PORT}`);
+  logger.info("ws is running smoothly");
 });
   

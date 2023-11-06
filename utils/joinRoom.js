@@ -1,12 +1,13 @@
 import messageActions from '../models/messages/messageMethods.js'
 import convMembersAction from '../models/convMembers/convMembersMethods.js'
 import userMethod from '../models/user/userMethods.js'
-
 const foued = new messageActions()
 const convMember = new convMembersAction()
 const userM = new userMethod()
 
 export default async function checkJoined(io, socket, conversationId, userId) {
+
+    
     let status = "";
     try {
       if (conversationId){
@@ -17,12 +18,12 @@ export default async function checkJoined(io, socket, conversationId, userId) {
       // get receiver information
       // receiver.forEach(async person => {
         const res = await userM.getUser(receiver);
-      
         // Check if the receiver is online (connected to the socket)
         if (res.is_active === true) {
           // Check if the room exists, if not create the room
           const room = io.of('/').adapter.rooms.get(conversationId);
           if (room === undefined) {
+            
             socket.join(conversationId);
             io.to(res.socket_id).emit('joinConversationMember', conversationId);
             status = 3;

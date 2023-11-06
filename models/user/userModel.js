@@ -55,7 +55,7 @@ const userSchema = new Schema({
         description: "the time when the credentials were registered"
     },
     last_seen_at: {
-        type: Number,
+        type: Date,
         required: false,
         description: 'the time the user went offline to indicate when the user was last connected to the server.if the use is online, the value is set to 0'
     },
@@ -67,13 +67,29 @@ const userSchema = new Schema({
     status: {
         type: Number,
         required: false,
-        description: 'user status,1:client,0:guest'
-    },
+        description: 'user status,1:client(purchased a plan),0:guest(never bought a plan) '
+    }, 
     id:{
         type:String,
         required:false,
-        description:"additional id" 
+        description:"profile id from admin's bdd" 
+    },
+    accountId:{
+        type:String,
+        required:false,
+        description:"account id ref to the application id  "
+    },
+    balance:{
+        type:Number,
+        required:false,
+        description:"user balance"
+    },
+    free_balance:{
+        type:Number,
+        required:false,
+        description:"user  free balance"
     }
+
 })
 
 export default mongoose.model("user", userSchema)

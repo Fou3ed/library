@@ -1,0 +1,60 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "dailyLogss\\.cf447a0a717103c436fe1cdfaecdcfa007f9e17e-audit.json",
+    "files": [
+        {
+            "date": 1698056877394,
+            "name": "dailyLogss\\info.log.2023-10-23",
+            "hash": "7021a17ecd36673a8e60d7ed8acf5160e019e551e93809f087bba422ae302246"
+        },
+        {
+            "date": 1698144481076,
+            "name": "dailyLogss\\info.log.2023-10-24",
+            "hash": "733cc7a35acef1b81610efb3960ebdaec09064de571bdadef3935b8f8b14db46"
+        },
+        {
+            "date": 1698229307424,
+            "name": "dailyLogss\\info.log.2023-10-25",
+            "hash": "e6883190bae3d31a9a38a16a648a32fb85a01154ef2b0da9fd4487d5fffab6eb"
+        },
+        {
+            "date": 1698327797427,
+            "name": "dailyLogss\\info.log.2023-10-26",
+            "hash": "d8898030cae5cde7e1e53751ae64bb2a386e29b5488bf884579297a2d21d8ca8"
+        },
+        {
+            "date": 1698663472295,
+            "name": "dailyLogss\\info.log.2023-10-30",
+            "hash": "39124fd3603aec98f3608f9f3d1ea24cb06965a9eb00cfe6b17e8fe2d0851100"
+        },
+        {
+            "date": 1698755189077,
+            "name": "dailyLogss\\info.log.2023-10-31",
+            "hash": "4c6d1ec3d87848d28a876b7822787784ed2c51f0b4351f58413130ee4023efab"
+        },
+        {
+            "date": 1698838106574,
+            "name": "dailyLogss\\info.log.2023-11-01",
+            "hash": "ff848e0784603fe6bbec68a197f1ff44d9ccb875e4d9704cf4bed061ffa9e0de"
+        },
+        {
+            "date": 1698916647376,
+            "name": "dailyLogss\\info.log.2023-11-02",
+            "hash": "a2f43c030eadd26fa59c2794e8e8de9b57e7bec3e322819848ed62b5e2dbd919"
+        },
+        {
+            "date": 1699003280167,
+            "name": "dailyLogss\\info.log.2023-11-03",
+            "hash": "fc39c68e86cb92122e2643c0e881b4f611e2ccfcb3f38c1ab3e4151b53590631"
+        },
+        {
+            "date": 1699266236322,
+            "name": "dailyLogss\\info.log.2023-11-06",
+            "hash": "aa6ac3b4809070ec79e1819a5e946f693f357bbc4b961c7d85603cfe0c82d8b1"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -37,8 +37,8 @@ class reactActions {
         return response
     }
 
-    async unReactMsg(id){
-        const response = await unReactMsg(id)
+    async unReactMsg(data){
+        const response = await unReactMsg(data)
         return response
     }
 

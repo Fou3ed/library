@@ -1,15 +1,22 @@
 //import conversation from './conversationModel.js'
-import conversationActions from './conversationMethods.js';
 
 import {
     io
 } from '../../index.js';
-const foued = new conversationActions
+import conversationActions from './conversationMethods.js';
+import { informOperator } from '../../utils/informOperator.js';
+const conversationDb = new conversationActions
 import logger from '../../config/newLogger.js'
 import * as info from '../../data.js'
-
+import {socketIds} from '../connection/connectionEvents.js'
+import { getCnvById, getConv, searchConversationMessages } from '../../services/conversationsRequests.js';
+import { getAgent, getAgentDetails } from '../../services/userRequests.js';
 const currentDate = new Date();
+import messagesActions from "../messages/messageMethods.js";
+import { filterForms } from '../../utils/forms.js';
+const messageDb = new messagesActions();
 const fullDate = currentDate.toLocaleString();
+
 const ioConversationEvents = function () {
 
     //room namespace
@@ -19,17 +26,33 @@ const ioConversationEvents = function () {
         // onConversationStart : Fired when the conversation created.
         socket.on('onConversationStart', (data) => {
             try {
-                if (data.metaData.name == "") {
-                    console.log("conversation must obtain a name ")
-                } else {
-                    console.log('====================================');
-                    console.log("conversation created")
-                    console.log('====================================')
-                    foued.addCnv(data).then((res) => {
-                        socket.emit('onConversationStarted', info.onConversationCreated, res)
-                    })
-                    logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
-                }
+                if(data){
+                    conversationDb.addCnv(data).then(async (res) => {                       
+                        // Find the socket IDs corresponding to the members
+                        const socketIdsToNotify = Object.entries(socketIds).map(([socketId,user])=>
+                        (res.members?.includes(user.userId)||(user.accountId==res.owner_id && user.role==="ADMIN")) ? socketId : null ).filter(item=>item)
+                        socket.join(res._id.toString())
+                        // Send the "joinMember" event to the  socket IDs
+                        socketIdsToNotify.forEach((socketIdObj) => {
+                          socket.to(socketIdObj.socketId).emit("joinConversationMember",res);
+                        });
+                        socket.emit("onConversationStarted",res);
+
+                        const conversationData = await conversationDb.getCnv(res._id.toString());
+                        if (conversationData.status == 0) {
+                          let eventName="onConversationStarted"
+                          let eventData= [res]
+                          try{
+                            informOperator(io,socket.id,conversationData,eventName,eventData);
+                          }catch(err){
+                            console.log("informOperator err",err)
+                            throw err;
+                          }
+                        }
+
+                      });
+                      logger.info(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token taw nzidouha , date: ${fullDate}"   \n `)
+                    }
             } catch (err) {
                 logger.error(`Event: onConversationStart ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `)
             }
@@ -48,9 +71,7 @@ const ioConversationEvents = function () {
         // onConversationEnd : Fired when the conversation ended.
         socket.on('onConversationEnd', (data) => {
             try {
-                console.log('====================================');
-                console.log("socket rooms : ", socket.rooms);
-                console.log('====================================');
+          
                 logger.info(`Event: onConversationEnd ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
                 socket.emit("onConversationEnd", data)
             } catch (err) {
@@ -60,15 +81,13 @@ const ioConversationEvents = function () {
         // onConversationUpdated : Fired when the conversation data updated.
         socket.on('updateConversationLM', async (id, message, from) => {
             try {
-                await foued.getCnvById(id).then(async (res) => {
+                await conversationDb.getCnvById(id).then(async (res) => {
                     if (res.owner_id === id) {
                     }
-                    await foued.putCnvLM(id, message)
+                    await conversationDb.putCnvLM(id, message)
                     socket.emit("onConversationUpdated", id, message)
                 })
-
                 logger.info(`Event: onConversationUpdated ,data: ${JSON.stringify(id,message)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-
             } catch (err) {
                 logger.error(`Event: onConversationUpdated ,data: ${JSON.stringify(id,message)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
@@ -78,17 +97,186 @@ const ioConversationEvents = function () {
 
         socket.on('onConversationDeleted', (data) => {
             try {
-                console.log('====================================');
-                console.log("conversation deleted : ", socket.rooms);
-                console.log('====================================');
                 logger.info(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
-                foued.deleteCnv(data.metaData).then((res) => {
+                conversationDb.deleteCnv(data.metaData).then((res) => {
                     socket.emit("onConversationDeleted", res)
                 })
             } catch (err) {
                 logger.error(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha ,error:${err} , date: ${fullDate}"   \n `)
             }
         });
+
+        // onConversationSearch : Search for messages containing a specific term.
+
+        socket.on('onConversationSearch', async (conversationId, term,messageId) => {
+            try {
+                // logger.info(`Event: onConversationDeleted ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"taw nzidouha , date: ${fullDate}"   \n `)
+                const user = socketIds[socket.id];
+                socket.emit("onConversationSearchResult", await searchConversationMessages(conversationId, term, user,messageId))
+            } catch (err) {
+                 console.log("error",err)
+                socket.emit("onConversationSearchFailed",err.toString())
+            }
+        });
+
+
+        socket.on('checkConversation',async(data)=>{
+          
+            const conversationFirst = await getConv(data)
+            const agentDetails=await getAgentDetails(data.agentId)
+            const  userData=await getAgentDetails(data.userId)
+
+            if(conversationFirst.data){
+                socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),agentDetails.id,agentDetails.full_name)
+            }else {
+                //create conversation and send form 
+                console.log(agentDetails)
+          const conversationDetails = await conversationDb.addCnv({
+            app: data.accountId,
+            user: data.agentId,
+            action: "conversation.create",
+            metaData: {
+              name: agentDetails.full_name,
+              channel_url: "",
+              conversation_type: "1",
+              description: "private chat",
+              owner_id: data.accountId,
+              members: [data.userId, data.agentId],
+              permissions: [],
+              members_count: 2,
+              status: agentDetails.is_active === true ? "1" :"0",
+              max_length_message: "256",
+            },
+          });
+
+          let agentStatus=agentDetails.is_active ? 1 : 0
+
+            //send conversationStatusUpdated to agent agentDetails.socket_id
+            if(agentDetails.is_active){
+              const conversationData = await getCnvById(
+                conversationDetails._id.toString()
+              );
+              socket.join(conversationDetails._id.toString())
+
+              Object.entries(socketIds).forEach(([socketId, user]) => {
+                if (
+                  user.accountId === agentDetails.accountId &&
+                  user.userId== agentDetails._id.toString()
+                ) {
+                  io.to(socketId).emit(
+                    "conversationStatusUpdated",
+                    {
+                      ...JSON.parse(JSON.stringify(conversationDetails)),
+                      member_details: [userData,agentDetails],
+                    },
+                    1
+                  ); 
+                }
+              });
+      
+            }
+        
+          
+          if(conversationDetails){
+            socket.emit('checkConversation',conversationDetails._id.toString(),agentDetails.id,agentDetails.full_name)
+
+              const formMsg = filterForms(
+                "2",
+                data.accountId,
+                data?.source ? "gocc" : null,
+                agentStatus 
+              );
+              
+              if (formMsg) {
+                formMsg.status = 0;
+                //add message to data base and emit to the client
+                messageDb
+                  .addMsg({
+                    app: data.accountId,
+                    user: agentDetails._id.toString(),
+                    action: "message.create",
+                    from: agentDetails._id.toString(),
+                    metaData: {
+                      type: "form",
+                      conversation_id: conversationDetails._id,
+                      user: agentDetails._id.toString(),
+                      message: JSON.stringify(formMsg),
+                      data: "non other data",
+                      origin: "web",
+                    },
+                    to: data.userId,
+                  })
+                  .then(async (savedMsg) => {
+                  
+                      console.log(agentDetails)
+                    socket.emit("onMessageReceived", {
+                      messageData: {
+                        content: savedMsg.message,
+                        id: savedMsg._id,
+                        from: agentDetails._id.toString(),
+                        conversation: conversationDetails._id,
+                        date: savedMsg.created_at,
+                        uuid: savedMsg.uuid,
+                        type: "form",
+                      },
+                      conversation: conversationDetails._id,
+                      isSender: false,
+                      direction: "out",
+                      userId: data.user,
+                      senderName: agentDetails.full_name,
+                      contactAgentId:agentDetails.id,
+                      status:conversationDetails.status
+                    });
+                    if (conversationDetails.status == 0) {
+                      let eventName = "onMessageReceived";
+                      let eventData = [
+                        {
+                          messageData: {
+                            content: savedMsg.message,
+                            id: savedMsg._id,
+                            from: agentDetails._id.toString(),
+                            conversation: conversationDetails._id,
+                            date: savedMsg.created_at,
+                            uuid: savedMsg.uuid,
+                            type: "form",
+                          },
+                          conversation: conversationDetails._id,
+                          isSender: false,
+                          direction: "out",
+                          userId: data.user,
+                          senderName: agentDetails.full_name,
+                        },
+                      ];
+                      try {
+                        informOperator(
+                          io,
+                          socket.id,
+                          conversationDetails,
+                          eventName,
+                          eventData
+                        );
+                      } catch (err) {
+                        console.log("informOperator err", err);
+                        throw err;
+                      }
+                    }
+            
+
+                  });
+
+
+              }
+            
+        
+            }
+  
+
+            }
+           
+
+
+            
+        })
     });
 }
 

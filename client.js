@@ -257,7 +257,6 @@ export const onMessageDelivered = (data) => {
         if(error){
             setError(error)
         }
-        console.log("foued",data)
     })
 }
 

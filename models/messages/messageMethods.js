@@ -10,7 +10,8 @@ import {
     putMessage,
     MarkMessageAsPinned,
     MarkMessageAsUnPinned,
-    MarkMessageAsForwarded
+    MarkMessageAsForwarded,
+    putPlanMessage
 } from "../../services/messageRequests.js"
 
 
@@ -34,8 +35,7 @@ class messageActions {
      */
     async getMsg(id) {
         const response = await getMessage(id)
-        const resData = await response.json()
-        return resData;
+        return response;
     }
     /**
      * createMessage : create message.
@@ -47,11 +47,18 @@ class messageActions {
     /**
      * updatedMessage : update message data.
      */
-    async putMsg(data) {
-        const response = await putMessage(data)
+    async putMsg(messageId,content) {
+        const response = await putMessage(messageId,content)
      
         return response
     }
+    async putPlanMessage(messageId,status) {
+        const response = await putPlanMessage(messageId,status)
+     
+        return response
+    }
+
+    
     /**
      * deleteMessage : delete message.
      */

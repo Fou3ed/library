@@ -6,7 +6,8 @@
      putConversationLastMessage,
      getConversationById,
      getConvBetweenUsers,
-     getPrivateConvBetweenUsers
+     getPrivateConvBetweenUsers,
+     getActiveConversations
  } from '../../services/conversationsRequests.js'
  class conversationActions {
     async getConvBetweenUsers(user1,user2){
@@ -25,9 +26,17 @@
       *  */
      async getCnvs() {
          const response = await getConversations();
-         const resData=await response.json()
          return response;
      }
+
+     /**
+      * get active conversations
+      */
+     async getActiveCnvs(userId){
+        const response=await getActiveConversations(userId)
+        return response
+     }
+     
      /**
       *  getConversation : get conversation data
       */
@@ -64,6 +73,12 @@
      async deleteCnv(id) {
          const response = await deleteConversation(id.conversation)
          return response
+     }
+     /**
+      * searchConversationMessages : search for messages.
+      */
+     async searchConversationMessages(conversationId, term) {
+        return await searchConversationMessages(conversationId, term)
      }
  }
  export default conversationActions

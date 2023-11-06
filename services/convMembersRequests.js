@@ -1,4 +1,5 @@
 import conversationMember from '../models/convMembers/convMembersModel.js'
+import conversation from '../models/conversations/conversationModel.js'
 import {
     debug,
     Joi,
@@ -6,6 +7,7 @@ import {
 } from '../dependencies.js'
 const element=4
 import logs from '../models/logs/logsMethods.js'
+import mongoose from 'mongoose'
 const log = new logs()
 const logger = debug('namespace')
 
@@ -42,10 +44,8 @@ export const getMembersByConversation = async (convId) => {
     try {
       const result = await conversationMember.find({ conversation_id: convId }).populate('user_id')
       if (result.length > 0) {
-        console.log(`Found ${result.length} members for conversation with ID: ${convId}`);
         return result.map(member => member.user_id);
       } else {
-        console.log(`No members found for conversation with ID: ${convId}`);
         return [];
       }
     } catch (err) {
@@ -56,7 +56,6 @@ export const getMembersByConversation = async (convId) => {
   };
 
   export const getMembersConversation = async (req,res) => {
-    console.log(req.params.id)
     try {
       const result = await conversationMember.find({ conversation_id: req.params.id }).populate('user_id')
       if (result.length > 0) {
@@ -138,16 +137,26 @@ export const checkMember = async (convId,userId, res) => {
  * @body 
  */
 export const postMember = async (req, res) => {
-        console.log("create member",req)
         try{
-            if(req.transfer_type==3){
-                const data={
-                    user_id:req.user_id,
+                const result = await conversationMember.insertMany(req.users.map(user=>({
+                    user_id:user,
                     conversation_id:req.conversation_id,
-                    transfer_type:req.message_id 
-                }
-                const result = await conversationMember.create(data);
+                    transfer_type:req.message_id ? req.message_id : 1 
+            
+                })));
+                
+                
             if (result) {
+               const resultA=await conversation.findByIdAndUpdate(mongoose.Types.ObjectId(req.conversation_id),{
+
+                        $set: {
+                            conversation_type: req.conversation_type,
+                            updated_at: Date.now(),
+                            
+                        },
+                         $push:{members:{$each:req.users}
+                         }   
+                });
                 let dataLog = {
                     "app_id": "63ce8575037d76527a59a655",
                     "user_id": "6390b2efdfb49a27e7e3c0b9",
@@ -158,42 +167,61 @@ export const postMember = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-                console.log("adding member to ",data.conversation_id)
                 return result
             } else {
                 console.log("error adding  conversation member ")
             }
-            }else {
-                const data={
-                    user_id:req.user_id,
-                    conversation_id:req.conversation_id,
-                    transfer_type:req.transfer_type
-                }
-                const result = await conversationMember.create(data);
-                if (result) {
-                    let dataLog = {
-                        "app_id": "63ce8575037d76527a59a655",
-                        "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id":"req.body.socket_id",
-                        "action": "Add member",
-                        "element": element,
-                        "element_id": "1",
-                        "ip_address": "192.168.1.1"
-                    }
-                    log.addLog(dataLog)
-                    console.log("adding member to ",data.conversation_id)
-                    return result
-                } else {
-                    console.log("error adding  conversation member ")
-                }
-            }
-       
-
-           
+            
+    
         } catch (err) {
             console.log(err)
             logger(err)
         }
+        return null
+    }
+
+
+    export const addMember = async (req, res) => {
+        try{
+                const data={
+                    user_id:req.user_id,
+                    conversation_id:req.conversation_id,
+                   
+                }
+                const result = await conversationMember.create(data);
+
+            if (result) {
+             await   conversation.findByIdAndUpdate(mongoose.Types.ObjectId(req.conversation_id) ,{
+                    
+                        $set: {
+                            conversation_type: "1",
+                            updated_at: Date.now(),
+                            
+                        },
+                         $push:{members:req.user_id,
+                         }   
+                });
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id":"req.body.socket_id",
+                    "action": "Add member",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
+                }
+                log.addLog(dataLog)
+                return result
+            } else {
+                console.log("error adding  conversation member ")
+            }
+            
+    
+        } catch (err) {
+            console.log(err)
+            logger(err)
+        }
+        return null
     }
 
 /**
@@ -301,4 +329,50 @@ export const deleteMember = async (req, res) => {
             })
         }
     }
+}
+
+
+/**
+ * removeMember:remove a member from a conversation
+ * @route /member
+ * @method post
+ * @body 
+ */
+export const removeMember = async (conversationId, userId, conversationType) => {
+    try {
+       let result = await conversationMember.findOneAndDelete({user_id: mongoose.Types.ObjectId(userId), conversation_id: mongoose.Types.ObjectId(conversationId)});
+       
+        if (result) {
+           await conversation.findByIdAndUpdate(mongoose.Types.ObjectId(conversationId), {
+                $set: {
+                    conversation_type: conversationType,
+                    updated_at: Date.now(),
+
+                },
+                $pull: {
+                    members: userId
+                }
+            });
+
+            let dataLog = {
+                "app_id": "63ce8575037d76527a59a655",
+                "user_id": "6390b2efdfb49a27e7e3c0b9",
+                "socket_id": "req.body.socket_id",
+                "action": "remove member",
+                "element": element,
+                "element_id": "1",
+                "ip_address": "192.168.1.1"
+            }
+
+            log.addLog(dataLog)
+
+            return result
+        } else {
+            console.log("error removing conversation member ")
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+    }
+    return null
 }

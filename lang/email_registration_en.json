@@ -1,0 +1,21 @@
+{
+    "lang": "en",
+    "sender": "PRIVATE CHAT",
+    "subject": "Welcome to ",
+    "content": {
+        "header": "Dear ",
+        "body": "We are pleased to welcome you to our select and private chat.<br>Renowned experts in their domains are waiting for you in order to answer to your concerns in complete confidentiality and discretion.<br>Your personal account has been created and your access info is as follows:",
+        "form": {
+            "user": "User",
+            "password": "Password",
+            "url": "Website"
+        },
+        "footer": {
+            "closing": "Chat you soon!",
+            "greeting": "Best regards,",
+            "brand": "PRIVATE CHAT",
+            "app": "Liaising chat platform with experts",
+            "team":"Team"
+        }
+    }
+}

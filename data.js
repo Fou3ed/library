@@ -1288,7 +1288,7 @@ export const onTypingStarted = {
     },
     "is_public": "true",
 }
-export const onTypingStopped = {
+export const onped = {
     "uuid": "",
     "app": "ID",
     "event_type": "typing.stop",

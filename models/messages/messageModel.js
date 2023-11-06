@@ -109,7 +109,11 @@ const messageSchema = new Schema({
         type:Number,
         default:"1",
         description:"status of deleted messages, 1 : is not deleted, 0 is deleted,2:edited,3:forwarded"
-    }
+    },
+    paid:{
+        type:Boolean,
+        default:false,
+    }    
 
 })
 
