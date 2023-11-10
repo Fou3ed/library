@@ -18,6 +18,7 @@ import {
   getUsersByP,
   getOperators,
   putUserFreeBalance,
+  getUsersById,
 } from "../../services/userRequests.js";
 import {
   findMessageWithSiblings,
@@ -44,12 +45,16 @@ import { informOperator } from "../../utils/informOperator.js";
 import addLogs from "../../utils/addLogs.js";
 const ioMessageEvents = function () {
   dotenv.config();
-  io.on("connection", function (socket) {
+  io.on("connection",async  function (socket) {
+
     socket.on("onMessageCreated", async (data, error) => {
 
       try {
+
         const sender = socketIds[socket.id];
-        if (sender) {
+        if (sender && sender.userId.includes(data.user)) {
+
+          const senderId = data.user;
           const conversationData = await conversationAct.getCnv(
             data.metaData.conversation_id
           );
@@ -64,7 +69,7 @@ const ioMessageEvents = function () {
               break;
             }
           }
-          const exist = conversationData.members.includes(sender.userId);
+          const exist = conversationData.members.includes(senderId);
           
           if (
             exist ||
@@ -79,10 +84,10 @@ const ioMessageEvents = function () {
               const clientIdObject = conversationData.members.find(
                 (member) => member.user_id.toString() !== process.env.ROBOT_ID
               );  
-              const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(sender.userId,clientIdObject.user_id.toString())
+              const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(senderId,clientIdObject.user_id.toString())
                   if((conversationBetweenAgentAndClient.length==0)){
                     await addMember({
-                      user_id: sender.userId,
+                      user_id: senderId,
                       conversation_id: data.metaData.conversation_id,
                     });
                     await deleteRobot(
@@ -128,7 +133,7 @@ const ioMessageEvents = function () {
                   }
                   return;
             }
-            const userBalance = clientBalance[sender.userId];
+            const userBalance = clientBalance[senderId];
             if (userBalance && data?.metaData.type === "MSG") {
               if (Number(userBalance?.free_balance) > 0)   {
                 data.metaData.paid = false;
@@ -530,26 +535,32 @@ const ioMessageEvents = function () {
         if (messageContent) {
           const senderId = socketIds[socket.id];
 
+          if(!senderId.userId.includes(data.user_id)){
+            socket.emit("onMessageForwardFailed", "unauthorized");
+              return;
+          }
+
           const receiver = data.users;
-          const userIds = await getUsersByP(receiver);
+          const userIds = await getUsersById(receiver);
+
           if (userIds.length > 0) {
             for (let userId of userIds) {
               const conversationData =
                 await conversationAct.getPrivateConvBetweenUsers(
                   userId._id.toString(),
-                  senderId.userId
+                  data.user_id
                 );
 
               const date = currentDate;
               if (conversationData) {
                 const savingMessage = {
                   app: messageContent.app,
-                  user: senderId.userId,
+                  user: data.user_id,
                   action: "message.forward",
                   metaData: {
                     type: messageContent.type,
                     conversation_id: conversationData._id.toString(),
-                    user: senderId.userId,
+                    user: data.user_id,
                     message: messageContent.message,
                     status: "3",
                     origin: "web",
@@ -594,7 +605,7 @@ const ioMessageEvents = function () {
                   const messageData = {
                     content: savedMessage.message,
                     id: savedMessage._id,
-                    from: senderId.userId,
+                    from: data.user_id,
                     conversation: conversationData._id.toString(),
                     date: savedMessage.created_at,
                     uuid: data.uuid,
@@ -610,7 +621,7 @@ const ioMessageEvents = function () {
                       conversation: conversationData._id.toString(),
                       isSender: false,
                       direction: "out",
-                      userId: senderId.userId,
+                      userId: data.user_id,
                     }
                   );
 
@@ -622,7 +633,7 @@ const ioMessageEvents = function () {
                         conversation: conversationData._id.toString(),
                         isSender: false,
                         direction: "out",
-                        userId: senderId.userId,
+                        userId: data.user_id,
                       },
                     ];
                     try {
@@ -644,7 +655,7 @@ const ioMessageEvents = function () {
                 //never spoke ,create conversation then conversation members
                 const conversationInfo = {
                   app: messageContent.app,
-                  user: senderId.userId,
+                  user: data.user_id,
                   action: "conversation.create",
                   metaData: {
                     name: "test",
@@ -655,21 +666,22 @@ const ioMessageEvents = function () {
                     status: "1",
 
                     owner_id: senderId.accountId,
-                    members: [senderId.userId, userId._id.toString()],
+                    members: [data.user_id, userId._id.toString()],
                     members_count: 2,
                     max_length_message: "256",
                   },
                 };
-                conversationAct.addCnv(conversationInfo).then(async (res) => {
+                const res=await conversationAct.addCnv(conversationInfo)
+             
                   if (res) {
                     const savingMessage = {
                       app: messageContent.app,
-                      user: senderId.userId,
+                      user: data.user_id,
                       action: "message.forward",
                       metaData: {
                         type: messageContent.type,
                         conversation_id: res._id.toString(),
-                        user: senderId.userId,
+                        user: data.user_id,
                         origin: "web",
                         message: messageContent.message,
                         status: "3",
@@ -678,16 +690,17 @@ const ioMessageEvents = function () {
 
                     const conversationInfo = await getCnvById(
                       res._id.toString()
-                    );
+                    ); 
                     const sentId = [];
                     conversationInfo.members.forEach((member) => {
                       sentId.push(member.user_id.toString());
                     });
                     Object.entries(socketIds).forEach(([socketId, user]) => {
                       if (
+
                         (user.role === "ADMIN" &&
                           user.accountId === senderId.accountId) ||
-                        sentId.includes(user.userId)
+                        sentId.find(sender => user.userId.includes(sender))
                       ) {
                         sentId.push(socketId);
                         if (socketId === socket.id) {
@@ -705,7 +718,8 @@ const ioMessageEvents = function () {
                         }
                       }
                     });
-                    msgDb.addMsg(savingMessage).then(async (savedMessage) => {
+                    const savedMessage=await msgDb.addMsg(savingMessage)
+                   if (savedMessage) {
                       socket.emit("onMessageForwardSent", {
                         content: savedMessage.message,
                         id: savedMessage._id,
@@ -716,7 +730,7 @@ const ioMessageEvents = function () {
                       const messageData = {
                         content: savedMessage.message,
                         id: savedMessage._id,
-                        from: senderId.userId,
+                        from: data.user_id,
                         conversation: res._id.toString(),
                         date: savedMessage.created_at,
                         uuid: data.uuid,
@@ -729,7 +743,7 @@ const ioMessageEvents = function () {
                         conversation: res._id.toString(),
                         isSender: false,
                         direction: "out",
-                        userId: senderId.userId,
+                        userId: data.user_id,
                       });
 
                       if (conversationInfo.status == 0) {
@@ -740,7 +754,7 @@ const ioMessageEvents = function () {
                             conversation: res._id.toString(),
                             isSender: false,
                             direction: "out",
-                            userId: senderId.userId,
+                            userId: data.user_id,
                           },
                         ];
                         try {
@@ -756,15 +770,14 @@ const ioMessageEvents = function () {
                           throw err;
                         }
                       }
-                    });
+                    }
                   }
-                });
-              }
+                };
             }
           } else {
             socket.emit("onMessageForwardFailed");
             const conversationData = await conversationAct.getCnv(
-              data.metaData.conversation_id
+              data.conversation_id
             );
             if (conversationData.status == 0) {
               let eventName = "onMessageForwardFailed";
@@ -786,7 +799,7 @@ const ioMessageEvents = function () {
         } else {
           socket.emit("onMessageForwardFailed", "message_not_found");
           const conversationData = await conversationAct.getCnv(
-            data.metaData.conversation_id
+            data.conversation_id
           );
           if (conversationData.status == 0) {
             let eventName = "onMessageForwardFailed";
@@ -807,8 +820,9 @@ const ioMessageEvents = function () {
         }
       } catch (err) {
         socket.emit("onMessageForwardFailed", "error");
+        console.log(data)
         const conversationData = await conversationAct.getCnv(
-          data.metaData.conversation_id
+          data.conversation_id
         );
         if (conversationData.status == 0) {
           let eventName = "onMessageForwardFailed";
@@ -1043,7 +1057,6 @@ const ioMessageEvents = function () {
     socket.on("linkClick", (messageId) => {
       putLinkMessage(messageId)
         .then(async (updatedMessage) => {
-          console.log(updatedMessage);
           io.in(updatedMessage.conversation_id.toString()).emit(
             "linkClicked",
             updatedMessage

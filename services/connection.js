@@ -40,7 +40,6 @@ export const postConnection = async (req,socket_id, res) => {
     try {
         const result = await connection.create(req)
         if (result) {
-            console.log("added to connection data base")
             const logDB = {
                 app_id:req.app_id,
                 user_id:req.user_id,

@@ -72,7 +72,12 @@ const userSchema = new Schema({
     id:{
         type:String,
         required:false,
-        description:"profile id from admin's bdd" 
+        description:"profile id from admin's bdd" //user id in admin's data base
+    },
+    profile_id:{
+        type:String,
+        required:false,
+        description:"profile id from admin's bdd" //profile id in admin's data base
     },
     accountId:{
         type:String,
@@ -91,5 +96,4 @@ const userSchema = new Schema({
     }
 
 })
-
 export default mongoose.model("user", userSchema)

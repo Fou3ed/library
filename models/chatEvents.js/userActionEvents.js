@@ -13,6 +13,7 @@ import saveFormData from '../../utils/saveForm.js'
 const userM = new userMethod() 
 import conversationActions from '../conversations/conversationMethods.js';
 import { informOperator } from '../../utils/informOperator.js'
+import sendVerificationEmail from '../../utils/verificatioMail.js'
 const conversationAct = new conversationActions
 
 
@@ -265,7 +266,14 @@ const ioChatEvents = function () {
                     console.log("error ",err)
                 }
         })
-
+        socket.on("verifyEmail",async function (email,applicationName){
+          try{
+            console.log("application name : ",applicationName)
+               sendVerificationEmail(email,socket,applicationName)
+          }catch(err){
+            console.log("error",err )
+          }
+        })
 
 
        

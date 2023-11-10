@@ -100,6 +100,30 @@ export const getUserById = async (req, res) => {
     }
 }
 
+export const getUsersById = async (userIds) => {
+    try {
+        const result = await user.find({
+            _id:{$in: userIds.map(userId => mongoose.Types.ObjectId(userId))}
+        });
+    
+        return result;
+    } catch (err) {
+        logger(err)
+        return [];
+    }
+}
+
+export const getAgentsByAccountId = async (accountId) => {
+    try {
+        const result = await user.find({role:"AGENT",accountId:accountId});
+    
+        return result;
+    } catch (err) {
+        logger(err)
+        return [];
+    }
+}
+
 /**
  * get users connected 
  */
@@ -252,7 +276,20 @@ export const getConversationMembers = async (id, res) => {
 export const getUserByP=async (id,type,res)=>{
   
     try {
-        const result = await user.findOne({id:id,...(type ? {role: {$ne: "CLIENT"} }: {}) });
+        const result = await user.findOne({id:id,...(type ? {role: {$ne: "CLIENT"} }: {role:"CLIENT"}) });
+        if (result) {
+          return result
+        } 
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+export const getAgentBy_Id=async (id,type,res)=>{
+  
+    try {
+        const result = await user.findOne({_id:id});
         if (result) {
           return result
         } 
@@ -266,6 +303,19 @@ export const getAgent=async (id,res)=>{
   
     try {
         const result = await user.findOne({_id:id });
+        if (result) {
+          return result
+        }
+    } catch (err) {
+        console.log(err)
+        logger(err)
+       
+    }
+}
+export const getAgentByAccountId=async (id,res)=>{
+  
+    try {
+        const result = await user.find({accountId:id,role:"AGENT" });
         if (result) {
           return result
         }
@@ -291,10 +341,10 @@ export const getAgentDetails=async (id,res)=>{
 
 
 
-export const getUsersByP=async (id,res)=>{
+export const getUsersByP=async (id,type,res)=>{
   
     try {
-        const result = await user.find({id:id});
+        const result = await user.find({id:id,...(type ? {role: {$ne: "CLIENT"} }: {role:"CLIENT"}) });
         if (result) {
           return result
         } else {

@@ -17,6 +17,7 @@ import {
   getAllConversations,
   getAllTotalConversationsDetails,
   getCnvById,
+  getConv,
   getConvBetweenUserAndAgent,
   getUserConversationsCounts,
 } from "../../services/conversationsRequests.js";
@@ -25,8 +26,17 @@ import sendEmail from "../../utils/nodeMailer.js";
 import { clientBalance } from "../connection/connectionEvents.js";
 import { informOperator } from "../../utils/informOperator.js";
 import { apiKeys } from "../../utils/getApiKeys.js";
-import { agentAvailable,  getAgentDetails, getUserByP } from "../../services/userRequests.js";
+import {
+  agentAvailable,
+  getAgentByAccountId,
+  getAgentDetails,
+  getAgentBy_Id,
+  getUserByP,
+  getUsersById,
+  getAgentsByAccountId,
+} from "../../services/userRequests.js";
 import { login } from "../../utils/login.js";
+import { response } from "express";
 const ioUserEvents = function () {
   io.on("connection", function (socket) {
     // onUserLogin : Fired when the user log in.
@@ -54,12 +64,12 @@ const ioUserEvents = function () {
     async function sendPostRequest(data) {
       let country;
       try {
-        const response = await axios.get(
-          `${process.env.GET_COUNTRY}${socket.request.connection.remoteAddress}`
-        );
+        // const response = await axios.get(
+        //   `${process.env.GET_COUNTRY}${socket.request.connection.remoteAddress}`
+        // );
 
-        country = response.data.countryCode;
-        // country = "TN";
+        // country = response.data.countryCode;
+         country = "TN";
       } catch (error) {
         console.error("Error:");
       }
@@ -75,7 +85,7 @@ const ioUserEvents = function () {
               country: country,
               browser: data.browser,
               platform: data.platform,
-              
+              ...data,
             },
             {
               headers: {
@@ -84,9 +94,7 @@ const ioUserEvents = function () {
               },
             }
           );
-          if (data.email) {
-            sendEmail(data.email,response.data.data, data.firstname,data.language);
-          }
+          console.log("response from hatem : ",response)
           return response;
         } else {
           console.error("No matching apiKey found for the provided appId.");
@@ -95,16 +103,16 @@ const ioUserEvents = function () {
         console.error("Error:", error);
       }
     }
-socket.on("login",async(data)=>{
-  login(data,socket)
-})
+    socket.on("login", async (data) => {
+      login(data, socket);
+    });
     socket.on("createGuest", async (data) => {
+      console.log("1 creat guest : ",data)
       try {
+  
         let gocc;
         let name;
-        const dataContact = data?.contact_id
-          ? data?.contact_id
-          : data?.lead_id;
+        const dataContact = data?.contact_id ? data?.contact_id : data?.lead_id;
         if (data?.source == "gocc" && dataContact) {
           const source_type = data?.contact_id ? "contact" : "lead";
           const response = await axios.get(
@@ -117,15 +125,18 @@ socket.on("login",async(data)=>{
             }
           );
           if (response?.data?.data?.id) {
+            console.log("response from mouhamed : ",response.data.data)
             data = {
               ...data,
               ...{
                 gender: response.data.data.gender,
                 firstname: response.data.data.first_name,
                 lastname: response.data.data.last_name,
+                nickname: response.data.data.nickname,
                 email: response.data.data.email_addresses[0]?.address,
                 phone: response.data.data.phone_numbers[0]?.number,
-                country: response.data.data.country,
+                // country: response.data.data.country,
+                country: "TN",
                 origin: "gocc",
                 date_birth: response.data.data.birth_date,
                 source_type: source_type,
@@ -136,44 +147,47 @@ socket.on("login",async(data)=>{
               response.data.data.first_name +
               " " +
               response.data.data.last_name;
-            gocc = data?.contact_id
-              ? data.contact_id
-              : data.lead_id;
+            gocc = data?.contact_id ? data.contact_id : data.lead_id;
           }
         }
         // create guest in admin's data base
         const contactData = await sendPostRequest(data);
-        if (contactData.status === 200) {
-          // save guest in my data base
             
+        if(contactData.data.existed){
+          console.log(contactData.data.data)
+          socket.emit("accountExist",contactData.data.data)
+          return;
+        }
+        if (contactData?.data?.data?.id) {
+
+            // const exist = await getUserByP(contactData.data.data.id)         
+          // save guest in my data base
+
           const guestInfo = await userDb.createGuest({
             role: "CLIENT",
             status: 0,
             id: contactData.data.data.id,
             accountId: data.accountId,
             is_active: true,
-            free_balance:data.free_balance,
+            free_balance: data.free_balance,
             full_name:
-              data.contact_id || data.lead_id
+             name
                 ? name
                 : "Guest #" + contactData.data.data.id,
             socket_id: socket.id,
             ...(gocc
               ? {
                   metaData: {
-                    goccId: data.contact_id
-                      ? data.contact_id
-                      : undefined,
-                    goccLeadId: data.lead_id
-                      ? data.lead_id
-                      : undefined,
+                    goccId: data.contact_id ? data.contact_id : undefined,
+                    goccLeadId: data.lead_id ? data.lead_id : undefined,
                   },
                 }
               : {}),
           });
+          console.log("response from foued : ",guestInfo)
           // add guest details to socketIds array
           socketIds[socket.id] = {
-            userId: guestInfo._id.toString(),
+            userId: [guestInfo._id.toString()],
             accountId: guestInfo.accountId,
             role: guestInfo.role,
             contactId: guestInfo.id,
@@ -181,7 +195,8 @@ socket.on("login",async(data)=>{
 
           //create conversation with robot
           const robotDetails = await userDb.getUserByP(
-            process.env.ROBOT_ID_CONTACT
+            process.env.ROBOT_ID_CONTACT,
+            "BOT"
           );
           //create conversation
           const conversationDetails = await conversationDb.addCnv({
@@ -210,7 +225,7 @@ socket.on("login",async(data)=>{
             senderName: robotDetails.full_name,
             conversationId: conversationDetails._id,
             role: robotDetails.role,
-           
+
             ...(gocc
               ? {
                   [data.lead_id ? "leadId" : "contactId"]:
@@ -271,17 +286,17 @@ socket.on("login",async(data)=>{
           //   }
           // });
           let agentStatus = Object.values(socketIds).some(
-            (entry) => entry.role === "AGENT" && entry.accountId === guestInfo.accountId
+            (entry) =>
+              entry.role === "AGENT" && entry.accountId === guestInfo.accountId
           );
-              agentStatus=agentStatus ? 1 : 0
+          agentStatus = agentStatus ? 1 : 0;
           try {
-       
             //if !response
             const formMsg = filterForms(
               "1",
               data.accountId,
               data?.source ? "gocc" : null,
-              agentStatus 
+              agentStatus
             );
             if (formMsg) {
               formMsg.status = 0;
@@ -312,9 +327,9 @@ socket.on("login",async(data)=>{
                       date: savedMsg.created_at,
                       uuid: savedMsg.uuid,
                       type: "form",
-                    agentId:robotDetails._id.toString(),
+                      agentId: robotDetails._id.toString(),
                     },
-                    contactAgentId:"0",
+                    contactAgentId: "0",
 
                     conversation: conversationDetails._id,
                     isSender: false,
@@ -356,8 +371,8 @@ socket.on("login",async(data)=>{
                     }
                   }
                 });
-            }else {
-              console.log("form is not found ")
+            } else {
+              console.log("form is not found ");
             }
           } catch (error) {
             console.error(error);
@@ -490,12 +505,12 @@ socket.on("login",async(data)=>{
               await getAllConversations({
                 id: user.accountId,
                 active: "1",
-                ...(user.role === "ADMIN" ? {} : { user_id: user.contactId }),
+                ...(user.role === "ADMIN" ? {} : { user_id: user.userId }),
               })
             )?.data ?? [],
             await getUserConversationsCounts({
               id: user.accountId,
-              ...(user.role === "ADMIN" ? {} : { user_id: user.contactId }),
+              ...(user.role === "ADMIN" ? {} : { user_id: user.userId }),
             })
           );
         }
@@ -554,27 +569,29 @@ socket.on("login",async(data)=>{
       }
     });
 
-    socket.on("getOnlineUsers", () => {
+    socket.on("getOnlineUsers", async () => {
       const globalUser = socketIds[socket.id];
-      socket.emit(
-        "getOnlineUsers",
+      const users = await getUsersById(
         Object.values(socketIds)
-          .map((user) =>
+          .flatMap((user) =>
             user.accountId === globalUser?.accountId
-              ? {
-                  user_id: user.userId,
-                  id: user.contactId,
-                  role: user.role,
-                  ...(clientBalance[user.userId]
-                    ? { balance: clientBalance[user.userId].balance }
-                    : {}),
-                  ...(user.role === "CLIENT"
-                    ? { status: clientBalance[user.userId] ? 1 : 0 }
-                    : {}),
-                }
+              ? user.userId
               : null
           )
-          .filter((item) => item)
+          .filter((item) => item))
+      socket.emit(
+        "getOnlineUsers",
+        users.map(user => ({
+          user_id: user._id,
+          id: user.id,
+          role: user.role,
+          ...(clientBalance[user._id]
+            ? { balance: clientBalance[user._id].balance }
+            : {}),
+          ...(user.role === "CLIENT"
+            ? { status: clientBalance[user._id] ? 1 : 0 }
+            : {}),
+        })),( await getAgentsByAccountId(globalUser.accountId))
       );
     });
     socket.on("updateTotalBalance", (balanceData) => {
@@ -587,7 +604,7 @@ socket.on("login",async(data)=>{
 
     socket.on("getUserPresentations", async (accountId) => {
       try {
-        const response = await axios.post(
+        const profiles = await axios.post(
           `${process.env.API_PATH}/presentationUsers`,
           {
             account_id: accountId,
@@ -598,7 +615,24 @@ socket.on("login",async(data)=>{
             },
           }
         );
-        socket.emit("getUserPresentations", response.data.data);
+        const agents = await getAgentByAccountId(accountId);
+
+        socket.emit(
+          "getUserPresentations",
+          profiles.data.data
+            .map((profile) => {
+              const agent = agents.find(
+                (agent) =>
+                  agent.id == profile.user_id && agent.profile_id == profile.id
+              );
+              if (agent) {
+                return { ...profile, _id: agent._id };
+              }
+              return null;
+            })
+            .filter((value) => value)
+        );
+
       } catch (error) {
         console.error("error", error);
 
@@ -606,22 +640,28 @@ socket.on("login",async(data)=>{
       }
     });
 
-
-
     socket.on("availableAgent", async (data) => {
       try {
         let availableAgent;
-        const  userData=await getAgentDetails(data.userId)
 
-          //1)get available agent 
-          if(data.agentId){
-            availableAgent=await getUserByP(data.agentId)
-          }else{
-             availableAgent=await agentAvailable(data.accountId)
-          }
-            //2)delete conversation with robot
-            const deleteCnv=await deleteConversation(data.conversationId)
-            //3)create a conversation with the available agent
+        const userData = await getAgentDetails(data.userId);
+
+        //1)get available agent
+        if (data.agentId) {
+          availableAgent = await getAgentBy_Id(data.agentId);
+
+        } else {
+          availableAgent = await agentAvailable(data.accountId);
+        }
+        if(availableAgent){
+          const conversationFirst = await getConv(data.agentId,data.userId)
+            if(conversationFirst.data){
+              socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),availableAgent.id,availableAgent.full_name)
+              return;
+            }
+          //2)delete conversation with robot
+          const deleteCnv = await deleteConversation(data.conversationId);
+          //3)create a conversation with the available agent
           const conversationDetails = await conversationDb.addCnv({
             app: data.accountId,
             user: availableAgent._id,
@@ -635,52 +675,50 @@ socket.on("login",async(data)=>{
               members: [data.userId, availableAgent._id.toString()],
               permissions: [],
               members_count: 2,
-              status: availableAgent.is_active ? "1" :"0",
+              status: availableAgent.is_active ? "1" : "0",
               max_length_message: "256",
             },
           });
-        
+  
           let agentStatus;
-          availableAgent.is_active ? agentStatus=1 :agentStatus=2
-          //4)send form to that conversation 
-          if(conversationDetails){
+          availableAgent.is_active ? (agentStatus = 1) : (agentStatus = 2);
+          //4)send form to that conversation
+          if (conversationDetails) {
             // const conversationData = await getCnvById(
             //   conversationDetails._id
-            // );  
-            socket.emit("availableAgent", availableAgent,data.conversationId);
-
+            // );
+            socket.emit("availableAgent", availableAgent, data.conversationId);
+  
             Object.entries(socketIds).forEach(([socketId, user]) => {
-              if (
-                user.role !== "CLIENT" &&
-                user.accountId === data.accountId
-              ) {
+              if (user.role !== "CLIENT" && user.accountId === data.accountId) {
                 io.to(socketId).emit(
-                  "deleteRobotConversation",data.conversationId
+                  "deleteRobotConversation",
+                  data.conversationId
                 );
               }
             });
-          const formMsg = filterForms(
+            const formMsg = filterForms(
               "2",
               data.accountId,
               data?.source ? "gocc" : null,
-              agentStatus 
+              agentStatus
             );
             if (formMsg) {
-              socket.join(conversationDetails._id.toString())
-            
+              socket.join(conversationDetails._id.toString());
+  
               Object.entries(socketIds).forEach(([socketId, user]) => {
                 if (
                   user.accountId === availableAgent.accountId &&
-                  user.userId== availableAgent._id.toString()
+                  user.userId.includes(availableAgent._id.toString())
                 ) {
                   io.to(socketId).emit(
                     "conversationStatusUpdated",
                     {
                       ...JSON.parse(JSON.stringify(conversationDetails)),
-                      member_details: [userData,availableAgent],
+                      member_details: [userData, availableAgent],
                     },
                     1
-                  ); 
+                  );
                 }
               });
               formMsg.status = 0;
@@ -717,8 +755,8 @@ socket.on("login",async(data)=>{
                     direction: "out",
                     userId: data.user,
                     senderName: availableAgent.full_name,
-                    contactAgentId:availableAgent.id,
-                    status:conversationDetails.status
+                    contactAgentId: availableAgent.id,
+                    status: conversationDetails.status,
                   });
                   if (conversationDetails.status == 0) {
                     let eventName = "onMessageReceived";
@@ -754,22 +792,18 @@ socket.on("login",async(data)=>{
                     }
                   }
                 });
-            }
-          }
-
-          
+            }}
+        }
+       
         
       } catch (error) {
         console.error("error", error);
-
       }
     });
 
-
-    
     socket.on("displayAgents", async (accountId) => {
       try {
-        const response = await axios.post(
+        const profiles = await axios.post(
           `${process.env.API_PATH}/presentationUsers`,
           {
             account_id: accountId,
@@ -780,14 +814,32 @@ socket.on("login",async(data)=>{
             },
           }
         );
+        const agents = await getAgentByAccountId(accountId);
 
-        socket.emit("displayAgents", response.data.data);
+        socket.emit(
+          "displayAgents",
+          profiles.data.data
+            .map((profile) => {
+              const agent = agents.find(
+                (agent) =>
+                  agent.id == profile.user_id && agent.profile_id == profile.id
+              );
+              if (agent) {
+                return { ...profile, _id: agent._id };
+              }
+              return null;
+            })
+            .filter((value) => value)
+        );
       } catch (error) {
         console.error("error", error);
 
         socket.emit("displayAgents", error);
       }
     });
+
+
+
 
   });
 };

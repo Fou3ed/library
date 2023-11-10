@@ -121,16 +121,16 @@ const ioConversationEvents = function () {
 
 
         socket.on('checkConversation',async(data)=>{
-          
-            const conversationFirst = await getConv(data)
+            const conversationFirst = await getConv(data.userId,data.agentId)
             const agentDetails=await getAgentDetails(data.agentId)
             const  userData=await getAgentDetails(data.userId)
-
             if(conversationFirst.data){
+              console.log(conversationFirst)
                 socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),agentDetails.id,agentDetails.full_name)
+                
             }else {
+              
                 //create conversation and send form 
-                console.log(agentDetails)
           const conversationDetails = await conversationDb.addCnv({
             app: data.accountId,
             user: data.agentId,
@@ -161,7 +161,7 @@ const ioConversationEvents = function () {
               Object.entries(socketIds).forEach(([socketId, user]) => {
                 if (
                   user.accountId === agentDetails.accountId &&
-                  user.userId== agentDetails._id.toString()
+                  user.userId.includes(agentDetails._id.toString())
                 ) {
                   io.to(socketId).emit(
                     "conversationStatusUpdated",
@@ -208,7 +208,6 @@ const ioConversationEvents = function () {
                   })
                   .then(async (savedMsg) => {
                   
-                      console.log(agentDetails)
                     socket.emit("onMessageReceived", {
                       messageData: {
                         content: savedMsg.message,

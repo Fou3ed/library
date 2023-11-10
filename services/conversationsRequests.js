@@ -165,7 +165,7 @@ export const getCnvMessages = async (conversationId,page,limit, res) => {
   }
 };
 
-export const getConv = async (data, res) => {
+export const getConv = async (user1,user2, res) => {
     try {
         const result = await conversation.aggregate([
             {
@@ -180,8 +180,8 @@ export const getConv = async (data, res) => {
                 $match: {
                     'members.user_id': {
                         $all: [
-                            mongoose.Types.ObjectId(data.userId),
-                            mongoose.Types.ObjectId(data.agentId)
+                            mongoose.Types.ObjectId(user1),
+                            mongoose.Types.ObjectId(user2)
                         ]
                     },
                     $expr: {
@@ -343,17 +343,18 @@ export const getUserConversations = async (req, res) => {
     const limit = parseInt(req.limit) || 10; 
     const active = req.active ?? -1;
     let role = null
-    if(userId){
-      const userDetails= await users.findOne({id:userId,role: {$ne: "CLIENT"} })
-      if (userDetails){
 
+    if(userId){
+
+      const userDetails= await users.findOne({_id: (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId)),role: {$ne: "CLIENT"} })
+      if (userDetails){
           role=userDetails.role
        }
     }
     const matchQuery = {
       owner_id: req.id,
       ...(active >= 0 ? { status:parseInt(active)  } : {}),
-      ...(userId? {"member_details.id": (userId)}:{} ) 
+      ...(userId? {"member_details._id": (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId))}:{} ) 
     };  
 
     try { 
@@ -486,6 +487,7 @@ export const getUserConversations = async (req, res) => {
           },
         },
       ]);
+
       return result[0]
      
     } catch (err) {
@@ -725,11 +727,11 @@ export const getUserConversations = async (req, res) => {
   export const getUserConversationsCounts = async (req, res) => {
     const id = req.id
     const userId = req.user_id;
-    
     const matchQuery = {
       owner_id: id,
-      ...(userId ? { "member_details.id": (userId) } : {}),
+      ...(userId ? { "member_details._id": (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId)) } : {}),
     };
+
     try {
       const result = await conversation.aggregate([
         ...(userId?[{
@@ -752,12 +754,25 @@ export const getUserConversations = async (req, res) => {
         {
           '$facet' : {
           total: [ { $count: "total" } ],
-        
+        groups: [{
+          $unwind: "$member_details"
+          },{$match:{ "member_details._id": (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId)) }},{$group: {
+          _id: "$member_details._id",
+          count: { $sum: 1 }
+          }}]
         }},
       ]
         );
-     
-   return result[0].total[0]?.total ?? 0
+
+        let data = {
+          total: result[0]?.total[0]?.total,
+        };
+
+        for(let group of (result[0]?.groups ?? [])) {
+          data[group._id] = group.count
+        }
+        
+return data;
     
     } catch (err) {
       console.log(err);
@@ -1132,14 +1147,15 @@ export const postConversation = async (req, res) => {
                     "ip_address": "192.168.1.1"
                 }
                 log.addLog(dataLog)
-                
-                result.members.forEach(async member => {
-               await  members.create({
+                for(let member of result.members){
+                  await  members.create({
                     conversation_id: result._id.toString(),
                     user_id: member,
                     conversation_name: result.name
                   })
-                });      
+                }
+               
+
                  return result
             } else {
                 console.log("can't add new conversation")
@@ -1474,7 +1490,7 @@ export const putActiveCnvs = async (userId,accountIds, res) => {
         },
       },
       {
-        $match:  {$or:[{"member_details._id":mongoose.Types.ObjectId(userId), conversation_type: "4" },{$and : [{"members.user_id":mongoose.Types.ObjectId(userId)} , {"member_details._id":{$in :accountIds }} ]}]},
+        $match:  {$or:[{"member_details._id":mongoose.Types.ObjectId(userId), conversation_type: "4" },{$and : [{"members.user_id":mongoose.Types.ObjectId(userId)} , {"member_details._id":{$in :accountIds.map(accId => mongoose.Types.ObjectId(accId)) }} ]}]},
       },{
         $lookup: {
           from: "messages",
@@ -1492,7 +1508,6 @@ export const putActiveCnvs = async (userId,accountIds, res) => {
     ]
     )
     if(result.length>0){
-      accountIds = accountIds.map(userId => userId.toString())
       accountIds.push(userId)
       result=result.filter(conversation => {
         let client = conversation.member_details.find(member=>member.role==="CLIENT" || member.role==="BOT");
@@ -1574,7 +1589,7 @@ export const putInactiveCnvs = async (userId,accountIds, res) => {
         },
       },
       {
-        $match:  {$or:[{"member_details._id":mongoose.Types.ObjectId(userId), conversation_type: "4" },{$and : [{"members.user_id":mongoose.Types.ObjectId(userId)} , {"member_details._id":{$in :accountIds }} ]}]},
+        $match:  {$or:[{"member_details._id":mongoose.Types.ObjectId(userId), conversation_type: "4" },{$and : [{"members.user_id":mongoose.Types.ObjectId(userId)} , {"member_details._id":{$in :accountIds.map(accId => mongoose.Types.ObjectId(accId)) }} ]}]},
       },{
         $lookup: {
           from: "messages",
@@ -1592,7 +1607,6 @@ export const putInactiveCnvs = async (userId,accountIds, res) => {
     ]
     )
     if(result.length>0){
-      accountIds = accountIds.map(userId => userId.toString())
       accountIds.push(userId)
       result=result.filter(conversation => {
         let client = conversation.member_details.find(member=>member.role==="CLIENT" || member.role==="BOT");

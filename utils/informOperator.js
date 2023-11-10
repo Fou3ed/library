@@ -8,7 +8,7 @@ export  async function informOperator(io,senderSocketId,conversationData,eventNa
     //search for the operators socket ids in the global array socketIds
     Object.entries(socketIds).forEach(([socketId, user]) => {
       if ( senderSocketId !== socketId &&
-        conversationData.operators?.includes(mongoose.Types.ObjectId(user.userId))
+        conversationData.operators?.includes(user.userId.map(userId => mongoose.Types.ObjectId(userId)))
       ) {
         io.to(socketId).emit(eventName,...eventData)
       }

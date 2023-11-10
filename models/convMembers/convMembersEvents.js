@@ -10,7 +10,7 @@ import convMembersAction from '../convMembers/convMembersMethods.js'
 const convMember = new convMembersAction()
 import userMethod from '../user/userMethods.js'
 const userM = new userMethod()
-import { getUserByP, getUsersByP } from '../../services/userRequests.js';
+import { getUserByP, getUsersById, getUsersByP } from '../../services/userRequests.js';
 import {
     getCnvById,
     getConversationById,
@@ -142,10 +142,10 @@ const ioConversationMembersEvents = function () {
                 let conversationDetails = await getCnvById(data.conversation_id);
                 if (conversationDetails) {
                         // Check if the member is already in the conversation or not.
-                        const exist = conversationDetails.member_details.filter(member => data.users.includes(member.id));
+                        const exist = conversationDetails.member_details.filter(member => data.users.includes(member._id));
                         if (exist.length !== data.users.length) {
                           const user=  data.users.filter(user=>!exist.includes(user))
-                            const userId = await getUsersByP(user);
+                            const userId = await getUsersById(user);
                             if (userId) {
                                   if (conversationDetails.conversation_type == 4) {
                                     data.conversation_type = "1";
@@ -160,8 +160,8 @@ const ioConversationMembersEvents = function () {
                                 // Get the user socket_id
                                 conversationDetails = await getCnvById(data.conversation_id);
                                 Object.entries(socketIds).forEach(([socketId, user]) => {
-                                    if (data.users.includes(user.userId)) {
-
+                                   
+                                    if (data.users.find(sender => user.userId.includes(sender))) {
                                         io.to(socketId).emit("onConversationTransferAccept", conversationDetails, data.message_id);
                                     }
                                 });
@@ -174,14 +174,14 @@ const ioConversationMembersEvents = function () {
                                           const  userIx=socketIds[socket.id]
                                     const savedMessage = await msgDb.addMsg({
                                         app: "638dc76312488c6bf67e8fc0",
-                                        user: userIx.userId,
+                                        user: data.user_id,
                                         action: "message.create",
                                         metaData: {
                                           type: "log",
                                           conversation_id: data.conversation_id, 
-                                          user: userIx.userId,
+                                          user: data.user_id,
                                           message: JSON.stringify( {
-                                            "user_id": userIx.userId,
+                                            "user_id": data.user_id,
                                             "action": "transfer",
                                             "log_date": currentDate,
                                             "list_of_users":data.users,
@@ -212,7 +212,7 @@ const ioConversationMembersEvents = function () {
                                       const messageData = {
                                         content: savedMessage.message,
                                         id: savedMessage._id,
-                                        from: userIx.userId,
+                                        from: data.user_id,
                                         conversation: data.conversation_id,
                                         date: savedMessage.created_at,
                                         type:"log",
@@ -222,7 +222,7 @@ const ioConversationMembersEvents = function () {
                                       io.in(conversationDetails._id.toString()).emit('onMessageReceived',{
                                         messageData,
                                         conversation:data.conversation_id,
-                                        userId: data.user,
+                                        userId: data.user_id,
                                       })
 
 
@@ -231,7 +231,7 @@ const ioConversationMembersEvents = function () {
                                         let eventData= [{
                                             messageData,
                                             conversation:data.conversation_id,
-                                            userId: data.user,
+                                            userId: data.user_id,
                                           }]
                                         try{
                                           informOperator(io,socket.id,conversationData,eventName,eventData);

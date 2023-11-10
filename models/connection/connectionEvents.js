@@ -19,6 +19,7 @@ import {
 } from '../../services/conversationsRequests.js';
 import mongoose from 'mongoose';
 import { contactForms } from '../../utils/forms.js';
+import { getUsersByP } from '../../services/userRequests.js';
 
 export let clientBalance = []
 export let socketIds = {}
@@ -31,7 +32,7 @@ const ioConnEvents = function () {
 
       
       if (onConnectData.user) {
-        const globalUser = await userAct.getUserByP(onConnectData.user,onConnectData.type);
+        const globalUser = await getUsersByP(onConnectData.user,onConnectData.type);
         if (!globalUser) {
           socket.emit('user-connection-error',onConnectData) 
             return;
@@ -40,54 +41,59 @@ const ioConnEvents = function () {
         //change it to emit to only admin/agents who are in the same accountId with the user 
         // socket.broadcast.emit("user-connection", globalUser);
           Object.entries(socketIds).forEach(([socketId,user])=> {
-            if (user.role === "AGENT",user.accountId===globalUser.accountId) {
-              
-              io.to(socketId).emit("user-connection",globalUser);
+            if (user.role === "AGENT",user.accountId===globalUser[0].accountId) {
+              for(let user of globalUser){
+                io.to(socketId).emit("user-connection",user);
+              }
             }
            })   
+           const profileIds = globalUser.map(user=>user._id.toString());
+        let accountIds = Object.values(socketIds).filter(user => user.accountId == globalUser[0].accountId && !(globalUser[0].role == user.role && globalUser[0].id==user.contactId)).flatMap(user=>user.userId)
+        let updatedConversation=[];
+        for(let user of profileIds){
+          let other_profiles = profileIds.filter(uId => uId !== user); 
+           updatedConversation.push(...(await putActiveCnvs(user, [...accountIds, ...other_profiles])))  
+        }
 
-        let accountIds = Object.values(socketIds).filter(user => user.accountId === globalUser.accountId && user.userId !== globalUser._id.toString()).map(user => mongoose.Types.ObjectId(user.userId))
-        const updatedConversation = await putActiveCnvs(globalUser._id.toString(), accountIds)
-        socket.emit("onConnected", globalUser, globalUser.balance);
+        socket.emit("onConnected", onConnectData.type ? globalUser : globalUser[0], onConnectData.type ? undefined : globalUser[0]?.balance );
         // Add every user connection in socketIds array as key:socket.id, value:{userId,role,accountId}
         socketIds[socket.id] = {
-             userId: globalUser._id.toString(),
-             accountId: globalUser.accountId,
-             role: globalUser.role,
-             contactId: globalUser.id
+             userId: profileIds,
+             accountId: globalUser[0].accountId,
+             role: globalUser[0].role,
+             contactId: onConnectData.user
         };
         // Update the user activity to is_active=true
-        await userAct.putUserActivity({
-          userId: globalUser._id.toString(),
-          socketId: socket.id,
-          status: true
-        });
+        for(let user of globalUser){
+          await userAct.putUserActivity({
+            userId:  user._id.toString(),
+            socketId: socket.id,
+            status: true
+          });
+        }
+
         if (accountIds.length > 0) {
           // Get all the active conversations the user has
-          const activeConversations = (globalUser.role === "ADMIN" ? await getActiveConversationsOwner(globalUser.accountId) : updatedConversation.map(conversation => conversation._id.toString()));
+          const activeConversations = (globalUser[0].role === "ADMIN" ? await getActiveConversationsOwner(globalUser[0].accountId) : updatedConversation.map(conversation => conversation._id.toString()));
           // Join the user to each conversation
           activeConversations.forEach((conversationId) => {
             socket.join(conversationId);
           });
           updatedConversation.forEach((conversation) => {
-             let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>item !==globalUser._id.toString())
+             let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>!globalUser.map(user => user._id.toString()).includes(item))
              let memberSocketId=Object.entries(socketIds).map(([socketId,user] )=> members.includes(user.userId)?socketId:null).filter(user => user)
-            // Object.entries(socketIds).forEach(([socketId, user]) => {
-            //   if (user.accountId === globalUser.accountId && (user.role ==='ADMIN' || (user.role !=='CLIENT' && conversation.conversation_type !== '4' ))) {
-            //     memberSocketId.push(socketId);
-            //   }
-            //  })
+          
               memberSocketId.forEach(member => {
                 io.to(member).emit('conversationStatusUpdated',conversation,1)
              });
           });
         }
-        if (globalUser?.balance || globalUser.free_balance) {
+        if (!onConnectData.type && (globalUser[0]?.balance || globalUser[0]?.free_balance)) {
           try {
-            clientBalance[globalUser._id]={
-              user: globalUser.id,
-              balance:globalUser.balance,
-              free_balance:globalUser.free_balance,
+            clientBalance[globalUser[0]._id]={
+              user: globalUser[0].id,
+              balance:globalUser[0]?.balance ?? 0,
+              free_balance:globalUser[0]?.free_balance ?? 0,
               balance_type:1,
               sync:false,
             };
@@ -104,7 +110,8 @@ const ioConnEvents = function () {
         socket.disconnect(true)
       }
     }catch(error){
-      socket.emit('connection-error',onConnectData)
+      console.log(error)
+      socket.emit('connection-error',onConnectData,error)
 
     }
     });
@@ -131,14 +138,16 @@ socket.on("disconnecting", async (reason) => {
 if(user){
 
   const socketIdsWithUserId = Object.keys(socketIds).filter(socketId => {
-    return socketIds[socketId].userId === user?.userId;
+    return (socketIds[socketId].role == user.role && socketIds[socketId].contactId == user.contactId);
   });
    if(socketIdsWithUserId.length){
     return;
    } 
-   let accountIds = Object.values(socketIds).filter(user_ => user_.accountId === user.accountId && user_.userId !== user.userId).map(user => mongoose.Types.ObjectId(user.userId))
-     
- const conversations=await putInactiveCnvs(user?.userId,accountIds )
+   let accountIds = Object.values(socketIds).filter(user_ => user_.accountId == user.accountId && !(user_.role == user.role && user_.contactId == user.contactId)).flatMap(user=>user.userId)
+      let conversations=[];
+      for(let user_ of user?.userId  ){
+         conversations.push(...(await putInactiveCnvs(user_ , accountIds )))
+      }
   conversations.forEach(conversation => {
     const room = io.of('/').adapter.rooms.get(conversation._id.toString());
       if(room){
@@ -147,6 +156,7 @@ if(user){
         let userData = socketIds[socket.id]
         if(userData){
           Object.entries(socketIds).forEach(([socketId,user])=> {
+            console.log(user)
             if (user.role === "ADMIN",user.accountId===userData.accountId) {
               io.to(socketId).emit("conversationStatusUpdated",conversation,0);
             }
@@ -154,7 +164,8 @@ if(user){
         }
        conversation.members.forEach(member => {
         Object.entries(socketIds).forEach(([socketId,user])=> {
-          if (user.userId === member) {
+          if (user.userId.includes(member)) {
+
             io.to(socketId).emit("conversationStatusUpdated",conversation,0);
           }
          })    
@@ -166,22 +177,28 @@ if(user){
 const currentTimestamp = new Date();
 const formattedTimestamp = currentTimestamp.toISOString();
 
-    userAct.putUserActivity({
-      userId: user.userId,
-      socketId: socket.id,
-      status: false,
-      last_seen_at:formattedTimestamp
-    });
+    for(let user_ of user.userId){
+      userAct.putUserActivity({
+        userId: user_,
+        socketId: socket.id,
+        status: false,
+        last_seen_at:formattedTimestamp
+      });
+    }
+  
 
         Object.entries(socketIds).forEach(([socketId,userr])=>{
         if(user!==undefined && user.accountId===userr.accountId){
-          socket.to(socketId).emit("onDisconnected", reason, {_id:user.userId,role:user.role,socketId:socket.id,status:clientBalance[user.userId] ? 1 : 0});
+          for(let user_ of user.userId){
+            socket.to(socketId).emit("onDisconnected", reason, {_id:user_,role:user.role,socketId:socket.id});
+          }
+          
         }
       })
 
     // Remove user from clientBalance array
-    if(clientBalance[user.userId]){
-      delete clientBalance[user.userId]
+    if(user.role==="CLIENT" && clientBalance[user.userId[0]]){
+      delete clientBalance[user.userId[0]]
     }
 
 
@@ -250,7 +267,6 @@ const formattedTimestamp = currentTimestamp.toISOString();
     })
 
     socket.on('contact-form', (data) => {
-      console.log("data contact form : ",data)
       try {
         const existingFormIndex = contactForms.findIndex((element) => element.form_id === data.form_id);
         if (existingFormIndex !== -1) {

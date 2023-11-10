@@ -669,7 +669,6 @@ export const MarkMessageAsForwarded = async (id, user) => {
         ip_address: "192.168.1.1",
       };
       log.addLog(dataLog);
-      console.log("message forwarded result :", result);
       return result;
     } else {
       console.log("error");
