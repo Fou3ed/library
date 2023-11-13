@@ -94,7 +94,6 @@ const ioUserEvents = function () {
               },
             }
           );
-          console.log("response from hatem : ",response)
           return response;
         } else {
           console.error("No matching apiKey found for the provided appId.");
@@ -107,7 +106,6 @@ const ioUserEvents = function () {
       login(data, socket);
     });
     socket.on("createGuest", async (data) => {
-      console.log("1 creat guest : ",data)
       try {
   
         let gocc;
@@ -125,7 +123,6 @@ const ioUserEvents = function () {
             }
           );
           if (response?.data?.data?.id) {
-            console.log("response from mouhamed : ",response.data.data)
             data = {
               ...data,
               ...{
@@ -154,7 +151,6 @@ const ioUserEvents = function () {
         const contactData = await sendPostRequest(data);
             
         if(contactData.data.existed){
-          console.log(contactData.data.data)
           socket.emit("accountExist",contactData.data.data)
           return;
         }
@@ -184,7 +180,6 @@ const ioUserEvents = function () {
                 }
               : {}),
           });
-          console.log("response from foued : ",guestInfo)
           // add guest details to socketIds array
           socketIds[socket.id] = {
             userId: [guestInfo._id.toString()],
@@ -235,9 +230,7 @@ const ioUserEvents = function () {
           });
 
           socket.join(conversationDetails._id.toString());
-          //change it to 0 after checking with Iheb
           //inform operation
-          if (conversationDetails.status == 1) {
             let eventName = "guestCreated";
             let eventData = [
               {
@@ -268,7 +261,7 @@ const ioUserEvents = function () {
               console.log("informOperator err", err);
               throw err;
             }
-          }
+          
           //inform all the agents about the new guest with displaying the conversation
           // Object.entries(socketIds).forEach(([socketId, user]) => {
           //   if (

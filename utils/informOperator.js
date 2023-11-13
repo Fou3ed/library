@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 
 
 export  async function informOperator(io,senderSocketId,conversationData,eventName,eventData) {
+  console.log("inform operator",conversationData,eventName)
   try {
-
     //search for the operators socket ids in the global array socketIds
     Object.entries(socketIds).forEach(([socketId, user]) => {
       if ( senderSocketId !== socketId &&
-        conversationData.operators?.includes(user.userId.map(userId => mongoose.Types.ObjectId(userId)))
+        user.userId.find(userId => conversationData.operators.includes(userId))
       ) {
         io.to(socketId).emit(eventName,...eventData)
       }

@@ -153,11 +153,9 @@ if(user){
       if(room){
         io.in(conversation._id.toString()).emit('conversationStatusUpdated',conversation,0)
       }else {
-        let userData = socketIds[socket.id]
-        if(userData){
+        if(user){
           Object.entries(socketIds).forEach(([socketId,user])=> {
-            console.log(user)
-            if (user.role === "ADMIN",user.accountId===userData.accountId) {
+            if (user.role === "ADMIN",user.accountId===user.accountId) {
               io.to(socketId).emit("conversationStatusUpdated",conversation,0);
             }
            })   
@@ -211,7 +209,6 @@ const formattedTimestamp = currentTimestamp.toISOString();
       if (reason === "io server disconnect") {
         socket.connect();
       }
-     
     });
 
 
@@ -244,16 +241,15 @@ const formattedTimestamp = currentTimestamp.toISOString();
      */
     socket.on('onDisconnect', async (data) => {
       try {
-
         logger.info(`Event: Disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"" " , date: ${fullDate}"   \n `)
         socket.emit('onDisconnected : ', info.onDisconnected)
         socket.disconnect(socket.id)
-
       } catch (err) {
         console.log(err)
         logger.error(`Event: disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"" " , date: ${fullDate} , error : ${err}"   \n `)
       }
     })
+
     /**
      * onReconnect : User reconnect to websocket
      */

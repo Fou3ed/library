@@ -32,7 +32,6 @@ export const saveForms=async(dataForm,socket)=>{
       }
       
       if (receiverEmail) {
-        console.log("data",data)
           sendEmail(receiverEmail,response.data.data,response.data.data.firstname,data.language,data.applicationName)
       }
     } catch (error) {

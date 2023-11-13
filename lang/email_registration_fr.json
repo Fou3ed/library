@@ -17,5 +17,9 @@
             "app": "Plateforme sécurisée de chat avec experts",
             "team":"Équipe"
         }
-    }
+    },
+    "code":{
+        "subject":"Verification Code",
+        "description":"Your verification code is : "
+    }  
 }

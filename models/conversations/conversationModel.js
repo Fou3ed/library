@@ -72,7 +72,7 @@ import {mongoose} from '../../dependencies.js';
     members:{
         type:Array,
         required:true,
-        description :"an array of users and agents in the conversation "
+        description :"an array of users and agents in the conversation"
     },
     metadata: {
         type: Object,
@@ -82,7 +82,7 @@ import {mongoose} from '../../dependencies.js';
     status:{
         type:Number,
         required:true,
-        description:"update status for conversation activity , is_active: 1,is not :0"
+        description:"update status for conversation activity ,is not online (both of the members are offline ):0 /  online(client and agent are connected ): 1/ , in progress(online + at least one of the member sent a message): 2 /(offline + one of the member sent a message) : 3"
     },
 
  

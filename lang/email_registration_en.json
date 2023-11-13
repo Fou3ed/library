@@ -17,5 +17,9 @@
             "app": "Liaising chat platform with experts",
             "team":"Team"
         }
-    }
+    },
+        "code":{
+            "subject":"Verification Code",
+            "description":"Your verification code is : "
+        }  
 }

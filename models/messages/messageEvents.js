@@ -820,7 +820,6 @@ const ioMessageEvents = function () {
         }
       } catch (err) {
         socket.emit("onMessageForwardFailed", "error");
-        console.log(data)
         const conversationData = await conversationAct.getCnv(
           data.conversation_id
         );

@@ -3,8 +3,9 @@ import axios from 'axios';
 import enText from '../lang/email_registration_en.json' assert {type: 'json'};
 import frText from '../lang/email_registration_fr.json' assert {type: 'json'};
 
-export default async function sendVerificationEmail(recipientEmail,socket,applicationName) {
+export default async function sendVerificationEmail(recipientEmail,socket,applicationName,language) {
   try {
+    console.log("language",language)
     const response = await axios.post(`${process.env.API_PATH}/tools/2fa/generate`, {
       receiver: recipientEmail,
     }, {
@@ -23,18 +24,20 @@ export default async function sendVerificationEmail(recipientEmail,socket,applic
         },
       });
 
-      const htmlTemplate = `<p>Your verification code is: ${response.data.generated_code}</p>`;
+      const languageText = language.substring(0, 2).toLowerCase() === 'en' ? enText : frText;
+      
+      const htmlTemplate = `<p>${languageText.code.description}  ${response.data.generated_code}</p>`;
 
       const mailOptions = {
-        from: applicationName,
+        from: {name:applicationName,
+           address :process.env.USER_EMAIL},
         to: recipientEmail,
-        subject: 'Verification Code',
+        subject: languageText.code.subject ,
         html: htmlTemplate,
-      
       };
-
       const info = await transporter.sendMail(mailOptions);
-          console.log("response",response.data)
+      console.log(mailOptions)
+      console.log("response",response.data)
       console.log('Verification email sent successfully:', info.response);
     } else {
         socket.emit("SendingMailFail",response.data.error_type)

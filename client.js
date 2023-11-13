@@ -453,16 +453,16 @@ export const onTypingStarted = (data) => {
         console.log('====================================');
     })
 }
-export const onTypingStopped = (data) => {
-    socket.emit('onTypingStopped', data, error => {
-        if (error) {
-            setError(error)
-        }
-        console.log('====================================');
-        console.log(" stop typing");
-        console.log('====================================');
-    })
-}
+// export const onTypingStopped = (data) => {
+//     socket.emit('onTypingStopped', data, error => {
+//         if (error) {
+//             setError(error)
+//         }
+//         console.log('====================================');
+//         console.log(" stop typing");
+//         console.log('====================================');
+//     })
+// }
 
 
 

@@ -24,9 +24,11 @@ const ioConversationEvents = function () {
 
         // Create a new room
         // onConversationStart : Fired when the conversation created.
+        // menich nesta3mel feha 
         socket.on('onConversationStart', (data) => {
             try {
                 if(data){
+                      console.log("conversation start ")
                     conversationDb.addCnv(data).then(async (res) => {                       
                         // Find the socket IDs corresponding to the members
                         const socketIdsToNotify = Object.entries(socketIds).map(([socketId,user])=>
@@ -125,11 +127,9 @@ const ioConversationEvents = function () {
             const agentDetails=await getAgentDetails(data.agentId)
             const  userData=await getAgentDetails(data.userId)
             if(conversationFirst.data){
-              console.log(conversationFirst)
                 socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),agentDetails.id,agentDetails.full_name)
                 
             }else {
-              
                 //create conversation and send form 
           const conversationDetails = await conversationDb.addCnv({
             app: data.accountId,
@@ -206,8 +206,7 @@ const ioConversationEvents = function () {
                     },
                     to: data.userId,
                   })
-                  .then(async (savedMsg) => {
-                  
+                  .then(async (savedMsg) => {                
                     socket.emit("onMessageReceived", {
                       messageData: {
                         content: savedMsg.message,
@@ -246,6 +245,7 @@ const ioConversationEvents = function () {
                           senderName: agentDetails.full_name,
                         },
                       ];
+                      
                       try {
                         informOperator(
                           io,

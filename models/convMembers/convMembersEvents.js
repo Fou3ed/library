@@ -297,7 +297,6 @@ const ioConversationMembersEvents = function () {
                                         data.conversation_type = "2";
                                     }
                                     await foued.removeMember(data.conversation_id, user._id.toString(), conversationDetails.members.length === 3 ? "2" : conversationDetails.conversation_type);
-
                                     // Get the user socket_id
                                     conversationDetails = await getCnvById(data.conversation_id);
                                     Object.entries(socketIds).forEach(([socketId, socketUser]) => {
@@ -305,7 +304,6 @@ const ioConversationMembersEvents = function () {
                                             io.to(socketId).emit("conversationMemberRemoved", data.conversation_id, user._id.toString());
                                         }
                                     });
-
                                     io.in(conversationDetails._id.toString()).emit("conversationMemberRemoved", data.conversation_id, user._id.toString());
                                     socket.emit('removeConversationMemberSuccess', data.conversation_id, user._id.toString());
                                     const msgDb = new messageActions()
