@@ -57,7 +57,7 @@ const ioConnEvents = function () {
 
         socket.emit("onConnected", onConnectData.type ? globalUser : globalUser[0], onConnectData.type ? undefined : globalUser[0]?.balance );
         // Add every user connection in socketIds array as key:socket.id, value:{userId,role,accountId}
-        socketIds[socket.id] = {
+         socketIds[socket.id] = {
              userId: profileIds,
              accountId: globalUser[0].accountId,
              role: globalUser[0].role,

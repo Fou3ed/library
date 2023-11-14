@@ -507,7 +507,7 @@ export const getUserConversations = async (req, res) => {
   
     const matchQuery = {
       owner_id: req.id,
-      ...(active >= 0 ? { status: parseInt(active) } : {}),
+      status: {$ne:0} ,
       ...(userId ? { 'member_details.id': userId } : {}),
     };
   
@@ -1528,6 +1528,44 @@ export const putActiveCnvs = async (userId,accountIds, res) => {
     return[]
   }
 };
+
+export const putCnvStatus = async (conversationId, status, res) => {
+  try {
+    console.log("Updating conversation status. Conversation ID:", conversationId, "Status:", status);
+
+    // Validate status
+    if (![0, 1].includes(status)) {
+      throw new Error("Invalid status. Status should be 0 or 1.");
+    }
+
+    const updateFields = {
+      status: status === 1 ? 2 : 3,
+      updated_at: Date.now(),
+    };
+
+    // Update conversation by ID and retrieve the updated document
+    const updatedConversation = await conversation.findByIdAndUpdate(
+      conversationId,
+      { $set: updateFields },
+      { new: true } 
+    );
+
+    if (!updatedConversation) {
+      throw new Error("Conversation not found.");
+    }
+
+    console.log("Conversation updated successfully. Updated Conversation:", updatedConversation);
+    
+    return updatedConversation;
+  } catch (error) {
+    console.error("Error updating conversation status:", error.message);
+    throw error; 
+  }
+};
+
+
+
+
 
 // export const putInactiveCnvs = async (userId,rooms, res) => {
 //   try {

@@ -3,11 +3,11 @@ import axios from 'axios';
 import enText from '../lang/email_registration_en.json' assert {type: 'json'};
 import frText from '../lang/email_registration_fr.json' assert {type: 'json'};
 
-export default async function sendVerificationEmail(recipientEmail,socket,applicationName,language) {
+export default async function sendVerificationEmail(data,socket,applicationName,language) {
   try {
-    console.log("language",language)
+    console.log("data",data.email)
     const response = await axios.post(`${process.env.API_PATH}/tools/2fa/generate`, {
-      receiver: recipientEmail,
+      receiver: data.email,
     }, {
       headers: {
         key: process.env.API_KEY, 
@@ -31,14 +31,14 @@ export default async function sendVerificationEmail(recipientEmail,socket,applic
       const mailOptions = {
         from: {name:applicationName,
            address :process.env.USER_EMAIL},
-        to: recipientEmail,
+        to: data.email,
         subject: languageText.code.subject ,
         html: htmlTemplate,
       };
       const info = await transporter.sendMail(mailOptions);
-      console.log(mailOptions)
       console.log("response",response.data)
       console.log('Verification email sent successfully:', info.response);
+      socket.emit("emailSent",data)
     } else {
         socket.emit("SendingMailFail",response.data.error_type)
       console.log('Verification code sent fail:', response.data.error_type);

@@ -82,7 +82,7 @@ const userSchema = new Schema({
     accountId:{
         type:String,
         required:false,
-        description:"account id ref to the application id  "
+        description:"account id ref to the application id "
     },
     balance:{
         type:Number,

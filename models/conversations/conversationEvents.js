@@ -28,7 +28,6 @@ const ioConversationEvents = function () {
         socket.on('onConversationStart', (data) => {
             try {
                 if(data){
-                      console.log("conversation start ")
                     conversationDb.addCnv(data).then(async (res) => {                       
                         // Find the socket IDs corresponding to the members
                         const socketIdsToNotify = Object.entries(socketIds).map(([socketId,user])=>

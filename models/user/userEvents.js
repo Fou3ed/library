@@ -536,7 +536,7 @@ const ioUserEvents = function () {
             (
               await getAllTotalConversationsDetails({
                 id: user.accountId,
-                active: "1",
+              
                 ...(user.role === "ADMIN" ? {} : { user_id: user.contactId }),
               })
             )?.data ?? []
@@ -584,13 +584,13 @@ const ioUserEvents = function () {
           ...(user.role === "CLIENT"
             ? { status: clientBalance[user._id] ? 1 : 0 }
             : {}),
+            freeBalance:user.free_balance
         })),( await getAgentsByAccountId(globalUser.accountId))
       );
     });
     socket.on("updateTotalBalance", (balanceData) => {
       reviewBalance(io, socket, balanceData);
     });
-
     socket.on("robotConversationUpdated", (conversationId) => {
       socket.leave(conversationId);
     });

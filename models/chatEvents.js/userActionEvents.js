@@ -266,9 +266,9 @@ const ioChatEvents = function () {
                     console.log("error ",err)
                 }
         })
-        socket.on("verifyEmail",async function (email,applicationName,language){
+        socket.on("verifyEmail",async function (data,applicationName,language){
           try{
-               sendVerificationEmail(email,socket,applicationName,language)
+               sendVerificationEmail(data,socket,applicationName,language)
           }catch(err){
             console.log("error",err )
           }

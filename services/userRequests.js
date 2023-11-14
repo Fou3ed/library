@@ -982,13 +982,14 @@ export const createGuest = async (data, res) => {
     /**
  * update socket _id 
  */
-export const putUserBalance = async (id,balance, res) => {
+export const putUserBalance = async (id,balance,free_balance, res) => {
         try {
             const result = await user.findOneAndUpdate(
                 {id:id},
                  {
                     $set: {
-                        balance: balance
+                        balance: balance,
+                        free_balance:free_balance,
                     },
                     new:true,
                 })
@@ -1070,6 +1071,7 @@ export const getOperators=async(accountId)=>{
       console.error('Error updating users:', error);
     }
   };
+  
   export const checkLoginUser =async(data)=>{
     try{
         const search=await user.find({
@@ -1078,12 +1080,9 @@ export const getOperators=async(accountId)=>{
             account_id:data.accountId
         })
             return search
-       
-
         }
     catch(error){
         console.error('Error login user:', error);
-
     }
   }
   

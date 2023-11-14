@@ -35,7 +35,8 @@ import {
   getConversationById,
   getConversationMemberIds,
   getConvBetweenUserAndAgent,
-  deleteConversation} from "../../services/conversationsRequests.js";
+  deleteConversation,
+  putCnvStatus} from "../../services/conversationsRequests.js";
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import message from "../messages/messageModel.js";
@@ -48,9 +49,7 @@ const ioMessageEvents = function () {
   io.on("connection",async  function (socket) {
 
     socket.on("onMessageCreated", async (data, error) => {
-
-      try {
-
+     try {
         const sender = socketIds[socket.id];
         if (sender && sender.userId.includes(data.user)) {
 
@@ -58,11 +57,37 @@ const ioMessageEvents = function () {
           const conversationData = await conversationAct.getCnv(
             data.metaData.conversation_id
           );
+                console.log("conversation",conversationData.status)
+                console.log(conversationData.status)
+          if(conversationData.status == 1 || conversationData.status ==0 ){
+            const updatedConversation = await  putCnvStatus(data.metaData.conversation_id,conversationData.status,socket)
+            console.log("hedhy",updatedConversation._id,updatedConversation.status)
+            let eventName = "cnvStatusUpdated";
+            let eventData = [
+              {
+                conversationId:updatedConversation._id.toString(),
+                status:updatedConversation.status
+              },
+            ];
+
+            try {
+              informOperator(
+                io,
+                socket.id,
+                updatedConversation,
+                eventName,
+                eventData
+              );
+            } catch (err) {
+              console.log("informOperator err", err);
+              throw err;
+            }
+          }
+
           const memberIds = await getConversationMemberIds(
             data.metaData.conversation_id
           );
           let agentId = null;
-
           for (const member of memberIds) {
             if (member.role === "AGENT") {
               agentId = member.id;
@@ -141,7 +166,6 @@ const ioMessageEvents = function () {
                 userBalance.free_balance = (
                   parseInt(userBalance.free_balance) - 1
                 ).toString();
-                
                 await putUserFreeBalance(userBalance.user, userBalance.free_balance);
                 const messageData = {
                   content: data.metaData.message,
@@ -162,15 +186,15 @@ const ioMessageEvents = function () {
                 if (
                   data.metaData.type !== "log" ||
                   data.logData?.action !== "focus" || data.metaData.type !=="bloc"
-                ) {
-                  socket.emit("onMessageSent", {
+           
+                ) {       socket.emit("onMessageSent", {
                     ...messageData,
                     isSender: true,
                     direction: "in",
                     conversationName: conversationData.name,
                     temporary_id: data.metaData?.temporary_id,
-                    userBalance: userBalance.balance,
-                    userFreeBalance:userBalance.free_balance
+                    userBalance: userBalance?.balance,
+                    userFreeBalance:userBalance?.free_balance
                   });
                   socket.to(data.metaData.conversation_id).emit(
                     "onMessageReceived",
@@ -182,11 +206,14 @@ const ioMessageEvents = function () {
                       userId: data.user,
                       conversationName: conversationData.name,
                       aux: data.aux,
+                      userBalance:userBalance?.balance,
+                      userFreeBalance:userBalance?.free_balance
+
                     },
-                    userBalance.balance
+
                   );
 
-                  if (conversationData.status == 0) {
+                  if (conversationData.status != 1) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -197,8 +224,8 @@ const ioMessageEvents = function () {
                         userId: data.user,
                         conversationName: conversationData.name,
                         aux: data.aux,
-                        userBalance: userBalance.balance,
-                        userFreeBalance:userBalance.free_balance
+                        userBalance: userBalance?.balance,
+                        userFreeBalance:userBalance?.free_balance
                       },
                     ];
 
@@ -250,7 +277,8 @@ const ioMessageEvents = function () {
                     direction: "in",
                     conversationName: conversationData.name,
                     temporary_id: data.metaData?.temporary_id,
-                    userBalance: userBalance.balance,
+                    userBalance: userBalance?.balance,
+                    userFreeBalance:userBalance?.free_balance
                   });
                   socket.to(data.metaData.conversation_id).emit(
                     "onMessageReceived",
@@ -262,6 +290,8 @@ const ioMessageEvents = function () {
                       userId: data.user,
                       conversationName: conversationData.name,
                       aux: data.aux,
+                      userBalance: userBalance?.balance,
+                      userFreeBalance:userBalance?.free_balance
                     },
                     userBalance.balance
                   );
@@ -277,7 +307,8 @@ const ioMessageEvents = function () {
                         userId: data.user,
                         conversationName: conversationData.name,
                         aux: data.aux,
-                        userBalance: userBalance.balance,
+                        userBalance: userBalance?.balance,
+                        userFreeBalance:userBalance?.free_balance
                       },
                     ];
 
@@ -342,6 +373,8 @@ const ioMessageEvents = function () {
                     userId: data.user,
                     conversationName: conversationData.name,
                     aux: data.aux,
+                    userBalance: userBalance?.balance,
+                    userFreeBalance:userBalance?.free_balance
                   });
                 if (conversationData.status == 0) {
                   let eventName = "onMessageReceived";
@@ -355,6 +388,7 @@ const ioMessageEvents = function () {
                       conversationName: conversationData.name,
                       aux: data.aux,
                       userBalance: userBalance?.balance,
+                      userFreeBalance:userBalance?.free_balance
                     },
                   ];
                   try {
@@ -944,7 +978,6 @@ const ioMessageEvents = function () {
             };
 
              socket.emit("planBought", response.data, newBalance.balance);
-             
               Object.entries(socketIds).forEach(([socketId, user]) => {
                 if (
                   user.accountId == data.accountId &&
@@ -953,9 +986,10 @@ const ioMessageEvents = function () {
                   io.to(socketId).emit("planBought", {
                     newPlan: response.data,
                     messageId: data.messageId,
-                    balance: newBalance.balance,
+                    userBalance: newBalance.balance,
                     userId: data.userId,
                     contactId: data.contact,
+                    userFreeBalance:newBalance.free_balance
                   });
                 }
               });
