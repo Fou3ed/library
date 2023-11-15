@@ -506,7 +506,7 @@ export const getUserConversations = async (req, res) => {
     const active = req.active ?? -1;
   
     const matchQuery = {
-      owner_id: req.id,
+      owner_id: req.id, //accountId
       status: {$ne:0} ,
       ...(userId ? { 'member_details.id': userId } : {}),
     };
@@ -1398,7 +1398,7 @@ export const getActiveConversations = async (userId, res) => {
         {
           $match: {
             owner_id:accountId,
-            status: 1
+            status: 1 
           }
         },
         {
@@ -1531,22 +1531,18 @@ export const putActiveCnvs = async (userId,accountIds, res) => {
 
 export const putCnvStatus = async (conversationId, status, res) => {
   try {
-    console.log("Updating conversation status. Conversation ID:", conversationId, "Status:", status);
-
     // Validate status
     if (![0, 1].includes(status)) {
       throw new Error("Invalid status. Status should be 0 or 1.");
     }
 
-    const updateFields = {
-      status: status === 1 ? 2 : 3,
-      updated_at: Date.now(),
-    };
 
-    // Update conversation by ID and retrieve the updated document
     const updatedConversation = await conversation.findByIdAndUpdate(
       conversationId,
-      { $set: updateFields },
+      { $set:  {
+        status: status === 1 ? 2 : 3,
+        updated_at: Date.now(),
+      } },
       { new: true } 
     );
 
@@ -1554,7 +1550,6 @@ export const putCnvStatus = async (conversationId, status, res) => {
       throw new Error("Conversation not found.");
     }
 
-    console.log("Conversation updated successfully. Updated Conversation:", updatedConversation);
     
     return updatedConversation;
   } catch (error) {

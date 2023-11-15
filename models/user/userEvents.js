@@ -34,6 +34,7 @@ import {
   getUserByP,
   getUsersById,
   getAgentsByAccountId,
+  userTotalMessages,
 } from "../../services/userRequests.js";
 import { login } from "../../utils/login.js";
 import { response } from "express";
@@ -583,8 +584,9 @@ const ioUserEvents = function () {
             : {}),
           ...(user.role === "CLIENT"
             ? { status: clientBalance[user._id] ? 1 : 0 }
-            : {}),
+            : {profile_id:user.profile_id}),
             freeBalance:user.free_balance
+
         })),( await getAgentsByAccountId(globalUser.accountId))
       );
     });
@@ -831,10 +833,13 @@ const ioUserEvents = function () {
       }
     });
 
-
-
+    socket.on('contact-info',async(userId)=>{
+     const totalMessages= await userTotalMessages(userId)
+        socket.emit('contact-info-record',totalMessages)
+    })
 
   });
 };
+
 
 export default ioUserEvents;

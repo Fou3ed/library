@@ -19,6 +19,7 @@ import {
   getOperators,
   putUserFreeBalance,
   getUsersById,
+  userTotalMessages,
 } from "../../services/userRequests.js";
 import {
   findMessageWithSiblings,
@@ -36,7 +37,8 @@ import {
   getConversationMemberIds,
   getConvBetweenUserAndAgent,
   deleteConversation,
-  putCnvStatus} from "../../services/conversationsRequests.js";
+  putCnvStatus,
+  getAllTotalConversationsDetails} from "../../services/conversationsRequests.js";
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import message from "../messages/messageModel.js";
@@ -50,6 +52,7 @@ const ioMessageEvents = function () {
 
     socket.on("onMessageCreated", async (data, error) => {
      try {
+      // getAllTotalConversationsDetails("6554cf4a5a89123eb085bd48")
         const sender = socketIds[socket.id];
         if (sender && sender.userId.includes(data.user)) {
 
@@ -57,11 +60,8 @@ const ioMessageEvents = function () {
           const conversationData = await conversationAct.getCnv(
             data.metaData.conversation_id
           );
-                console.log("conversation",conversationData.status)
-                console.log(conversationData.status)
           if(conversationData.status == 1 || conversationData.status ==0 ){
             const updatedConversation = await  putCnvStatus(data.metaData.conversation_id,conversationData.status,socket)
-            console.log("hedhy",updatedConversation._id,updatedConversation.status)
             let eventName = "cnvStatusUpdated";
             let eventData = [
               {
@@ -462,17 +462,15 @@ const ioMessageEvents = function () {
     // onMessageUpdated : Fired when the message data updated.
     socket.on("updateMessage", async (data) => {
       try {
-        const sender = socketIds[socket.id];
 
+        const sender = socketIds[socket.id];
+        
         const userBalance = clientBalance[sender.userId];
-        if (userBalance) {
-          if (Number(userBalance?.balance) > 0) {
-            userBalance.balance = (
-              parseInt(userBalance.balance) - 1
-            ).toString();
-            await putUserBalance(userBalance.user, userBalance.balance);
-          }
-        }
+
+        if (userBalance && ((Number(userBalance.free_balance) > 0 && userBalance.free_balance--) || (Number(userBalance.balance) > 0 && userBalance.balance--))) {
+          await putUserBalance(userBalance.user, userBalance.balance, userBalance.free_balance);
+        
+        
         await msgDb
           .putMsg(data.metaData.message, data.metaData.fields.content)
           .then(async (res) => {
@@ -504,6 +502,9 @@ const ioMessageEvents = function () {
           )} , socket_id : ${socket.id
           } ,token :"" " , date: ${fullDate}"   \n `
         );
+        }else {
+          console.log("update impossible no balance")
+        }
       } catch (err) {
         logger.error(
           `Event: onMessageUpdated ,data: ${JSON.stringify(

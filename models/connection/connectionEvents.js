@@ -29,17 +29,14 @@ const ioConnEvents = function () {
 
     socket.on("user-connected", async (onConnectData) => {
       try{
-
-      
       if (onConnectData.user) {
         const globalUser = await getUsersByP(onConnectData.user,onConnectData.type);
-        if (!globalUser) {
+        if (!globalUser.length) {
           socket.emit('user-connection-error',onConnectData) 
             return;
         }
 
         //change it to emit to only admin/agents who are in the same accountId with the user 
-        // socket.broadcast.emit("user-connection", globalUser);
           Object.entries(socketIds).forEach(([socketId,user])=> {
             if (user.role === "AGENT",user.accountId===globalUser[0].accountId) {
               for(let user of globalUser){
@@ -54,7 +51,6 @@ const ioConnEvents = function () {
           let other_profiles = profileIds.filter(uId => uId !== user); 
            updatedConversation.push(...(await putActiveCnvs(user, [...accountIds, ...other_profiles])))  
         }
-
         socket.emit("onConnected", onConnectData.type ? globalUser : globalUser[0], onConnectData.type ? undefined : globalUser[0]?.balance );
         // Add every user connection in socketIds array as key:socket.id, value:{userId,role,accountId}
          socketIds[socket.id] = {
@@ -72,6 +68,7 @@ const ioConnEvents = function () {
           });
         }
 
+        
         if (accountIds.length > 0) {
           // Get all the active conversations the user has
           const activeConversations = (globalUser[0].role === "ADMIN" ? await getActiveConversationsOwner(globalUser[0].accountId) : updatedConversation.map(conversation => conversation._id.toString()));
@@ -81,8 +78,8 @@ const ioConnEvents = function () {
           });
           updatedConversation.forEach((conversation) => {
              let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>!globalUser.map(user => user._id.toString()).includes(item))
-             let memberSocketId=Object.entries(socketIds).map(([socketId,user] )=> members.includes(user.userId)?socketId:null).filter(user => user)
-          
+                console.log(conversation.operators)
+             let memberSocketId=Object.entries(socketIds).map(([socketId,user])=>(members.find(member => user.userId.includes(member)) || (conversation.operators.find(admin =>user.userId.includes(admin.toString()))))  ? socketId:null).filter(user => user)
               memberSocketId.forEach(member => {
                 io.to(member).emit('conversationStatusUpdated',conversation,1)
              });

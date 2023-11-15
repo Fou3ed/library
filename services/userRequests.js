@@ -342,8 +342,7 @@ export const getAgentDetails=async (id,res)=>{
 
 
 export const getUsersByP=async (id,type,res)=>{
-  
-    try {
+    try {   
         const result = await user.find({id:id,...(type ? {role: {$ne: "CLIENT"} }: {role:"CLIENT"}) });
         if (result) {
           return result
@@ -352,11 +351,9 @@ export const getUsersByP=async (id,type,res)=>{
         }
     } catch (err) {
         console.log(err)
-        logger(err)
-       
+        logger(err)   
     }
 }
-
 
 /**
  * createUser: create user
@@ -414,7 +411,6 @@ export const putUser = async (userId, body, res) => {
     try {
         const firstName = formattedData["10"];
         const lastName = formattedData["11"];
-
         const metaDataWithoutNames = { ...formattedData };
         delete metaDataWithoutNames["10"];
         delete metaDataWithoutNames["11"];
@@ -1085,4 +1081,58 @@ export const getOperators=async(accountId)=>{
         console.error('Error login user:', error);
     }
   }
+  
+
+  
+  export const userTotalMessages = async (userId) => {
+    try {
+      const result = await user.aggregate([
+        {
+          $match: { _id: mongoose.Types.ObjectId(userId) },
+        },
+        {
+          $lookup: {
+            from: 'messages',
+            localField: '_id',
+            foreignField: 'user',
+            as: 'messages',
+          },
+        },
+        {
+          $unwind: '$messages', 
+        },
+        {
+          $match: { 'messages.type': 'MSG' },
+        },
+        {
+          $group: {
+            _id: '$_id',
+            full_name: { $first: '$full_name' },
+            balance: { $first: '$balance' },
+            totalMessages: { $sum: 1 }, 
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            full_name: 1,
+            balance: 1,
+            totalMessages: 1,
+          },
+        },
+      ]);
+      if (result.length > 0) {
+        return {
+          userId: result[0]._id,
+          fullName: result[0].full_name,
+          balance: result[0].balance,
+          totalMessages: result[0].totalMessages,
+        };
+      } else {
+        throw new Error('User not found');
+      }
+    } catch (error) {
+      throw new Error(`Error in userTotalMessages: ${error.message}`);
+    }
+  };
   
