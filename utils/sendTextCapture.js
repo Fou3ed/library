@@ -64,7 +64,7 @@ try{
           messageData.type=blocMessage?.type
           io.in(conversation._id.toString()).emit('onMessageReceived', {
             messageData,
-            c: conversation._id.toString(),
+            conversation: conversation._id.toString(),
             isSender: false,
             direction: 'out',
             userId: agent._id.toString(),

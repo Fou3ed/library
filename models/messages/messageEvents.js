@@ -20,6 +20,7 @@ import {
   putUserFreeBalance,
   getUsersById,
   userTotalMessages,
+  ClientTotalMessages,
 } from "../../services/userRequests.js";
 import {
   findMessageWithSiblings,
@@ -38,7 +39,8 @@ import {
   getConvBetweenUserAndAgent,
   deleteConversation,
   putCnvStatus,
-  getAllTotalConversationsDetails} from "../../services/conversationsRequests.js";
+  getAllTotalConversationsDetails,
+  conversationTotalMessages} from "../../services/conversationsRequests.js";
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import message from "../messages/messageModel.js";
@@ -52,7 +54,6 @@ const ioMessageEvents = function () {
 
     socket.on("onMessageCreated", async (data, error) => {
      try {
-      // getAllTotalConversationsDetails("6554cf4a5a89123eb085bd48")
         const sender = socketIds[socket.id];
         if (sender && sender.userId.includes(data.user)) {
 
@@ -1165,10 +1166,11 @@ const ioMessageEvents = function () {
     );
     socket.on("getConversationMessages", async (data) => {
       try {
+        const result =await getSocketConversationMessages(data)
+
         socket.emit(
-          "getConversationMessagesResult",
-          await getSocketConversationMessages(data),
-          data
+          "getConversationMessagesResult",result.messages ?? [],
+          data,result.totalUnreadMessages ?? 0
         );
       } catch (err) {
         socket.emit("getConversationMessagesFailed", err.toString(), data);

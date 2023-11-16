@@ -105,7 +105,6 @@ export const getUsersById = async (userIds) => {
         const result = await user.find({
             _id:{$in: userIds.map(userId => mongoose.Types.ObjectId(userId))}
         });
-    
         return result;
     } catch (err) {
         logger(err)
@@ -1135,4 +1134,77 @@ export const getOperators=async(accountId)=>{
       throw new Error(`Error in userTotalMessages: ${error.message}`);
     }
   };
+  
+  export const ClientTotalMessages = async (userIds) => {
+    try {
+      const users = await user.find({
+        _id: { $in: userIds.map(userId => mongoose.Types.ObjectId(userId)) }
+      });
+  
+      const aggregatePromises = users.map(async (userId) => {
+        const result = await user.aggregate([
+          {
+            $match: { _id: userId._id },
+          },
+          {
+            $lookup: {
+              from: 'messages',
+              localField: '_id',
+              foreignField: 'user',
+              as: 'messages',
+            },
+          },
+          {
+            $unwind: '$messages',
+          },
+          {
+            $match: { 'messages.type': 'MSG' },
+          },
+          {
+            $group: {
+              _id: '$_id',
+              full_name: { $first: '$full_name' },
+              balance: { $first: '$balance' },
+              totalMessages: { $sum: 1 },
+              totalPaidMessages: {
+                $sum: { $cond: { if: { $and: ['$messages.paid', { $eq: ['$messages.type', 'MSG'] }] }, then: 1, else: 0 } },
+              },
+              totalUnpaidMessages: {
+                $sum: { $cond: { if: { $and: [{ $not: '$messages.paid' }, { $eq: ['$messages.type', 'MSG'] }] }, then: 1, else: 0 } },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              full_name: 1,
+              balance: 1,
+              totalMessages: 1,
+              totalPaidMessages: 1,
+              totalUnpaidMessages: 1,
+            },
+          },
+        ]);
+  
+        if (result.length > 0) {
+          return {
+            userId: result[0]._id,
+            fullName: result[0].full_name,
+            balance: result[0].balance,
+            totalMessages: result[0].totalMessages,
+            totalPaidMessages: result[0].totalPaidMessages,
+            totalUnpaidMessages: result[0].totalUnpaidMessages,
+          };
+        } else {
+          throw new Error(`User not found for ID: ${user._id}`);
+        }
+      });
+  
+      const results = await Promise.all(aggregatePromises);
+      return results;
+    } catch (error) {
+      throw new Error(`Error in ClientTotalMessages: ${error.message}`);
+    }
+  };
+  
   

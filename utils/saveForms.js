@@ -26,7 +26,6 @@ export const saveForms = async (dataForm, socket) => {
             for (const field of data.form.fields) {
               if (field.field_type == 6 && field.field_value) {
                 receiverEmail = field.field_value;
-                console.log("receiverEmail 1 " + receiverEmail);
                 break;
               }
             }

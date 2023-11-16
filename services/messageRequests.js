@@ -1060,6 +1060,8 @@ export const getSocketConversationMessages = async (req, res) => {
   const messageId = req.message_id;
   const after = req.after;
   const before = req.before;
+  const unreadMessages = req.unread_messages;
+
   let startMessage;
   try {
     let createdAtFilter = { created_at: {} };
@@ -1075,7 +1077,7 @@ export const getSocketConversationMessages = async (req, res) => {
     if (before) {
       createdAtFilter.created_at.$lt = new Date(before);
     }
-    return await message
+      const result=await message
       .aggregate([
         {
           $match: {
@@ -1129,6 +1131,39 @@ export const getSocketConversationMessages = async (req, res) => {
         },
       ])
       .exec();
+      let totalUnreadMessages=[];
+      if(page==1 && unreadMessages){
+         totalUnreadMessages = (await message
+        .aggregate([
+          {
+            $match: {
+              conversation_id: mongoose.Types.ObjectId(conversationId),
+              read: {
+                $exists: false,
+              },
+              "user_data.role":{$ne:"CLIENT"}
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "user",
+              foreignField: "_id",
+              as: "user_data",
+            },
+          },
+          {
+            $unwind: {
+              path: "$user_data",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+       
+        ])
+        .exec());
+        
+    }
+      return {messages:result,totalUnreadMessages}
   } catch (err) {
     console.log(err);
     return [];

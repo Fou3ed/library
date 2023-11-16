@@ -158,10 +158,10 @@ const ioConversationEvents = function () {
               socket.join(conversationDetails._id.toString())
 
               Object.entries(socketIds).forEach(([socketId, user]) => {
-                if (
+                if ((
                   user.accountId === agentDetails.accountId &&
                   user.userId.includes(agentDetails._id.toString())
-                ) {
+                ) || (user.role === "ADMIN" && agentDetails.accountId==user.accountId)) {
                   io.to(socketId).emit(
                     "conversationStatusUpdated",
                     {

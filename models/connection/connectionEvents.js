@@ -11,6 +11,7 @@ const db = new methods()
 import userAction from '../user/userMethods.js'
 const userAct = new userAction()
 import {
+  conversationTotalMessages,
   getActiveConversationsOwner
 } from '../../services/conversationsRequests.js'
 import {
@@ -76,9 +77,10 @@ const ioConnEvents = function () {
           activeConversations.forEach((conversationId) => {
             socket.join(conversationId);
           });
-          updatedConversation.forEach((conversation) => {
+          updatedConversation.forEach(async (conversation) => {
              let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>!globalUser.map(user => user._id.toString()).includes(item))
-                console.log(conversation.operators)
+             let countMessages=await conversationTotalMessages(conversation)
+             conversation.total={countMessages}
              let memberSocketId=Object.entries(socketIds).map(([socketId,user])=>(members.find(member => user.userId.includes(member)) || (conversation.operators.find(admin =>user.userId.includes(admin.toString()))))  ? socketId:null).filter(user => user)
               memberSocketId.forEach(member => {
                 io.to(member).emit('conversationStatusUpdated',conversation,1)
@@ -94,7 +96,6 @@ const ioConnEvents = function () {
               balance_type:1,
               sync:false,
             };
-       
           } catch (error) {
             socket.emit('connection-error',onConnectData)
 

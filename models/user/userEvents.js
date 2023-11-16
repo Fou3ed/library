@@ -583,7 +583,7 @@ const ioUserEvents = function () {
             ? { balance: clientBalance[user._id].balance }
             : {}),
           ...(user.role === "CLIENT"
-            ? { status: clientBalance[user._id] ? 1 : 0 }
+            ? { status: user.status }
             : {profile_id:user.profile_id}),
             freeBalance:user.free_balance
 
@@ -702,10 +702,10 @@ const ioUserEvents = function () {
               socket.join(conversationDetails._id.toString());
   
               Object.entries(socketIds).forEach(([socketId, user]) => {
-                if (
+                if ((
                   user.accountId === availableAgent.accountId &&
                   user.userId.includes(availableAgent._id.toString())
-                ) {
+                ) || (user.role === "ADMIN" && availableAgent.accountId==user.accountId)) {
                   io.to(socketId).emit(
                     "conversationStatusUpdated",
                     {
@@ -810,7 +810,6 @@ const ioUserEvents = function () {
           }
         );
         const agents = await getAgentByAccountId(accountId);
-
         socket.emit(
           "displayAgents",
           profiles.data.data

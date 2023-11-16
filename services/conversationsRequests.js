@@ -1471,6 +1471,7 @@ export const getAllActiveCnvs = async (req, res) => {
 
 
 export const putActiveCnvs = async (userId,accountIds, res) => {
+  
   try {
     let result = await conversation.aggregate([    
       {
@@ -1778,3 +1779,41 @@ export const updateAllConversationsActivities = async () => {
     console.error('Error updating users:', error);
   }
 };
+
+export const conversationTotalMessages = async (conversationId) => {
+  try {
+    const totalMessages = await message.countDocuments({
+      conversation_id: conversationId,
+      type: {
+        $ne: "log"
+      }
+    });
+    
+    const totalPaidMessages = await message.countDocuments({
+      conversation_id: conversationId,
+      type: {
+        $ne: "log"
+      },
+      paid: true
+    });
+
+    const totalUnpaidMessages = await message.countDocuments({
+      conversation_id: conversationId,
+      type: {
+        $ne: "log"
+      },
+      paid: false
+    });
+        
+    return {
+      totalMessages,
+      totalPaidMessages,
+      totalUnpaidMessages
+    };
+  } catch (error) {
+    throw new Error(`Error in conversationTotalMessages: ${error.message}`);
+  }
+};
+
+
+
