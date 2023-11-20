@@ -93,7 +93,11 @@ const userSchema = new Schema({
         type:Number,
         required:false,
         description:"user  free balance"
+    },
+    avatar:{
+        type:String,
+        required:false,
+        description:"user image"
     }
-
 })
 export default mongoose.model("user", userSchema)

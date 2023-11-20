@@ -362,27 +362,31 @@ export const getUsersByP=async (id,type,res)=>{
  */
 export const postUser = async (req, res) => {
         try {  
-            const result = await user.create(req.body);
-            if (result) {
-                let dataLog = {
-                    "app_id": "63ce8575037d76527a59a655",
-                    "user_id": "6390b2efdfb49a27e7e3c0b9",
-                    "socket_id": "req.body.socket_id",
-                    "action": "Create user ",
-                    "element": element,
-                    "element_id": "1",
-                    "ip_address": "192.168.1.1"
+            console.log("req",req)
+            if(req.body.id){
+                const result = await user.create(req.body);
+                if (result) {
+                    let dataLog = {
+                        "app_id": "63ce8575037d76527a59a655",
+                        "user_id": "6390b2efdfb49a27e7e3c0b9",
+                        "socket_id": "req.body.socket_id",
+                        "action": "Create user ",
+                        "element": element,
+                        "element_id": "1",
+                        "ip_address": "192.168.1.1"
+                    }
+                    log.addLog(dataLog)
+                    res.status(201).json({
+                        message: "success",
+                        date: result
+                    })
+                } else {
+                    res.status(400).json({
+                        "error": 'failed to create new user'
+                    })
                 }
-                log.addLog(dataLog)
-                res.status(201).json({
-                    message: "success",
-                    date: result
-                })
-            } else {
-                res.status(400).json({
-                    "error": 'failed to create new user'
-                })
             }
+           
         } catch (err) {
             console.log("err", err)
 
@@ -1137,10 +1141,11 @@ export const getOperators=async(accountId)=>{
   
   export const ClientTotalMessages = async (userIds) => {
     try {
+        console.log(userIds)
       const users = await user.find({
         _id: { $in: userIds.map(userId => mongoose.Types.ObjectId(userId)) }
       });
-  
+      console.log(users)
       const aggregatePromises = users.map(async (userId) => {
         const result = await user.aggregate([
           {
@@ -1185,18 +1190,10 @@ export const getOperators=async(accountId)=>{
             },
           },
         ]);
-  
-        if (result.length > 0) {
-          return {
-            userId: result[0]._id,
-            fullName: result[0].full_name,
-            balance: result[0].balance,
-            totalMessages: result[0].totalMessages,
-            totalPaidMessages: result[0].totalPaidMessages,
-            totalUnpaidMessages: result[0].totalUnpaidMessages,
-          };
+        if (result) {
+          return result
         } else {
-          throw new Error(`User not found for ID: ${user._id}`);
+          throw new Error(`User not found for ID: ${userId._id}`);
         }
       });
   

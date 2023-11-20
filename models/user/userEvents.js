@@ -35,6 +35,7 @@ import {
   getUsersById,
   getAgentsByAccountId,
   userTotalMessages,
+  ClientTotalMessages,
 } from "../../services/userRequests.js";
 import { login } from "../../utils/login.js";
 import { response } from "express";
@@ -836,6 +837,17 @@ const ioUserEvents = function () {
      const totalMessages= await userTotalMessages(userId)
         socket.emit('contact-info-record',totalMessages)
     })
+
+
+    socket.on('contact-info-msg',async(userIds)=>{
+          try{
+           const result= await ClientTotalMessages(userIds)
+           socket.emit('contact-info-msg-record',result)
+          }catch(err){
+            throw(err)
+          }
+    })
+
 
   });
 };

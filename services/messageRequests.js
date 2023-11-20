@@ -4,7 +4,7 @@ import user from "../models/user/userModel.js";
 import react from "../models/reactions/reactionModel.js";
 import conversationActions from "../models/conversations/conversationMethods.js";
 const conversationDb = new conversationActions();
-import { debug, validator } from "../dependencies.js";
+import { debug, process, validator } from "../dependencies.js";
 import logs from "../models/logs/logsMethods.js";
 const log = new logs();
 const element = 6;
@@ -12,6 +12,7 @@ const logger = debug("namespace");
 import mongoose from "mongoose";
 import { socketIds } from "../models/connection/connectionEvents.js";
 import { offlineForm } from "../utils/offlineForm.js";
+import axios from "axios";
 /**
  *  GetMessages :get get messages
  * @route /messages
@@ -62,7 +63,6 @@ export const getMessage = async (id, res) => {
     return result;
   } catch (err) {
     logger(err);
-  
   }
 };
 export const getMessagesUsers = async (req, res) => {
@@ -161,7 +161,13 @@ export const getConversationMessages = async (socket, data) => {
         {
           $match: {
             conversation_id: mongoose.Types.ObjectId(conversationId),
-            $or:[{type: {$ne: "log"}},{type: "log", message:{$regex: /"action":"purchase completed"/}}],
+            $or: [
+              { type: { $ne: "log" } },
+              {
+                type: "log",
+                message: { $regex: /"action":"purchase completed"/ },
+              },
+            ],
           },
         },
         {
@@ -1060,7 +1066,7 @@ export const getSocketConversationMessages = async (req, res) => {
   const messageId = req.message_id;
   const after = req.after;
   const before = req.before;
-  const unreadMessages = req.unread_messages;
+  const contactId = req.contact_id;
 
   let startMessage;
   try {
@@ -1077,7 +1083,7 @@ export const getSocketConversationMessages = async (req, res) => {
     if (before) {
       createdAtFilter.created_at.$lt = new Date(before);
     }
-      const result=await message
+    const result = await message
       .aggregate([
         {
           $match: {
@@ -1131,9 +1137,10 @@ export const getSocketConversationMessages = async (req, res) => {
         },
       ])
       .exec();
-      let totalUnreadMessages=[];
-      if(page==1 && unreadMessages){
-         totalUnreadMessages = (await message
+    let totalUnreadMessages = [];
+    let contact = null;
+    if (page == 1 && contactId) {
+      totalUnreadMessages = await message
         .aggregate([
           {
             $match: {
@@ -1141,7 +1148,7 @@ export const getSocketConversationMessages = async (req, res) => {
               read: {
                 $exists: false,
               },
-              "user_data.role":{$ne:"CLIENT"}
+              "user_data.role": { $ne: "CLIENT" },
             },
           },
           {
@@ -1158,12 +1165,33 @@ export const getSocketConversationMessages = async (req, res) => {
               preserveNullAndEmptyArrays: true,
             },
           },
-       
         ])
-        .exec());
-        
+        .exec();
+      try {
+        contact = await user.findOne({
+          _id: contactId,
+        });
+
+        if (contact) {
+          const {
+            data: { data },
+          } = await axios.get(
+            `${process.env.API_PATH}/getDataByProfileId/${contact.id}`,
+            {
+              headers: {
+                key: `${process.env.API_KEY}`,
+              },
+            }
+          );
+ 
+          contact = {
+            ...JSON.parse(JSON.stringify(contact)),
+            contact_details: data[0] ?? data,
+          };
+        }
+      } catch (error) {}
     }
-      return {messages:result,totalUnreadMessages}
+    return { messages: result, totalUnreadMessages, contact };
   } catch (err) {
     console.log(err);
     return [];
@@ -1177,8 +1205,8 @@ export async function updateAllMessages(oldCnv, newCnv) {
       { $set: { conversation_id: newCnv } }
     );
 
-    console.log(`Updated ${updatedMessages.modifiedCount} messages.`);
 
+    
     return updatedMessages;
   } catch (error) {
     console.error("Error updating messages:", error);

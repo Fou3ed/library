@@ -234,6 +234,7 @@ const ioChatEvents = function () {
  
         // onTypingStoppe : Fired when the user stop typing.
         socket.on('onTypingStop', async function (data) {
+
             try {
               if(data.metaData.conversation){
                 const conversationData = await conversationAct.getCnv(data.metaData.conversation);

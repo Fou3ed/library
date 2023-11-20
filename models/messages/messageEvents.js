@@ -51,7 +51,6 @@ import addLogs from "../../utils/addLogs.js";
 const ioMessageEvents = function () {
   dotenv.config();
   io.on("connection",async  function (socket) {
-
     socket.on("onMessageCreated", async (data, error) => {
      try {
         const sender = socketIds[socket.id];
@@ -179,7 +178,9 @@ const ioMessageEvents = function () {
                   type: data.metaData.type,
                   paid: false,
                   status: conversationData.status,
-                  agent_id:agentId
+                  agent_id:agentId,
+                  user_data:memberIds.find(member=>member._id ==agentId),
+
                 };
                 if (data.metaData.type === "log") {
                   addLogs(data.logData);
@@ -263,7 +264,8 @@ const ioMessageEvents = function () {
                   type: data.metaData.type,
                   paid: true,
                   status: conversationData.status,
-                  agent_id:agentId
+                  agent_id:agentId,
+                
                 };
                 if (data.metaData.type === "log") {
                   addLogs(data.logData);
@@ -343,10 +345,11 @@ const ioMessageEvents = function () {
                 type: data.metaData.type,
                 paid: false,
                 status: conversationData.status,
-                agent_id:agentId
+                agent_id:agentId,
+                user_data:memberIds.find(member=>member._id.toString() == data.user),
 
               };
-
+       
               if (data.metaData.type === "log") {
                 addLogs(data.logData);
               }
@@ -361,6 +364,7 @@ const ioMessageEvents = function () {
                   direction: "in",
                   conversationName: conversationData.name,
                   temporary_id: data.metaData?.temporary_id,
+                  
                 });
 
                 socket
@@ -1028,6 +1032,7 @@ const ioMessageEvents = function () {
                 senderName: data?.senderName,
                 date: savedMessage.created_at,
                 type: savedMessage.type,
+
               };
               //if the purchase been made in a conversation
               if (savedMessage?._id) {
@@ -1170,7 +1175,9 @@ const ioMessageEvents = function () {
 
         socket.emit(
           "getConversationMessagesResult",result.messages ?? [],
-          data,result.totalUnreadMessages ?? 0
+          data,
+          result.totalUnreadMessages ?? 0,
+          result.contact ?? null
         );
       } catch (err) {
         socket.emit("getConversationMessagesFailed", err.toString(), data);

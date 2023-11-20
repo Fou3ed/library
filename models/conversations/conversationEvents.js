@@ -21,7 +21,7 @@ const ioConversationEvents = function () {
 
     //room namespace
     io.on('connection', async (socket) => {
-
+ 
         // Create a new room
         // onConversationStart : Fired when the conversation created.
         // menich nesta3mel feha 
@@ -38,7 +38,6 @@ const ioConversationEvents = function () {
                           socket.to(socketIdObj.socketId).emit("joinConversationMember",res);
                         });
                         socket.emit("onConversationStarted",res);
-
                         const conversationData = await conversationDb.getCnv(res._id.toString());
                         if (conversationData.status == 0) {
                           let eventName="onConversationStarted"
@@ -172,7 +171,6 @@ const ioConversationEvents = function () {
                   ); 
                 }
               });
-      
             }
         
           
