@@ -362,7 +362,6 @@ export const getUsersByP=async (id,type,res)=>{
  */
 export const postUser = async (req, res) => {
         try {  
-            console.log("req",req)
             if(req.body.id){
                 const result = await user.create(req.body);
                 if (result) {
@@ -1063,14 +1062,6 @@ export const getOperators=async(accountId)=>{
   }
 
 
-  export const updateAllUsersActivities = async () => {
-    try {
-     await user.updateMany({}, { $set: { is_active: false } });
-    } catch (error) {
-      console.error('Error updating users:', error);
-    }
-  };
-  
   export const checkLoginUser =async(data)=>{
     try{
         const search=await user.find({
@@ -1084,9 +1075,7 @@ export const getOperators=async(accountId)=>{
         console.error('Error login user:', error);
     }
   }
-  
-
-  
+   
   export const userTotalMessages = async (userId) => {
     try {
       const result = await user.aggregate([
@@ -1141,11 +1130,9 @@ export const getOperators=async(accountId)=>{
   
   export const ClientTotalMessages = async (userIds) => {
     try {
-        console.log(userIds)
       const users = await user.find({
         _id: { $in: userIds.map(userId => mongoose.Types.ObjectId(userId)) }
       });
-      console.log(users)
       const aggregatePromises = users.map(async (userId) => {
         const result = await user.aggregate([
           {
@@ -1182,6 +1169,7 @@ export const getOperators=async(accountId)=>{
           {
             $project: {
               _id: 1,
+              profile_id:1,
               full_name: 1,
               balance: 1,
               totalMessages: 1,
@@ -1190,6 +1178,7 @@ export const getOperators=async(accountId)=>{
             },
           },
         ]);
+
         if (result) {
           return result
         } else {

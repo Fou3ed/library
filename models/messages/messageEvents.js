@@ -88,9 +88,11 @@ const ioMessageEvents = function () {
             data.metaData.conversation_id
           );
           let agentId = null;
+          let profile_id=null;
           for (const member of memberIds) {
             if (member.role === "AGENT") {
               agentId = member.id;
+              profile_id=member.profile_id
               break;
             }
           }
@@ -179,6 +181,7 @@ const ioMessageEvents = function () {
                   paid: false,
                   status: conversationData.status,
                   agent_id:agentId,
+                  profile_id:profile_id,
                   user_data:memberIds.find(member=>member._id ==agentId),
 
                 };

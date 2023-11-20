@@ -1772,13 +1772,19 @@ export const searchConversationMessages = async (conversationId, term, user = nu
   }
 }
 
+
 export const updateAllConversationsActivities = async () => {
   try {
-   await conversation.updateMany({}, { $set: { status: 0 } });
+    await conversation.updateMany({}, { $set: { status: 0 } });
+
+    await users.updateMany({}, { $set: { is_active: false } });
+
   } catch (error) {
     console.error('Error updating users:', error);
+    throw error;
   }
 };
+
 
 export const conversationTotalMessages = async (conversationId) => {
   try {

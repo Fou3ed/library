@@ -23,7 +23,6 @@ import ioUserEvents from './models/user/userEvents.js';
 import ioAppEvents from "./models/app/appEvents.js";
 import ioConversationMembersEvents from "./models/convMembers/convMembersEvents.js"
 import getApiKeys from "./utils/getApiKeys.js";
-import {updateAllUsersActivities} from './services/userRequests.js'
 import {updateAllConversationsActivities} from './services/conversationsRequests.js'
 
 const app = express();
@@ -98,16 +97,27 @@ instrument(io, {
 
 
 process.on('SIGINT', async () => {
-  await  updateAllUsersActivities()
-  await updateAllConversationsActivities()
-  process.exit(0); 
+  try {
+    await updateAllConversationsActivities();
+    setTimeout(() => {
+      process.exit(0);
+    }, 5000); 
+  } catch (error) {
+    console.error('Error updating all conversations and users:', error);
+    process.exit(1);
+  }
 });
 
 process.on('SIGTERM', async () => {
-
-  await  updateAllUsersActivities()
-  await updateAllConversationsActivities()
-  process.exit(0); 
+  try {
+    await updateAllConversationsActivities();
+    setTimeout(() => {
+      process.exit(0);
+    }, 5000); 
+  } catch (error) {
+    console.error('Error updating all conversations and users:', error);
+    process.exit(1);
+  }
 });
 
 /**
