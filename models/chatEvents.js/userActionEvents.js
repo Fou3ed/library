@@ -14,6 +14,7 @@ const userM = new userMethod()
 import conversationActions from '../conversations/conversationMethods.js';
 import { informOperator } from '../../utils/informOperator.js'
 import sendVerificationEmail from '../../utils/verificatioMail.js'
+import { changePassword } from '../../utils/changePassword.js'
 const conversationAct = new conversationActions
 
 
@@ -27,7 +28,7 @@ const ioChatEvents = function () {
                  if(res.modifiedCount!==0){
                     socket.to(data.metaData.conversation).emit("onMessageRead", data);       
                     const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                    if (conversationData.status == 0) {
+                    if (conversationData.status !== 1) {
                       let eventName="onMessageRead"
                       let eventData= [data]
                       try{
@@ -52,7 +53,7 @@ const ioChatEvents = function () {
                     socket.emit("onMsgPinned", newRes,data.user)
 
                     const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                    if (conversationData.status == 0) {
+                    if (conversationData.status !== 1) {
                       let eventName="onMsgPinned"
                       let eventData = [newRes, data.user,conversationData];
                       try{
@@ -76,7 +77,7 @@ const ioChatEvents = function () {
                     socket.to(data.metaData.conversation).emit("onMsgUnPinned", res,data.user);      
                     socket.emit("onMsgUnPinned", res,data.user)    
                     const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                    if (conversationData.status == 0) {
+                    if (conversationData.status !== 1) {
                       let eventName="onMsgUnPinned"
                       let eventData= [res,data.user]
                       try{
@@ -103,7 +104,7 @@ const ioChatEvents = function () {
                                     socket.emit("onMsgReacted", {...({...newRes})._doc,conversation_id:data.metaData.conversation})
 
                                     const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                                    if (conversationData.status == 0) {
+                                    if (conversationData.status !== 1) {
                                       let eventName="onMsgReacted"
                                       let eventData= [{...({...newRes})._doc,conversation_id:data.metaData.conversation}]
                                       try{
@@ -122,7 +123,7 @@ const ioChatEvents = function () {
                                     socket.emit("onMsgReacted" , {...({...res})._doc,conversation_id:data.metaData.conversation})
                                     
                                     const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                                    if (conversationData.status == 0) {
+                                    if (conversationData.status !== 1) {
                                       let eventName="onMsgReacted"
                                       let eventData= [{...({...res})._doc,conversation_id:data.metaData.conversation}]
                                       try{
@@ -152,7 +153,7 @@ const ioChatEvents = function () {
                      socket.emit("onUnReactMsg", {...({...newRes})._doc,conversation_id:data.metaData.conversation}) 
 
                      const conversationData = await conversationAct.getCnv(data.metaData.conversation);
-                     if (conversationData.status == 0) {
+                     if (conversationData.status !== 1) {
                        let eventName="onUnReactMsg"
                        let eventData= [{...({...newRes})._doc,conversation_id:data.metaData.conversation}]
                        try{
@@ -211,7 +212,7 @@ const ioChatEvents = function () {
 
                             socket.to(data.metaData.conversation).emit("onTypingStarted", combinedData);
 
-                            if (conversationData.status == 0) {
+                            if (conversationData.status !== 1) {
                               let eventName="onTypingStarted"
                               let eventData= [combinedData]
                               try{
@@ -242,7 +243,7 @@ const ioChatEvents = function () {
                 userM.getUser(data.user).then(async (userData)=>{
                   const combinedData = { ...data, user_data:({...userData})._doc ,conversation:conversationData};
                         socket.to(data.metaData.conversation).emit("onTypingStopped", data);
-                        if (conversationData.status == 0) {
+                        if (conversationData.status !== 1) {
                           let eventName="onTypingStopped"
                           let eventData=[combinedData]
                           try{
@@ -276,7 +277,13 @@ const ioChatEvents = function () {
         })
 
 
-       
+        socket.on("changePassword",async function (data){
+          try{
+               changePassword(data,socket)
+          }catch(err){
+            console.log("error",err )
+          }
+        })
 
     })
 }

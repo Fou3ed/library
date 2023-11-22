@@ -104,7 +104,7 @@ export const saveForms = async (dataForm, socket) => {
         //add message fl bdd messageBloc 
         //send receiveMessage
 
-        if (conversationData.status == 0) {
+        if (conversationData.status !== 1) {
           let eventName = "formSaved"
           try {
             informOperator(io, socket.id, conversationData, eventName, dataForm);

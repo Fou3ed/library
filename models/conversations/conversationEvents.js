@@ -39,7 +39,7 @@ const ioConversationEvents = function () {
                         });
                         socket.emit("onConversationStarted",res);
                         const conversationData = await conversationDb.getCnv(res._id.toString());
-                        if (conversationData.status == 0) {
+                        if (conversationData.status !== 1) {
                           let eventName="onConversationStarted"
                           let eventData= [res]
                           try{

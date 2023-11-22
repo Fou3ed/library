@@ -55,7 +55,11 @@ const ioConversationMembersEvents = function () {
             socket.join(conversation);
     
           });
-          
+          socket.on('leaveConversationRoom', async (conversation) => {
+            // join room
+            socket.leave(conversation);
+            console.log("to leave ",conversation)
+          });
           
         socket.on('onConversationMemberJoin', async (info, conversationId) => {
             try {
@@ -197,7 +201,7 @@ const ioConversationMembersEvents = function () {
 
 
                                       const conversationData = await conversationDb.getCnv(conversationDetails._id.toString());
-                                      if (conversationData.status == 0) {
+                                      if (conversationData.status !== 1) {
                                         let eventName="conversationTransferred"
                                         let eventData= [conversationDetails]
                                         try{
@@ -226,7 +230,7 @@ const ioConversationMembersEvents = function () {
                                       })
 
 
-                                      if (conversationData.status == 0) {
+                                      if (conversationData.status !== 1) {
                                         let eventName="onMessageReceived"
                                         let eventData= [{
                                             messageData,
@@ -328,7 +332,7 @@ const ioConversationMembersEvents = function () {
                                     });
 
                                     const conversationData = await conversationDb.getCnv(conversationDetails._id.toString());
-                                    if (conversationData.status == 0) {
+                                    if (conversationData.status !== 1) {
                                         let eventName = "conversationMemberRemoved"
                                         let eventData = [data.conversation_id, user._id.toString()]
                                         try {
@@ -355,7 +359,7 @@ const ioConversationMembersEvents = function () {
                                         userId: socketUser.userId.toString(),
                                     })
 
-                                    if (conversationData.status == 0) {
+                                    if (conversationData.status !== 1) {
                                         let eventName = "onMessageReceived"
                                         let eventData = [{
                                             messageData,

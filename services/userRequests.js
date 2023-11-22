@@ -424,8 +424,8 @@ export const putUser = async (userId, body, res) => {
         if (firstName !== undefined && lastName !== undefined) {
             updateFields.nickname = firstName;
             updateFields.full_name = `${firstName} ${lastName}`;
-            updateFields.status=1
         }
+        updateFields.status=1
 
         const result = await user.findByIdAndUpdate(
             userId, {
