@@ -918,8 +918,37 @@ const ioMessageEvents = function () {
                 email:userInfo.data.data.email,
                 id_sale:response.data.sale_id,
                 messageId:data.messageId
+                
               })
-            
+              Object.entries(socketIds).forEach(([socketId, user]) => {
+                if (
+                  user.accountId == data.accountId &&
+                  (user.role === "ADMIN" || user.role === "AGENT")
+                ) {
+                  console.log("socket",{amount:response.data.plan_tariff,
+                    currency:response.data.plan_currency,
+                    country:"",
+                    last_name:userInfo.data.data.lastname,
+                    first_name:userInfo.data.data.firstname,
+                    email:userInfo.data.data.email,
+                    id_sale:response.data.sale_id,
+                    messageId:data.messageId,
+                    userId:data.contact})
+                    
+                  io.to(socketId).emit("saleAdded", {
+                    amount:response.data.plan_tariff,
+                    currency:response.data.plan_currency,
+                    country:"",
+                    last_name:userInfo.data.data.lastname,
+                    first_name:userInfo.data.data.firstname,
+                    email:userInfo.data.data.email,
+                    id_sale:response.data.sale_id,
+                    messageId:data.messageId,
+                    userId:data.contact
+                  });
+                }
+              });
+              
           } else {
             socket.emit("addSaleFailed", "failed");
           }

@@ -120,7 +120,7 @@ socket.on("disconnecting", async (reason) => {
         socket.connect();
       }
 
-      const rooms = [...socket.rooms].map(room=>room!==socket.id?mongoose.Types.ObjectId(room):null).filter(item=>item);
+      // const rooms = [...socket.rooms].map(room=>room!==socket.id?mongoose.Types.ObjectId(room):null).filter(item=>item);
       const user = socketIds[socket.id]
 
          // Remove user from socketIds array
@@ -131,8 +131,6 @@ socket.on("disconnecting", async (reason) => {
         setTimeout(resolve, 10000); 
       });
       
-      
- 
 if(user){
 
   const socketIdsWithUserId = Object.keys(socketIds).filter(socketId => {
