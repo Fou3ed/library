@@ -122,17 +122,17 @@ socket.on("disconnecting", async (reason) => {
 
       // const rooms = [...socket.rooms].map(room=>room!==socket.id?mongoose.Types.ObjectId(room):null).filter(item=>item);
       const user = socketIds[socket.id]
-
          // Remove user from socketIds array
     if (socketIds[socket.id] ?? false) {
+      console.log("deleteing socketIds")
       delete socketIds[socket.id]
     }
+
       await new Promise((resolve) => {
         setTimeout(resolve, 10000); 
       });
       
 if(user){
-
   const socketIdsWithUserId = Object.keys(socketIds).filter(socketId => {
     return (socketIds[socketId].role == user.role && socketIds[socketId].contactId == user.contactId);
   });

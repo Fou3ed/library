@@ -210,7 +210,7 @@ const ioMessageEvents = function () {
 
                     },
                   );
-                  if (conversationData.status !=1) {
+                  if (conversationData.status !== 1 && conversationData.status !== 2) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -292,7 +292,7 @@ const ioMessageEvents = function () {
                     userBalance.balance
                   );
 
-                  if (conversationData.status != 1) {
+                  if (conversationData.status !== 1 && conversationData.status !== 2) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -375,7 +375,7 @@ const ioMessageEvents = function () {
                     userBalance: userBalance?.balance,
                     userFreeBalance:userBalance?.free_balance
                   });
-                if (conversationData.status !== 1) {
+                if (conversationData.status !== 1 && conversationData.status !== 2) {
                   let eventName = "onMessageReceived";
                   let eventData = [
                     {

@@ -58,7 +58,6 @@ const ioConversationMembersEvents = function () {
           socket.on('leaveConversationRoom', async (conversation) => {
             // join room
             socket.leave(conversation);
-            console.log("to leave ",conversation)
           });
           
         socket.on('onConversationMemberJoin', async (info, conversationId) => {
