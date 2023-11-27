@@ -125,7 +125,7 @@ const ioConversationEvents = function () {
             const agentDetails=await getAgentDetails(data.agentId)
             const  userData=await getAgentDetails(data.userId)
             if(conversationFirst.data){
-                socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),agentDetails.id,agentDetails.full_name)
+                socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),agentDetails.id,agentDetails.nickname)
                 
             }else {
                 //create conversation and send form 
@@ -134,7 +134,7 @@ const ioConversationEvents = function () {
             user: data.agentId,
             action: "conversation.create",
             metaData: {
-              name: agentDetails.full_name,
+              name: agentDetails.nickname,
               channel_url: "",
               conversation_type: "1",
               description: "private chat",
@@ -175,7 +175,7 @@ const ioConversationEvents = function () {
         
           
           if(conversationDetails){
-            socket.emit('checkConversation',conversationDetails._id.toString(),agentDetails.id,agentDetails.full_name)
+            socket.emit('checkConversation',conversationDetails._id.toString(),agentDetails.id,agentDetails.nickname)
 
               const formMsg = filterForms(
                 "2",
@@ -218,7 +218,7 @@ const ioConversationEvents = function () {
                       isSender: false,
                       direction: "out",
                       userId: data.user,
-                      senderName: agentDetails.full_name,
+                      senderName: agentDetails.nickname,
                       contactAgentId:agentDetails.id,
                       status:conversationDetails.status
                     });
@@ -239,7 +239,7 @@ const ioConversationEvents = function () {
                           isSender: false,
                           direction: "out",
                           userId: data.user,
-                          senderName: agentDetails.full_name,
+                          senderName: agentDetails.nickname,
                         },
                       ];
                       

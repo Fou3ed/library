@@ -25,7 +25,7 @@ try{
       id: savedMessage._id,
       from: agent._id.toString(),
       conversation: conversation._id.toString(),
-      senderName: agent.full_name,
+      senderName: agent.nickname,
       date: new Date(),
       type: "MSG",
     };

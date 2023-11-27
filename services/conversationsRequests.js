@@ -190,6 +190,7 @@ export const getConv = async (user1,user2, res) => {
                 }
             }
         ]);
+        console.log("result conversation first",result)
         if (result.length > 0 && result[0]._id) {
             // const messagesResponse = await axios.get(`http://192.168.1.23:3000/messages/${conversationId}?page=${page}&limit=${limit}`); 
             const messagesResponse = await getCnvMessages(result[0]._id, 1, 10);
@@ -1025,6 +1026,7 @@ return data;
                 full_name:"$member_details.full_name",
                 role:"$member_details.role",
                 id: "$member_details.id",
+                nickname:"$member_details.nickname"
                 // Include any other desired fields from the user document
                 // e.g., name, email, etc.
                 // name: "$member_details.name",

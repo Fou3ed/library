@@ -373,3 +373,8 @@
 {"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6560e12fed58f980aba706ff\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6560e12fed58f980aba70704\",\"message\":\"6560e12fed58f980aba7070c\"}} , socket_id : sjGMveYQiZOhE16UAAFL ,token :\"\" \" , date: 24/11/2023 18:01:33\"   \n "}
 {"level":"info","message":"server is running smoothly"}
 {"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6560e12fed58f980aba706ff\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6560e12fed58f980aba70704\",\"message\":\"6560e338b9be1572280659b8\"}} , socket_id : QZvQzQhgJysBJBGcAAAF ,token :\"\" \" , date: 24/11/2023 18:51:51\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6560e12fed58f980aba706ff\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6560e33ab9be1572280659d1\",\"message\":\"6560e33bb9be1572280659d9\"}} , socket_id : RCGAxmNE3gTnfiVFAAAH ,token :\"\" \" , date: 24/11/2023 18:51:51\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6560e12fed58f980aba706ff\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6560e33ab9be1572280659d1\",\"message\":\"6560e353b9be157228065ad8\"}} , socket_id : RCGAxmNE3gTnfiVFAAAH ,token :\"\" \" , date: 24/11/2023 18:51:51\"   \n "}

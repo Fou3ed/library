@@ -19,7 +19,7 @@ export const offlineForm = async (socket, data) => {
         for (const member of conversationDetails.member_details) {
             if (member.role === 'AGENT') {
                 agentId = member._id;
-                agentFullName = member.full_name;
+                agentFullName = member.nickname;
                 break;
             }
         }

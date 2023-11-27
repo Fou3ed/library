@@ -173,7 +173,7 @@ const ioMessageEvents = function () {
                   uuid: data.uuid,
                   type: data.metaData.type,
                   paid: false,
-                  status: conversationData.status,
+                  status: 1,
                   agent_id:agentId,
                   profile_id:profile_id,
                   user_data:memberIds.find(member=>member._id ==agentId),
@@ -210,7 +210,7 @@ const ioMessageEvents = function () {
 
                     },
                   );
-                  if (conversationData.status !== 1 && conversationData.status !== 2) {
+                  if (conversationData.status !== 1 ) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -257,7 +257,9 @@ const ioMessageEvents = function () {
                   uuid: data.uuid,
                   type: data.metaData.type,
                   paid: true,
-                  status: conversationData.status,
+                  profile_id:profile_id,
+
+                  status: 1,
                   agent_id:agentId,
                 };
                 if (data.metaData.type === "log") {
@@ -292,7 +294,7 @@ const ioMessageEvents = function () {
                     userBalance.balance
                   );
 
-                  if (conversationData.status !== 1 && conversationData.status !== 2) {
+                  if (conversationData.status !== 1) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -337,7 +339,7 @@ const ioMessageEvents = function () {
                 uuid: data.uuid,
                 type: data.metaData.type,
                 paid: false,
-                status: conversationData.status,
+                status: 1,
                 agent_id:agentId,
                 user_data:memberIds.find(member=>member._id.toString() == data.user),
                 client_id:client_id
@@ -375,7 +377,7 @@ const ioMessageEvents = function () {
                     userBalance: userBalance?.balance,
                     userFreeBalance:userBalance?.free_balance
                   });
-                if (conversationData.status !== 1 && conversationData.status !== 2) {
+                if (conversationData.status !== 1 ) {
                   let eventName = "onMessageReceived";
                   let eventData = [
                     {

@@ -2,7 +2,6 @@ import { socketIds } from "../models/connection/connectionEvents.js";
 
 
 export  async function informOperator(io,senderSocketId,conversationData,eventName,eventData) {
-  console.log("event name : ",eventName)
   try {
     //search for the operators socket ids in the global array socketIds
     Object.entries(socketIds).forEach(([socketId, user]) => {

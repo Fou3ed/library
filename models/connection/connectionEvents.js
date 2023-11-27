@@ -124,7 +124,6 @@ socket.on("disconnecting", async (reason) => {
       const user = socketIds[socket.id]
          // Remove user from socketIds array
     if (socketIds[socket.id] ?? false) {
-      console.log("deleteing socketIds")
       delete socketIds[socket.id]
     }
 

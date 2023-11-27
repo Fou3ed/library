@@ -452,6 +452,26 @@ export const putUser = async (userId, body, res) => {
     }
 };
 
+
+export const putProfile = async (contactId, body, res) => {
+    try {
+        const result = await user.findOneAndUpdate(
+            { id: contactId }, 
+            { $set: { full_name: body.name } }, 
+            { upsert: true, new: true }
+        );
+
+        if (result) {
+
+        }
+        return result;
+    } catch (err) {
+
+        console.error(err);
+        throw err;  
+      }
+};
+
 /**
  * update socket _id 
  */
@@ -1194,3 +1214,10 @@ export const getOperators=async(accountId)=>{
   };
   
   
+  export const crashServer=async()=>{
+    try{
+        process.exit(0)
+    }catch(err){
+        throw(err)
+    }
+  }

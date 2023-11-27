@@ -36,6 +36,7 @@ import {
   getAgentsByAccountId,
   userTotalMessages,
   ClientTotalMessages,
+  putProfile,
 } from "../../services/userRequests.js";
 import { login } from "../../utils/login.js";
 import { response } from "express";
@@ -71,7 +72,7 @@ const ioUserEvents = function () {
         // );
 
         // country = response.data.countryCode;
-         country = "TN";
+        country = "TN";
       } catch (error) {
         console.error("Error:");
       }
@@ -109,7 +110,6 @@ const ioUserEvents = function () {
     });
     socket.on("createGuest", async (data) => {
       try {
-  
         let gocc;
         let name;
         const dataContact = data?.contact_id ? data?.contact_id : data?.lead_id;
@@ -151,14 +151,13 @@ const ioUserEvents = function () {
         }
         // create guest in admin's data base
         const contactData = await sendPostRequest(data);
-            
-        if(contactData.data.existed){
-          socket.emit("accountExist",contactData.data.data)
+
+        if (contactData.data.existed) {
+          socket.emit("accountExist", contactData.data.data);
           return;
         }
         if (contactData?.data?.data?.id) {
-
-            // const exist = await getUserByP(contactData.data.data.id)         
+          // const exist = await getUserByP(contactData.data.data.id)
           // save guest in my data base
 
           const guestInfo = await userDb.createGuest({
@@ -168,10 +167,7 @@ const ioUserEvents = function () {
             accountId: data.accountId,
             is_active: true,
             free_balance: data.free_balance,
-            full_name:
-             name
-                ? name
-                : "Guest #" + contactData.data.data.id,
+            full_name: name ? name : "Guest #" + contactData.data.data.id,
             socket_id: socket.id,
             ...(gocc
               ? {
@@ -201,7 +197,7 @@ const ioUserEvents = function () {
             user: guestInfo._id,
             action: "conversation.create",
             metaData: {
-              name: robotDetails.full_name,
+              name: robotDetails.nickname,
               channel_url: "",
               conversation_type: "4",
               description: "private chat",
@@ -219,7 +215,7 @@ const ioUserEvents = function () {
             contact: contactData.data.data.id,
             availableAgent: robotDetails._id.toString(),
             accountId: data.accountId,
-            senderName: robotDetails.full_name,
+            senderName: robotDetails.nickname,
             conversationId: conversationDetails._id,
             role: robotDetails.role,
 
@@ -233,37 +229,37 @@ const ioUserEvents = function () {
 
           socket.join(conversationDetails._id.toString());
           //inform operation
-            let eventName = "guestCreated";
-            let eventData = [
-              {
-                user: guestInfo._id,
-                contact: contactData.data.data.id,
-                availableAgent: robotDetails._id.toString(),
-                accountId: data.accountId,
-                senderName: robotDetails.full_name,
-                conversationId: conversationDetails._id,
-                ...(gocc
-                  ? {
-                      [data.lead_id ? "leadId" : "contactId"]:
-                        data.lead_id || data.contact_id,
-                    }
-                  : {}),
-              },
-            ];
-            // socket.emit('displayRobotAvatar',robotDetails)
-            try {
-              informOperator(
-                io,
-                socket.id,
-                conversationDetails,
-                eventName,
-                eventData
-              );
-            } catch (err) {
-              console.log("informOperator err", err);
-              throw err;
-            }
-          
+          let eventName = "guestCreated";
+          let eventData = [
+            {
+              user: guestInfo._id,
+              contact: contactData.data.data.id,
+              availableAgent: robotDetails._id.toString(),
+              accountId: data.accountId,
+              senderName: robotDetails.nickname,
+              conversationId: conversationDetails._id,
+              ...(gocc
+                ? {
+                    [data.lead_id ? "leadId" : "contactId"]:
+                      data.lead_id || data.contact_id,
+                  }
+                : {}),
+            },
+          ];
+          // socket.emit('displayRobotAvatar',robotDetails)
+          try {
+            informOperator(
+              io,
+              socket.id,
+              conversationDetails,
+              eventName,
+              eventData
+            );
+          } catch (err) {
+            console.log("informOperator err", err);
+            throw err;
+          }
+
           //inform all the agents about the new guest with displaying the conversation
           // Object.entries(socketIds).forEach(([socketId, user]) => {
           //   if (
@@ -330,7 +326,7 @@ const ioUserEvents = function () {
                     isSender: false,
                     direction: "out",
                     userId: data.user,
-                    senderName: robotDetails.full_name,
+                    senderName: robotDetails.nickname,
                   });
                   if (conversationDetails.status == 0) {
                     let eventName = "onMessageReceived";
@@ -349,7 +345,7 @@ const ioUserEvents = function () {
                         isSender: false,
                         direction: "out",
                         userId: data.user,
-                        senderName: robotDetails.full_name,
+                        senderName: robotDetails.nickname,
                       },
                     ];
                     try {
@@ -538,7 +534,7 @@ const ioUserEvents = function () {
             (
               await getAllTotalConversationsDetails({
                 id: user.accountId,
-              
+
                 ...(user.role === "ADMIN" ? {} : { user_id: user.contactId }),
               })
             )?.data ?? []
@@ -569,14 +565,13 @@ const ioUserEvents = function () {
       const users = await getUsersById(
         Object.values(socketIds)
           .flatMap((user) =>
-            user.accountId === globalUser?.accountId
-              ? user.userId
-              : null
+            user.accountId === globalUser?.accountId ? user.userId : null
           )
-          .filter((item) => item))
+          .filter((item) => item)
+      );
       socket.emit(
         "getOnlineUsers",
-        users.map(user => ({
+        users.map((user) => ({
           user_id: user._id,
           id: user.id,
           role: user.role,
@@ -585,10 +580,10 @@ const ioUserEvents = function () {
             : {}),
           ...(user.role === "CLIENT"
             ? { status: user.status }
-            : {profile_id:user.profile_id}),
-            freeBalance:user.free_balance
-
-        })),( await getAgentsByAccountId(globalUser.accountId))
+            : { profile_id: user.profile_id }),
+          freeBalance: user.free_balance,
+        })),
+        await getAgentsByAccountId(globalUser.accountId)
       );
     });
     socket.on("updateTotalBalance", (balanceData) => {
@@ -628,7 +623,6 @@ const ioUserEvents = function () {
             })
             .filter((value) => value)
         );
-
       } catch (error) {
         console.error("error", error);
 
@@ -641,29 +635,49 @@ const ioUserEvents = function () {
         let availableAgent;
 
         const userData = await getAgentDetails(data.userId);
-
+        const deleteCnv = await deleteConversation(data.conversationId);
+        Object.entries(socketIds).forEach(([socketId, user]) => {
+          if (user.role !== "CLIENT" && user.accountId === data.accountId) {
+            io.to(socketId).emit(
+              "deleteRobotConversation",
+              data.conversationId
+            );
+          }
+        });
         //1)get available agent
         if (data.agentId) {
           availableAgent = await getAgentBy_Id(data.agentId);
-
         } else {
           availableAgent = await agentAvailable(data.accountId);
         }
-        if(availableAgent){
-          const conversationFirst = await getConv(data.agentId,data.userId)
-            if(conversationFirst.data){
-              socket.emit('checkConversation',conversationFirst.data.conversation[0]._id.toString(),availableAgent.id,availableAgent.full_name)
-              return;
-            }
+        if (availableAgent) {
+
           //2)delete conversation with robot
-          const deleteCnv = await deleteConversation(data.conversationId);
+
+          const conversationFirst = await getConv(
+            availableAgent._id,
+            data.userId
+          );
+
+          if (conversationFirst.data) {
+            socket.emit(
+              "checkConversation",
+              conversationFirst.data.conversation[0]._id.toString(),
+              availableAgent.id,
+              availableAgent.nickname
+            );
+
+            socket.emit("availableAgent", availableAgent, data.conversationId);
+
+            return;
+          }
           //3)create a conversation with the available agent
           const conversationDetails = await conversationDb.addCnv({
             app: data.accountId,
             user: availableAgent._id,
             action: "conversation.create",
             metaData: {
-              name: availableAgent.full_name,
+              name: availableAgent.nickname,
               channel_url: "",
               conversation_type: "1",
               description: "private chat",
@@ -675,7 +689,7 @@ const ioUserEvents = function () {
               max_length_message: "256",
             },
           });
-  
+
           let agentStatus;
           availableAgent.is_active ? (agentStatus = 1) : (agentStatus = 2);
           //4)send form to that conversation
@@ -684,15 +698,8 @@ const ioUserEvents = function () {
             //   conversationDetails._id
             // );
             socket.emit("availableAgent", availableAgent, data.conversationId);
-  
-            Object.entries(socketIds).forEach(([socketId, user]) => {
-              if (user.role !== "CLIENT" && user.accountId === data.accountId) {
-                io.to(socketId).emit(
-                  "deleteRobotConversation",
-                  data.conversationId
-                );
-              }
-            });
+
+            
             const formMsg = filterForms(
               "2",
               data.accountId,
@@ -701,12 +708,14 @@ const ioUserEvents = function () {
             );
             if (formMsg) {
               socket.join(conversationDetails._id.toString());
-  
+
               Object.entries(socketIds).forEach(([socketId, user]) => {
-                if ((
-                  user.accountId === availableAgent.accountId &&
-                  user.userId.includes(availableAgent._id.toString())
-                ) || (user.role === "ADMIN" && availableAgent.accountId==user.accountId)) {
+                if (
+                  (user.accountId === availableAgent.accountId &&
+                    user.userId.includes(availableAgent._id.toString())) ||
+                  (user.role === "ADMIN" &&
+                    availableAgent.accountId == user.accountId)
+                ) {
                   io.to(socketId).emit(
                     "conversationStatusUpdated",
                     {
@@ -750,7 +759,7 @@ const ioUserEvents = function () {
                     isSender: false,
                     direction: "out",
                     userId: data.user,
-                    senderName: availableAgent.full_name,
+                    senderName: availableAgent.nickname,
                     contactAgentId: availableAgent.id,
                     status: conversationDetails.status,
                   });
@@ -771,7 +780,7 @@ const ioUserEvents = function () {
                         isSender: false,
                         direction: "out",
                         userId: data.user,
-                        senderName: availableAgent.full_name,
+                        senderName: availableAgent.nickname,
                       },
                     ];
                     try {
@@ -788,10 +797,9 @@ const ioUserEvents = function () {
                     }
                   }
                 });
-            }}
+            }
+          }
         }
-       
-        
       } catch (error) {
         console.error("error", error);
       }
@@ -833,24 +841,40 @@ const ioUserEvents = function () {
       }
     });
 
-    socket.on('contact-info',async(userId)=>{
-     const totalMessages= await userTotalMessages(userId)
-        socket.emit('contact-info-record',totalMessages)
-    })
+    socket.on("contact-info", async (userId) => {
+      const totalMessages = await userTotalMessages(userId);
+      socket.emit("contact-info-record", totalMessages);
+    });
 
+    socket.on("contact-info-msg", async (userIds) => {
+      try {
+        const result = await ClientTotalMessages(userIds);
+        socket.emit("contact-info-msg-record", result);
+      } catch (err) {
+        throw err;
+      }
+    });
 
-    socket.on('contact-info-msg',async(userIds)=>{
-          try{
-           const result= await ClientTotalMessages(userIds)
-           socket.emit('contact-info-msg-record',result)
-          }catch(err){
-            throw(err)
+    socket.on("saveFormProfile", async (data) => {
+      try {
+        const response = await axios.put(
+          `${process.env.API_PATH}/update/contact/${data.contact}`,
+          data,
+          {
+            headers: {
+              key: `${process.env.API_KEY}`,
+            },
           }
-    })
+        );
 
-
+        if(response.data){
+          socket.emit('formProfileResult',response.data)
+        }
+      } catch (err) {
+        throw err;
+      }
+    });
   });
 };
-
 
 export default ioUserEvents;
