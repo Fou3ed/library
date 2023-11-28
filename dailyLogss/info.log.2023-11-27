@@ -521,3 +521,5 @@
 {"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"36\",\"user\":\"6564c23b27afa9968e32cfc9\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"6564c23b27afa9968e32cfce\"}} , socket_id : G_XWyStwv0zj9k97AAE1 ,token :\"\" \" , date: 27/11/2023 17:13:20\"   \n "}
 {"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"36\",\"user\":\"6564c23b27afa9968e32cfc9\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"6564c23b27afa9968e32cfce\"}} , socket_id : DMvTovGOOe1Pe1SeAAFJ ,token :\"\" \" , date: 27/11/2023 17:13:20\"   \n "}
 {"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"36\",\"user\":\"6564c23b27afa9968e32cfc9\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"6564c23b27afa9968e32cfce\"}} , socket_id : DMvTovGOOe1Pe1SeAAFJ ,token :\"\" \" , date: 27/11/2023 17:13:20\"   \n "}
+{"level":"info","message":"server is running smoothly"}
+{"level":"info","message":"ws is running smoothly"}

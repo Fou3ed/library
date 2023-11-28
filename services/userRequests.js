@@ -7,8 +7,9 @@ import {
 } from '../dependencies.js'
 
 import logs from '../models/logs/logsMethods.js'
-import { clientBalance } from '../models/connection/connectionEvents.js'
+import { clientBalance, socketIds } from '../models/connection/connectionEvents.js'
 import mongoose from 'mongoose'
+import { io } from "../index.js";
 import axios from 'axios'
 const log = new logs()
 const element = 9
@@ -457,7 +458,8 @@ export const putProfile = async (contactId, body, res) => {
     try {
         const result = await user.findOneAndUpdate(
             { id: contactId }, 
-            { $set: { full_name: body.name } }, 
+            { $set: { full_name: body.name,
+                metadata:body } }, 
             { upsert: true, new: true }
         );
 
@@ -1218,6 +1220,26 @@ export const getOperators=async(accountId)=>{
     try{
         process.exit(0)
     }catch(err){
+        throw(err)
+    }
+  }
+
+  export const newTicket=async(req,res)=>{
+    try{
+        Object.entries(socketIds).forEach(([socketId, socketUser]) => {
+            if (socketUser.role == "ADMIN" && socketUser.accountId==req.body.account_id) {
+                io.to(socketId).emit("new_ticket", req.body);
+            }
+        });
+        res.status(200).send({
+            'message': 'success'
+        })
+        
+    }catch(err){
+        res.status(400).send({
+            'message': 'error'
+        })
+        
         throw(err)
     }
   }

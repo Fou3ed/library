@@ -16,13 +16,10 @@ import {
   deleteConversation,
   getAllConversations,
   getAllTotalConversationsDetails,
-  getCnvById,
   getConv,
-  getConvBetweenUserAndAgent,
   getUserConversationsCounts,
 } from "../../services/conversationsRequests.js";
 import reviewBalance from "../../utils/balance.js";
-import sendEmail from "../../utils/nodeMailer.js";
 import { clientBalance } from "../connection/connectionEvents.js";
 import { informOperator } from "../../utils/informOperator.js";
 import { apiKeys } from "../../utils/getApiKeys.js";
@@ -31,7 +28,6 @@ import {
   getAgentByAccountId,
   getAgentDetails,
   getAgentBy_Id,
-  getUserByP,
   getUsersById,
   getAgentsByAccountId,
   userTotalMessages,
@@ -39,7 +35,6 @@ import {
   putProfile,
 } from "../../services/userRequests.js";
 import { login } from "../../utils/login.js";
-import { response } from "express";
 const ioUserEvents = function () {
   io.on("connection", function (socket) {
     // onUserLogin : Fired when the user log in.
@@ -857,7 +852,7 @@ const ioUserEvents = function () {
 
     socket.on("saveFormProfile", async (data) => {
       try {
-        const response = await axios.put(
+        const response = await axios.post(
           `${process.env.API_PATH}/update/contact/${data.contact}`,
           data,
           {
@@ -868,12 +863,15 @@ const ioUserEvents = function () {
         );
 
         if(response.data){
+        await   putProfile(data.contact,data)
           socket.emit('formProfileResult',response.data)
         }
       } catch (err) {
         throw err;
       }
     });
+
+    
   });
 };
 

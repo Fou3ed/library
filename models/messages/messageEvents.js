@@ -98,64 +98,64 @@ const ioMessageEvents = function () {
               ["AGENT", "ADMIN"].includes(sender.role) &&
               conversationData.owner_id == sender.accountId)
           ) {
-            if (!exist) {
-              const conversationData = await getCnvById(
-                data.metaData.conversation_id
-              );
-              const clientIdObject = conversationData.members.find(
-                (member) => member.user_id.toString() !== process.env.ROBOT_ID
-              );  
-              const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(senderId,clientIdObject.user_id.toString())
-                  if((conversationBetweenAgentAndClient.length==0)){
-                    await addMember({
-                      user_id: senderId,
-                      conversation_id: data.metaData.conversation_id,
-                    });
-                    await deleteRobot(
-                      data.metaData.conversation_id,
-                      process.env.ROBOT_ID
-                    );
-                    const sentId = [];
-                    conversationData.members.forEach((member) => {
-                      sentId.push(member.user_id.toString());
-                    });
-                    Object.entries(socketIds).forEach(([socketId, user]) => {
-                      if (user.accountId === sender.accountId) {
-                        if (user.role === "ADMIN" || sentId.includes(user.userId)) {
-                          sentId.push(socketId);
-                          if (socketId === socket.id) {
-                            socket.emit(
-                              "conversationStatusUpdated",
-                              conversationData,
-                              1
-                            );
-                          } else {
-                            io.to(socketId).emit(
-                              "conversationStatusUpdated",
-                              conversationData,
-                              1,
-                              "robotUpdated"
-                            );
-                          }
-                        } else {
-                          io.to(socketId).emit(
-                            "robotConversationUpdated",
-                            conversationData._id
-                          );
-                        }
-                      }
-                    });
-                  }else {
-                      const updatedMessages =  await  updateAllMessages(data.metaData.conversation_id,conversationBetweenAgentAndClient[0]._id)
-                      const deletedCnv=await deleteConversation(data.metaData.conversation_id)
-                      data.metaData.conversation_id=conversationBetweenAgentAndClient[0]._id.toString()
-                      const savedMessage = await msgDb.addMsg(data);
-                      io.in(conversationBetweenAgentAndClient[0]._id.toString()).emit("mergeConversation",{messagesIds:updatedMessages,deletedConversationId:deletedCnv._id,newConversation:conversationBetweenAgentAndClient[0]._id})                    
-                  }
-                  return;
-            }
+            // if (!exist) {
+            //   const conversationData = await getCnvById(
+            //     data.metaData.conversation_id
+            //   );
+            //   const clientIdObject = conversationData.members.find(
+            //     (member) => member.user_id.toString() !== process.env.ROBOT_ID
+            //   );  
+            //   const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(senderId,clientIdObject.user_id.toString())
+            //       if((conversationBetweenAgentAndClient.length==0)){
+            //         await addMember({
+            //           user_id: senderId,
+            //           conversation_id: data.metaData.conversation_id,
+            //         });
+            //         await deleteRobot(
+            //           data.metaData.conversation_id,
+            //           process.env.ROBOT_ID
+            //         );
+            //         const sentId = [];
+            //         conversationData.members.forEach((member) => {
+            //           sentId.push(member.user_id.toString());
+            //         });
+            //         Object.entries(socketIds).forEach(([socketId, user]) => {
+            //           if (user.accountId === sender.accountId) {
+            //             if (user.role === "ADMIN" || sentId.includes(user.userId)) {
+            //               sentId.push(socketId);
+            //               if (socketId === socket.id) {
+            //                 socket.emit(
+            //                   "conversationStatusUpdated",
+            //                   conversationData,
+            //                   1
+            //                 );
+            //               } else {
+            //                 io.to(socketId).emit(
+            //                   "conversationStatusUpdated",
+            //                   conversationData,
+            //                   1,
+            //                   "robotUpdated"
+            //                 );
+            //               }
+            //             } else {
+            //               io.to(socketId).emit(
+            //                 "robotConversationUpdated",
+            //                 conversationData._id
+            //               );
+            //             }
+            //           }
+            //         });
+            //       }else {
+            //           const updatedMessages =  await  updateAllMessages(data.metaData.conversation_id,conversationBetweenAgentAndClient[0]._id)
+            //           const deletedCnv=await deleteConversation(data.metaData.conversation_id)
+            //           data.metaData.conversation_id=conversationBetweenAgentAndClient[0]._id.toString()
+            //           const savedMessage = await msgDb.addMsg(data);
+            //           io.in(conversationBetweenAgentAndClient[0]._id.toString()).emit("mergeConversation",{messagesIds:updatedMessages,deletedConversationId:deletedCnv._id,newConversation:conversationBetweenAgentAndClient[0]._id})                    
+            //       }
+            //       return;
+            // }
             const userBalance = clientBalance[senderId];
-            if (userBalance && data?.metaData.type === "MSG") {
+            if (userBalance && data?.metaData.type === "MSG" && conversationData.conversation_type !=4) {
               if (Number(userBalance?.free_balance) > 0)   {
                 data.metaData.paid = false;
                 const savedMessage = await msgDb.addMsg(data);
@@ -177,7 +177,9 @@ const ioMessageEvents = function () {
                   agent_id:agentId,
                   profile_id:profile_id,
                   user_data:memberIds.find(member=>member._id ==agentId),
-                  client_id:client_id
+                  client_id:client_id,
+                  conversationType:conversationData.conversation_type
+
                 };
                 if (data.metaData.type === "log") {
                   addLogs(data.logData);
@@ -261,6 +263,8 @@ const ioMessageEvents = function () {
 
                   status: 1,
                   agent_id:agentId,
+                  conversationType:conversationData.conversation_type
+
                 };
                 if (data.metaData.type === "log") {
                   addLogs(data.logData);
@@ -342,7 +346,9 @@ const ioMessageEvents = function () {
                 status: 1,
                 agent_id:agentId,
                 user_data:memberIds.find(member=>member._id.toString() == data.user),
-                client_id:client_id
+                client_id:client_id,
+                conversationType:conversationData.conversation_type
+                
 
               };
        
@@ -361,6 +367,7 @@ const ioMessageEvents = function () {
                   direction: "in",
                   conversationName: conversationData.name,
                   temporary_id: data.metaData?.temporary_id,
+                  
                 });
 
                 socket
@@ -648,6 +655,8 @@ const ioMessageEvents = function () {
                     type: savedMessage.type,
                     status: savedMessage.status,
                     paid: false,
+                    conversationType:conversationData.conversation_type
+
                   };
 
                   io.in(conversationData._id.toString()).emit(
@@ -772,6 +781,8 @@ const ioMessageEvents = function () {
                         uuid: data.uuid,
                         type: savedMessage.type,
                         paid: false,
+                        conversationType:conversationData.conversation_type
+
                       };
 
                       io.in(res._id.toString()).emit("onMessageReceived", {
@@ -1057,6 +1068,7 @@ const ioMessageEvents = function () {
                 senderName: data?.senderName,
                 date: savedMessage.created_at,
                 type: savedMessage.type,
+                
 
               };
               //if the purchase been made in a conversation
