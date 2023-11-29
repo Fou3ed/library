@@ -456,17 +456,19 @@ export const putUser = async (userId, body, res) => {
 
 export const putProfile = async (contactId, body, res) => {
     try {
-        const result = await user.findOneAndUpdate(
-            { id: contactId }, 
-            { $set: { full_name: body.name,
-                metadata:body } }, 
-            { upsert: true, new: true }
-        );
-
-        if (result) {
-
+        console.log(body.name)
+        if(body.firstname !==null ){
+            const result = await user.findOneAndUpdate(
+                { id: contactId }, 
+                { $set: { full_name: body.name,
+                    metadata:body } }, 
+                { upsert: true, new: true }
+            );
+    
+         
+            return result;
         }
-        return result;
+       
     } catch (err) {
 
         console.error(err);
