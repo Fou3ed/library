@@ -6,54 +6,9 @@
     "auditLog": "dailyLogss\\.cf447a0a717103c436fe1cdfaecdcfa007f9e17e-audit.json",
     "files": [
         {
-            "date": 1700122891159,
-            "name": "dailyLogss\\info.log.2023-11-16",
-            "hash": "93a18ca0b7881c4ce73022896d22f4b0da1a3ab54118048b63e84491e0f13928"
-        },
-        {
-            "date": 1700213920654,
-            "name": "dailyLogss\\info.log.2023-11-17",
-            "hash": "b95ca90a331c124a48b85e752f9ef34e0a47b72d7d4a4f42c3b982a4b91f83fc"
-        },
-        {
-            "date": 1700468539014,
-            "name": "dailyLogss\\info.log.2023-11-20",
-            "hash": "ce661b2135a6ee577604b26be0a785bbe1df879dd5fe01ab40b1d73ee8cede19"
-        },
-        {
-            "date": 1700556248925,
-            "name": "dailyLogss\\info.log.2023-11-21",
-            "hash": "49ede218ee66279b2d9af3789d433cba691858a3c628f8784d4fcd2b3eaac680"
-        },
-        {
-            "date": 1700641661352,
-            "name": "dailyLogss\\info.log.2023-11-22",
-            "hash": "e360314c996b7c79af4c4f947153992342eb11dd7e2b90d8b4c8af36fbc21378"
-        },
-        {
-            "date": 1700733881091,
-            "name": "dailyLogss\\info.log.2023-11-23",
-            "hash": "4d20edae3b99ec29d807b299fd23ea2c37c6a7361ff62297415c791abe45017f"
-        },
-        {
-            "date": 1700820656122,
-            "name": "dailyLogss\\info.log.2023-11-24",
-            "hash": "c73ffd14ab028062f31a64d467915cb2b09b06047c9b42d63c9d71ab551937e7"
-        },
-        {
-            "date": 1701078380308,
-            "name": "dailyLogss\\info.log.2023-11-27",
-            "hash": "f267191495042e65f0c9704e1efe99797c0c98db3cba96763d76d01bf1bae5b0"
-        },
-        {
-            "date": 1701170425977,
-            "name": "dailyLogss\\info.log.2023-11-28",
-            "hash": "bcf57886c4e83a55ae497d782c1cadf38bbb332d7780ad8b5650a4a3dffceabc"
-        },
-        {
-            "date": 1701252825989,
-            "name": "dailyLogss\\info.log.2023-11-29",
-            "hash": "15be80ef0522deddb0e6cbb1a1dd075e6bba54427405b701a34e95f3a3536dca"
+            "date": 1701433307246,
+            "name": "dailyLogss\\info.log.2023-12-01",
+            "hash": "1c4030fe2444d7df4f3002f7fcadff1e6bf277c69e25b32ff86e15b56c3b0197"
         }
     ],
     "hashType": "sha256"

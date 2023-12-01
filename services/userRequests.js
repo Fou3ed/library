@@ -342,7 +342,7 @@ export const getAgentDetails=async (id,res)=>{
 
 
 export const getUsersByP=async (id,type,res)=>{
-    try {   
+    try {
         const result = await user.find({id:id,...(type ? {role: {$ne: "CLIENT"} }: {role:"CLIENT"}) });
         if (result) {
           return result
@@ -351,7 +351,7 @@ export const getUsersByP=async (id,type,res)=>{
         }
     } catch (err) {
         console.log(err)
-        logger(err)   
+        logger(err)
     }
 }
 
@@ -362,31 +362,31 @@ export const getUsersByP=async (id,type,res)=>{
  * @body  nickname,full_name,profile_url,access_token,role,is_active,is_online,locale,last_seen_at,metadata
  */
 export const postUser = async (req, res) => {
-        try {  
+        try {
             if(req.body.id){
-                const result = await user.create(req.body);
-                if (result) {
-                    let dataLog = {
-                        "app_id": "63ce8575037d76527a59a655",
-                        "user_id": "6390b2efdfb49a27e7e3c0b9",
-                        "socket_id": "req.body.socket_id",
-                        "action": "Create user ",
-                        "element": element,
-                        "element_id": "1",
-                        "ip_address": "192.168.1.1"
-                    }
-                    log.addLog(dataLog)
-                    res.status(201).json({
-                        message: "success",
-                        date: result
-                    })
-                } else {
-                    res.status(400).json({
-                        "error": 'failed to create new user'
-                    })
+            const result = await user.create(req.body);
+            if (result) {
+                let dataLog = {
+                    "app_id": "63ce8575037d76527a59a655",
+                    "user_id": "6390b2efdfb49a27e7e3c0b9",
+                    "socket_id": "req.body.socket_id",
+                    "action": "Create user ",
+                    "element": element,
+                    "element_id": "1",
+                    "ip_address": "192.168.1.1"
                 }
+                log.addLog(dataLog)
+                res.status(201).json({
+                    message: "success",
+                    date: result
+                })
+            } else {
+                res.status(400).json({
+                    "error": 'failed to create new user'
+                })
             }
-           
+        }
+
         } catch (err) {
             console.log("err", err)
 
@@ -426,8 +426,8 @@ export const putUser = async (userId, body, res) => {
             updateFields.nickname = firstName;
             updateFields.full_name = `${firstName} ${lastName}`;
         }
-        updateFields.status=1
-
+            updateFields.status=1
+        
         const result = await user.findByIdAndUpdate(
             userId, {
                 $set: updateFields
@@ -1085,7 +1085,7 @@ export const getOperators=async(accountId)=>{
     }
   }
 
-
+  
   export const checkLoginUser =async(data)=>{
     try{
         const search=await user.find({
@@ -1099,7 +1099,7 @@ export const getOperators=async(accountId)=>{
         console.error('Error login user:', error);
     }
   }
-   
+  
   export const userTotalMessages = async (userId) => {
     try {
       const result = await user.aggregate([

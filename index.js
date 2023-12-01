@@ -10,7 +10,6 @@ import {
   instrument,
   cs
 } from "./dependencies.js";
-// import path from 'path'
 dotenv.config();
 import {readFileSync} from 'fs'
 import ioConversationEvents from './models/conversations/conversationEvents.js';
@@ -29,8 +28,8 @@ const app = express();
 const httpServer = cs(app);
 import bodyParser from "body-parser";
 const wsServer = cs({
-  // key: readFileSync(process.env.KEY_PATH),
-  // cert: readFileSync(process.env.CERT_PATH)
+  //  key: readFileSync(process.env.KEY_PATH),
+  //  cert: readFileSync(process.env.CERT_PATH)
 });
 
 app.use((req, res, next) => {
@@ -159,7 +158,7 @@ dbServer();
 /* It's listening to the port number that is stored in the .env file. */
 httpServer.listen(process.env.HTTP_PORT,'0.0.0.0', () => {
   console.log(`server up and running on port : ${process.env.HTTP_PORT}`);
-  logger.info("server is running smoothly");
+  logger.info(`server is running smoothly : ${Date.now()}`);
 });
 
 /* It's listening to the port number that is stored in the .env file. */

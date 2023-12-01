@@ -1,0 +1,100 @@
+{"level":"info","message":"server is running smoothly : 1701423881515"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : rBe8BrNQg0V9133_AAAB ,token :\"\" \" , date: 01/12/2023 10:44:39\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : rBe8BrNQg0V9133_AAAB ,token :\"\" \" , date: 01/12/2023 10:44:39\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : rBe8BrNQg0V9133_AAAB ,token :\"\" \" , date: 01/12/2023 10:44:39\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : rBe8BrNQg0V9133_AAAB ,token :\"\" \" , date: 01/12/2023 10:44:39\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701424134963"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424138756"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424144707"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424158055"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424166647"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424170439"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424194809"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701424198543"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6568cad05d0a6d59e9567bb4\",\"message\":\"6569ac68fc0336bc04edcb99\"}} , socket_id : emh9n0FedWswEmdiAAAB ,token :\"\" \" , date: 01/12/2023 10:49:56\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701424271176"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\",\"message\":\"6569acbf04c767ffdafbb107\"}} , socket_id : 5VbuzfPBAcrbsIpoAAAD ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : DVXFFr1E-TIUxqUBAAAN ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"36\",\"user\":\"6568ca655d0a6d59e9567a72\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"6568caf45d0a6d59e9567bce\"}} , socket_id : DVXFFr1E-TIUxqUBAAAN ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: createGuest ,data: {\"language\":\"en-GB\",\"browser\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0\",\"platform\":\"Win32\",\"accountId\":\"36\",\"free_balance\":3} , socket_id : 2VHzvrhonlZB_gc0AABZ ,token :\"taw nzidouha , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b42104c767ffdafbb3d5\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b42104c767ffdafbb3da\",\"message\":\"6569b42204c767ffdafbb3e2\"}} , socket_id : 2VHzvrhonlZB_gc0AABZ ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b42104c767ffdafbb3d5\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b42104c767ffdafbb3da\",\"message\":\"6569b43604c767ffdafbb456\"}} , socket_id : 2VHzvrhonlZB_gc0AABZ ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b42104c767ffdafbb3d5\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b45e04c767ffdafbb480\",\"message\":\"6569b45e04c767ffdafbb488\"}} , socket_id : wVhZsn49ylrWvGbLAABb ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b42104c767ffdafbb3d5\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b48d04c767ffdafbb4a3\",\"message\":\"6569b48e04c767ffdafbb4ab\"}} , socket_id : wVhZsn49ylrWvGbLAABb ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: createGuest ,data: {\"language\":\"en-GB\",\"browser\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0\",\"platform\":\"Win32\",\"accountId\":\"36\",\"free_balance\":3} , socket_id : 5_P810e9TE-xgNwJAABd ,token :\"taw nzidouha , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b4bf04c767ffdafbb4bb\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b4c004c767ffdafbb4c0\",\"message\":\"6569b4c004c767ffdafbb4c8\"}} , socket_id : 5_P810e9TE-xgNwJAABd ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b4bf04c767ffdafbb4bb\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b4c004c767ffdafbb4c0\",\"message\":\"6569b4da04c767ffdafbb540\"}} , socket_id : 5_P810e9TE-xgNwJAABd ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: createGuest ,data: {\"language\":\"en-GB\",\"browser\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0\",\"platform\":\"Win32\",\"accountId\":\"36\",\"free_balance\":3} , socket_id : eDT3Hz88x3pkiti0AABj ,token :\"taw nzidouha , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b51004c767ffdafbb579\",\"message\":\"6569b51004c767ffdafbb581\"}} , socket_id : eDT3Hz88x3pkiti0AABj ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b51004c767ffdafbb579\",\"message\":\"6569b95804c767ffdafbb747\"}} , socket_id : wP5CvOdH3IB2lWdpAACF ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569b9b104c767ffdafbb75f\",\"message\":\"6569b9b204c767ffdafbb767\"}} , socket_id : wP5CvOdH3IB2lWdpAACF ,token :\"\" \" , date: 01/12/2023 10:51:09\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701427746463"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba2a167551872b8ba4cd\",\"message\":\"6569ba2a167551872b8ba4d5\"}} , socket_id : tI_BUg2JrtDKAHEDAAAD ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : uzQHLsj0Mv4UIx7HAAAF ,token :\"taw nzidouha , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba47167551872b8ba515\",\"message\":\"6569ba48167551872b8ba51d\"}} , socket_id : bNYnjmINpAOBkGJxAAAH ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569b51004c767ffdafbb574\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba49167551872b8ba52f\",\"message\":\"6569ba49167551872b8ba537\"}} , socket_id : bNYnjmINpAOBkGJxAAAH ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: createGuest ,data: {\"language\":\"en-GB\",\"browser\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0\",\"platform\":\"Win32\",\"accountId\":\"36\",\"free_balance\":3} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"taw nzidouha , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569ba64167551872b8ba575\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba64167551872b8ba57a\",\"message\":\"6569ba64167551872b8ba582\"}} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569ba64167551872b8ba575\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba64167551872b8ba57a\",\"message\":\"6569ba80167551872b8ba62e\"}} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569ba64167551872b8ba575\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba82167551872b8ba646\",\"message\":\"6569ba82167551872b8ba64e\"}} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569ba64167551872b8ba575\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba85167551872b8ba669\",\"message\":\"6569ba86167551872b8ba672\"}} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"6569ba64167551872b8ba575\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"6569ba89167551872b8ba684\",\"message\":\"6569ba89167551872b8ba68c\"}} , socket_id : Zar7oI8CfwZQ8fQPAAAL ,token :\"\" \" , date: 01/12/2023 11:49:03\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701428578547"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432164790"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432246406"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432254227"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432280964"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432322290"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432326957"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432357666"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432451737"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432466056"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432497344"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432500914"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432554550"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432566228"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432579706"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432596218"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432601589"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432608687"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432613882"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432661310"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432666063"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701432677251"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701433307357"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701433334883"}
+{"level":"info","message":"ws is running smoothly"}

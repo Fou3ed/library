@@ -67,7 +67,7 @@ const ioUserEvents = function () {
         // );
 
         // country = response.data.countryCode;
-        country = "TN";
+         country = "TN";
       } catch (error) {
         console.error("Error:");
       }
@@ -146,13 +146,14 @@ const ioUserEvents = function () {
         }
         // create guest in admin's data base
         const contactData = await sendPostRequest(data);
-
+            
         if (contactData.data.existed) {
           socket.emit("accountExist", contactData.data.data);
           return;
         }
         if (contactData?.data?.data?.id) {
-          // const exist = await getUserByP(contactData.data.data.id)
+
+            // const exist = await getUserByP(contactData.data.data.id)         
           // save guest in my data base
 
           const guestInfo = await userDb.createGuest({
@@ -224,37 +225,37 @@ const ioUserEvents = function () {
 
           socket.join(conversationDetails._id.toString());
           //inform operation
-          let eventName = "guestCreated";
-          let eventData = [
-            {
-              user: guestInfo._id,
-              contact: contactData.data.data.id,
-              availableAgent: robotDetails._id.toString(),
-              accountId: data.accountId,
-              senderName: robotDetails.nickname,
-              conversationId: conversationDetails._id,
-              ...(gocc
-                ? {
-                    [data.lead_id ? "leadId" : "contactId"]:
-                      data.lead_id || data.contact_id,
-                  }
-                : {}),
-            },
-          ];
-          // socket.emit('displayRobotAvatar',robotDetails)
-          try {
-            informOperator(
-              io,
-              socket.id,
-              conversationDetails,
-              eventName,
-              eventData
-            );
-          } catch (err) {
-            console.log("informOperator err", err);
-            throw err;
-          }
-
+            let eventName = "guestCreated";
+            let eventData = [
+              {
+                user: guestInfo._id,
+                contact: contactData.data.data.id,
+                availableAgent: robotDetails._id.toString(),
+                accountId: data.accountId,
+                senderName: robotDetails.nickname,
+                conversationId: conversationDetails._id,
+                ...(gocc
+                  ? {
+                      [data.lead_id ? "leadId" : "contactId"]:
+                        data.lead_id || data.contact_id,
+                    }
+                  : {}),
+              },
+            ];
+            // socket.emit('displayRobotAvatar',robotDetails)
+            try {
+              informOperator(
+                io,
+                socket.id,
+                conversationDetails,
+                eventName,
+                eventData
+              );
+            } catch (err) {
+              console.log("informOperator err", err);
+              throw err;
+            }
+          
           //inform all the agents about the new guest with displaying the conversation
           // Object.entries(socketIds).forEach(([socketId, user]) => {
           //   if (
@@ -529,7 +530,7 @@ const ioUserEvents = function () {
             (
               await getAllTotalConversationsDetails({
                 id: user.accountId,
-
+              
                 ...(user.role === "ADMIN" ? {} : { user_id: user.contactId }),
               })
             )?.data ?? []
@@ -573,7 +574,7 @@ const ioUserEvents = function () {
           ...(clientBalance[user._id]
             ? { balance: clientBalance[user._id].balance }
             : {}),
-          ...(user.role === "CLIENT"
+            ...(user.role === "CLIENT"
             ? { status: user.status }
             : { profile_id: user.profile_id }),
           freeBalance: user.free_balance,
@@ -646,7 +647,7 @@ const ioUserEvents = function () {
           availableAgent = await agentAvailable(data.accountId);
         }
         if (availableAgent) {
-
+         
           //2)delete conversation with robot
 
           const conversationFirst = await getConv(
@@ -684,7 +685,7 @@ const ioUserEvents = function () {
               max_length_message: "256",
             },
           });
-
+  
           let agentStatus;
           availableAgent.is_active ? (agentStatus = 1) : (agentStatus = 2);
           //4)send form to that conversation
@@ -693,7 +694,7 @@ const ioUserEvents = function () {
             //   conversationDetails._id
             // );
             socket.emit("availableAgent", availableAgent, data.conversationId);
-
+  
             
             const formMsg = filterForms(
               "2",
@@ -703,7 +704,7 @@ const ioUserEvents = function () {
             );
             if (formMsg) {
               socket.join(conversationDetails._id.toString());
-
+  
               Object.entries(socketIds).forEach(([socketId, user]) => {
                 if (
                   (user.accountId === availableAgent.accountId &&
@@ -792,9 +793,9 @@ const ioUserEvents = function () {
                     }
                   }
                 });
+              }
             }
-          }
-        }
+          }        
       } catch (error) {
         console.error("error", error);
       }
@@ -871,7 +872,7 @@ const ioUserEvents = function () {
       }
     });
 
-    
+
   });
 };
 

@@ -17,32 +17,28 @@ import {
   putBuyBalance,
   putUserFreeBalance,
   getUsersById,
-  
+
 } from "../../services/userRequests.js";
 import {
   findMessageWithSiblings,
   getConversationMessages,
   getSocketConversationMessages,
   putLinkMessage,
-  updateAllMessages,
 } from "../../services/messageRequests.js";
-import { addMember } from "../../services/convMembersRequests.js";
 import {
-  deleteRobot,
   getCnvById,
   getConversationById,
   getConversationMemberIds,
-  getConvBetweenUserAndAgent,
   deleteConversation,
   putCnvStatus,
-  } from "../../services/conversationsRequests.js";
+} from "../../services/conversationsRequests.js";
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
 import message from "../messages/messageModel.js";
 import process from "process";
 import { dotenv } from "../../dependencies.js";
 import { informOperator } from "../../utils/informOperator.js";
-import addLogs from "../../utils/addLogs.js";
+// import addLogs from "../../utils/addLogs.js";
 const ioMessageEvents = function () {
   dotenv.config();
   io.on("connection",async  function (socket) {
@@ -88,10 +84,10 @@ const ioMessageEvents = function () {
               profile_id=member.profile_id
               break;
             }else if(member.role==="CLIENT"){
-                client_id=member._id
-            }
+              client_id=member._id
           }
-          const exist = conversationData.members.includes(senderId);  
+          }
+          const exist = conversationData.members.includes(senderId);
           if (
             exist ||
             (conversationData.conversation_type == "4" &&
@@ -181,9 +177,9 @@ const ioMessageEvents = function () {
                   conversationType:conversationData.conversation_type
 
                 };
-                if (data.metaData.type === "log") {
-                  addLogs(data.logData);
-                }
+                // if (data.metaData.type === "log") {
+                //   addLogs(data.logData);
+                // }
                 if (
                   data.metaData.type !== "log" ||
                   data.logData?.action !== "focus" || data.metaData.type !=="bloc"
@@ -266,9 +262,9 @@ const ioMessageEvents = function () {
                   conversationType:conversationData.conversation_type
 
                 };
-                if (data.metaData.type === "log") {
-                  addLogs(data.logData);
-                }
+                // if (data.metaData.type === "log") {
+                //   addLogs(data.logData);
+                // }
                 if (
                   data.metaData.type !== "log" ||
                   data.logData?.action !== "focus" || data.metaData.type !=="bloc"
@@ -348,13 +344,13 @@ const ioMessageEvents = function () {
                 user_data:memberIds.find(member=>member._id.toString() == data.user),
                 client_id:client_id,
                 conversationType:conversationData.conversation_type
-                
+
 
               };
-       
-              if (data.metaData.type === "log") {
-                addLogs(data.logData);
-              }
+
+              // if (data.metaData.type === "log") {
+              //   addLogs(data.logData);
+              // }
               if (
                 data.metaData.type !== "log" ||
                 data.logData?.action !== "focus"
@@ -367,7 +363,7 @@ const ioMessageEvents = function () {
                   direction: "in",
                   conversationName: conversationData.name,
                   temporary_id: data.metaData?.temporary_id,
-                  
+
                 });
 
                 socket
@@ -384,7 +380,7 @@ const ioMessageEvents = function () {
                     userBalance: userBalance?.balance,
                     userFreeBalance:userBalance?.free_balance
                   });
-                if (conversationData.status !== 1 ) {
+                 if (conversationData.status !== 1 ) {
                   let eventName = "onMessageReceived";
                   let eventData = [
                     {
@@ -470,58 +466,47 @@ const ioMessageEvents = function () {
     // onMessageUpdated : Fired when the message data updated.
     socket.on("updateMessage", async (data) => {
       try {
-
-        const sender = socketIds[socket.id];
+          const conversationData = await conversationAct.getCnv(data.metaData.conversation);
+          const sender = socketIds[socket.id];
+          
+          const userBalance = clientBalance[sender.userId];
         
-        const userBalance = clientBalance[sender.userId];
-
-        if (userBalance && ((Number(userBalance.free_balance) > 0 && userBalance.free_balance--) || (Number(userBalance.balance) > 0 && userBalance.balance--))) {
-          await putUserBalance(userBalance.user, userBalance.balance, userBalance.free_balance);
-        
-        
-        await msgDb
-          .putMsg(data.metaData.message, data.metaData.fields.content)
-          .then(async (res) => {
-            socket.to(data.metaData.conversation).emit("onMessageUpdated", {res:res,userBalance:userBalance?.balance});
-            socket.emit("onMessageUpdated", {res:res,userBalance:userBalance?.balance});
-            const conversationData = await conversationAct.getCnv(
-              data.metaData.conversation
-            );
-            if (conversationData.status !== 1) {
-              let eventName = "onMessageUpdated";
-              let eventData = [{res:res,userBalance:userBalance?.balance}];
-              try {
-                informOperator(
-                  io,
-                  socket.id,
-                  conversationData,
-                  eventName,
-                  eventData
-                );
-              } catch (err) {
-                console.log("informOperator err", err);
-                throw err;
+          if (userBalance && ((Number(userBalance.free_balance) > 0 && (conversationData.conversation_type != 4 ? userBalance.free_balance-- : true)) || (Number(userBalance.balance) > 0 &&(conversationData.conversation_type != 4 ? userBalance.balance-- : true)))) {
+              
+              // Decrement balances only if conversation type is not 4
+              if (conversationData.conversation_type !== 4) {
+                  await putUserBalance(userBalance.user, userBalance.balance, userBalance.free_balance);
               }
-            }
-          });
-        logger.info(
-          `Event: onMessageUpdated ,data: ${JSON.stringify(
-            data
-          )} , socket_id : ${socket.id
-          } ,token :"" " , date: ${fullDate}"   \n `
-        );
-        }else {
-          console.log("update impossible no balance")
-        }
+  
+              await msgDb.putMsg(data.metaData.message, data.metaData.fields.content)
+                  .then(async (res) => {
+                      socket.to(data.metaData.conversation).emit("onMessageUpdated", { res: res, userBalance: userBalance?.balance });
+                      socket.emit("onMessageUpdated", { res: res, userBalance: userBalance?.balance, conversationType: conversationData.conversation_type });
+  
+                      if (conversationData.status !== 1) {
+                          let eventName = "onMessageUpdated";
+                          let eventData = [{ res: res, userBalance: userBalance?.balance }];
+                          try {
+                              informOperator(io, socket.id, conversationData, eventName, eventData);
+                          } catch (err) {
+                              console.log("informOperator err", err);
+                              throw err;
+                          }
+                      }
+                  });
+  
+              logger.info(
+                  `Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id}, token :"", date: ${fullDate}" \n `
+              );
+          } else {
+              console.log("Update impossible, no balance");
+          }
       } catch (err) {
-        logger.error(
-          `Event: onMessageUpdated ,data: ${JSON.stringify(
-            data
-          )} , socket_id : ${socket.id
-          } ,token :"" " ,error ${err}, date: ${fullDate} "   \n `
-        );
+          logger.error(
+              `Event: onMessageUpdated ,data: ${JSON.stringify(data)} , socket_id : ${socket.id}, token :"", error ${err}, date: ${fullDate}" \n `
+          );
       }
-    });
+  });
 
     // onMessageDeleted : Fired when the message deleted
 
@@ -931,7 +916,7 @@ const ioMessageEvents = function () {
                 email:userInfo.data.data.email,
                 id_sale:response.data.sale_id,
                 messageId:data.messageId
-                
+
               })
               Object.entries(socketIds).forEach(([socketId, user]) => {
                 if (
@@ -961,7 +946,7 @@ const ioMessageEvents = function () {
                   });
                 }
               });
-              
+            
           } else {
             socket.emit("addSaleFailed", "failed");
           }
@@ -1068,7 +1053,7 @@ const ioMessageEvents = function () {
                 senderName: data?.senderName,
                 date: savedMessage.created_at,
                 type: savedMessage.type,
-                
+
 
               };
               //if the purchase been made in a conversation
@@ -1096,7 +1081,7 @@ const ioMessageEvents = function () {
                   let eventData = [
                     {
                       messageData,
-                      senderName: data?.enderName,
+                      senderName: data?.senderName,
                       conversation: data.conversationId,
                       isSender: false,
                       direction: "out",

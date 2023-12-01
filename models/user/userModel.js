@@ -99,5 +99,6 @@ const userSchema = new Schema({
         required:false,
         description:"user image"
     }
+
 })
 export default mongoose.model("user", userSchema)

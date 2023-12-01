@@ -277,7 +277,7 @@ const ioChatEvents = function () {
         })
 
 
-        socket.on("changePassword",async function (data){
+       socket.on("changePassword",async function (data){
           try{
                changePassword(data,socket)
           }catch(err){

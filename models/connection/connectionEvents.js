@@ -68,7 +68,7 @@ const ioConnEvents = function () {
           });
         }
 
-        
+
         if (accountIds.length > 0) {
           // Get all the active conversations the user has
           const activeConversations = (globalUser[0].role === "ADMIN" ? await getActiveConversationsOwner(globalUser[0].accountId) : updatedConversation.map(conversation => conversation._id.toString()));
@@ -77,14 +77,14 @@ const ioConnEvents = function () {
             socket.join(conversationId);
           });
           updatedConversation.forEach(async (conversation) => {
-             let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>!globalUser.map(user => user._id.toString()).includes(item))
-             let countMessages=await conversationTotalMessages(conversation)
-             conversation.total={countMessages}
-             let memberSocketId=Object.entries(socketIds).map(([socketId,user])=>(members.find(member => user.userId.includes(member)) || (conversation.operators.find(admin =>user.userId.includes(admin.toString()))))  ? socketId:null).filter(user => user)
-              memberSocketId.forEach(member => {
-                io.to(member).emit('conversationStatusUpdated',conversation,1)
-             });
-          });
+            let members=conversation.member_details.map(member=>member._id.toString()).filter(item=>!globalUser.map(user => user._id.toString()).includes(item))
+            let countMessages=await conversationTotalMessages(conversation)
+            conversation.total={countMessages}
+            let memberSocketId=Object.entries(socketIds).map(([socketId,user])=>(members.find(member => user.userId.includes(member)) || (conversation.operators.find(admin =>user.userId.includes(admin.toString()))))  ? socketId:null).filter(user => user)
+             memberSocketId.forEach(member => {
+               io.to(member).emit('conversationStatusUpdated',conversation,1)
+            });
+         });
         }
         if (!onConnectData.type && (globalUser[0]?.balance || globalUser[0]?.free_balance)) {
           try {

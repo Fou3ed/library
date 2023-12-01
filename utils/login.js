@@ -9,6 +9,7 @@ const conversationDb = new conversationActions();
 const userDb = new userActions();
 export async function login(data,socket) {
   const userInfo = await checkLoginUser(data);
+  console.log("useRInfo ",userInfo)
   if(userInfo.length>0){
     socket.emit('login-user',userInfo[0])
   }else {

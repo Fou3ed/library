@@ -1,6 +1,6 @@
 import axios from "axios";
 import { postMessage, putMessage } from "../services/messageRequests.js";
-import addLogs from "./addLogs.js";
+// import addLogs from "./addLogs.js";
 import { socketIds } from "../models/connection/connectionEvents.js";
 import sendTextCapture from "./sendTextCapture.js";
 import { informOperator } from "./informOperator.js";
@@ -67,13 +67,13 @@ export const saveForms = async (dataForm, socket) => {
           userId: user.userId,
         });
 
-        addLogs({
-          action: "end form",
-          element: "21",
-          element_id: data.form.form_id,
-          source: 2,
-          user_id: user.contactId,
-        })
+        // addLogs({
+        //   action: "end form",
+        //   element: "21",
+        //   element_id: data.form.form_id,
+        //   source: 2,
+        //   user_id: user.contactId,
+        // })
 
 
         //update user information 

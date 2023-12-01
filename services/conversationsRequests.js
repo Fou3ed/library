@@ -190,7 +190,6 @@ export const getConv = async (user1,user2, res) => {
                 }
             }
         ]);
-        console.log("result conversation first",result)
         if (result.length > 0 && result[0]._id) {
             // const messagesResponse = await axios.get(`http://192.168.1.23:3000/messages/${conversationId}?page=${page}&limit=${limit}`); 
             const messagesResponse = await getCnvMessages(result[0]._id, 1, 10);
@@ -1400,7 +1399,7 @@ export const getActiveConversations = async (userId, res) => {
         {
           $match: {
             owner_id:accountId,
-            status: 1 
+            status: 1
           }
         },
         {
@@ -1473,7 +1472,7 @@ export const getAllActiveCnvs = async (req, res) => {
 
 
 export const putActiveCnvs = async (userId,accountIds, res) => {
-  
+
   try {
     let result = await conversation.aggregate([    
       {
@@ -1539,7 +1538,7 @@ export const putCnvStatus = async (conversationId, status, res) => {
       throw new Error("Invalid status. Status should be 0 or 1.");
     }
 
-
+    
     const updatedConversation = await conversation.findByIdAndUpdate(
       conversationId,
       { $set:  {
@@ -1777,9 +1776,9 @@ export const searchConversationMessages = async (conversationId, term, user = nu
 
 export const updateAllConversationsActivities = async () => {
   try {
-    await conversation.updateMany({}, { $set: { status: 0 } });
+   await conversation.updateMany({}, { $set: { status: 0 } });
 
-    await users.updateMany({}, { $set: { is_active: false } });
+   await users.updateMany({}, { $set: { is_active: false } });
 
   } catch (error) {
     console.error('Error updating users:', error);
