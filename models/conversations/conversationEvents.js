@@ -10,12 +10,14 @@ import { socketIds } from "../connection/connectionEvents.js";
 import {
   getCnvById,
   getConv,
+  getConversationById,
   searchConversationMessages,
 } from "../../services/conversationsRequests.js";
 import { getAgent, getAgentDetails } from "../../services/userRequests.js";
 const currentDate = new Date();
 import messagesActions from "../messages/messageMethods.js";
 import { filterForms } from "../../utils/forms.js";
+import { sendForm } from "../../utils/sendForm.js";
 const messageDb = new messagesActions();
 const fullDate = currentDate.toLocaleString();
 
@@ -25,65 +27,65 @@ const ioConversationEvents = function () {
     // Create a new room
     // onConversationStart : Fired when the conversation created.
     // menich nesta3mel feha
-    socket.on("onConversationStart", (data) => {
-      try {
-        if (data) {
-          conversationDb.addCnv(data).then(async (res) => {
-            // Find the socket IDs corresponding to the members
-            const socketIdsToNotify = Object.entries(socketIds)
-              .map(([socketId, user]) =>
-                res.members?.includes(user.userId) ||
-                (user.accountId == res.owner_id && user.role === "ADMIN")
-                  ? socketId
-                  : null
-              )
-              .filter((item) => item);
-            socket.join(res._id.toString());
-            // Send the "joinMember" event to the  socket IDs
-            socketIdsToNotify.forEach((socketIdObj) => {
-              socket
-                .to(socketIdObj.socketId)
-                .emit("joinConversationMember", res);
-            });
-            socket.emit("onConversationStarted", res);
-            const conversationData = await conversationDb.getCnv(
-              res._id.toString()
-            );
-            if (conversationData.status !== 1) {
-              let eventName = "onConversationStarted";
-              let eventData = [res];
-              try {
-                informOperator(
-                  io,
-                  socket.id,
-                  conversationData,
-                  eventName,
-                  eventData
-                );
-              } catch (err) {
-                console.log("informOperator err", err);
-                throw err;
-              }
-            }
-          });
-          logger.info(
-            `Event: onConversationStart ,data: ${JSON.stringify(
-              data
-            )} , socket_id : ${
-              socket.id
-            } ,token taw nzidouha , date: ${fullDate}"   \n `
-          );
-        }
-      } catch (err) {
-        logger.error(
-          `Event: onConversationStart ,data: ${JSON.stringify(
-            data
-          )} , socket_id : ${
-            socket.id
-          } ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `
-        );
-      }
-    });
+    // socket.on("onConversationStart", (data) => {
+    //   try {
+    //     if (data) {
+    //       conversationDb.addCnv(data).then(async (res) => {
+    //         // Find the socket IDs corresponding to the members
+    //         const socketIdsToNotify = Object.entries(socketIds)
+    //           .map(([socketId, user]) =>
+    //             res.members?.includes(user.userId) ||
+    //             (user.accountId == res.owner_id && user.role === "ADMIN")
+    //               ? socketId
+    //               : null
+    //           )
+    //           .filter((item) => item);
+    //         socket.join(res._id.toString());
+    //         // Send the "joinMember" event to the  socket IDs
+    //         socketIdsToNotify.forEach((socketIdObj) => {
+    //           socket
+    //             .to(socketIdObj.socketId)
+    //             .emit("joinConversationMember", res);
+    //         });
+    //         socket.emit("onConversationStarted", res);
+    //         const conversationData = await conversationDb.getCnv(
+    //           res._id.toString()
+    //         );
+    //         if (conversationData.status !== 1) {
+    //           let eventName = "onConversationStarted";
+    //           let eventData = [res];
+    //           try {
+    //             informOperator(
+    //               io,
+    //               socket.id,
+    //               conversationData,
+    //               eventName,
+    //               eventData
+    //             );
+    //           } catch (err) {
+    //             console.log("informOperator err", err);
+    //             throw err;
+    //           }
+    //         }
+    //       });
+    //       logger.info(
+    //         `Event: onConversationStart ,data: ${JSON.stringify(
+    //           data
+    //         )} , socket_id : ${
+    //           socket.id
+    //         } ,token taw nzidouha , date: ${fullDate}"   \n `
+    //       );
+    //     }
+    //   } catch (err) {
+    //     logger.error(
+    //       `Event: onConversationStart ,data: ${JSON.stringify(
+    //         data
+    //       )} , socket_id : ${
+    //         socket.id
+    //       } ,token :taw nzidouha ,error ${err}, date: ${fullDate}    \n `
+    //     );
+    //   }
+    // });
 
     socket.on("joinRoom", (data) => {
       try {
@@ -122,7 +124,7 @@ const ioConversationEvents = function () {
     // onConversationUpdated : Fired when the conversation data updated.
     socket.on("updateConversationLM", async (id, message, from) => {
       try {
-        await conversationDb.getCnvById(id).then(async (res) => {
+        await  getConversationById(id).then(async (res) => {
           if (res.owner_id === id) {
           }
           await conversationDb.putCnvLM(id, message);
@@ -201,7 +203,7 @@ const ioConversationEvents = function () {
       const conversationFirst = await getConv(data.userId, data.agentId);
       const agentDetails = await getAgentDetails(data.agentId);
       const userData = await getAgentDetails(data.userId);
-      if (conversationFirst.data) {
+      if (conversationFirst.data.messages.messages.length>0) {
         socket.emit(
           "checkConversation",
           conversationFirst.data.conversation[0]._id.toString(),
@@ -227,7 +229,6 @@ const ioConversationEvents = function () {
             max_length_message: "256",
           },
         });
-
         let agentStatus = agentDetails.is_active ? 1 : 0;
 
         //send conversationStatusUpdated to agent agentDetails.socket_id
@@ -271,80 +272,11 @@ const ioConversationEvents = function () {
             agentStatus
           );
 
-
             if (formMsg) {
               formMsg.status = 0;
               //add message to data base and emit to the client
-            await messageDb
-                .addMsg({
-                  app: data.accountId,
-                  user: agentDetails._id.toString(),
-                  action: "message.create",
-                  from: agentDetails._id.toString(),
-                  metaData: {
-                    type: "form",
-                    conversation_id: conversationDetails._id,
-                    user: agentDetails._id.toString(),
-                    message: JSON.stringify(formMsg),
-                    data: "non other data",
-                    origin: "web",
-                  },
-                  to: data.userId,
-                })
-                .then(async (savedMsg) => {
-                  socket.emit("onMessageReceived", {
-                    messageData: {
-                      content: savedMsg.message,
-                      id: savedMsg._id,
-                      from: agentDetails._id.toString(),
-                      conversation: conversationDetails._id,
-                      date: savedMsg.created_at,
-                      uuid: savedMsg.uuid,
-                      type: "form",
-                    },
-                    conversation: conversationDetails._id,
-                    isSender: false,
-                    direction: "out",
-                    userId: data.user,
-                    senderName: agentDetails.nickname,
-                    contactAgentId: agentDetails.id,
-                    status: conversationDetails.status,
-                  });
-                  if (conversationDetails.status == 0) {
-                    let eventName = "onMessageReceived";
-                    let eventData = [
-                      {
-                        messageData: {
-                          content: savedMsg.message,
-                          id: savedMsg._id,
-                          from: agentDetails._id.toString(),
-                          conversation: conversationDetails._id,
-                          date: savedMsg.created_at,
-                          uuid: savedMsg.uuid,
-                          type: "form",
-                        },
-                        conversation: conversationDetails._id,
-                        isSender: false,
-                        direction: "out",
-                        userId: data.user,
-                        senderName: agentDetails.nickname,
-                      },
-                    ];
+              sendForm(socket,conversationDetails,userData,agentDetails,formMsg,data.accountId)
 
-                    try {
-                      informOperator(
-                        io,
-                        socket.id,
-                        conversationDetails,
-                        eventName,
-                        eventData
-                      );
-                    } catch (err) {
-                      console.log("informOperator err", err);
-                      throw err;
-                    }
-                  }
-                });
             
           }
         }

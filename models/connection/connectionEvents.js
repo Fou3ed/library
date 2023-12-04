@@ -6,10 +6,6 @@ import logger from '../../config/newLogger.js'
 import * as info from '../../data.js'
 const currentDate = new Date();
 const fullDate = currentDate.toLocaleString();
-import methods from './connectionMethods.js'
-const db = new methods()
-import userAction from '../user/userMethods.js'
-const userAct = new userAction()
 import {
   conversationTotalMessages,
   getActiveConversationsOwner
@@ -19,7 +15,8 @@ import {
   putInactiveCnvs
 } from '../../services/conversationsRequests.js';
 import { contactForms } from '../../utils/forms.js';
-import { getUsersByP } from '../../services/userRequests.js';
+import { getUsersByP, putUserActivity, putUserSocket } from '../../services/userRequests.js';
+import { postConnection } from '../../services/connection.js';
 
 export let clientBalance = []
 export let socketIds = {}
@@ -61,7 +58,7 @@ const ioConnEvents = function () {
         };
         // Update the user activity to is_active=true
         for(let user of globalUser){
-          await userAct.putUserActivity({
+          await putUserActivity({
             userId:  user._id.toString(),
             socketId: socket.id,
             status: true
@@ -97,7 +94,6 @@ const ioConnEvents = function () {
             };
           } catch (error) {
             socket.emit('connection-error',onConnectData)
-
             console.error(error);
             return;
           }
@@ -107,7 +103,6 @@ const ioConnEvents = function () {
         socket.disconnect(true)
       }
     }catch(error){
-      console.log(error)
       socket.emit('connection-error',onConnectData,error)
 
     }
@@ -170,7 +165,7 @@ const currentTimestamp = new Date();
 const formattedTimestamp = currentTimestamp.toISOString();
 
     for(let user_ of user.userId){
-      userAct.putUserActivity({
+      putUserActivity({
         userId: user_,
         socketId: socket.id,
         status: false,
@@ -214,10 +209,10 @@ const formattedTimestamp = currentTimestamp.toISOString();
         check(data.app_id).then((res) => {
           if (res) {
             info.onConnected.socket_id = socket.client.id;
-            userAct.putUserSocket(data.user, socket.id).then((res) => {})
+            putUserSocket(data.user, socket.id).then((res) => {})
 
             logger.info(`Event: onConnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"" " , date: ${fullDate}" \n `);
-            db.postConnection(data.metaData, socket.id).then((newData) => {
+            postConnection(data.metaData, socket.id).then((newData) => {
               socket.emit('onConnected', info.onConnected, newData, data, socket.data)
             });
 
@@ -239,7 +234,6 @@ const formattedTimestamp = currentTimestamp.toISOString();
         socket.emit('onDisconnected : ', info.onDisconnected)
         socket.disconnect(socket.id)
       } catch (err) {
-        console.log(err)
         logger.error(`Event: disconnect ,data: ${JSON.stringify(data)} , socket_id : ${socket.id} ,token :"" " , date: ${fullDate} , error : ${err}"   \n `)
       }
     })

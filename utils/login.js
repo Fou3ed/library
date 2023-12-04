@@ -9,7 +9,6 @@ const conversationDb = new conversationActions();
 const userDb = new userActions();
 export async function login(data,socket) {
   const userInfo = await checkLoginUser(data);
-  console.log("useRInfo ",userInfo)
   if(userInfo.length>0){
     socket.emit('login-user',userInfo[0])
   }else {
@@ -77,73 +76,9 @@ export async function login(data,socket) {
     if (formMsg) {
       formMsg.status = 0;
       //add message to data base and emit to the client
-      messageDb
-        .addMsg({
-          app: "1",
-          user: robotDetails._id.toString(),
-          action: "message.create",
-          from: robotDetails._id.toString(),
-          metaData: {
-            type: "form",
-            conversation_id: conversationDetails._id,
-            user: robotDetails._id.toString(),
-            message: JSON.stringify(formMsg),
-            data: "non other data",
-            origin: "web",
-          },
-          to: guestInfo._id,
-        })
-        .then((savedMsg) => {
-          socket.emit("onMessageReceived", {
-            messageData: {
-              content: savedMsg.message,
-              id: savedMsg._id,
-              from: "",
-              conversation: conversationDetails._id,
-              date: savedMsg.created_at,
-              uuid: savedMsg.uuid,
-              type: "form",
-            },
-            conversation: conversationDetails._id,
-            isSender: false,
-            direction: "out",
-            userId: data.user,
-            senderName: robotDetails.nickname,
-          });
-          if (conversationDetails.status == 0) {
-            let eventName = "onMessageReceived";
-            let eventData = [
-              {
-                messageData: {
-                  content: savedMsg.message,
-                  id: savedMsg._id,
-                  from: "",
-                  conversation: conversationDetails._id,
-                  date: savedMsg.created_at,
-                  uuid: savedMsg.uuid,
-                  type: "form",
-                },
-                conversation: conversationDetails._id,
-                isSender: false,
-                direction: "out",
-                userId: data.user,
-                senderName: robotDetails.nickname,
-              },
-            ];
-            try {
-              informOperator(
-                io,
-                socket.id,
-                conversationDetails,
-                eventName,
-                eventData
-              );
-            } catch (err) {
-              console.log("informOperator err", err);
-              throw err;
-            }
-          }
-        });
+      sendForm(socket,conversationDetails,guestInfo,robotDetails,formMsg,data.accountId)
+
+
     }else {
       console.log("form is not found ")
     }

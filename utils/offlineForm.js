@@ -28,6 +28,8 @@ export const offlineForm = async (socket, data) => {
         if (formMsg) {
             formMsg.status = 0
             //add message to data base and emit to the client 
+            // sendForm(socket,conversationDetails,userData,availableAgent,formMsg,data.accountId,data.userId,data.user)
+
             postMessage({
                 app: conversationDetails.owner_id,
                 user: agentId,

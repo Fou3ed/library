@@ -94,62 +94,7 @@ const ioMessageEvents = function () {
               ["AGENT", "ADMIN"].includes(sender.role) &&
               conversationData.owner_id == sender.accountId)
           ) {
-            // if (!exist) {
-            //   const conversationData = await getCnvById(
-            //     data.metaData.conversation_id
-            //   );
-            //   const clientIdObject = conversationData.members.find(
-            //     (member) => member.user_id.toString() !== process.env.ROBOT_ID
-            //   );  
-            //   const conversationBetweenAgentAndClient=await getConvBetweenUserAndAgent(senderId,clientIdObject.user_id.toString())
-            //       if((conversationBetweenAgentAndClient.length==0)){
-            //         await addMember({
-            //           user_id: senderId,
-            //           conversation_id: data.metaData.conversation_id,
-            //         });
-            //         await deleteRobot(
-            //           data.metaData.conversation_id,
-            //           process.env.ROBOT_ID
-            //         );
-            //         const sentId = [];
-            //         conversationData.members.forEach((member) => {
-            //           sentId.push(member.user_id.toString());
-            //         });
-            //         Object.entries(socketIds).forEach(([socketId, user]) => {
-            //           if (user.accountId === sender.accountId) {
-            //             if (user.role === "ADMIN" || sentId.includes(user.userId)) {
-            //               sentId.push(socketId);
-            //               if (socketId === socket.id) {
-            //                 socket.emit(
-            //                   "conversationStatusUpdated",
-            //                   conversationData,
-            //                   1
-            //                 );
-            //               } else {
-            //                 io.to(socketId).emit(
-            //                   "conversationStatusUpdated",
-            //                   conversationData,
-            //                   1,
-            //                   "robotUpdated"
-            //                 );
-            //               }
-            //             } else {
-            //               io.to(socketId).emit(
-            //                 "robotConversationUpdated",
-            //                 conversationData._id
-            //               );
-            //             }
-            //           }
-            //         });
-            //       }else {
-            //           const updatedMessages =  await  updateAllMessages(data.metaData.conversation_id,conversationBetweenAgentAndClient[0]._id)
-            //           const deletedCnv=await deleteConversation(data.metaData.conversation_id)
-            //           data.metaData.conversation_id=conversationBetweenAgentAndClient[0]._id.toString()
-            //           const savedMessage = await msgDb.addMsg(data);
-            //           io.in(conversationBetweenAgentAndClient[0]._id.toString()).emit("mergeConversation",{messagesIds:updatedMessages,deletedConversationId:deletedCnv._id,newConversation:conversationBetweenAgentAndClient[0]._id})                    
-            //       }
-            //       return;
-            // }
+       
             const userBalance = clientBalance[senderId];
             if (userBalance && data?.metaData.type === "MSG" && conversationData.conversation_type !=4) {
               if (Number(userBalance?.free_balance) > 0)   {
@@ -205,7 +150,6 @@ const ioMessageEvents = function () {
                       aux: data.aux,
                       userBalance:userBalance?.balance,
                       userFreeBalance:userBalance?.free_balance
-
                     },
                   );
                   if (conversationData.status !== 1 ) {
@@ -923,15 +867,7 @@ const ioMessageEvents = function () {
                   user.accountId == data.accountId &&
                   (user.role === "ADMIN" || user.role === "AGENT")
                 ) {
-                  console.log("socket",{amount:response.data.plan_tariff,
-                    currency:response.data.plan_currency,
-                    country:"",
-                    last_name:userInfo.data.data.lastname,
-                    first_name:userInfo.data.data.firstname,
-                    email:userInfo.data.data.email,
-                    id_sale:response.data.sale_id,
-                    messageId:data.messageId,
-                    userId:data.contact})
+       
                     
                   io.to(socketId).emit("saleAdded", {
                     amount:response.data.plan_tariff,

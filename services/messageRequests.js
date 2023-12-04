@@ -10,8 +10,7 @@ const log = new logs();
 const element = 6;
 const logger = debug("namespace");
 import mongoose from "mongoose";
-import { socketIds } from "../models/connection/connectionEvents.js";
-import { offlineForm } from "../utils/offlineForm.js";
+
 import axios from "axios";
 /**
  *  GetMessages :get get messages
@@ -726,9 +725,7 @@ export const deleteMessage = async (req, res) => {
         result,
         userData,
       };
-    } else {
-      console.log("deleting message went wrong ");
-    }
+    } 
   } catch (err) {
     console.log("error deleting a message", err);
   }

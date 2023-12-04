@@ -3,9 +3,7 @@ import {
   io
 } from '../index.js'
 const sendTextCapture = async (user, agent, conversation, message_capture, form_type) => {
-  console.log(user);
-  console.log(agent);
-  console.log(conversation);
+
   try {
     let messageData = {}
     if (message_capture) {
@@ -30,12 +28,7 @@ const sendTextCapture = async (user, agent, conversation, message_capture, form_
         date: new Date(),
         type: "MSG",
       };
-      //   socket.to(conversation._id.toString()).emit('onMessageSent', {
-      //     ...messageData,
-      //     isSender: true,
-      //     direction: 'in',
-      //     conversationName: conversation.name,
-      //   });
+     
 
       io.in(conversation._id.toString()).emit('onMessageReceived', {
         messageData,
