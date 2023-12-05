@@ -203,7 +203,8 @@ const ioConversationEvents = function () {
       const conversationFirst = await getConv(data.userId, data.agentId);
       const agentDetails = await getAgentDetails(data.agentId);
       const userData = await getAgentDetails(data.userId);
-      if (conversationFirst.data.messages.messages.length>0) {
+            // conversation.data.messages.messages.length>0
+      if (conversationFirst.data) {
         socket.emit(
           "checkConversation",
           conversationFirst.data.conversation[0]._id.toString(),

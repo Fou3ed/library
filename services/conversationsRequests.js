@@ -332,12 +332,15 @@ export const getUserConversations = async (req, res) => {
       start : parseInt(req.query?.start) ?? null, 
       limit : parseInt(req.query?.limit) || 10, 
       active : req.query?.active ?? -1,
+      contact_id:req.query?.contact_id ,
+      lead_id: req.query?.lead_id
    }));
    
   };
 
 
   export const getAllConversations = async (req, res) => {
+
     const userId=req.user_id
     const start = parseInt(req.start) ??  null; 
     const limit = parseInt(req.limit) || 10; 
@@ -351,10 +354,11 @@ export const getUserConversations = async (req, res) => {
           role=userDetails.role
        }
     }
+
     const matchQuery = {
       owner_id: req.id,
       ...(active >= 0 ? { status:parseInt(active)  } : {}),
-      ...(userId? {"member_details._id": (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId))}:{} ) 
+      ...(userId? {"member_details._id": (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId))}:{} ) ,
     };  
 
     try { 
@@ -379,8 +383,16 @@ export const getUserConversations = async (req, res) => {
         {
           $match: matchQuery
         },
-     
-        {
+    
+        ...[(req.contact_id || req.lead_id ?  {
+          $match:(req?.contact_id ?  {"member_details.integration.id":(req?.contact_id)} : {"member_details.integration.id":(req?.lead_id)})
+        } :{
+          $match:{}
+
+        })],
+                
+          
+       {
     $lookup: {
       from: "messages",
       let: { conversation_id: "$_id" },
@@ -734,7 +746,7 @@ export const getUserConversations = async (req, res) => {
 
     try {
       const result = await conversation.aggregate([
-        ...(userId?[{
+        ...((userId || req.contact_id || req.lead_id) ?[{
           $lookup: {
             from: "members",
             localField: "_id",
@@ -750,7 +762,15 @@ export const getUserConversations = async (req, res) => {
             as: "member_details",
           },
         },]:[]),
+
         {$match:matchQuery},
+
+        ...[(req.contact_id || req.lead_id ?  {
+          $match:(req?.contact_id ?  {"member_details.integration.id":(req?.contact_id)} : {"member_details.integration.id":(req?.lead_id)})
+        } :{
+          $match:{}
+        })],      
+
         {
           '$facet' : {
           total: [ { $count: "total" } ],
@@ -1775,6 +1795,7 @@ export const searchConversationMessages = async (conversationId, term, user = nu
 
 
 export const updateAllConversationsActivities = async () => {
+  console.log("houni")
   try {
    await conversation.updateMany({}, { $set: { status: 0 } });
 

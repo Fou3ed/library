@@ -83,7 +83,6 @@ ioConversationMembersEvents()
 process.on("uncaughtException", (err) => {
   console.log(err.name);
   console.log(err);
-
   console.log("shutting down...");
   process.exit(1);
 });

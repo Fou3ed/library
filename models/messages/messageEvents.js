@@ -41,8 +41,11 @@ import { informOperator } from "../../utils/informOperator.js";
 // import addLogs from "../../utils/addLogs.js";
 const ioMessageEvents = function () {
   dotenv.config();
+  
   io.on("connection",async  function (socket) {
+    
     socket.on("onMessageCreated", async (data, error) => {
+
      try {
         const sender = socketIds[socket.id];
         if (sender && sender.userId.includes(data.user)) {
@@ -238,7 +241,7 @@ const ioMessageEvents = function () {
                     userBalance.balance
                   );
 
-                  if (conversationData.status !== 1) {
+                  if (conversationData.status !== 1 ) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -324,7 +327,7 @@ const ioMessageEvents = function () {
                     userBalance: userBalance?.balance,
                     userFreeBalance:userBalance?.free_balance
                   });
-                 if (conversationData.status !== 1 ) {
+                 if (conversationData.status !== 1  ) {
                   let eventName = "onMessageReceived";
                   let eventData = [
                     {

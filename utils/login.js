@@ -4,21 +4,35 @@ import conversationActions from "../models/conversations/conversationMethods.js"
 import { checkLoginUser } from "../services/userRequests.js";
 import messagesActions from "../models/messages/messageMethods.js";
 import { filterForms } from "./forms.js";
+import { sendForm } from "./sendForm.js";
 const messageDb = new messagesActions();
 const conversationDb = new conversationActions();
 const userDb = new userActions();
 export async function login(data,socket) {
+ 
   const userInfo = await checkLoginUser(data);
   if(userInfo.length>0){
     socket.emit('login-user',userInfo[0])
   }else {
+  
+    let name;
     const guestInfo = await userDb.createGuest({
         role:"CLIENT",
         status:0,
         id:data.profile_id,
         is_active:true,
         full_name:data.nickname,
-        socket_id:data.socket_id
+        socket_id:data.socket_id,
+        free_balance:3,
+        ...(data.gocc
+          ? {
+              integration: {
+                    type:data.contact_id ? "contact" :  "lead" ,
+                    id: data.contact_id || data.lead_id,
+                    source: "gocc",
+                  },
+            }
+          : {}),
        });
   // add guest details to socketIds array
   socketIds[socket.id] = {
@@ -28,7 +42,8 @@ export async function login(data,socket) {
     contactId: guestInfo.id,
   };
   //create conversation with robot
-  const robotDetails = await userDb.getUserByP(process.env.ROBOT_ID_CONTACT);
+  const robotDetails = await userDb.getUserByP(process.env.ROBOT_ID_CONTACT,"1");
+  console.log(robotDetails,process.env.ROBOT_ID_CONTACT)
   //create conversation
   const conversationDetails = await conversationDb.addCnv({
     app: data.accountId,

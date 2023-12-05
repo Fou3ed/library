@@ -274,7 +274,7 @@ export const getConversationMembers = async (id, res) => {
     }
 }
 export const getUserByP=async (id,type,res)=>{
-  
+
     try {
         const result = await user.findOne({id:id,...(type ? {role: {$ne: "CLIENT"} }: {role:"CLIENT"}) });
         if (result) {
@@ -546,7 +546,6 @@ export const putUserActivity = async (data) => {
                 "ip_address": "192.168.1.1"
             }
             log.addLog(dataLog)
-
             return result
         } 
     } catch (err) {
@@ -582,7 +581,7 @@ export const putUserStatus = async (userId,res) => {
           ip_address: "192.168.1.1",
         };
   
-        log.addLog(dataLog); // Assuming the log module has an addLog function
+        log.addLog(dataLog);
   
         return result;
       } 

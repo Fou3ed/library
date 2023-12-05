@@ -98,7 +98,12 @@ const userSchema = new Schema({
         type:String,
         required:false,
         description:"user image"
-    }
+    },
+      integration: {
+        type: Object,
+        required: false,
+        description: 'A JSON object to store source and type and id of the contact'
+    },
 
 })
 export default mongoose.model("user", userSchema)

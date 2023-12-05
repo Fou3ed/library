@@ -109,8 +109,9 @@ const ioUserEvents = function () {
         let gocc;
         let name;
         const dataContact = data?.contact_id ? data?.contact_id : data?.lead_id;
+        let source_type;
         if (data?.source == "gocc" && dataContact) {
-          const source_type = data?.contact_id ? "contact" : "lead";
+           source_type = data?.contact_id ? "contact" : "lead";
           const response = await axios.get(
             process.env.GOCC + `?${source_type}_id=${dataContact}`,
             {
@@ -149,14 +150,13 @@ const ioUserEvents = function () {
         const contactData = await sendPostRequest(data);
             
         if (contactData.data.existed) {
-          socket.emit("accountExist", contactData.data.data);
+          socket.emit("accountExist", {...contactData.data.data,gocc,source_type});
           return;
         }
         if (contactData?.data?.data?.id) {
 
             // const exist = await getUserByP(contactData.data.data.id)         
-          // save guest in my data base
-
+            // save guest in my data base
           const guestInfo = await userDb.createGuest({
             role: "CLIENT",
             status: 0,
@@ -168,9 +168,10 @@ const ioUserEvents = function () {
             socket_id: socket.id,
             ...(gocc
               ? {
-                  metaData: {
-                    goccId: data.contact_id ? data.contact_id : undefined,
-                    goccLeadId: data.lead_id ? data.lead_id : undefined,
+                  integration: {
+                    type:source_type,
+                    id: data.contact_id || data.lead_id,
+                    source: "gocc",
                   },
                 }
               : {}),
@@ -215,15 +216,16 @@ const ioUserEvents = function () {
             senderName: robotDetails.nickname,
             conversationId: conversationDetails._id,
             role: robotDetails.role,
-
             ...(gocc
-              ? {
-                  [data.lead_id ? "leadId" : "contactId"]:
-                    data.lead_id || data.contact_id,
-                }
+              ? {integration:{
+                
+                  type:source_type,
+                  id: data.contact_id || data.lead_id,
+                  source: "gocc",
+                  
+              }}
               : {}),
           });
-
           socket.join(conversationDetails._id.toString());
           //inform operation
             let eventName = "guestCreated";
@@ -424,11 +426,15 @@ const ioUserEvents = function () {
               await getAllConversations({
                 id: user.accountId,
                 active: "1",
+                contact_id:data.contact_id ,
+                lead_id: data.lead_id,
                 ...(user.role === "ADMIN" ? {} : { user_id: user.userId }),
               })
             )?.data ?? [],
             await getUserConversationsCounts({
               id: user.accountId,
+              contact_id:data.contact_id ,
+              lead_id: data.lead_id,
               ...(user.role === "ADMIN" ? {} : { user_id: user.userId }),
             })
           );
