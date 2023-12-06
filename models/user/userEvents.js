@@ -663,8 +663,6 @@ const ioUserEvents = function () {
                         }
                       });
               sendForm(socket,conversationDetails,userData,availableAgent,formMsg,data.accountId)
-
-             
               }
             }
           }        
@@ -743,8 +741,6 @@ const ioUserEvents = function () {
         throw err;
       }
     });
-
-
   });
 };
 

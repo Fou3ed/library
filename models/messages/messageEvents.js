@@ -155,7 +155,7 @@ const ioMessageEvents = function () {
                       userFreeBalance:userBalance?.free_balance
                     },
                   );
-                  if (conversationData.status !== 1 ) {
+                  if (conversationData.status  !== 1 ) {
                     let eventName = "onMessageReceived";
                     let eventData = [
                       {
@@ -551,7 +551,7 @@ const ioMessageEvents = function () {
                     status: savingMessage.status,
                   });
 
-                  if (conversationData?.status == 0) {
+                  if (conversationData?.status !== 1) {
                     let eventName = "onMessageForwardSent";
                     let eventData = [
                       {
@@ -704,6 +704,7 @@ const ioMessageEvents = function () {
                         date,
                         type: savingMessage.status,
                       });
+                      console.log("forward : ",conversationInfo)
                       const messageData = {
                         content: savedMessage.message,
                         id: savedMessage._id,
@@ -713,7 +714,7 @@ const ioMessageEvents = function () {
                         uuid: data.uuid,
                         type: savedMessage.type,
                         paid: false,
-                        conversationType:conversationData.conversation_type
+                        conversationType:conversationInfo.conversation_type
 
                       };
 

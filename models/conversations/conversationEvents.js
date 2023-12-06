@@ -204,6 +204,7 @@ const ioConversationEvents = function () {
       const agentDetails = await getAgentDetails(data.agentId);
       const userData = await getAgentDetails(data.userId);
             // conversation.data.messages.messages.length>0
+            console.log("conversationFirst :",conversationFirst)
       if (conversationFirst.data) {
         socket.emit(
           "checkConversation",

@@ -46,10 +46,7 @@ const ioConversationMembersEvents = function () {
              conversation.members=await userM.getUser(conversation.members)
               socket.emit("onConversationStarted",conversation);
 
-       
           });
-
-
           socket.on('joinConversationRoom', async (conversation) => {
             // join room
             socket.join(conversation);

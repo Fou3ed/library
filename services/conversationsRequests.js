@@ -325,8 +325,7 @@ export const getPrivateConvBetweenUsers = async (userId1, userId2) => {
  * get all conversation user connected have 
  */
 export const getUserConversations = async (req, res) => {
-    res.status(200).json(await getAllConversations({
-      
+    res.status(200).json(await getAllConversations({    
       id : req.params.id,
       user_id:req.query?.user_id,
       start : parseInt(req.query?.start) ?? null, 
@@ -346,7 +345,6 @@ export const getUserConversations = async (req, res) => {
     const limit = parseInt(req.limit) || 10; 
     const active = req.active ?? -1;
     let role = null
-
     if(userId){
 
       const userDetails= await users.findOne({_id: (Array.isArray(userId) ? { $in: userId.map(user => mongoose.Types.ObjectId(user))} : mongoose.Types.ObjectId(userId)),role: {$ne: "CLIENT"} })

@@ -517,3 +517,94 @@
 {"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"656f41a52eed624c41afbcac\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f41a62eed624c41afbcb1\",\"message\":\"656f41a62eed624c41afbcb9\"}} , socket_id : 1MSg2Jxq901sqpxUAAAr ,token :\"\" \" , date: 05/12/2023 16:14:45\"   \n "}
 {"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : fDYi4yEWjld-xgAUAAAt ,token :\"taw nzidouha , date: 05/12/2023 16:14:45\"   \n "}
 {"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : 5E-sjA2hgBBwOPx8AAAv ,token :\"taw nzidouha , date: 05/12/2023 16:14:45\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701790509698"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : ADkYkcFNK_mwJs-ZAAAL ,token :\"taw nzidouha , date: 05/12/2023 16:35:07\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : I7kqr2NCZ3LWuWTiAAAP ,token :\"taw nzidouha , date: 05/12/2023 16:35:07\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701790983695"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"server is running smoothly : 1701790995472"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"656f39f1a85342256414869f\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f39f1a8534225641486a4\",\"message\":\"656f460d2cd9e622c21aea2a\"}} , socket_id : bM4iAL0szU57IWD6AAAV ,token :\"\" \" , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"Event: onMessageRead ,data: {\"app\":\"36\",\"user\":\"656f39f1a85342256414869f\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f46102cd9e622c21aea42\",\"message\":\"656f46102cd9e622c21aea4a\"}} , socket_id : bM4iAL0szU57IWD6AAAV ,token :\"\" \" , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : lI7B9O0B0LwdsbFtAAAX ,token :\"taw nzidouha , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : qE4AmdqWsb6jweL0AAAb ,token :\"taw nzidouha , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : Ny1XoA31ixuvp4P5AAAf ,token :\"taw nzidouha , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"26508\"} , socket_id : 2Dvl-TJi0o8jJRMPAAAj ,token :\"taw nzidouha , date: 05/12/2023 16:43:13\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701791668002"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : ho-CTyYssgfOAciyAAAP ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : qM3ePhrSlMTG-GYFAAAR ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 3s_yvL7bEO0jK_LtAAAT ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : XUQEghr6XDMGQQgdAAAV ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : hbAKWMQK0S86nYXMAAAX ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : xC_zd1IvvwaaUoNfAAAZ ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : pLBjkJcwp1nTZo7TAAAb ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 5ULWLznQb2QHFsIaAAAd ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : R8wg-6WZOe2Fu24kAAAf ,token :\"taw nzidouha , date: 05/12/2023 16:54:25\"   \n "}
+{"level":"info","message":"server is running smoothly : 1701794772159"}
+{"level":"info","message":"ws is running smoothly"}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 0GLasD6npub3u5lrAAAD ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {\"contact_id\":\"35525\"} , socket_id : BRmAbHHiSfOeZMnJAAAF ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : tAf6X6Qcp4D9lvI6AAAH ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : q0B8wEoWzHViFzasAAAJ ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : VAnzuGGNl-nFNuT_AAAL ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 72gMJWEoEKci2sT9AAAN ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : w-lJADug91pusLupAAAP ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : pl1DH4qRPGF-gs45AAAR ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : GCQU_CNi1pk2hWicAAAT ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 2_O0KMtlF3hPdJGYAAAV ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : ixC8ttN5e2a7aYdUAAAX ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : UyG77oEFQvR4SHZyAAAZ ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : UcWmL2e1JqdDQlUiAAAb ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : uhdVXVhDqruMrDO8AAAd ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 6gBzwiX_y719HSbDAAAf ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : cu1fue3B85kb1JnuAAAh ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : r2OT9ahBZKAYV61rAAAj ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : eagdf-RGnEGIv2vUAAAl ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : Y7xfXLCR_kb7iAsQAAAn ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : IOD7MlCM5fHnOF9RAAAp ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : gMfM_0EVpq81qQKPAAAr ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : fa24LohgK2ickQLWAAAt ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : OXn8EMDREixAhObvAAAv ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : DaYDdOWf8x3uiLH3AAAx ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 8xM5m_maV5LF1JqcAAAz ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 8Y0UdX4oLXw6V4SSAAA1 ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : SYUUBqX4EM4aH6x7AAA3 ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : JGuT62ab3RVOYZhYAAA5 ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : JUkOlDQdvUjdd9HpAAA7 ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : -3FNSX429hHIRoFEAAA9 ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 1QWpaInFJaD-xPS5AAA_ ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 46UyELKFx2jP_XM3AABB ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : ZylUVeMMEYdaZDz4AABD ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : AQtZYoM3_EhbsPXeAABF ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : jy8Ig_AglSe3blRnAABH ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : tkN6LRVkfjKkxJVvAABJ ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : aNK-wwjFvMWNTHBBAABL ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : Yb5VgWMMjSu_RI53AABN ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : IIvAEE-Nd3Xk4Mt3AABP ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : TUcKLTiLmfuFxWI1AABR ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : gotiDU1hwhDH8SMgAABT ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : Owq-JNX577qe9mjNAABV ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 0OB6qZFr76kQD79KAABX ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : anwoAeVv_5BCifcfAABZ ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : Nh2C3bftgSwSi79cAABb ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : OPFV6n2h6_-D64VYAABd ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : BVu8csea0tkt2iM9AABf ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : SPh-rcvIDpKJivJlAABh ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : SPh-rcvIDpKJivJlAABh ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : SPh-rcvIDpKJivJlAABh ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"error","message":"Event: onMessageRead ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"653fa8735b6d44bd5a9e2c73\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\",\"message\":\"656f6279bf6619304f9d6dc5\"}} , socket_id : 0OB6qZFr76kQD79KAABX ,token :\"\" \" ,error TypeError: Cannot read properties of undefined (reading 'modifiedCount'), date: 05/12/2023 17:46:09 \"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : SPh-rcvIDpKJivJlAABh ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : SPh-rcvIDpKJivJlAABh ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"error","message":"Event: onMessageRead ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"653fa8735b6d44bd5a9e2c73\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\",\"message\":\"656f627cbf6619304f9d6dd7\"}} , socket_id : 0OB6qZFr76kQD79KAABX ,token :\"\" \" ,error TypeError: Cannot read properties of undefined (reading 'modifiedCount'), date: 05/12/2023 17:46:09 \"   \n "}
+{"level":"error","message":"Event: onMessageRead ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"653fa8735b6d44bd5a9e2c73\",\"action\":\"message.read\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\",\"message\":\"656f627cbf6619304f9d6dd7\"}} , socket_id : 0OB6qZFr76kQD79KAABX ,token :\"\" \" ,error TypeError: Cannot read properties of undefined (reading 'modifiedCount'), date: 05/12/2023 17:46:09 \"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : vZddjajw29vKWbf3AABl ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStart ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.start\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: onTypingStopped ,data: {\"app\":\"638dc76312488c6bf67e8fc0\",\"user\":\"654b7c68270214a0929082d8\",\"action\":\"typing.stop\",\"metaData\":{\"conversation\":\"656f622ebf6619304f9d6d97\"}} , socket_id : 7kjIB1keLm2Zq-krAABj ,token :\"\" \" , date: 05/12/2023 17:46:09\"   \n "}
+{"level":"info","message":"Event: getActiveConversations ,data: {} , socket_id : AZ8zIeM-6j46l_T1AABn ,token :\"taw nzidouha , date: 05/12/2023 17:46:09\"   \n "}
