@@ -99,7 +99,7 @@ export const saveForms = async (dataForm, socket) => {
         //  await sendTextCapture(user,differentIdMember,conversationData,data.form.message_capture,data.form.form_type)
         // }
         socket.join(data.conversationId)
-        await sendTextCapture(user, differentIdMember, conversationData, data?.form?.message_capture, data.form.form_type)
+        await sendTextCapture(user, differentIdMember, conversationData, data?.form?.message_capture, data.form.form_type,socket)
 
         //add message fl bdd messageBloc 
         //send receiveMessage

@@ -1244,3 +1244,23 @@ export const getOperators=async(accountId)=>{
         throw(err)
     }
   }
+
+  export const getAgentStatus = async (agentIds) => {
+    console.log("agent ids",agentIds)
+    try {
+      const results = await user.find({
+        role: "AGENT",
+        profile_id: { $in: agentIds },
+      }).select('profile_id is_active'); 
+  
+      const agentStatus = {};
+      results.forEach(agent => {
+        console.log(agent)
+        agentStatus[agent.profile_id] = agent.is_active;
+      });
+      return agentStatus;
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+  

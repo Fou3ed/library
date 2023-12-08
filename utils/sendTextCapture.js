@@ -2,7 +2,9 @@ import { postMessage } from "../services/messageRequests.js";
 import {
   io
 } from '../index.js'
-const sendTextCapture = async (user, agent, conversation, message_capture, form_type) => {
+import { informOperator } from "./informOperator.js";
+import { socketIds } from "../models/connection/connectionEvents.js";
+const sendTextCapture = async (user, agent, conversation, message_capture, form_type,socket) => {
 
   try {
     let messageData = {}
@@ -38,6 +40,35 @@ const sendTextCapture = async (user, agent, conversation, message_capture, form_
         userId: agent._id.toString(),
       },
       );
+      if (conversation.status !== 1) {
+    
+        try{
+          Object.entries(socketIds).forEach(([socketId, user]) => {
+            if (
+              socket.id !== socketId &&
+              user.role=="ADMIN" && user.accountId==conversation.owner_id
+            ) {
+              if (!(io.sockets.adapter.rooms.get(conversation._id.toString())?.has(socketId))) {
+                io.to(socketId).emit("onMessageReceived",  {
+                  messageData,
+                  conversation: conversation._id.toString(),
+                  isSender: false,
+                  direction: 'out',
+                  userId: agent._id.toString(),
+                });   
+      
+              } 
+
+          
+            }
+  
+             })
+            }
+          catch(err){
+          console.log("informOperator err",err)
+          throw err;
+        }
+      } 
     }
     if (form_type == "1") {
       const blocMessage = await postMessage({
@@ -66,6 +97,35 @@ const sendTextCapture = async (user, agent, conversation, message_capture, form_
         userId: agent._id.toString(),
       });
     }
+    if (conversation.status !== 1) {
+    
+      try{
+        Object.entries(socketIds).forEach(([socketId, user]) => {
+          if (
+            socket.id !== socketId &&
+            user.role=="ADMIN" && user.accountId==conversation.owner_id
+          ) {
+            if (!(io.sockets.adapter.rooms.get(conversation._id.toString())?.has(socketId))) {
+              io.to(socketId).emit("onMessageReceived",  {
+                messageData,
+                conversation: conversation._id.toString(),
+                isSender: false,
+                direction: 'out',
+                userId: agent._id.toString(),
+              });   
+    
+            } 
+
+        
+          }
+
+           })
+          }
+        catch(err){
+        console.log("informOperator err",err)
+        throw err;
+      }
+    } 
 
   } catch (err) {
     console.log("error saving form in iheb's data base", err)

@@ -606,64 +606,64 @@ const ioUserEvents = function () {
             return;
           }
           //3)create a conversation with the available agent
-          const conversationDetails = await conversationDb.addCnv({
-            app: data.accountId,
-            user: availableAgent._id,
-            action: "conversation.create",
-            metaData: {
-              name: availableAgent.nickname,
-              channel_url: "",
-              conversation_type: "1",
-              description: "private chat",
-              owner_id: data.accountId,
-              members: [data.userId, availableAgent._id.toString()],
-              permissions: [],
-              members_count: 2,
-              status: availableAgent.is_active ? "1" : "0",
-              max_length_message: "256",
-            },
-          });
+          // const conversationDetails = await conversationDb.addCnv({
+          //   app: data.accountId,
+          //   user: availableAgent._id,
+          //   action: "conversation.create",
+          //   metaData: {
+          //     name: availableAgent.nickname,
+          //     channel_url: "",
+          //     conversation_type: "1",
+          //     description: "private chat",
+          //     owner_id: data.accountId,
+          //     members: [data.userId, availableAgent._id.toString()],
+          //     permissions: [],
+          //     members_count: 2,
+          //     status: availableAgent.is_active ? "1" : "0",
+          //     max_length_message: "256",
+          //   },
+          // });
   
-          let agentStatus;
-          availableAgent.is_active ? (agentStatus = 1) : (agentStatus = 2);
+          // let agentStatus;
+          // availableAgent.is_active ? (agentStatus = 1) : (agentStatus = 2);
           //4)send form to that conversation
-          if (conversationDetails) {
+          if (availableAgent) {
             // const conversationData = await getCnvById(
             //   conversationDetails._id
             // );
             socket.emit("availableAgent", availableAgent, data.conversationId);
   
             
-            const formMsg = filterForms(
-              "2",
-              data.accountId,
-              data?.source ? "gocc" : null,
-              agentStatus
-            );
+            // const formMsg = filterForms(
+            //   "2",
+            //   data.accountId,
+            //   data?.source ? "gocc" : null,
+            //   agentStatus
+            // );
 
-            if (formMsg) {
-              formMsg.status = 0;
+            // if (formMsg) {
+            //   formMsg.status = 0;
 
-              socket.join(conversationDetails._id.toString());
-                      Object.entries(socketIds).forEach(([socketId, user]) => {
-                        if (
-                          (user.accountId === availableAgent.accountId &&
-                            user.userId.includes(availableAgent._id.toString())) ||
-                          (user.role === "ADMIN" &&
-                            availableAgent.accountId == user.accountId)
-                        ) {
-                          io.to(socketId).emit(
-                            "conversationStatusUpdated",
-                            {
-                              ...JSON.parse(JSON.stringify(conversationDetails)),
-                              member_details: [userData, availableAgent],
-                            },
-                            1
-                          );
-                        }
-                      });
-              sendForm(socket,conversationDetails,userData,availableAgent,formMsg,data.accountId)
-              }
+            //   socket.join(conversationDetails._id.toString());
+            //           Object.entries(socketIds).forEach(([socketId, user]) => {
+            //             if (
+            //               (user.accountId === availableAgent.accountId &&
+            //                 user.userId.includes(availableAgent._id.toString())) ||
+            //               (user.role === "ADMIN" &&
+            //                 availableAgent.accountId == user.accountId)
+            //             ) {
+            //               io.to(socketId).emit(
+            //                 "conversationStatusUpdated",
+            //                 {
+            //                   ...JSON.parse(JSON.stringify(conversationDetails)),
+            //                   member_details: [userData, availableAgent],
+            //                 },
+            //                 1
+            //               );
+            //             }
+            //           });
+            //   sendForm(socket,conversationDetails,userData,availableAgent,formMsg,data.accountId)
+            //   }
             }
           }        
       } catch (error) {
@@ -736,6 +736,15 @@ const ioUserEvents = function () {
         if(response.data){
         await   putProfile(data.contact,data)
           socket.emit('formProfileResult',response.data)
+          Object.entries(socketIds).forEach(([socketId, user]) => {
+            if (
+              socket.id !== socketId &&
+              user.accountId==data.accountId && user.role =="ADMIN")
+             {
+            io.to(socketId).emit("formProfileResult", response.data);          
+            }
+          })
+          
         }
       } catch (err) {
         throw err;
